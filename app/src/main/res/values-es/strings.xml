@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="all_password">Contraseña</string>
+    <string name="all_sign_in">Iniciar sesión</string>
+    <string name="all_loading">Cargando…</string>
+    <string name="all_ok">OK</string>
+    <string name="all_notification">Notificación</string>
+    <string name="error_no_internet">¡Por favor, verifica tu conexión a internet e inténtalo de nuevo!</string>
+    <string name="error_server">Ocurrió un error del servidor. ¡Por favor, inténtalo más tarde!</string>
+    <string name="error_internal_server">¡Lo sentimos! Hemos tenido un problema técnico. Nuestro equipo ya está trabajando en ello. Intenta nuevamente más tarde. Disculpa por los inconvenientes.</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_search">Buscar Abogado</string>
+    <string name="nav_my_booking">Caso</string>
+    <string name="nav_account">Cuenta</string>
+    <string name="nav_notification">Notificaciones</string>
+    <string name="all_phone_or_email">Teléfono o correo electrónico</string>
+    <string name="auth_forgot_pw">¿Olvidaste tu contraseña?</string>
+    <string name="auth_with">O inicia sesión con</string>
+    <string name="auth_first_time_here">¿Eres nuevo aquí?</string>
+    <string name="all_sign_up">Registrarse</string>
+    <string name="all_confirm">Confirmar</string>
+    <string name="all_cancel">Cancelar</string>
+    <string name="msg_exit_app">¿Estás seguro de que deseas salir de la aplicación?</string>
+    <string name="all_exit">Salir</string>
+    <string name="language_en">English(Inglés)</string>
+    <string name="language_vi">Tiếng Việt(Vietnamita)</string>
+    <string name="language_es">Español</string>
+    <string name="all_contiue">Continuar</string>
+    <string name="lang_select">Seleccionar idioma</string>
+    <string name="lang_select_des">Selecciona un idioma para una mejor experiencia</string>
+    <string name="auth_title_token_expired">Sesión expirada</string>
+    <string name="account_profile">Perfil</string>
+    <string name="account_change_pw">Cambiar contraseña</string>
+    <string name="all_language">Idioma</string>
+    <string name="account_terms"><![CDATA[Términos y condiciones]]></string>
+    <string name="account_about_us">Sobre nosotros</string>
+    <string name="all_contact_us">Contáctanos</string>
+    <string name="account_delete">Eliminar cuenta</string>
+    <string name="all_logout">Cerrar sesión</string>
+    <string name="message_logout_app">¿Deseas cerrar sesión en la aplicación?</string>
+    <string name="auth_msg_token_expired">Tu sesión ha expirado. Por favor, inicia sesión de nuevo.</string>
+    <string name="btn_relogin">Iniciar sesión nuevamente</string>
+    <string name="error_blank_email_or_phone">¡El teléfono o el correo electrónico no pueden estar vacíos!</string>
+    <string name="error_blank_password">¡La contraseña no puede estar vacía!</string>
+    <string name="error_valid_password">¡La contraseña debe tener al menos 6 caracteres!</string>
+    <string name="all_get_started">¡Empieza ahora!</string>
+    <string name="reg_enter_your_info">Por favor, introduce tu información</string>
+    <string name="all_first_name">Apellido</string>
+    <string name="all_last_name">Nombre</string>
+    <string name="all_email">Correo electrónico</string>
+    <string name="all_phone_number">Número de teléfono</string>
+    <string name="all_register">Registrarse</string>
+    <string name="auth_already_have_an_account">¿Ya tienes una cuenta?</string>
+    <string name="error_blank_first_name">¡El apellido no puede estar vacío!</string>
+    <string name="error_blank_last_name">¡El nombre no puede estar vacío!</string>
+    <string name="error_blank_email">¡El correo electrónico no puede estar vacío!</string>
+    <string name="error_blank_phone">¡El número de teléfono no puede estar vacío!</string>
+    <string name="error_valid_email">¡La dirección de correo no es válida!</string>
+    <string name="permission_title">Permiso requerido</string>
+    <string name="permission_des">La aplicación necesita este permiso para funcionar correctamente. Por favor, actívalo en Configuración.</string>
+    <string name="permission_settings">Abrir configuración</string>
+    <string name="permission_cancel">Cancelar</string>
+    <string name="no_data_notifications">
+<![CDATA[
+<big><b>¡No hay notificaciones nuevas!</b></big><br/><br/>
+    Una vez que recibas una notificación, aparecerá aquí.
+]]>
+</string>
+    <string name="all_change_language">Cambiar idioma</string>
+    <string name="photo_from_camera">Tomar foto con la cámara</string>
+    <string name="photo_from_gallery">Seleccionar foto de la galería</string>
+    <string name="choose_avatar">Seleccionar foto de perfil</string>
+    <string name="all_send">Enviar</string>
+    <string name="all_request_dancer">Solicitar consulta</string>
+    <string name="home_need_legal_help">¿Necesitas ayuda legal?</string>
+    <string name="hello_s">Hola, %s</string>
+    <string name="all_coming_soon">¡Próximamente!</string>
+    <string name="no_data_faqs"><![CDATA[
+<big><b>¡Aún no hay artículos ni preguntas frecuentes!</b></big><br/><br/>
+Cuando tengamos información legal útil, la mostraremos aquí para tu fácil referencia.
+]]></string>
+    <string name="faqs_title"><![CDATA[Documentos legales y Preguntas Frecuentes]]></string>
+    <string name="all_sign_up_or_sign_in">Registrarse / Iniciar sesión</string>
+    <string name="booking_no_yet_des">Inicia sesión o crea una cuenta para comenzar.</string>
+    <string name="account_not_login">Inicia sesión para gestionar tu perfil\ny configuraciones</string>
+    <string name="notification_not_login">Notificaciones sobre tus casos importantes</string>
+    <string name="my_cases_not_login">Lista de tus casos</string>
+    <string name="no_data_my_case">
+<![CDATA[
+<big><b>¡Aún no hay casos nuevos!</b></big><br/><br/>
+Una vez que envíes una solicitud de consulta, aparecerá aquí.
+]]>
+</string>
+    <string name="find_consultation_info">Información de la consulta</string>
+    <string name="all_zip">Código postal</string>
+    <string name="all_state">Provincia</string>
+    <string name="all_city">Ciudad</string>
+    <string name="find_issue_des">Descripción del problema</string>
+    <string name="find_des_your_issue">Describe tu problema</string>
+    <string name="find_consultation_language">Idioma de la consulta</string>
+    <string name="all_personal_info">Información personal</string>
+    <string name="all_send_request">Enviar solicitud</string>
+    <string name="all_address">Dirección</string>
+    <string name="error_blank_address">¡La dirección no debe estar vacía!</string>
+    <string name="error_blank_description">¡La descripción no debe estar vacía!</string>
+    <string name="all_view_detail">Ver detalles</string>
+    <string name="booking_request_submitted">¡Solicitud de reserva confirmada con éxito!</string>
+    <string name="all_close">Cerrar</string>
+    <string name="booking_without_login_success">
+¡Gracias! Confirmamos que su solicitud de reserva de servicio se ha enviado correctamente. Nuestro equipo se pondrá en contacto con usted lo antes posible para verificar la información.\n\nPuede usar su número de teléfono/correo electrónico para iniciar sesión con la contraseña predeterminada "123456" y seguir el estado de su reserva.
+</string>
+    <string name="booking_success">¡Gracias! Confirmamos que su solicitud de reserva de servicio se ha enviado correctamente. Nuestro equipo se pondrá en contacto con usted lo antes posible para verificar la información.</string>
+    <string name="case_id_s">ID del caso: #%s</string>
+    <string name="all_cancel_request">Cancelar solicitud</string>
+    <string name="all_request_again">Solicitar de nuevo</string>
+    <string name="all_cancel_reason">Motivo de cancelación</string>
+    <string name="msg_request_again">¿Está seguro de que desea enviar esta solicitud nuevamente?</string>
+    <string name="msg_cancel_reason">Por favor, introduzca un motivo para la cancelación</string>
+    <string name="all_cancellation_reason">Motivo de cancelación</string>
+    <string name="error_blank_reason">¡Por favor, introduzca un motivo!</string>
+    <string name="no_data">
+    <![CDATA[
+    <big><b>¡No se pudo cargar los datos!</b></big><br/><br/>
+    Por favor, inténtelo de nuevo más tarde.
+    ]]>
+</string>
+    <string name="all_created_on">Creado el</string>
+    <string name="all_full_name">Nombre completo</string>
+    <string name="all_lawyer_infomation">Información del abogado</string>
+    <string name="all_finding_lawyer">Buscando abogado…</string>
+    <string name="exp_s">Exp: %s año(s)</string>
+    <string name="cases_s">Casos: %s</string>
+    <string name="all_specialty">ESPECIALIDAD</string>
+    <string name="all_lawyer_detail">Detalle del Abogado</string>
+    <string name="all_lawyer_specialties">Especialidades del Abogado</string>
+    <string name="all_education">Educación</string>
+    <string name="all_achievements">Logros</string>
+    <string name="top_bar_lawyer_detail">Detalle del Abogado</string>
+    <string name="all_lawyer_license">Licencia del Abogado</string>
+    <string name="all_view_license">Ver Licencia</string>
+    <string name="all_contact_info">Información de Contacto</string>
+    <string name="all_copy">Copiar</string>
+    <string name="msg_confirm_call_phone_s">¿Estás seguro de que quieres llamar a %s?</string>
+    <string name="all_call">Llamar</string>
+    <string name="all_copied">¡Copiado!</string>
+    <string name="top_bar_photo_viewer">Visor de Fotos</string>
+    <string name="all_current_password">Contraseña Actual</string>
+    <string name="all_new_password">Nueva Contraseña</string>
+    <string name="all_confirm_new_password">Confirmar Nueva Contraseña</string>
+    <string name="all_change">Cambiar</string>
+    <string name="error_blank_current_password">¡La contraseña actual no debe estar vacía!</string>
+    <string name="error_valid_new_password">¡Por favor, introduce una nueva contraseña de al menos 6 caracteres!</string>
+    <string name="error_valid_password_confirm">¡La confirmación de la contraseña es incorrecta!</string>
+    <string name="msg_change_password_success">¡Contraseña cambiada con éxito!</string>
+    <string name="all_delete_account">Eliminar Cuenta</string>
+    <string name="all_msg_delete_app">Eliminar tu cuenta significa que todos tus datos se perderán. Esta acción no se puede deshacer.\n\n¿Estás seguro de que deseas eliminar tu cuenta?</string>
+    <string name="all_delete">Eliminar</string>
+    <string name="all_save">Guardar</string>
+    <string name="contact_us_des">¿Necesitas ayuda? ¡Estamos aquí para ayudarte!</string>
+    <string name="all_message">Mensaje</string>
+    <string name="error_blank_message">¡El mensaje no debe estar vacío!</string>
+    <string name="msg_contact_us_success">Hemos recibido tu información. Nos pondremos en contacto contigo pronto para ofrecerte asistencia. ¡Gracias!</string>
+    <string name="error_valid_phone">¡Por favor ingresa un número de teléfono válido!</string>
+    <string name="contact_us_content">Mensaje</string>
+    <string name="all_next">Continuar</string>
+    <string name="forgot_pw_des">Por favor ingresa tu correo electrónico y te enviaremos un código OTP en el siguiente paso para restablecer tu contraseña</string>
+    <string name="otp_des_1">Hemos enviado un código OTP a tu correo electrónico</string>
+    <string name="otp_des_2">Ingresa el código OTP a continuación para verificar</string>
+    <string name="auth_otp_resend">Reenviar código de verificación</string>
+    <string name="auth_otp_resend_in_remaining_s">Reenviar código OTP después de %s segundos</string>
+    <string name="reset_pw_des">Crea tu nueva contraseña. Por favor elige una contraseña fácil de recordar</string>
+    <string name="reset_password_success">¡Restablecimiento de contraseña exitoso!\nPor favor espera… Serás redirigido a la página de inicio de sesión</string>
+    <string name="all_chat">Chat</string>
+    <string name="no_data_conversation">No hay datos disponibles</string>
+    <string name="hint_message">Escribe un mensaje</string>
+    <string name="msg_update_profile_success">¡Tu perfil se actualizó con éxito!</string>
+    <string name="conversation_loading">Conectando…</string>
+    <string name="reg_legal_disclaimer">Aviso legal</string>
+    <string name="reg_legal_disclaimer_content">
+    Esta aplicación no es un bufete de abogados y no proporciona asesoría legal, representación legal ni garantías de resultados legales. El propósito intencional de esta aplicación es ayudar a superar las barreras del idioma y asistir a los usuarios en reconocer necesidades legales urgentes para que puedan conectarse con abogados debidamente licenciados y diligentes.\n\n
+    El uso de esta aplicación no crea una relación abogado-cliente. Todos los abogados y clientes que utilizan esta aplicación lo hacen de manera voluntaria. Cualquier compromiso entre un cliente y un abogado ocurre fuera del alcance de esta aplicación y es exclusivamente entre dichas partes. Los usuarios y abogados participan y finalizan tales relaciones bajo su propio criterio y riesgo.\n\n
+    Aunque nuestro objetivo es proporcionar una herramienta útil de conexión, no supervisamos, respaldamos ni asumimos responsabilidad por ningún consejo legal, acción o resultado que pueda surgir de estas conexiones. No se hacen ni se implican garantías de éxito o reivindicación legal.\n\n
+    Al utilizar esta aplicación, usted reconoce y acepta que cualquier disputa o reclamo que surja de o esté relacionado con su uso de la aplicación se regirá por las leyes del Estado de Delaware, sin tener en cuenta sus disposiciones sobre conflicto de leyes.</string>
+    <string name="reg_legal_disclaimer_confirm">He leído y acepto los términos</string>
+    <string name="reg_legal_disclaimer_agree">Acepto</string>
+    <string name="error_valid_legal_disclaimer">Por favor, lea y acepte los términos del "Aviso legal"</string>
+    <string name="lbl_find_option">Por favor, seleccione una opción</string>
+    <string name="all_select_lawyer">Seleccionar un abogado</string>
+    <string name="all_quick_request">Solicitud rápida</string>
+    <string name="find_select_state">Seleccionar estado</string>
+    <string name="all_request">Solicitar</string>
+    <string name="no_data_lawyer"><![CDATA[
+   <big><b>¡No se encontró ningún abogado!</b></big><br/><br/>
+   Intente cambiar la ubicación o los filtros
+]]></string>
+    <string name="all_lawyer">Tu abogado seleccionado</string>
+    <string name="all_change_lawyer">Cambiar abogado</string>
+    <string name="filter_all_state">Todos los estados</string>
+    <string name="no_data_reviews">
+<![CDATA[
+ <big><b>¡Aún no hay reseñas nuevas!</b></big><br/><br/>
+ Cuando el abogado reciba una reseña, aparecerá aquí
+]]>
+</string>
+    <string name="all_review_list">Lista de reseñas</string>
+    <string name="all_reviews">Reseñas</string>
+    <string name="all_leave_review">Dejar una reseña</string>
+    <string name="all_filter">Filtro</string>
+    <string name="filter_select_city">Seleccionar ciudad</string>
+    <string name="filter_select_language">Seleccionar idioma</string>
+    <string name="filter_select_specialities">Seleccionar especialidades</string>
+    <string name="all_reset">Restablecer</string>
+    <string name="all_apply">Aplicar</string>
+    <string name="review_write">Escribir una reseña</string>
+    <string name="all_submit">Enviar</string>
+    <string name="review_success">¡Gracias por tu reseña!</string>
+    <string name="error_blank_content">¡Por favor, ingresa contenido!</string>
+    <string name="account_faq_threads">Temas de Preguntas Frecuentes</string>
+    <string name="faqs_threads_title">Selecciona una especialidad</string>
+    <string name="all_submit_your_question">Enviar tu pregunta</string>
+    <string name="faqs_submit_your_question">Enviar tu pregunta</string>
+    <string name="faqs_your_question">Tu pregunta</string>
+    <string name="all_sent">Enviado</string>
+    <string name="msg_create_question_sent">Gracias por tu tiempo.\nTu contenido se mostrará después de que lo revisemos.</string>
+    <string name="all_title">Título</string>
+    <string name="error_blank_title">¡Por favor ingresa un título!</string>
+    <string name="all_submit_your_answer">Enviar tu respuesta</string>
+    <string name="faqs_your_answer">Tu respuesta</string>
+
+</resources>

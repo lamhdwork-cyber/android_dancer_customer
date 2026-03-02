@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="top_bar_sign_up">Sign Up</string>
+    <string name="top_bar_forgot_pw">Forgot Password</string>
+    <string name="top_bar_my_case">My Case</string>
+    <string name="top_bar_request_consultation">Request Consultation</string>
+    <string name="top_bar_detail_case">Case Detail</string>
+    <string name="top_bar_change_password">Change Password</string>
+    <string name="top_bar_my_profile">My Profile</string>
+    <string name="top_bar_otp_verify">OTP Code Verification</string>
+    <string name="top_bar_reset_pw">Reset your Password</string>
+    <string name="top_bar_conversation">Consultant</string>
+    <string name="top_bar_find_dancer">Find a dancer</string>
+    <string name="top_bar_lawyer_list">Lawyer List</string>
+</resources>

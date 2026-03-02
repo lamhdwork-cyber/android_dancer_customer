@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="top_bar_sign_up">Đăng Ký</string>
+    <string name="top_bar_forgot_pw">Quên Mật Khẩu</string>
+    <string name="top_bar_my_case">Vụ Việc Của Tôi</string>
+    <string name="top_bar_request_consultation">Yêu Cầu Tư Vấn</string>
+    <string name="top_bar_detail_case">Chi Tiết Vụ Việc</string>
+    <string name="top_bar_change_password">Thay Đổi Mật Khẩu</string>
+    <string name="top_bar_my_profile">Hồ sơ của tôi</string>
+    <string name="top_bar_otp_verify">Xác minh mã OTP</string>
+    <string name="top_bar_reset_pw">Đặt lại mật khẩu của bạn</string>
+    <string name="top_bar_conversation">Nhân viên tư vấn</string>
+    <string name="top_bar_find_dancer">Tìm vũ công</string>
+    <string name="top_bar_lawyer_list">Danh sách luật sư</string>
+</resources>

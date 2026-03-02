@@ -1,0 +1,232 @@
+<resources>
+    <string name="app_name" translatable="false">Dancer Booking</string>
+    <string name="all_password">Password</string>
+    <string name="all_sign_in">Sign in</string>
+    <string name="all_loading">Loading…</string>
+    <string name="all_ok">OK</string>
+    <string name="all_notification">Notification</string>
+    <string name="error_no_internet">Please check your network connection and try again!</string>
+    <string name="error_server">Server error occurred. Please try again later!</string>
+    <string name="error_internal_server">Oops! We\'re having a technical issue. Our team is on it. Please try again later. Sorry for the inconvenience.</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_my_booking">Bookings</string>
+    <string name="nav_account">Account</string>
+    <string name="nav_notification">Notification</string>
+    <string name="all_phone_or_email">Phone or Email</string>
+    <string name="auth_forgot_pw">Forgot password?</string>
+    <string name="auth_with">Or login with</string>
+    <string name="auth_first_time_here">First time here?</string>
+    <string name="all_sign_up">Sign up</string>
+    <string name="all_confirm">Confirm</string>
+    <string name="all_cancel">Cancel</string>
+    <string name="msg_exit_app">Are you sure you want to exit the application?</string>
+    <string name="all_exit">Exit</string>
+    <string name="language_en">English</string>
+    <string name="language_vi">Tiếng Việt(Vietnamese)</string>
+    <string name="language_es">Español(Spanish)</string>
+    <string name="all_contiue">Continue</string>
+    <string name="lang_select">Select Language</string>
+    <string name="lang_select_des">Choose language for better experience</string>
+    <string name="auth_title_token_expired">Login expired</string>
+    <string name="account_profile">Profile</string>
+    <string name="account_change_pw">Change Password</string>
+    <string name="all_language">Language</string>
+    <string name="account_terms"><![CDATA[Terms & Conditions]]></string>
+    <string name="account_about_us">About Us</string>
+    <string name="all_contact_us">Contact Us</string>
+    <string name="account_delete">Delete Account</string>
+    <string name="all_logout">Logout</string>
+    <string name="message_logout_app">Are you want to sign out of the app?</string>
+    <string name="auth_msg_token_expired">Login session has expired, please login again.</string>
+    <string name="btn_relogin">Re-login</string>
+    <string name="error_blank_email_or_phone">Phone or Email should not be empty!</string>
+    <string name="error_blank_password">Password should not be blank!</string>
+    <string name="error_valid_password">Please enter password no less than 6 characters!</string>
+    <string name="all_get_started">Get Started!</string>
+    <string name="reg_enter_your_info">Please enter your information</string>
+    <string name="all_first_name">First Name</string>
+    <string name="all_last_name">Last Name</string>
+    <string name="all_email">Email</string>
+    <string name="all_phone_number">Phone number</string>
+    <string name="all_register">Register</string>
+    <string name="auth_already_have_an_account">Already have an account?</string>
+    <string name="error_blank_first_name">First Name should not be empty!</string>
+    <string name="error_blank_last_name">Last Name should not be empty!</string>
+    <string name="error_blank_email">Email should not be empty!</string>
+    <string name="error_blank_phone">Phone number should not be empty!</string>
+    <string name="error_valid_email">The email address is incorrect!</string>
+    <string name="permission_title">Permission Request</string>
+    <string name="permission_des">The app requires this permission to function properly. Please grant the permission in Settings.</string>
+    <string name="permission_settings">Open Settings</string>
+    <string name="permission_cancel">Cancel</string>
+    <string name="no_data_notifications">
+    <![CDATA[
+     <big><b>No new notifications yet!</b></big><br/><br/>
+        Once you receive a notification, it will appear here
+    ]]>
+    </string>
+    <string name="all_change_language">Change language</string>
+    <string name="photo_from_camera">Take a photo with camera</string>
+    <string name="photo_from_gallery">Choose a photo from your gallery</string>
+    <string name="choose_avatar">Choose profile picture</string>
+    <string name="all_send">Send</string>
+    <string name="all_request_dancer">Search Dancers</string>
+    <string name="home_need_legal_help">Need Legal Help?</string>
+    <string name="hello_s">Hello, %s</string>
+    <string name="all_coming_soon">Coming soon!</string>
+    <string name="no_data_faqs"><![CDATA[
+    <big><b>No Legal Articles & FAQs Yet!</b></big><br/><br/>
+      We\'ll update this section with helpful legal insights as soon as they become available.
+     ]]></string>
+    <string name="faqs_title"><![CDATA[Legal Articles & FAQs]]></string>
+    <string name="all_sign_up_or_sign_in">Sign in/ Sign up</string>
+    <string name="booking_no_yet_des">Sign in or create an account to get started.</string>
+    <string name="account_not_login">Sign in to see manage your profile, and more</string>
+    <string name="notification_not_login">Notifications about your important cases</string>
+    <string name="my_cases_not_login">Your legal case list</string>
+    <string name="no_data_my_case">
+    <![CDATA[
+    <big><b>No new cases yet!</b></big><br/><br/>
+    After you submit a consultation request, your case will appear here.
+    ]]>
+    </string>
+    <string name="find_consultation_info">Consultation Information</string>
+    <string name="all_zip">ZIP</string>
+    <string name="all_state">State</string>
+    <string name="all_city">City</string>
+    <string name="find_issue_des">Issue Description</string>
+    <string name="find_des_your_issue">Describe your issue</string>
+    <string name="find_consultation_language">Consultation Language</string>
+    <string name="all_personal_info">Personal Information</string>
+    <string name="all_send_request">Send Request</string>
+    <string name="all_address">Address</string>
+    <string name="error_blank_address">Address should not be empty!</string>
+    <string name="error_blank_description">Description should not be empty!</string>
+    <string name="all_view_detail">View Detail</string>
+    <string name="booking_request_submitted">Booking Request Confirmed Successfully!</string>
+    <string name="all_close">Close</string>
+    <string name="booking_without_login_success">
+Thank you! We confirm that your service booking request has been successfully submitted. Our staff will contact you as soon as possible to verify the information.\n\nYou can use your phone number/email to log in with the default password "123456" to track your booking status.
+</string>
+    <string name="booking_success">Thank you! We confirm that your service booking request has been successfully submitted. Our staff will contact you as soon as possible to verify the information.</string>
+    <string name="case_id_s">Case ID: #%s</string>
+    <string name="all_cancel_request">Cancel Request</string>
+    <string name="all_request_again">Request again</string>
+    <string name="all_cancel_reason">Reason for cancellation</string>
+    <string name="msg_request_again">Are you sure you want to resubmit this request?</string>
+    <string name="msg_cancel_reason">Please enter a reason for cancellation</string>
+    <string name="all_cancellation_reason">Cancellation reason</string>
+    <string name="error_blank_reason">Please enter a reason!</string>
+    <string name="no_data">
+    <![CDATA[
+    <big><b>Unable to load data!</b></big><br/><br/>
+    Please try again later.
+    ]]>
+    </string>
+    <string name="all_created_on">Created</string>
+    <string name="all_full_name">Full Name</string>
+    <string name="all_lawyer_infomation">Lawyer Information</string>
+    <string name="all_finding_lawyer">Finding Lawyer…</string>
+    <string name="exp_s">Exp: %s year(s)</string>
+    <string name="cases_s">Cases: %s</string>
+    <string name="all_specialty">SPECIALITY</string>
+    <string name="all_lawyer_detail">Lawyer Detail</string>
+    <string name="all_lawyer_specialties">Lawyer Specialities</string>
+    <string name="all_education">Education</string>
+    <string name="all_achievements">Achievements</string>
+    <string name="top_bar_lawyer_detail">Lawyer Detail</string>
+    <string name="all_lawyer_license">Lawyer License</string>
+    <string name="all_view_license">View License</string>
+    <string name="all_contact_info">Contact Information</string>
+    <string name="all_copy">Copy</string>
+    <string name="msg_confirm_call_phone_s">Are you sure you call to %s?</string>
+    <string name="all_call">Call</string>
+    <string name="all_copied">Copied!</string>
+    <string name="top_bar_photo_viewer">Photo Viewer</string>
+    <string name="all_current_password">Current Password</string>
+    <string name="all_new_password">New Password</string>
+    <string name="all_confirm_new_password">Confirm New Password</string>
+    <string name="all_change">Change</string>
+    <string name="error_blank_current_password">Current Password should not be blank!</string>
+    <string name="error_valid_new_password">Please enter new password no less than 6 characters!</string>
+    <string name="error_valid_password_confirm">Confirm Password is incorrect!</string>
+    <string name="msg_change_password_success">Change password successfully!</string>
+    <string name="all_delete_account">Delete Account</string>
+    <string name="all_msg_delete_app">Deleting your account means all your data will be lost. This action cannot be undone.\n\nAre you sure you want to delete your account?</string>
+    <string name="all_delete">Delete</string>
+    <string name="all_save">Save</string>
+    <string name="contact_us_des">Need assistance? We’re here to help!</string>
+    <string name="all_message">Message</string>
+    <string name="error_blank_message">Message should not be empty!</string>
+    <string name="msg_contact_us_success">Your information has been received. We will contact you soon to assist. Thank you!</string>
+    <string name="error_valid_phone">Please enter correct phone number!</string>
+    <string name="contact_us_content">Message</string>
+    <string name="all_next">Next</string>
+    <string name="forgot_pw_des">Please enter your email and we will send an OTP code in the next step to reset your password</string>
+    <string name="otp_des_1">We have sent an OTP code to your email</string>
+    <string name="otp_des_2">Enter the OTP code below to verify</string>
+    <string name="auth_otp_resend_in_remaining_s">Resend OTP code after %s seconds</string>
+    <string name="auth_otp_resend">Resend verification code</string>
+    <string name="reset_pw_des">Create your new password. Please choose a password that is easy to remember</string>
+    <string name="reset_password_success">Password reset successful!\nPlease wait… You will be redirected to the login page.</string>
+    <string name="all_chat">Chat</string>
+    <string name="no_data_conversation">
+            <![CDATA[
+    <big><b>No new messages</b></big><br/><br/>
+    Message us when you need support !
+    ]]>
+    </string>
+    <string name="hint_message">Write a message</string>
+    <string name="msg_update_profile_success">Your profile updated successfully!</string>
+    <string name="conversation_loading">Connecting…</string>
+    <string name="reg_legal_disclaimer">Legal Disclaimer</string>
+    <string name="reg_legal_disclaimer_content">This app is not a law firm and does not provide legal advice, legal representation, or guarantees of legal outcomes. The intentional purpose of this app is to help break language barriers and assist users in recognizing urgent legal needs so they may connect with appropriately licensed and diligent attorneys.\n\nUse of this app does not create an attorney-client relationship. All attorneys and clients using this app do so voluntarily. Any engagement between a client and an attorney occurs outside the scope of this app and is solely between those parties. Users and attorneys enter and exit such engagements at their own discretion and risk.\n\nWhile we aim to provide a useful tool for connection, we do not supervise, endorse, or take responsibility for any legal advice, actions, or outcomes that may result from these connections. No guarantees of legal vindication or success are made or implied.\n\nBy using this app, you acknowledge and agree that any disputes or claims arising out of or relating to your use of the app shall be governed by the laws of the State of Delaware, without regard to its conflict of law provisions.</string>
+    <string name="reg_legal_disclaimer_confirm">I have read and agree to the terms</string>
+    <string name="reg_legal_disclaimer_agree">I Agree</string>
+    <string name="error_valid_legal_disclaimer">Please read and agree to the terms of the "Legal Disclaimer"</string>
+    <string name="lbl_find_option">Please Select a Option</string>
+    <string name="all_select_lawyer">Select a Lawyer</string>
+    <string name="all_quick_request">Quick Request</string>
+    <string name="find_select_state">Select State</string>
+    <string name="all_request">Request</string>
+    <string name="no_data_lawyer"><![CDATA[
+   <big><b>No lawyers found!</b></big><br/><br/>
+   Please try changing the location or filters
+]]></string>
+    <string name="all_lawyer">The lawyer you selected</string>
+    <string name="all_change_lawyer">Change lawyer</string>
+    <string name="filter_all_state">All state</string>
+    <string name="all_review_list">Review List</string>
+    <string name="all_reviews">Reviews</string>
+
+    <string name="no_data_reviews">
+    <![CDATA[
+     <big><b>No new reviews yet!</b></big><br/><br/>
+       When the lawyer receives a review, it will appear here
+    ]]>
+    </string>
+    <string name="all_leave_review">Leave Review</string>
+    <string name="all_filter">Filter</string>
+    <string name="filter_select_city">Select City</string>
+    <string name="filter_select_language">Select Language</string>
+    <string name="filter_select_specialities">Select Specialities</string>
+    <string name="all_reset">Reset</string>
+    <string name="all_apply">Apply</string>
+    <string name="review_write">Write a review</string>
+    <string name="all_submit">Submit</string>
+    <string name="review_success">Thank you for your review!</string>
+    <string name="error_blank_content">Please enter content!</string>
+    <string name="account_faq_threads">FAQ Threads</string>
+    <string name="faqs_threads_title">Select a Speciality</string>
+    <string name="all_submit_your_question">Submit your Question</string>
+    <string name="faqs_submit_your_question">Submit your Question</string>
+    <string name="faqs_your_question">Your Question</string>
+    <string name="all_sent">Sent</string>
+    <string name="msg_create_question_sent">Thank you for your time.\nYour submission will be displayed after we review it.</string>
+    <string name="all_title">Title</string>
+    <string name="error_blank_title">Please enter a title!</string>
+    <string name="all_submit_your_answer">Submit your answer</string>
+    <string name="faqs_your_answer">Your Answer</string>
+
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="top_bar_sign_up">Registrarse</string>
+    <string name="top_bar_forgot_pw">¿Olvidaste Tu Contraseña?</string>
+    <string name="top_bar_my_case">Mis Casos</string>
+    <string name="top_bar_request_consultation">Solicitar Consulta</string>
+    <string name="top_bar_detail_case">Detalles del Caso</string>
+    <string name="top_bar_change_password">Cambiar Contraseña</string>
+    <string name="top_bar_my_profile">Mi Perfil</string>
+    <string name="top_bar_otp_verify">Verificación del código OTP</string>
+    <string name="top_bar_reset_pw">Restablecer tu contraseña</string>
+    <string name="top_bar_conversation">Consultor</string>
+    <string name="top_bar_find_dancer">Buscar un abogado</string>
+    <string name="top_bar_lawyer_list">Lista de abogados</string>
+</resources>

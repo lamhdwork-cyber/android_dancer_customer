@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="all_password">Mật khẩu</string>
+    <string name="all_sign_in">Đăng nhập</string>
+    <string name="all_loading">Đang tải…</string>
+    <string name="all_ok">OK</string>
+    <string name="all_notification">Thông báo</string>
+    <string name="error_no_internet">Vui lòng kiểm tra kết nối mạng và thử lại!</string>
+    <string name="error_server">Đã xảy ra lỗi máy chủ. Vui lòng thử lại sau!</string>
+    <string name="error_internal_server">Rất tiếc! Chúng tôi gặp phải sự cố kỹ thuật. Đội ngũ của chúng tôi đang xử lý. Vui lòng thử lại sau. Xin lỗi vì sự bất tiện.</string>
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_search">Tìm kiếm</string>
+    <string name="nav_my_booking">Lịch</string>
+    <string name="nav_account">Tài Khoản</string>
+    <string name="nav_notification">Thông Báo</string>
+    <string name="all_phone_or_email">Số điện thoại hoặc Email</string>
+    <string name="auth_forgot_pw">Quên mật khẩu?</string>
+    <string name="auth_with">Hoặc đăng nhập bằng</string>
+    <string name="auth_first_time_here">Bạn là người dùng mới ?</string>
+    <string name="all_sign_up">Đăng ký</string>
+    <string name="all_confirm">Xác nhận</string>
+    <string name="all_cancel">Hủy</string>
+    <string name="msg_exit_app">Bạn có chắc chắn muốn thoát ứng dụng không?</string>
+    <string name="all_exit">Thoát</string>
+    <string name="language_en">English(Tiếng Anh)</string>
+    <string name="language_vi">Tiếng Việt</string>
+    <string name="language_es">Español(Tiếng Tây Ban Nha)</string>
+    <string name="all_contiue">Tiếp tục</string>
+    <string name="lang_select">Chọn ngôn ngữ</string>
+    <string name="lang_select_des">Chọn ngôn ngữ để có trải nghiệm tốt hơn</string>
+    <string name="auth_title_token_expired">Phiên đăng nhập đã hết hạn</string>
+    <string name="account_profile">Hồ sơ</string>
+    <string name="account_change_pw">Thay đổi mật khẩu</string>
+    <string name="all_language">Ngôn ngữ</string>
+    <string name="account_terms"><![CDATA[Điều khoản & Điều kiện]]></string>
+    <string name="account_about_us">Về chúng tôi</string>
+    <string name="all_contact_us">Liên hệ với chúng tôi</string>
+    <string name="account_delete">Xóa tài khoản</string>
+    <string name="all_logout">Đăng xuất</string>
+    <string name="message_logout_app">Bạn có muốn đăng xuất khỏi ứng dụng không?</string>
+    <string name="auth_msg_token_expired">Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.</string>
+    <string name="btn_relogin">Đăng nhập lại</string>
+    <string name="error_blank_email_or_phone">Số điện thoại hoặc Email không được để trống!</string>
+    <string name="error_blank_password">Mật khẩu không được để trống!</string>
+    <string name="error_valid_password">Vui lòng nhập mật khẩu ít nhất 6 ký tự!</string>
+    <string name="all_get_started">Bắt đầu ngay!</string>
+    <string name="reg_enter_your_info">Vui lòng nhập thông tin của bạn</string>
+    <string name="all_first_name">Họ</string>
+    <string name="all_last_name">Tên</string>
+    <string name="all_email">Email</string>
+    <string name="all_phone_number">Số điện thoại</string>
+    <string name="all_register">Đăng ký</string>
+    <string name="auth_already_have_an_account">Bạn đã có tài khoản?</string>
+    <string name="error_blank_first_name">Họ không được để trống!</string>
+    <string name="error_blank_last_name">Tên không được để trống!</string>
+    <string name="error_blank_email">Email không được để trống!</string>
+    <string name="error_blank_phone">Số điện thoại không được để trống!</string>
+    <string name="error_valid_email">Địa chỉ email không đúng!</string>
+    <string name="permission_title">Yêu cầu quyền</string>
+    <string name="permission_des">Ứng dụng yêu cầu quyền này để hoạt động bình thường. Vui lòng cấp quyền trong Cài đặt.</string>
+    <string name="permission_settings">Mở Cài đặt</string>
+    <string name="permission_cancel">Hủy</string>
+    <string name="no_data_notifications">
+    <![CDATA[
+     <big><b>Chưa có thông báo mới!</b></big><br/><br/>
+        Sau khi bạn nhận thông báo, nó sẽ xuất hiện tại đây
+    ]]>
+    </string>
+    <string name="all_change_language">Thay đổi ngôn ngữ</string>
+    <string name="photo_from_camera">Chụp ảnh bằng Camera</string>
+    <string name="photo_from_gallery">Chọn ảnh từ thư viện</string>
+    <string name="choose_avatar">Chọn ảnh đại diện</string>
+    <string name="all_send">Gửi</string>
+    <string name="all_request_dancer">Tìm kiếm vũ công</string>
+    <string name="home_need_legal_help">Bạn cần hỗ trợ pháp lý?</string>
+    <string name="hello_s">Xin chào, %s</string>
+    <string name="all_coming_soon">Sắp ra mắt!</string>
+    <string name="no_data_faqs"><![CDATA[
+    <big><b>Chưa có bài viết hoặc câu hỏi nào!</b></big><br/><br/>
+     Khi có thông tin hữu ích về pháp lý, chúng tôi sẽ hiển thị tại đây để bạn dễ dàng tham khảo.
+     ]]></string>
+    <string name="faqs_title"><![CDATA[Tài liệu pháp lý & Câu hỏi thường gặp]]></string>
+    <string name="all_sign_up_or_sign_in">Đăng ký/ Đăng nhập</string>
+    <string name="booking_no_yet_des">Đăng nhập hoặc tạo tài khoản để bắt đầu.</string>
+    <string name="account_not_login">Đăng nhập để quản lý hồ sơ của bạn\nvà các cài đặt</string>
+    <string name="notification_not_login">Thông báo về các Vụ Việc quan trọng của bạn</string>
+    <string name="my_cases_not_login">Danh sách các vụ việc của bạn</string>
+    <string name="no_data_my_case">
+    <![CDATA[
+    <big><b>Chưa có vụ việc mới!</b></big><br/><br/>
+        Sau khi bạn gửi yêu cầu tư vấn, vụ việc đó sẽ xuất hiện tại đây
+    ]]>
+    </string>
+    <string name="find_consultation_info">Thông tin tư vấn</string>
+    <string name="all_zip">Mã ZIP</string>
+    <string name="all_state">Tỉnh</string>
+    <string name="all_city">Thành phố</string>
+    <string name="find_issue_des">Mô tả vấn đề</string>
+    <string name="find_des_your_issue">Mô tả vấn đề của bạn</string>
+    <string name="find_consultation_language">Ngôn ngữ tư vấn</string>
+    <string name="all_personal_info">Thông tin cá nhân</string>
+    <string name="all_send_request">Gửi yêu cầu</string>
+    <string name="all_address">Địa chỉ</string>
+    <string name="error_blank_address">Địa chỉ không được để trống!</string>
+    <string name="error_blank_description">Mô tả không được để trống!</string>
+    <string name="all_view_detail">Xem chi tiết</string>
+    <string name="booking_request_submitted">Xác Nhận Yêu cầu Đặt Thành Công!</string>
+    <string name="all_close">Đóng</string>
+    <string name="booking_without_login_success">Cảm ơn bạn! Chúng tôi xin xác nhận rằng yêu cầu đặt dịch vụ của bạn đã được gửi thành công. Nhân viên của chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận thông tin.\n\n Bạn có thể dùng số điện thoại/email của mình để đăng nhập với mật khẩu mặc định là 123456 để theo dõi trạng thái đặt dịch vụ.</string>
+    <string name="booking_success">Cảm ơn bạn! Chúng tôi xin xác nhận rằng yêu cầu đặt dịch vụ của bạn đã được gửi thành công. Nhân viên của chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận thông tin.</string>
+    <string name="case_id_s">Mã hồ sơ: #%s</string>
+    <string name="all_cancel_request">Hủy yêu cầu</string>
+    <string name="all_request_again">Yêu cầu lại</string>
+    <string name="all_cancel_reason">Lý do hủy</string>
+    <string name="msg_request_again">Bạn có chắc chắn muốn gửi lại yêu cầu này?</string>
+    <string name="msg_cancel_reason">Vui lòng nhập lý do hủy yêu cầu</string>
+    <string name="all_cancellation_reason">Lý do hủy bỏ</string>
+    <string name="error_blank_reason">Vui lòng nhập lý do!</string>
+    <string name="no_data">
+    <![CDATA[
+    <big><b>Không thể tải dữ liệu!</b></big><br/><br/>
+    Vui lòng thử lại sau.
+    ]]>
+    </string>
+    <string name="all_created_on">Ngày giờ tạo</string>
+    <string name="all_full_name">Họ Tên</string>
+    <string name="all_lawyer_infomation">Thông Tin Luật Sư</string>
+    <string name="all_finding_lawyer">Đang tìm luật sư phù hợp cho bạn…</string>
+    <string name="exp_s">Kinh nghiệm: %s năm</string>
+    <string name="cases_s">Tổng vụ án: %s</string>
+    <string name="all_specialty">CHUYÊN MÔN</string>
+    <string name="all_lawyer_detail">Chi Tiết Về Luật Sư</string>
+    <string name="all_lawyer_specialties">Chuyên môn luật sư</string>
+    <string name="all_education">Học vấn</string>
+    <string name="all_achievements">Thành tựu</string>
+    <string name="top_bar_lawyer_detail">Chi Tiết Luật Sư</string>
+    <string name="all_lawyer_license">Giấy phép luật sư</string>
+    <string name="all_view_license">Xem giấy phép</string>
+    <string name="all_contact_info">Thông tin liên hệ</string>
+    <string name="all_copy">Sao chép</string>
+    <string name="msg_confirm_call_phone_s">Bạn có chắc chắn gọi tới %s không?</string>
+    <string name="all_call">Gọi</string>
+    <string name="all_copied">Đã sao chép!</string>
+    <string name="top_bar_photo_viewer">Trình Xem Ảnh</string>
+    <string name="all_current_password">Mật khẩu hiện tại</string>
+    <string name="all_new_password">Mật khẩu mới</string>
+    <string name="all_confirm_new_password">Xác nhận mật khẩu mới</string>
+    <string name="all_change">Thay đổi</string>
+    <string name="msg_change_password_success">Thay đổi mật khẩu thành công!</string>
+    <string name="error_blank_current_password">Vui lòng nhập mật khẩu hiện tại của bạn!</string>
+    <string name="error_valid_new_password">Vui lòng nhập mật khẩu mới không ít hơn 6 ký tự!</string>
+    <string name="error_valid_password_confirm">Xác nhận mật khẩu không đúng!</string>
+    <string name="all_delete_account">Xóa tài khoản</string>
+    <string name="all_msg_delete_app">Việc xóa tài khoản đồng nghĩa sẽ mất hết dữ liệu. Hành động này không thể hoàn tác.\n\nBạn có chắc chắn rằng muốn xóa tài khoản không?</string>
+    <string name="all_delete">Xóa</string>
+    <string name="all_save">Lưu</string>
+    <string name="contact_us_des">Cần giúp đỡ? Chúng tôi sẵn sàng hỗ trợ bạn!</string>
+    <string name="all_message">Gửi tin nhắn liên hệ</string>
+    <string name="error_blank_message">Nội dung không được để trống!</string>
+    <string name="msg_contact_us_success">Thông tin của bạn đã được ghi nhận. Chúng tôi sẽ liên hệ bạn sớm để hỗ trợ. Cảm ơn!</string>
+    <string name="error_valid_phone">Vui lòng nhập đúng số điện thoại!</string>
+    <string name="contact_us_content">Nội dung</string>
+    <string name="all_next">Tiếp tục</string>
+    <string name="forgot_pw_des">Vui lòng nhập email của bạn, chúng tôi sẽ gửi mã OTP ở bước tiếp theo để đặt lại mật khẩu.</string>
+    <string name="otp_des_1">Chúng tôi đã gửi mã OTP đến email của quý khách</string>
+    <string name="otp_des_2">Vui lòng nhập mã OTP bên dưới để xác minh</string>
+    <string name="auth_otp_resend">Gửi lại mã xác minh</string>
+    <string name="auth_otp_resend_in_remaining_s">Gửi lại mã OTP sau %s giây</string>
+    <string name="reset_pw_des">Tạo mật khẩu mới của quý khách. Hãy chọn một mật khẩu dễ nhớ</string>
+    <string name="reset_password_success">Đặt lại mật khẩu thành công !\nVui lòng đợi…Bạn sẽ được chuyển đến trang đăng nhập</string>
+    <string name="all_chat">Tin nhắn</string>
+    <string name="no_data_conversation">
+<![CDATA[
+    <big><b>Không có tin nhắn mới</b></big><br/><br/>
+        Nhắn tin cho chúng tôi khi quý khách cần hỗ trợ !
+    ]]>
+    </string>
+    <string name="hint_message">Viết tin nhắn</string>
+    <string name="msg_update_profile_success">Hồ sơ của bạn đã cập thành công!</string>
+    <string name="conversation_loading">Đang kết nối…</string>
+    <string name="reg_legal_disclaimer">Miễn trừ trách nhiệm pháp lý</string>
+    <string name="reg_legal_disclaimer_content">
+    Ứng dụng này không phải là một công ty luật và không cung cấp tư vấn pháp lý, đại diện pháp lý hoặc đảm bảo kết quả pháp lý. Mục đích chính của ứng dụng là giúp phá vỡ rào cản ngôn ngữ và hỗ trợ người dùng nhận biết các nhu cầu pháp lý khẩn cấp để họ có thể kết nối với các luật sư được cấp phép và tận tâm.\n\n
+    Việc sử dụng ứng dụng này không tạo ra mối quan hệ luật sư – khách hàng. Tất cả luật sư và khách hàng sử dụng ứng dụng này đều làm vậy một cách tự nguyện. Mọi sự hợp tác giữa khách hàng và luật sư đều nằm ngoài phạm vi của ứng dụng và chỉ thuộc về hai bên liên quan. Người dùng và luật sư tự chịu trách nhiệm khi tham gia hoặc kết thúc mối quan hệ đó.\n\n
+    Mặc dù chúng tôi cố gắng cung cấp một công cụ kết nối hữu ích, chúng tôi không giám sát, xác nhận hay chịu trách nhiệm cho bất kỳ lời khuyên pháp lý, hành động hay kết quả nào có thể phát sinh từ các kết nối đó. Không có bất kỳ sự đảm bảo nào về việc được minh oan pháp lý hoặc thành công pháp lý được đưa ra hay ngụ ý.\n\n
+    Bằng việc sử dụng ứng dụng này, bạn xác nhận và đồng ý rằng mọi tranh chấp hoặc khiếu nại phát sinh từ hoặc liên quan đến việc bạn sử dụng ứng dụng sẽ được điều chỉnh bởi luật pháp của Bang Delaware, không xét đến các quy định về xung đột pháp luật của bang này.</string>
+    <string name="reg_legal_disclaimer_confirm">Tôi đã đọc và đồng ý với điều khoản</string>
+    <string name="reg_legal_disclaimer_agree">Tôi đồng ý</string>
+    <string name="error_valid_legal_disclaimer">Vui lòng đọc và đồng ý với điều khoản của \"Miễn trừ trách nhiệm pháp lý\"</string>
+    <string name="lbl_find_option">Vui lòng chọn một tùy chọn</string>
+    <string name="all_select_lawyer">Chọn luật sư</string>
+    <string name="all_quick_request">Yêu cầu nhanh</string>
+    <string name="find_select_state">Chọn Bang</string>
+    <string name="all_request">Yêu cầu</string>
+    <string name="no_data_lawyer"><![CDATA[
+   <big><b>Không tìm thấy luật sư nào!</b></big><br/><br/>
+    Vui lòng thử thay đổi khu vực hoặc bộ lọc
+]]></string>
+    <string name="all_lawyer">Luật sư bạn chọn</string>
+    <string name="all_change_lawyer">Thay đổi luật sư</string>
+    <string name="filter_all_state">Tất cả</string>
+    <string name="no_data_reviews">
+<![CDATA[
+ <big><b>Chưa có đánh giá mới nào!</b></big><br/><br/>
+ Khi luật sư nhận được đánh giá, nó sẽ xuất hiện ở đây
+]]>
+</string>
+    <string name="all_review_list">Danh sách đánh giá</string>
+    <string name="all_reviews">Đánh giá</string>
+    <string name="all_leave_review">Để lại đánh giá</string>
+    <string name="all_filter">Bộ lọc</string>
+    <string name="filter_select_city">Chọn Thành phố</string>
+    <string name="filter_select_language">Chọn Ngôn ngữ</string>
+    <string name="filter_select_specialities">Chọn Chuyên khoa</string>
+    <string name="all_reset">Đặt lại</string>
+    <string name="all_apply">Áp dụng</string>
+    <string name="review_write">Viết đánh giá</string>
+    <string name="all_submit">Gửi</string>
+    <string name="review_success">Cảm ơn bạn đã đánh giá!</string>
+    <string name="error_blank_content">Vui lòng nhập nội dung!</string>
+    <string name="account_faq_threads">Diễn đàn câu hỏi thường gặp</string>
+    <string name="faqs_threads_title">Chọn lĩnh vực</string>
+    <string name="all_submit_your_question">Gửi câu hỏi của bạn</string>
+    <string name="faqs_submit_your_question">Gửi câu hỏi của bạn</string>
+    <string name="faqs_your_question">Câu hỏi của bạn</string>
+    <string name="all_sent">Đã gửi</string>
+    <string name="msg_create_question_sent">Cảm ơn bạn đã dành thời gian.\nNội dung bạn gửi sẽ được hiển thị sau khi chúng tôi kiểm duyệt</string>
+    <string name="all_title">Tiêu đề</string>
+    <string name="error_blank_title">Vui lòng nhập tiêu đề!</string>
+    <string name="all_submit_your_answer">Gửi câu trả lời của bạn</string>
+    <string name="faqs_your_answer">Câu trả lời của bạn</string>
+
+</resources>

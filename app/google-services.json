@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "700503668143",
+    "project_id": "lawyer-7bebc",
+    "storage_bucket": "lawyer-7bebc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700503668143:android:868aa5cba5dcdc1966ab5a",
+        "android_client_info": {
+          "package_name": "com.kantek.dancer.booking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700503668143-rraqe0017kf0thp1tkodhtp1t22e0iku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzTehlL19i76CLa6aSh9tLqdM1nOewitE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700503668143-rraqe0017kf0thp1tkodhtp1t22e0iku.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "700503668143-bdc8ckjm9eob2t1nvn31d4hdn03okhk9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.laywer.customer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
