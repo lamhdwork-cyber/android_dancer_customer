@@ -73,7 +73,7 @@ fun FindDancerScreen() = ScopeProvider(Scopes.Search) {
                     SpaceVertical(10.dp)
 
                     AppButton(
-                        nameRes = R.string.all_select_lawyer,
+                        nameRes = R.string.all_select_dancer,
                         backgroundColor = Colors.Blue241,
                         textColor = Colors.Primary,
                         modifier = Modifier

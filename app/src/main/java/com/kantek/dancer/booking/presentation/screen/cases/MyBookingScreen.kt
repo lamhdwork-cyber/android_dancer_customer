@@ -80,7 +80,7 @@ fun MyBookingScreen(viewModel: MyCasesVM = koinViewModel()) = ScopeProvider(Scop
     LaunchedEffect(userChanged) { viewModel.onChangeUser() }
 
     Column(modifier = Modifier.background(Colors.Gray249)) {
-        ActionBarMainView(R.string.top_bar_my_case)
+        ActionBarMainView(R.string.top_bar_my_booking)
         if (user == null) {
             NoLoginView(titleRes = R.string.my_cases_not_login) { openAuth() }
         }

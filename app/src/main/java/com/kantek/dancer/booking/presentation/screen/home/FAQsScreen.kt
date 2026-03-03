@@ -122,7 +122,8 @@ fun FAQsScreen(viewModel: HomeVM = koinViewModel()) = ScopeProvider {
                     SpaceVertical(8.dp)
 
                     Text(
-                        text = banner?.title.safe(),
+//                        text = banner?.title.safe(),
+                        text = stringResource(R.string.home_need_legal_help),
                         color = Color.White,
                         fontSize = 32.sp,
                         lineHeight = 35.sp,

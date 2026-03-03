@@ -71,15 +71,15 @@
     <string name="photo_from_gallery">Chọn ảnh từ thư viện</string>
     <string name="choose_avatar">Chọn ảnh đại diện</string>
     <string name="all_send">Gửi</string>
-    <string name="all_request_dancer">Tìm kiếm vũ công</string>
-    <string name="home_need_legal_help">Bạn cần hỗ trợ pháp lý?</string>
+    <string name="all_request_dancer">Tìm ngay</string>
+    <string name="home_need_legal_help">Bạn đang tìm vũ công?</string>
     <string name="hello_s">Xin chào, %s</string>
     <string name="all_coming_soon">Sắp ra mắt!</string>
     <string name="no_data_faqs"><![CDATA[
     <big><b>Chưa có bài viết hoặc câu hỏi nào!</b></big><br/><br/>
      Khi có thông tin hữu ích về pháp lý, chúng tôi sẽ hiển thị tại đây để bạn dễ dàng tham khảo.
      ]]></string>
-    <string name="faqs_title"><![CDATA[Tài liệu pháp lý & Câu hỏi thường gặp]]></string>
+    <string name="faqs_title"><![CDATA[Hỗ trợ đặt lịch]]></string>
     <string name="all_sign_up_or_sign_in">Đăng ký/ Đăng nhập</string>
     <string name="booking_no_yet_des">Đăng nhập hoặc tạo tài khoản để bắt đầu.</string>
     <string name="account_not_login">Đăng nhập để quản lý hồ sơ của bạn\nvà các cài đặt</string>
@@ -188,7 +188,7 @@
     <string name="reg_legal_disclaimer_agree">Tôi đồng ý</string>
     <string name="error_valid_legal_disclaimer">Vui lòng đọc và đồng ý với điều khoản của \"Miễn trừ trách nhiệm pháp lý\"</string>
     <string name="lbl_find_option">Vui lòng chọn một tùy chọn</string>
-    <string name="all_select_lawyer">Chọn luật sư</string>
+    <string name="all_select_dancer">Chọn vũ công</string>
     <string name="all_quick_request">Yêu cầu nhanh</string>
     <string name="find_select_state">Chọn Bang</string>
     <string name="all_request">Yêu cầu</string>

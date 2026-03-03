@@ -71,15 +71,15 @@
     <string name="photo_from_gallery">Seleccionar foto de la galería</string>
     <string name="choose_avatar">Seleccionar foto de perfil</string>
     <string name="all_send">Enviar</string>
-    <string name="all_request_dancer">Solicitar consulta</string>
-    <string name="home_need_legal_help">¿Necesitas ayuda legal?</string>
+    <string name="all_request_dancer">Buscar bailarines</string>
+    <string name="home_need_legal_help">¿Buscas un bailarín?</string>
     <string name="hello_s">Hola, %s</string>
     <string name="all_coming_soon">¡Próximamente!</string>
     <string name="no_data_faqs"><![CDATA[
 <big><b>¡Aún no hay artículos ni preguntas frecuentes!</b></big><br/><br/>
 Cuando tengamos información legal útil, la mostraremos aquí para tu fácil referencia.
 ]]></string>
-    <string name="faqs_title"><![CDATA[Documentos legales y Preguntas Frecuentes]]></string>
+    <string name="faqs_title"><![CDATA[Ayuda sobre Reservas]]></string>
     <string name="all_sign_up_or_sign_in">Registrarse / Iniciar sesión</string>
     <string name="booking_no_yet_des">Inicia sesión o crea una cuenta para comenzar.</string>
     <string name="account_not_login">Inicia sesión para gestionar tu perfil\ny configuraciones</string>
@@ -185,7 +185,7 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="reg_legal_disclaimer_agree">Acepto</string>
     <string name="error_valid_legal_disclaimer">Por favor, lea y acepte los términos del "Aviso legal"</string>
     <string name="lbl_find_option">Por favor, seleccione una opción</string>
-    <string name="all_select_lawyer">Seleccionar un abogado</string>
+    <string name="all_select_dancer">Selecciona un bailarín</string>
     <string name="all_quick_request">Solicitud rápida</string>
     <string name="find_select_state">Seleccionar estado</string>
     <string name="all_request">Solicitar</string>

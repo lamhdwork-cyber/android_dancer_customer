@@ -104,7 +104,7 @@ fun DancerListScreen(viewModel: LawyerListVM = koinViewModel()) = ScopeProvider(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        ActionBarBackAndTitleView(R.string.top_bar_lawyer_list) { appNavigator.back() }
+        ActionBarBackAndTitleView(R.string.top_bar_dancer_list) { appNavigator.back() }
         Column(
             modifier = Modifier
                 .fillMaxSize()

@@ -95,7 +95,7 @@ fun SignInScreen(
             Column(Modifier.weight(1f)) { }
             SpaceVertical(30.dp)
             Text(
-                text = "LAWYER",
+                text = "DANCER",
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold,
                 color = Colors.Primary,

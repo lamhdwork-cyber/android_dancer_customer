@@ -72,14 +72,14 @@
     <string name="choose_avatar">Choose profile picture</string>
     <string name="all_send">Send</string>
     <string name="all_request_dancer">Search Dancers</string>
-    <string name="home_need_legal_help">Need Legal Help?</string>
+    <string name="home_need_legal_help">Looking for a dancer?</string>
     <string name="hello_s">Hello, %s</string>
     <string name="all_coming_soon">Coming soon!</string>
     <string name="no_data_faqs"><![CDATA[
     <big><b>No Legal Articles & FAQs Yet!</b></big><br/><br/>
       We\'ll update this section with helpful legal insights as soon as they become available.
      ]]></string>
-    <string name="faqs_title"><![CDATA[Legal Articles & FAQs]]></string>
+    <string name="faqs_title"><![CDATA[Booking Help & FAQs]]></string>
     <string name="all_sign_up_or_sign_in">Sign in/ Sign up</string>
     <string name="booking_no_yet_des">Sign in or create an account to get started.</string>
     <string name="account_not_login">Sign in to see manage your profile, and more</string>
@@ -186,7 +186,7 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="reg_legal_disclaimer_agree">I Agree</string>
     <string name="error_valid_legal_disclaimer">Please read and agree to the terms of the "Legal Disclaimer"</string>
     <string name="lbl_find_option">Please Select a Option</string>
-    <string name="all_select_lawyer">Select a Lawyer</string>
+    <string name="all_select_dancer">Select a Dancer</string>
     <string name="all_quick_request">Quick Request</string>
     <string name="find_select_state">Select State</string>
     <string name="all_request">Request</string>
