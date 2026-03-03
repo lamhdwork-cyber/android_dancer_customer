@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "LawyerBooking"
+rootProject.name = "DancerBooking"
 include(":app")
 include(":support-persistent")
 include(":support-core")
