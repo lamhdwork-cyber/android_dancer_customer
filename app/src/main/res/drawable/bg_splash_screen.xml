@@ -4,6 +4,6 @@
         <color android:color="@android:color/white" />
     </item>
     <item
-        android:drawable="@drawable/img_logo_splashscreen_2"
+        android:drawable="@drawable/ic_launcher_foreground"
         android:gravity="center" />
 </layer-list>
