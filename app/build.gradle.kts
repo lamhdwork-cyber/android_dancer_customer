@@ -78,7 +78,7 @@ android {
         outputs.all {
             val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
             val date = SimpleDateFormat("MMddyy").format(Date())
-            output.outputFileName = "lawyer-app-${name}-v${versionName}-${versionCode}-${date}.apk"
+            output.outputFileName = "dancer-customer-app-${name}-v${versionName}-${versionCode}-${date}.apk"
         }
     }
 
