@@ -163,6 +163,13 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="error_valid_phone">¡Por favor ingresa un número de teléfono válido!</string>
     <string name="contact_us_content">Mensaje</string>
     <string name="all_next">Continuar</string>
+    <string name="all_skip">Saltar</string>
+    <string name="introduce_title_1">Reserva tu experiencia</string>
+    <string name="introduce_description_1">Reserva mesas, servicio de botellas y acceso exclusivo con solo unos toques.</string>
+    <string name="introduce_title_2">Encuentra clubes cercanos automáticamente</string>
+    <string name="introduce_description_2">Descubre los lugares más exclusivos de la ciudad según tu ubicación.</string>
+    <string name="introduce_title_3">Explora bailarines disponibles</string>
+    <string name="introduce_description_3">Consulta estado en vivo y especialidades de talento de primer nivel.</string>
     <string name="forgot_pw_des">Por favor ingresa tu correo electrónico y te enviaremos un código OTP en el siguiente paso para restablecer tu contraseña</string>
     <string name="otp_des_1">Hemos enviado un código OTP a tu correo electrónico</string>
     <string name="otp_des_2">Ingresa el código OTP a continuación para verificar</string>

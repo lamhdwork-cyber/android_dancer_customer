@@ -665,15 +665,15 @@ fun AppNextButton(
     modifier: Modifier = Modifier.height(55.dp),
     onClick: () -> Unit = {}
 ) {
-    val context = LocalContext.current
+//    val context = LocalContext.current
     Button(
         onClick = {   // Play sound
-            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
-            mediaPlayer.setOnCompletionListener {
-                it.release()
-            }
+//            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
+//            mediaPlayer.setOnCompletionListener {
+//                it.release()
+//            }
             onClick()
-            mediaPlayer.start()
+//            mediaPlayer.start()
         },
         enabled = isEnabled,
         contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
@@ -689,13 +689,22 @@ fun AppNextButton(
         ),
         shape = RoundedCornerShape(12.dp)
     ) {
-        Text(text = stringResource(id = nameRes), fontSize = 16.sp, fontWeight = FontWeight.Medium)
-        SpaceHorizontal(20.dp)
-        Icon(
-            painter = painterResource(id = R.drawable.ic_button_right),
-            contentDescription = "Icon",
-            tint = Color.White
-        )
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = stringResource(id = nameRes),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.align(Alignment.Center)
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_button_right),
+                contentDescription = "Icon",
+                tint = Color.White,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 2.dp)
+            )
+        }
     }
 
 }
@@ -718,12 +727,12 @@ fun AppButton(
     Button(
         onClick = {
             // Play sound
-            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
-            mediaPlayer.setOnCompletionListener {
-                it.release()
-            }
+//            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
+//            mediaPlayer.setOnCompletionListener {
+//                it.release()
+//            }
             onClick()
-            mediaPlayer.start()
+//            mediaPlayer.start()
         },
         enabled = isEnabled,
         contentPadding = contentPadding,

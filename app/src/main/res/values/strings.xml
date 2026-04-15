@@ -163,6 +163,13 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="error_valid_phone">Please enter correct phone number!</string>
     <string name="contact_us_content">Message</string>
     <string name="all_next">Next</string>
+    <string name="all_skip">Skip</string>
+    <string name="introduce_title_1">Book your experience</string>
+    <string name="introduce_description_1">Reserve tables, bottle service, and exclusive access with just a few taps.</string>
+    <string name="introduce_title_2">Find nearby clubs automatically</string>
+    <string name="introduce_description_2">Discover the most exclusive spots in the city based on your location.</string>
+    <string name="introduce_title_3">Browse available dancers</string>
+    <string name="introduce_description_3">View live status and specialties of top-tier talent.</string>
     <string name="forgot_pw_des">Please enter your email and we will send an OTP code in the next step to reset your password</string>
     <string name="otp_des_1">We have sent an OTP code to your email</string>
     <string name="otp_des_2">Enter the OTP code below to verify</string>

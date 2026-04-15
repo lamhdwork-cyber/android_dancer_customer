@@ -44,6 +44,7 @@ import com.kantek.dancer.booking.domain.factory.ConfigFactory
 import com.kantek.dancer.booking.domain.factory.ConversationFactory
 import com.kantek.dancer.booking.domain.factory.FAQsThreadsFactory
 import com.kantek.dancer.booking.domain.factory.FilterFactory
+import com.kantek.dancer.booking.domain.factory.IntroduceFactory
 import com.kantek.dancer.booking.domain.factory.LanguageFactory
 import com.kantek.dancer.booking.domain.factory.LawyerFactory
 import com.kantek.dancer.booking.domain.factory.NotificationFactory
@@ -91,6 +92,8 @@ import com.kantek.dancer.booking.presentation.screen.faqs.SubmitAnswerRepo
 import com.kantek.dancer.booking.presentation.screen.faqs.SubmitQuestionRepo
 import com.kantek.dancer.booking.presentation.screen.home.FetchFAQsPagingRepo
 import com.kantek.dancer.booking.presentation.screen.home.HomeVM
+import com.kantek.dancer.booking.presentation.screen.introduce.FetchIntroduceRepo
+import com.kantek.dancer.booking.presentation.screen.introduce.IntroduceVM
 import com.kantek.dancer.booking.presentation.screen.lawyer.DetailLawyerVM
 import com.kantek.dancer.booking.presentation.screen.lawyer.FetchDetailLawyerRepo
 import com.kantek.dancer.booking.presentation.screen.lawyer.GetLawyerDetailRepo
@@ -197,6 +200,7 @@ val presentationModule = module {
     viewModel { SignInVM(get(), get(), get(), get()) }
     viewModel { SignUpVM(get(), get()) }
     viewModel { ForgotPasswordVM(get(), get(), get()) }
+    viewModel { IntroduceVM(get()) }
     viewModel { HomeVM(get(), get()) }
     viewModel { MyCasesVM(get(), get(), get()) }
     viewModel { QuickRequestVM(get(), get(), get()) }
@@ -234,6 +238,7 @@ val dataModule = module {
     factory { SignInRepo(get(), get(), get()) }
     factory { SignUpRepo(get(), get(), get()) }
     factory { ForgotPasswordRepo(get()) }
+    factory { FetchIntroduceRepo(get()) }
     factory { FetchAllBannerRepo(get(), get()) }
     factory { FetchFAQsPagingRepo(get(), get()) }
     factory { BookingCreateRepo(get(), get(), get()) }
@@ -275,6 +280,7 @@ val domainModule = module {
     single { TextFormatter() }
     single { NotificationFactory(get()) }
     single { LanguageFactory() }
+    single { IntroduceFactory() }
     single { UserFactory(get()) }
     single { PhotoFactory(get()) }
     single { ConfigFactory(get()) }

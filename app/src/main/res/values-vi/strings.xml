@@ -161,6 +161,13 @@
     <string name="error_valid_phone">Vui lòng nhập đúng số điện thoại!</string>
     <string name="contact_us_content">Nội dung</string>
     <string name="all_next">Tiếp tục</string>
+    <string name="all_skip">Bỏ qua</string>
+    <string name="introduce_title_1">Đặt trải nghiệm của bạn</string>
+    <string name="introduce_description_1">Đặt bàn, dịch vụ chai và quyền truy cập độc quyền chỉ với vài thao tác.</string>
+    <string name="introduce_title_2">Tự động tìm câu lạc bộ gần bạn</string>
+    <string name="introduce_description_2">Khám phá những điểm đến nổi bật trong thành phố dựa trên vị trí của bạn.</string>
+    <string name="introduce_title_3">Xem các vũ công đang sẵn sàng</string>
+    <string name="introduce_description_3">Theo dõi trạng thái trực tiếp và chuyên môn của các vũ công hàng đầu.</string>
     <string name="forgot_pw_des">Vui lòng nhập email của bạn, chúng tôi sẽ gửi mã OTP ở bước tiếp theo để đặt lại mật khẩu.</string>
     <string name="otp_des_1">Chúng tôi đã gửi mã OTP đến email của quý khách</string>
     <string name="otp_des_2">Vui lòng nhập mã OTP bên dưới để xác minh</string>
