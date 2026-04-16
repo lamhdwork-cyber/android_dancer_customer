@@ -5,6 +5,7 @@ import com.kantek.dancer.booking.domain.model.ui.IChars
 enum class Scopes : IChars {
     App,
     Introduce,
+    AppRole,
     Account,
     Search,
     MyCase,

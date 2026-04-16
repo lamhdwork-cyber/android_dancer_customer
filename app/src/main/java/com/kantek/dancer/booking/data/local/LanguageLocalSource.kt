@@ -8,7 +8,7 @@ class LanguageLocalSource(context: Context) {
 
     private var caching: GsonCaching = GsonCaching(context)
 
-    private var appLanguage: String by caching.string("app:language", Locale.getDefault().language)
+    private var appLanguage: String by caching.string("app:language", "en")
     var isShowWelcome: Boolean by caching.boolean("app:language:welcome", true)
 
     fun get() = appLanguage
