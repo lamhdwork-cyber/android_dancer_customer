@@ -18,7 +18,7 @@ class FetchIntroduceRepo(
             ),
             IntroduceDTO(
                 backgroundRes = R.drawable.bg_introduce_2,
-                iconRes = R.drawable.ic_avatar_consultant,
+                iconRes = R.drawable.ic_intro_2,
                 titleRes = R.string.introduce_title_3,
                 descriptionRes = R.string.introduce_description_3
             ),
