@@ -1,0 +1,445 @@
+// TEMPLATE ONLY - DO NOT EXECUTE
+#Step1
+
+Analyze this project and:
+
+1. Explain architecture
+2. Explain data flow
+3. Explain how Repository works
+4. Explain how Factory mapping works
+5. Explain how UI uses ViewModel
+
+Then create a guideline for:
+- creating new screen
+- creating new feature
+
+IMPORTANT:
+Follow rules in:
+.rules/architecture.md
+.rules/compose.md
+.rules/naming.md
+.rules/network.md
+.rules/structure.md
+
+
+#Step2
+From now on:
+- You MUST follow this architecture
+- Do NOT introduce new patterns
+- Do NOT change existing structure
+
+#Step3
+
+@Composable
+fun ContactUsScreen(viewModel: ContactUsVM = koinViewModel()) = ScopeProvider(Scopes.Account) {
+    val context = LocalContext.current
+    val appNavigator = use<AppNavigator>(Scopes.App)
+
+    val appSetting = remember { AppSettings(context) }
+    var hasShowCallDialog by remember { mutableStateOf(false) }
+    val setting by viewModel.setting.collectAsState()
+    val formState by viewModel.formState.collectAsState()
+
+    PermissionProvider {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ActionBarBackAndTitleView(R.string.all_contact_us) { appNavigator.back() }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(20.dp),
+            ) {
+                if (setting != null) {
+                    SpaceVertical(5.dp)
+                    Text(
+                        text = stringResource(R.string.all_contact_info),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.contact_us_des),
+                        fontSize = 14.sp,
+                        color = Color.Gray,
+                    )
+                    SpaceVertical(14.dp)
+                    Row(
+                        modifier = Modifier
+                            .clickable {
+                            }
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_address),
+                            contentDescription = "address",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = setting!!.address,
+                            color = Color.Black,
+                            fontSize = 14.sp,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    HorizontalDivider(
+                        modifier = Modifier.fillMaxWidth(),
+                        thickness = 1.dp,
+                        color = Colors.Gray238
+                    )
+                    Row(
+                        modifier = Modifier
+                            .clickable {
+                                accessCallPhone { hasShowCallDialog = true }
+                            }
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_phone),
+                            contentDescription = "phone",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = setting!!.phoneDisplay,
+                            color = Colors.Primary,
+                            fontSize = 14.sp,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    HorizontalDivider(
+                        modifier = Modifier.fillMaxWidth(),
+                        thickness = 1.dp,
+                        color = Colors.Gray238
+                    )
+
+                    Row(
+                        modifier = Modifier
+                            .clickable { appSetting.sendEmail(setting!!.email) }
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_mail),
+                            contentDescription = "email",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = setting!!.email,
+                            color = Colors.Primary,
+                            fontSize = 14.sp,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+                SpaceVertical(20.dp)
+                Text(
+                    text = stringResource(R.string.all_message),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AppInputText(
+                        value = formState.firstName.safe(),
+                        placeHolderRes = R.string.all_first_name,
+                        modifier = Modifier.weight(1f),
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            keyboardType = KeyboardType.Text
+                        ),
+                        onValueChange = { viewModel.updateFirstName(it) }
+                    )
+                    AppInputText(
+                        value = formState.lastname.safe(),
+                        placeHolderRes = R.string.all_last_name,
+                        modifier = Modifier.weight(1f),
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            keyboardType = KeyboardType.Text
+                        ),
+                        onValueChange = { viewModel.updateLastName(it) }
+                    )
+                }
+                SpaceVertical(14.dp)
+                AppInputText(
+                    value = formState.email.safe(),
+                    placeHolderRes = R.string.all_email,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    onValueChange = { viewModel.updateEmail(it) }
+                )
+                SpaceVertical(14.dp)
+                AppInputPhoneNumber(
+                    value = formState.phone.safe(),
+                    placeHolderRes = R.string.all_phone_number,
+                    onValueChange = { viewModel.updatePhone(it) }
+                )
+                SpaceVertical(14.dp)
+                AppInputText(
+                    value = formState.content,
+                    singleLine = false,
+                    maxLines = 6,
+                    modifier = Modifier.height(150.dp),
+                    placeHolderRes = R.string.contact_us_content,
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Sentences,
+                        keyboardType = KeyboardType.Text
+                    ),
+                    onValueChange = { viewModel.updateContent(it) }
+                )
+                SpaceVertical(30.dp)
+                AppButton(nameRes = R.string.all_send) {
+                    viewModel.submit(context)
+                }
+
+            }
+
+            if (hasShowCallDialog) {
+                CallPhoneDialog(
+                    phoneNumber = setting!!.phoneDisplay,
+                    onConfirm = {
+                        hasShowCallDialog = false
+                        appSetting.call(setting!!.phone)
+                    }, onDismiss = {
+                        hasShowCallDialog = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+class ContactUsVM(
+    private val fetchSettingRepo: FetchSettingRepo,
+    private val contactUsRepo: ContactUsRepo,
+    private val appPopup: AppPopup
+) : AppViewModel() {
+    val setting = fetchSettingRepo.result
+    val formState = MutableStateFlow(ContactForm())
+
+    init {
+        fetchSetting()
+    }
+
+    private fun fetchSetting() = launch(loading, error) {
+        fetchSettingRepo()
+    }
+
+    fun updateFirstName(it: String) {
+        if (formState.value.firstName != it) {
+            formState.value = formState.value.copy(firstName = it)
+        }
+    }
+
+    fun updateLastName(it: String) {
+        if (formState.value.lastname != it) {
+            formState.value = formState.value.copy(lastname = it)
+        }
+    }
+
+    fun updateEmail(it: String) {
+        if (formState.value.email != it) {
+            formState.value = formState.value.copy(email = it)
+        }
+    }
+
+    fun updatePhone(it: String) {
+        if (formState.value.phone != it) {
+            formState.value = formState.value.copy(phone = it)
+        }
+    }
+
+    fun updateContent(it: String) {
+        if (formState.value.content != it) {
+            formState.value = formState.value.copy(content = it)
+        }
+    }
+
+    fun submit(context: Context) = launch(loading, error) {
+        formState.value.run {
+            valid()
+            contactUsRepo(this)
+            loading.stop()
+            appPopup.show(context.getString(R.string.msg_contact_us_success))
+        }
+    }
+
+}
+
+class FetchSettingRepo(
+    private val configApi: ConfigApi,
+    private val configFactory: ConfigFactory,
+) {
+    val result = MutableStateFlow<ISetting?>(null)
+
+    suspend operator fun invoke() {
+        result.emit(configFactory.createSetting(configApi.settings().await()))
+    }
+
+}
+
+class ConfigFactory(private val textFormatter: TextFormatter) {
+
+    fun createBanners(its: List<BannerDTO>): List<IBanner> {
+        return its.map(::createBanner)
+    }
+
+    private fun createBanner(it: BannerDTO): IBanner {
+        return object : IBanner {
+            override val id: Long
+                get() = it.id.safe()
+            override val title: String
+                get() = it.title.safe()
+            override val dataURL: String
+                get() = it.source_url.safe()
+            override val hasVideo: Boolean
+                get() = it.mime_type == "video/mp4"
+            override val linkURL: String
+                get() = it.link.safe()
+        }
+    }
+
+    fun createFAQsList(its: List<FAQsDTO>?): List<IFAQs> {
+        return its?.map(::createFAQs) ?: listOf()
+    }
+
+    private fun createFAQs(it: FAQsDTO): IFAQs {
+        return object : IFAQs {
+            override val id: Int
+                get() = it.id.safe()
+            override val question: String
+                get() = it.question.safe()
+            override val answer: String
+                get() = it.answer.safe()
+        }
+    }
+
+    fun createSetting(it: SettingDTO): ISetting {
+        return object : ISetting {
+            override val address: String
+                get() = it.setting.address?.value.safe()
+            override val phone: String
+                get() = it.setting.hotline?.value.safe()
+            override val phoneDisplay: String
+                get() = textFormatter.formatPhone(phone).safe()
+            override val email: String
+                get() = it.setting.supportEmail?.value.safe()
+        }
+    }
+}
+
+class TextFormatter {
+    fun cleanPhoneNumber(phoneNumber: String): String {
+        return phoneNumber.replace(" ", "")
+            .replace("-", "")
+            .replace("(", "")
+            .replace(")", "")
+            .replace(" ", "")
+    }
+
+    fun formatNotificationID(dataId: Int?): String {
+        return "#$dataId"
+    }
+
+    fun getColorWithStatus(status: Int): Color {
+        return when (status) {
+            AppConfig.Booking.Status.NEW -> Colors.Orange251
+            AppConfig.Booking.Status.PENDING -> Colors.Blue75
+            AppConfig.Booking.Status.COMPLETE -> Colors.Blue148
+            else -> Colors.Red247
+        }
+    }
+
+    fun getLanguage(languages: List<LanguageDTO>?): String {
+        return if (languages.isNullOrEmpty()) ""
+        else languages[0].name
+    }
+
+    fun formatPhone(phoneNumber: String?): String? {
+        val cleaned = phoneNumber?.replace("[^\\d]".toRegex(), "")
+        return if (cleaned?.length == 10) {
+            "(${cleaned.substring(0, 3)}) ${cleaned.substring(3, 6)}-${cleaned.substring(6, 10)}"
+        } else phoneNumber
+    }
+
+    fun decodeEmoji(message: String?): String? {
+        return try {
+            URLDecoder.decode(message?.replace("+", "<plus>"), "UTF-8").replace("<plus>", "+")
+        } catch (e: Exception) {
+            message
+        }
+    }
+
+    fun encodeEmoji(message: String): String {
+        return try {
+            UrlEscapers.urlFragmentEscaper().escape(message)
+        } catch (e: Exception) {
+            message
+        }
+    }
+
+}
+
+interface ConfigApi {
+
+    @GET("general/ads?type=0")
+    fun banners(): ApiAsync<List<BannerDTO>>
+
+    @GET("general/faq")
+    fun faqs(
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int = AppConfig.PER_PAGE
+    ): ApiAsync<ApiResponsePaging<FAQsDTO>>
+
+    @GET("general/setting")
+    fun settings(): ApiAsync<SettingDTO>
+
+    @GET("general/term-policy?type=about-us")
+    fun aboutUs(): ApiAsync<LinkDTO>
+
+    @GET("general/term-policy?type=term")
+    fun terms(): ApiAsync<LinkDTO>
+
+}
+
+This is the reference implementation.
+
+When generating new code:
+- Follow EXACT structure
+- Follow naming
+- Follow flow
+
+#Step4
+
+Task:
+Create app introduce from this PNG
+
+Steps:
+1. Analyze UI
+2. Map to ViewModel + State
+3. Generate skeleton
+4. Generate Compose UI
+5. Implement logic
+
+Follow rules:
+.rules/architecture.md
+.rules/compose.md
+.rules/naming.md
+.rules/network.md
+.rules/structure.md

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Role Selection - Nightlife</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f425f4",
+                        "accent-gold": "#FFD700",
+                        "background-light": "#f8f5f8",
+                        "background-dark": "#120812",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-slate-100 antialiased overflow-hidden h-screen">
+<div class="relative flex flex-col h-full w-full bg-background-dark overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-40 bg-cover bg-center scale-110 blur-sm" data-alt="Blurred background of a luxury neon lit nightclub interior" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHw7c-Fc84YFQumrYdt5pTqi3zy9S1ycoPAoO7yE-xyx8RHvMYeGfXLdIk55KsQ0x_kAdJRiKRkXtNe5SsnclNVrWtuFcUvRLr9AbaKe9KNyveq7-fpddN5LgzBs6VNMbXvsxgYfhGMxqX_qK35cM77CBD88x_7GT5TdFq_ybypmhKJIcVXrsVMPka_SETwBaJX__vhpbf1XClfP-rapMBjazsw8ZhUtV4cnycvivNBc7lOos-PW5R8x4mkf6QFE45H64LxQNuiwQ');">
+<div class="absolute inset-0 bg-gradient-to-b from-background-dark/80 via-background-dark/60 to-background-dark"></div>
+</div>
+<header class="relative z-10 flex items-center justify-between px-6 pt-12 pb-6">
+<button class="flex items-center justify-center size-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10">
+<span class="material-symbols-outlined text-white text-[20px]">close</span>
+</button>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] font-bold tracking-[0.2em] text-white/50 uppercase">Elevate Your Night</span>
+</div>
+<div class="size-10"></div>
+</header>
+<main class="relative z-10 flex flex-col h-full px-6 pb-12">
+<div class="text-center mb-10">
+<h1 class="text-4xl font-bold tracking-tight text-white mb-3">Welcome</h1>
+<p class="text-slate-400 text-base max-w-[280px] mx-auto">Choose your perspective to enter the world of premium nightlife.</p>
+</div>
+<div class="flex flex-col gap-6 h-full mb-8">
+<div class="group relative flex-1 flex flex-col justify-end p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl overflow-hidden shadow-2xl transition-all duration-300 active:scale-[0.98]">
+<div class="absolute -top-12 -right-12 size-48 bg-primary/20 blur-[60px] rounded-full group-hover:bg-primary/30 transition-colors"></div>
+<div class="relative z-10 mb-auto">
+<div class="inline-flex items-center justify-center size-14 rounded-xl bg-primary/20 border border-primary/30 text-primary shadow-[0_0_20px_rgba(244,37,244,0.3)]">
+<span class="material-symbols-outlined text-3xl">person</span>
+</div>
+</div>
+<div class="relative z-10">
+<span class="text-primary text-[10px] font-bold tracking-[0.2em] uppercase mb-1 block">For Party Goers</span>
+<h2 class="text-2xl font-bold text-white mb-2 tracking-tight">I AM A GUEST</h2>
+<p class="text-slate-400 text-sm mb-6 leading-relaxed">Book VIP tables, join exclusive guestlists, and discover the city's finest venues.</p>
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-white font-semibold h-12 rounded-xl shadow-[0_4px_20px_rgba(244,37,244,0.4)] transition-transform">
+                            Continue
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="group relative flex-1 flex flex-col justify-end p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl overflow-hidden shadow-2xl transition-all duration-300 active:scale-[0.98]">
+<div class="absolute -top-12 -right-12 size-48 bg-accent-gold/10 blur-[60px] rounded-full group-hover:bg-accent-gold/20 transition-colors"></div>
+<div class="relative z-10 mb-auto">
+<div class="inline-flex items-center justify-center size-14 rounded-xl bg-accent-gold/20 border border-accent-gold/30 text-accent-gold shadow-[0_0_20px_rgba(255,215,0,0.2)]">
+<span class="material-symbols-outlined text-3xl">badge</span>
+</div>
+</div>
+<div class="relative z-10">
+<span class="text-accent-gold text-[10px] font-bold tracking-[0.2em] uppercase mb-1 block">For Professionals</span>
+<h2 class="text-2xl font-bold text-white mb-2 tracking-tight">I AM A MANAGER</h2>
+<p class="text-slate-400 text-sm mb-6 leading-relaxed">Oversee operations, manage staff performance, and optimize table bookings in real-time.</p>
+<button class="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold h-12 rounded-xl border border-white/10 backdrop-blur-md transition-all">
+                            Access Portal
+                            <span class="material-symbols-outlined text-sm">lock</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-4 text-center">
+<p class="text-[11px] text-slate-500 uppercase tracking-widest font-medium">Terms of Service &amp; Privacy Policy</p>
+</div>
+</main>
+<div class="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/20 rounded-full"></div>
+</div>
+</body></html>
+
+Task:
+Create app role screen from html code above.
+
+Steps:
+1. Analyze UI
+2. Convert this HTML into Jetpack Compose (Material3).
+- Split into reusable components
+- Use proper spacing/dimens
+- No hardcoded values
+- Follow Android best practices
+3. Implement logic click guest and manager
+
+Follow rules:
+.rules/compose.md
+.rules/structure.md
+.rules/i18n.md

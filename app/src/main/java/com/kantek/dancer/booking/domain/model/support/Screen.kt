@@ -3,6 +3,7 @@ package com.kantek.dancer.booking.domain.model.support
 import com.kantek.dancer.booking.R
 
 enum class Screen {
+    Auth,
     SignIn,
     SignUp,
     ForgotPassword,

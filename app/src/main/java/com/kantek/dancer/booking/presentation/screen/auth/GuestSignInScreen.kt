@@ -48,7 +48,7 @@ import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SignInScreen(
+fun GuestSignInScreen(
     hasInApp: Boolean,
     viewModel: SignInVM = koinViewModel()
 ) = ScopeProvider {

@@ -1,11 +1,9 @@
 package com.kantek.dancer.booking.presentation.screen.approle
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,8 +14,9 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,14 +37,16 @@ import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
+import com.kantek.dancer.booking.presentation.extensions.use
+import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppNextButton
 
 @Composable
-fun AppRoleScreen(
-    onGuestClick: () -> Unit = {},
-    onManagerClick: () -> Unit = {}
-) = ScopeProvider(Scopes.AppRole) {
+fun AuthScreen() = ScopeProvider(Scopes.AppRole) {
+    val appNavigator = use<AppNavigator>(Scopes.App)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +75,7 @@ fun AppRoleScreen(
         ) {
             Text(
                 text = stringResource(R.string.role_title_welcome),
-                color = Color.White,
+                color = Colors.White,
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth(),
@@ -102,7 +103,7 @@ fun AppRoleScreen(
                     descriptionRes = R.string.role_guest_description,
                     buttonRes = R.string.role_guest_action,
                     isGuest = true,
-                    onClick = onGuestClick
+                    onClick = { appNavigator.navigateSignIn() }
                 )
                 AppRoleCard(
                     iconRes = R.drawable.ic_profile,
@@ -112,7 +113,7 @@ fun AppRoleScreen(
                     descriptionRes = R.string.role_manager_description,
                     buttonRes = R.string.role_manager_action,
                     isGuest = false,
-                    onClick = onManagerClick
+                    onClick = {}
                 )
             }
 
@@ -175,7 +176,7 @@ private fun AppRoleCard(
         )
         Text(
             text = stringResource(titleRes),
-            color = Color.White,
+            color = Colors.White,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(top = 4.dp)
@@ -200,7 +201,7 @@ private fun AppRoleCard(
         } else {
             AppButton(
                 nameRes = buttonRes,
-                backgroundColor = Color.White.copy(alpha = 0.1f),
+                backgroundColor = Colors.White.copy(alpha = 0.1f),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(AppRoleStyle.ActionButtonHeight),
@@ -212,18 +213,22 @@ private fun AppRoleCard(
 
 private object AppRoleStyle {
     val BackgroundImageRes = R.drawable.bg_app_role
-    val BackgroundGradient = listOf(Color(0xFF120812), Color(0xFF190C19), Color(0xFF0D070D))
-    val BackgroundOverlayGradient = listOf(
-        Color(0xCC120812),
-        Color(0x99120812),
-        Color(0xFF120812)
+    val BackgroundGradient = listOf(
+        Colors.Dark120812,
+        Colors.Dark190C19,
+        Colors.Dark0D070D
     )
-    val PrimaryAccent = Color(0xFFF425F4)
-    val GoldAccent = Color(0xFFFFD700)
-    val CardBackground = Color.White.copy(alpha = 0.06f)
-    val CardBorder = Color.White.copy(alpha = 0.12f)
-    val SubTextColor = Color(0xFF9CA3AF)
-    val FooterColor = Color(0xFF6B7280)
+    val BackgroundOverlayGradient = listOf(
+        Colors.OverlayCC120812,
+        Colors.Overlay99120812,
+        Colors.Dark120812
+    )
+    val PrimaryAccent = Colors.Primary
+    val GoldAccent = Colors.GoldFFD700
+    val CardBackground = Colors.White.copy(alpha = 0.06f)
+    val CardBorder = Colors.White.copy(alpha = 0.12f)
+    val SubTextColor = Colors.Gray9CA3AF
+    val FooterColor = Colors.Gray6B7280
     val ScreenHorizontalPadding = 24.dp
     val CardSpacing = 14.dp
     val CardMinHeight = 250.dp

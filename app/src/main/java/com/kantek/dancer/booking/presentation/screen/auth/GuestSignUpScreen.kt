@@ -81,7 +81,7 @@ import org.koin.androidx.compose.koinViewModel
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
+fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
     val context = LocalContext.current
     val appNavigator = use<AppNavigator>(Scopes.App)
     val formState by viewModel.formState.collectAsState()

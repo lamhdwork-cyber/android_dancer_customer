@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -43,6 +42,7 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.introduce.IIntroduce
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
+import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppNextButton
 import kotlinx.coroutines.launch
@@ -81,7 +81,7 @@ fun IntroduceScreen(
         if (!viewModel.isLastPage()) {
             Text(
                 text = stringResource(R.string.all_skip),
-                color = Color.White.copy(alpha = 0.7f),
+                color = Colors.White.copy(alpha = 0.7f),
                 fontSize = 14.sp,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -109,8 +109,8 @@ fun IntroduceScreen(
                             .size(if (index == currentPage) 34.dp else 8.dp)
                             .clip(CircleShape)
                             .background(
-                                if (index == currentPage) Color(0xFFFF00F5)
-                                else Color(0xFFFF00F5).copy(alpha = 0.35f)
+                                if (index == currentPage) Colors.PinkFF00F5
+                                else Colors.PinkFF00F5.copy(alpha = 0.35f)
                             )
                     )
                 }
@@ -119,7 +119,6 @@ fun IntroduceScreen(
             if (viewModel.isLastPage()) {
                 AppButton(
                     nameRes = R.string.all_get_started,
-                    backgroundColor = Color(0xFFFF00F5),
                     modifier = Modifier
                         .padding(top = 26.dp)
                         .height(56.dp)
@@ -129,7 +128,6 @@ fun IntroduceScreen(
             } else {
                 AppNextButton(
                     nameRes = R.string.all_next,
-                    backgroundColor = Color(0xFFFF00F5),
                     modifier = Modifier
                         .padding(top = 26.dp)
                         .height(56.dp)
@@ -152,9 +150,21 @@ private fun IntroducePageItem(
     page: Int
 ) {
     val gradientColors = when (page) {
-        0 -> listOf(Color(0xFF210514), Color(0xFF3C0B2A), Color(0xFF1D0512))
-        1 -> listOf(Color(0xFF24031B), Color(0xFF3A0F2D), Color(0xFF11020E))
-        else -> listOf(Color(0xFF111111), Color(0xFF2A1323), Color(0xFF0C0B0E))
+        0 -> listOf(
+            Colors.Dark210514,
+            Colors.Dark3C0B2A,
+            Colors.Dark1D0512
+        )
+        1 -> listOf(
+            Colors.Dark24031B,
+            Colors.Dark3A0F2D,
+            Colors.Dark11020E
+        )
+        else -> listOf(
+            Colors.Dark111111,
+            Colors.Dark2A1323,
+            Colors.Dark0C0B0E
+        )
     }
     Box(
         modifier = Modifier
@@ -180,19 +190,19 @@ private fun IntroducePageItem(
                 modifier = Modifier
                     .size(68.dp)
                     .clip(CircleShape)
-                    .background(Color(0x66FF00F5)),
+                    .background(Colors.PinkFF00F5.copy(alpha = 0.4f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(item.iconRes),
                     contentDescription = null,
-                    tint = Color(0xFFFF00F5),
+                    tint = Colors.PinkFF00F5,
                     modifier = Modifier.size(30.dp)
                 )
             }
             Text(
                 text = stringResource(item.titleRes),
-                color = Color.White,
+                color = Colors.White,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
@@ -201,7 +211,7 @@ private fun IntroducePageItem(
             )
             Text(
                 text = stringResource(item.descriptionRes),
-                color = Color.White.copy(alpha = 0.85f),
+                color = Colors.White.copy(alpha = 0.85f),
                 fontSize = 14.sp,
                 lineHeight = 16.sp,
                 textAlign = TextAlign.Center,
