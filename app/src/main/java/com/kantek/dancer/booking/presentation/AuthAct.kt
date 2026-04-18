@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.kantek.dancer.booking.app.AppComponentAct
+import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.support.Screen
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
@@ -17,6 +18,11 @@ import com.kantek.dancer.booking.presentation.screen.auth.GuestSignUpScreen
 import com.kantek.dancer.booking.presentation.screen.auth.forgot.ForgotPasswordScreen
 
 class AuthAct : AppComponentAct() {
+    @Composable
+    override fun ConfigureSystemBars() {
+        ApplyDarkEdgeToEdgeStatusBars()
+    }
+
     @Composable
     override fun ProvideContent() {
         ScopeProvider(Scopes.App) {

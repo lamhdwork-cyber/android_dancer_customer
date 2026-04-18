@@ -7,8 +7,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.kantek.dancer.booking.app.AppComponentAct
 import com.kantek.dancer.booking.presentation.screen.introduce.IntroduceScreen
+import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 
 class AppIntroduceAct : AppComponentAct() {
+    @Composable
+    override fun ConfigureSystemBars() {
+        ApplyDarkEdgeToEdgeStatusBars()
+    }
+
     @Composable
     override fun ProvideContent() {
         val hasCompleteIntroduce = remember { mutableStateOf(false) }

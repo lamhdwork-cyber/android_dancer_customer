@@ -42,6 +42,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -58,6 +59,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -102,7 +104,6 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -121,6 +122,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -239,41 +241,47 @@ fun ActionBarBackAndTitleView(
     text: String = stringResource(R.string.app_name),
     onCommand: (Command) -> Unit = {}
 ) {
-    Surface(
-        color = Color.White, shadowElevation = 8.dp
+    Box(
+        modifier = Modifier
+            .height(56.dp)
+            .fillMaxWidth()
+            .background(Color.Transparent)
     ) {
         Box(
             modifier = Modifier
-                .height(56.dp)
-                .fillMaxWidth()
-                .background(Color.White)
+                .align(Alignment.CenterStart)
+                .padding(start = 4.dp, top = 4.dp, bottom = 4.dp)
+                .size(48.dp)
+                .clip(CircleShape)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(
+                        bounded = true,
+                        color = Colors.Pink66F425F4
+                    )
+                ) { onCommand(Command.ActionBarBack) },
+            contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(R.drawable.baseline_arrow_back_24),
-                colorFilter = ColorFilter.tint(Color.Black),
+                colorFilter = ColorFilter.tint(Color.White),
                 contentDescription = "",
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .clickable(
-                        indication = rememberRipple(bounded = true, radius = 24.dp),
-                        interactionSource = remember { MutableInteractionSource() }
-                    ) { onCommand(Command.ActionBarBack) }
-                    .padding(16.dp)
-            )
-
-            Text(
-                text = text,
-                color = Color.Black,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(start = 56.dp, end = 56.dp)
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally)
+                modifier = Modifier.size(24.dp)
             )
         }
+
+        Text(
+            text = text,
+            color = Color.White,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(start = 56.dp, end = 56.dp)
+                .fillMaxWidth()
+                .wrapContentWidth(Alignment.CenterHorizontally)
+        )
     }
 }
 
@@ -359,6 +367,8 @@ fun AppInputText(
     value: String = "",
     @StringRes placeHolderRes: Int = R.string.app_name,
     @DrawableRes leadingIconRes: Int? = null,
+    /** When set, shown instead of [leadingIconRes] (Material / Compose icons, e.g. [Icons.Outlined.Email]). */
+    leadingIcon: ImageVector? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
     maxLength: Int = Int.MAX_VALUE,
     isPassword: Boolean = false,
@@ -366,6 +376,8 @@ fun AppInputText(
     singleLine: Boolean = true,
     readOnly: Boolean = false,
     maxLines: Int = 1,
+    /** When true, field uses light fill/border/text for white surfaces. When false, matches guest sign-in (dark translucent field). */
+    lightBackground: Boolean = false,
     onValueChange: (String) -> Unit = {}
 ) {
     val placeHolder = stringResource(id = placeHolderRes)
@@ -386,57 +398,108 @@ fun AppInputText(
         }
     }
 
-    OutlinedTextField(
-        singleLine = singleLine,
-        value = textFieldValue,
-        maxLines = maxLines,
-        readOnly = readOnly,
-        onValueChange = { newValue ->
-            val filteredText = newValue.text.take(maxLength)
-            textFieldValue = newValue.copy(
-                text = filteredText,
-                selection = if (newValue.text != filteredText) {
-                    TextRange(filteredText.length)
-                } else {
-                    newValue.selection
-                }
-            )
-            onValueChange(filteredText)
-        },
-        label = { Text(placeHolder, fontSize = 14.sp) },
-        modifier = modifier.fillMaxWidth(),
-        textStyle = TextStyle(fontSize = if (isFocused) 16.sp else 14.sp),
-        interactionSource = interactionSource,
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.Transparent,
-            unfocusedContainerColor = Color.Transparent,
-            focusedIndicatorColor = Colors.Primary,
-            unfocusedIndicatorColor = Colors.Gray238,
-            cursorColor = Colors.Primary
-        ),
-        shape = RoundedCornerShape(12.dp),
-        leadingIcon = leadingIconRes?.let {
-            {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = leadingIconRes),
-                    contentDescription = null,
-                    tint = Color.Black
+    val iconTint = if (isFocused) Colors.Primary else Colors.Gray6B7280
+    val borderColor = when {
+        isFocused -> Colors.Primary
+        lightBackground -> Colors.Gray238
+        else -> Colors.Dark1E293B
+    }
+    val borderWidth = if (isFocused) 2.dp else 1.dp
+    val fieldBackground = if (lightBackground) Colors.Gray249 else Colors.Dark660F172A
+    val labelColor = if (lightBackground) Colors.Gray146 else Colors.GrayCBD5E1
+    val textColor = if (lightBackground) Color.Black else Colors.GrayF1F5F9
+    val effectiveMaxLines = if (singleLine) 1 else maxLines.coerceAtLeast(1)
+    val resolvedLeadingIcon: ImageVector? =
+        leadingIcon ?: leadingIconRes?.let { ImageVector.vectorResource(id = it) }
+
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = placeHolder,
+            modifier = Modifier.padding(start = 4.dp, bottom = 8.dp),
+            color = labelColor,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium
+        )
+        BasicTextField(
+            value = textFieldValue,
+            onValueChange = { newValue ->
+                val filteredText = newValue.text.take(maxLength)
+                textFieldValue = newValue.copy(
+                    text = filteredText,
+                    selection = if (newValue.text != filteredText) {
+                        TextRange(filteredText.length)
+                    } else {
+                        newValue.selection
+                    }
                 )
-            }
-        },
-        trailingIcon = if (isPassword) {
-            {
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(
-                        imageVector = if (passwordVisible) Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff,
-                        contentDescription = null,
-                        tint = Color.Gray
-                    )
+                onValueChange(filteredText)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = if (singleLine) 56.dp else 48.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .border(borderWidth, borderColor, RoundedCornerShape(16.dp))
+                .background(fieldBackground, RoundedCornerShape(16.dp))
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+            readOnly = readOnly,
+            textStyle = TextStyle(color = textColor, fontSize = 16.sp),
+            keyboardOptions = if (isPassword) {
+                KeyboardOptions(keyboardType = KeyboardType.Number)
+            } else {
+                keyboardOptions
+            },
+            singleLine = singleLine,
+            maxLines = effectiveMaxLines,
+            minLines = 1,
+            visualTransformation = if (isPassword && !passwordVisible) {
+                PasswordVisualTransformation()
+            } else {
+                VisualTransformation.None
+            },
+            interactionSource = interactionSource,
+            cursorBrush = SolidColor(Colors.Primary),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (resolvedLeadingIcon != null) {
+                        Icon(
+                            imageVector = resolvedLeadingIcon,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 4.dp)
+                                .size(24.dp),
+                            tint = iconTint
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 4.dp)
+                    ) {
+                        innerTextField()
+                    }
+                    if (isPassword) {
+                        IconButton(
+                            onClick = { passwordVisible = !passwordVisible },
+                            modifier = Modifier.size(48.dp)
+                        ) {
+                            Icon(
+                                imageVector = if (passwordVisible) {
+                                    Icons.Outlined.Visibility
+                                } else {
+                                    Icons.Outlined.VisibilityOff
+                                },
+                                contentDescription = null,
+                                tint = Colors.Gray6B7280
+                            )
+                        }
+                    }
                 }
             }
-        } else null,
-        visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
-        keyboardOptions = if (isPassword) KeyboardOptions(keyboardType = KeyboardType.Number) else keyboardOptions)
+        )
+    }
 }
 
 @Composable
@@ -949,13 +1012,40 @@ fun SetSystemBarsColor(
     navigationBarDarkIcons: Boolean = false
 ) {
     val systemUiController = rememberSystemUiController()
-    SideEffect {
+    LaunchedEffect(
+        statusBarColor,
+        navigationBarColor,
+        statusBarDarkIcons,
+        navigationBarDarkIcons
+    ) {
         systemUiController.setStatusBarColor(statusBarColor, darkIcons = statusBarDarkIcons)
         systemUiController.setNavigationBarColor(
             navigationBarColor,
             darkIcons = navigationBarDarkIcons
         )
     }
+}
+
+/** Auth flows with light backgrounds (sign up, forgot password): restore light status bar after dark screens. */
+@Composable
+fun ApplyLightStatusBarsForAuthScreens() {
+    SetSystemBarsColor(
+        statusBarColor = Color.White,
+        navigationBarColor = Color.Black,
+        statusBarDarkIcons = true,
+        navigationBarDarkIcons = false
+    )
+}
+
+/** Dark auth UI (e.g. guest sign-in): transparent status bar + light status icons for edge-to-edge. */
+@Composable
+fun ApplyDarkEdgeToEdgeStatusBars() {
+    SetSystemBarsColor(
+        statusBarColor = Color.Transparent,
+        navigationBarColor = Color.Black,
+        statusBarDarkIcons = false,
+        navigationBarDarkIcons = false
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -2003,6 +2093,7 @@ fun CancellationReasonDialog(
             Column {
                 AppInputText(
                     value = reason,
+                    lightBackground = true,
                     singleLine = false,
                     maxLines = 6,
                     modifier = Modifier.height(150.dp),
@@ -3023,6 +3114,7 @@ fun SubmitQuestionDialog(
 
                 AppInputText(
                     value = question,
+                    lightBackground = true,
                     singleLine = false,
                     maxLines = 6,
                     modifier = Modifier.height(150.dp),
@@ -3075,6 +3167,7 @@ fun SubmitAnswerDialog(
         text = {
             AppInputText(
                 value = question,
+                lightBackground = true,
                 singleLine = false,
                 maxLines = 6,
                 modifier = Modifier.height(150.dp),

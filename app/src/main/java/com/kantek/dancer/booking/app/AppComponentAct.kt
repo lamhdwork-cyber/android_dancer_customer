@@ -127,7 +127,7 @@ abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErro
 
         ObserveWindowStatus()
 
-        SetSystemBarsColor()
+        ConfigureSystemBars()
         KoinContext {
             AppTheme {
                 Surface(
@@ -157,6 +157,11 @@ abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErro
 
     @Composable
     abstract fun ProvideContent()
+
+    @Composable
+    protected open fun ConfigureSystemBars() {
+        SetSystemBarsColor()
+    }
 
     object WindowStatusProvider {
         val instance: StateFlowStatusOwner by lazy { StateFlowStatusOwner() }

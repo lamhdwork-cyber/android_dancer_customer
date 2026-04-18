@@ -132,3 +132,15 @@ enum class Scopes : IChars {
 - Handle only UI state (e.g. pagerState, remember)
 
 - Use simple event callbacks instead of ViewModel
+
+## Color
+- Use colors only from presentation/theme/Color.kt.
+- If a color is missing, add it to Color.kt with proper semantic naming format.
+- Never use hardcoded colors in Composables (e.g., Color(0xFF...), Color.Red, etc.)
+- Color names must follow the format: <ColorName><HexValue>
+- `ColorName` is a plain color family already used in `Color.kt` (Gray, Blue, Pink, Dark, Red, …), not marketing or Tailwind token names (avoid Slate, PrimaryHex, OverlayHex for tint keys—use Pink… / Gray… / Dark… as appropriate).
+- Hex suffix must match the literal `Color(0x…)` value (opaque: 6 RGB digits after `0xFF`; translucent: include alpha in the suffix so the name maps one-to-one to the stored ARGB).
+- Common colors (e.g., White, Black) must not include hex in the name
+example:  val Blue757682: Color = Color(0xFF757682)
+example:  val GrayF1F5F9: Color = Color(0xFFF1F5F9)
+example:  val Pink26F425F4: Color = Color(0x26F425F4)

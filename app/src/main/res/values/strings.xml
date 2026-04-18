@@ -14,6 +14,11 @@
     <string name="nav_account">Account</string>
     <string name="nav_notification">Notification</string>
     <string name="all_phone_or_email">Phone or Email</string>
+    <string name="auth_guest_screen_title">Guest Login</string>
+    <string name="auth_guest_brand_title" translatable="false">VELVET</string>
+    <string name="auth_guest_brand_subtitle">Premium Nightlife Access</string>
+    <string name="auth_guest_label_email">Email address</string>
+    <string name="auth_guest_footer_no_account">Don\'t have an account?</string>
     <string name="auth_forgot_pw">Forgot password?</string>
     <string name="auth_with">Or login with</string>
     <string name="auth_first_time_here">First time here?</string>

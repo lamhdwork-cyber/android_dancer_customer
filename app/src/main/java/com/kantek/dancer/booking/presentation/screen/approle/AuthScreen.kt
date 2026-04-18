@@ -40,11 +40,14 @@ import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
+import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppNextButton
 
 @Composable
 fun AuthScreen() = ScopeProvider(Scopes.AppRole) {
+    ApplyDarkEdgeToEdgeStatusBars()
+
     val appNavigator = use<AppNavigator>(Scopes.App)
 
     Box(

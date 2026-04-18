@@ -14,6 +14,10 @@
     <string name="nav_account">Tài Khoản</string>
     <string name="nav_notification">Thông Báo</string>
     <string name="all_phone_or_email">Số điện thoại hoặc Email</string>
+    <string name="auth_guest_screen_title">Đăng nhập khách</string>
+    <string name="auth_guest_brand_subtitle">Trải nghiệm nightlife cao cấp</string>
+    <string name="auth_guest_label_email">Địa chỉ email</string>
+    <string name="auth_guest_footer_no_account">Chưa có tài khoản?</string>
     <string name="auth_forgot_pw">Quên mật khẩu?</string>
     <string name="auth_with">Hoặc đăng nhập bằng</string>
     <string name="auth_first_time_here">Bạn là người dùng mới ?</string>

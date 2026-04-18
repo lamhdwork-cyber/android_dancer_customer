@@ -28,7 +28,7 @@ class SplashScreenAct : AppComponentAct() {
         lifecycleScope.launch {
             if (languageLocalSource.isShowWelcome) {
                 hasKeep = false
-                delay(1000)
+                delay(500)
                 openAppIntroduce()
             } else {
                 hasKeep = false

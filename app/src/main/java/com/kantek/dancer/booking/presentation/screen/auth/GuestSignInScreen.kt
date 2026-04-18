@@ -3,6 +3,7 @@ package com.kantek.dancer.booking.presentation.screen.auth
 import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,10 +12,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Nightlife
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,10 +35,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,9 +54,10 @@ import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.helper.login.GoogleSignInButton
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.SignInVM
+import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
+import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
@@ -52,6 +70,8 @@ fun GuestSignInScreen(
     hasInApp: Boolean,
     viewModel: SignInVM = koinViewModel()
 ) = ScopeProvider {
+    ApplyDarkEdgeToEdgeStatusBars()
+
     val context = LocalContext.current
     val formState by viewModel.formState.collectAsState()
     val openMain by viewModel.loginSuccess.collectAsState()
@@ -77,118 +97,220 @@ fun GuestSignInScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Colors.Dark120812)
     ) {
+        GuestSignInMeshBackground(Modifier.matchParentSize())
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .statusBarsPadding()
+                .navigationBarsPadding()
         ) {
-//            Image(
-//                painter = painterResource(id = R.drawable.img_logo_app_2),
-//                contentDescription = "Logo",
-//                modifier = Modifier.size(100.dp),
-//                contentScale = ContentScale.Fit
-//            )
-            Column(Modifier.weight(1f)) { }
-            SpaceVertical(30.dp)
-            Text(
-                text = "DANCER",
-                fontSize = 35.sp,
-                fontWeight = FontWeight.Bold,
-                color = Colors.Primary,
-                textAlign = TextAlign.Center
-            )
-            Column(Modifier.weight(1f)) { }
-            SpaceVertical(30.dp)
-            Column {
-                AppInputText(
-                    value = formState.account,
-                    placeHolderRes = R.string.all_phone_or_email,
-                    leadingIconRes = R.drawable.ic_user,
-                    onValueChange = { viewModel.updateAccount(it) }
-                )
-                SpaceVertical(16.dp)
-                AppInputText(
-                    value = formState.password,
-                    placeHolderRes = R.string.all_password,
-                    leadingIconRes = R.drawable.ic_password,
-                    isPassword = true,
-                    maxLength = 6,
-                    onValueChange = { viewModel.updatePassword(it) }
-                )
-                SpaceVertical(30.dp)
-                AppButton(R.string.all_sign_in) {
-                    viewModel.signIn()
-                }
-                SpaceVertical(30.dp)
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.auth_forgot_pw),
-                        color = Colors.Primary,
-                        modifier = Modifier.clickable {
-//                            hasShowComingSoon.value = true
-                            appNavigator.navigateForgotPassword()
-                        }
-                    )
-                }
-            }
-            Column(Modifier.weight(1f)) { }
-            SpaceVertical(50.dp)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                HorizontalDivider(modifier = Modifier.weight(1f), color = Colors.Gray238)
-                SpaceHorizontal(10.dp)
-                Text(
-                    text = stringResource(R.string.auth_with),
-                    fontSize = 14.sp,
-                    color = Colors.Gray146
-                )
-                SpaceHorizontal(10.dp)
-                HorizontalDivider(modifier = Modifier.weight(1f), color = Colors.Gray238)
-            }
-            SpaceVertical(16.dp)
+            ActionBarBackAndTitleView(R.string.auth_guest_screen_title) { appNavigator.back() }
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterHorizontally),
-                modifier = Modifier.fillMaxWidth()
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-//                SocialLoginButton(R.drawable.ic_apple) { hasShowComingSoon.value = true }
-                GoogleSignInButton { viewModel.loginGoogle(it) }
-            }
-            SpaceVertical(50.dp)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.auth_first_time_here),
-                    fontSize = 14.sp,
-                    color = Color.Black
+                SpaceVertical(24.dp)
+
+                GuestSignInBrandHeader()
+
+                SpaceVertical(28.dp)
+
+                GuestSignInFormSection(
+                    account = formState.account,
+                    password = formState.password,
+                    onAccountChange = { viewModel.updateAccount(it) },
+                    onPasswordChange = { viewModel.updatePassword(it) },
+                    onSignInClick = { viewModel.signIn() },
+                    onForgotPasswordClick = { appNavigator.navigateForgotPassword() }
                 )
-                SpaceHorizontal(30.dp)
-                AppButton(
-                    nameRes = R.string.all_sign_up,
-                    backgroundColor = Colors.Blue241,
-                    textColor = Colors.Primary,
-                    modifier = Modifier.height(55.dp)
-                ) {
-                    appNavigator.navigateSignUp()
-                }
             }
-            if (hasShowComingSoon.value) {
-                AppNotificationDialog(stringResource(R.string.all_coming_soon)) {
-                    hasShowComingSoon.value = false
-                }
+
+            GuestSignInSignUpFooter(
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp),
+                onSignUpClick = { appNavigator.navigateSignUp() }
+            )
+        }
+
+        if (hasShowComingSoon.value) {
+            AppNotificationDialog(stringResource(R.string.all_coming_soon)) {
+                hasShowComingSoon.value = false
             }
         }
+    }
+}
+
+@Composable
+private fun GuestSignInMeshBackground(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.drawBehind {
+            drawRect(Colors.Dark120812)
+            val r = size.maxDimension * 0.55f
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(Colors.Pink26F425F4, Color.Transparent),
+                    center = Offset.Zero,
+                    radius = r * 1.2f
+                ),
+                radius = r,
+                center = Offset.Zero
+            )
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(Colors.Pink1AF425F4, Color.Transparent),
+                    center = Offset(size.width, size.height),
+                    radius = r
+                ),
+                radius = r * 0.9f,
+                center = Offset(size.width, size.height)
+            )
+        }
+    )
+}
+
+@Composable
+private fun GuestSignInBrandHeader() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier
+                .size(96.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(Colors.Pink33F425F4)
+                .border(1.dp, Colors.Pink4DF425F4, RoundedCornerShape(16.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Nightlife,
+                contentDescription = null,
+                modifier = Modifier.size(48.dp),
+                tint = Colors.Primary
+            )
+        }
+        SpaceVertical(24.dp)
+        Text(
+            text = stringResource(R.string.auth_guest_brand_title),
+            color = Colors.GrayF1F5F9,
+            fontSize = 36.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            letterSpacing = (-0.5).sp
+        )
+        SpaceVertical(8.dp)
+        Text(
+            text = stringResource(R.string.auth_guest_brand_subtitle),
+            color = Colors.Blue148,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            letterSpacing = 3.sp,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+private fun GuestSignInFormSection(
+    account: String,
+    password: String,
+    onAccountChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSignInClick: () -> Unit,
+    onForgotPasswordClick: () -> Unit
+) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 24.dp)
+                .size(width = 320.dp, height = 220.dp)
+                .background(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Colors.Pink0DF425F4, Color.Transparent)
+                    ),
+                    shape = CircleShape
+                )
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+        ) {
+            AppInputText(
+                value = account,
+                placeHolderRes = R.string.auth_guest_label_email,
+                leadingIcon = Icons.Outlined.Email,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                onValueChange = onAccountChange
+            )
+            SpaceVertical(20.dp)
+            AppInputText(
+                value = password,
+                placeHolderRes = R.string.all_password,
+                leadingIcon = Icons.Outlined.Lock,
+                isPassword = true,
+                maxLength = 6,
+                onValueChange = onPasswordChange
+            )
+            SpaceVertical(40.dp)
+            AppButton(
+                nameRes = R.string.all_sign_in,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .shadow(
+                        elevation = 20.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        spotColor = Colors.Pink33F425F4,
+                        ambientColor = Colors.Pink33F425F4
+                    ),
+                fontSize = 18
+            ) {
+                onSignInClick()
+            }
+            SpaceVertical(24.dp)
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.auth_forgot_pw),
+                    color = Colors.Gray6B7280,
+                    fontSize = 14.sp,
+                    modifier = Modifier.clickable { onForgotPasswordClick() }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun GuestSignInSignUpFooter(
+    modifier: Modifier = Modifier,
+    onSignUpClick: () -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(R.string.auth_guest_footer_no_account),
+            fontSize = 14.sp,
+            color = Colors.Blue148
+        )
+        SpaceHorizontal(4.dp)
+        Text(
+            text = stringResource(R.string.all_sign_up),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = Colors.Primary,
+            modifier = Modifier.clickable { onSignUpClick() }
+        )
     }
 }

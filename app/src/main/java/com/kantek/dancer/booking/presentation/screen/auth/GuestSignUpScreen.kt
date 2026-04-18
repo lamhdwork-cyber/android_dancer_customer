@@ -64,6 +64,7 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
+import com.kantek.dancer.booking.presentation.widget.ApplyLightStatusBarsForAuthScreens
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
 import com.kantek.dancer.booking.presentation.widget.AppInputText
@@ -82,6 +83,8 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
+    ApplyLightStatusBarsForAuthScreens()
+
     val context = LocalContext.current
     val appNavigator = use<AppNavigator>(Scopes.App)
     val formState by viewModel.formState.collectAsState()
@@ -174,6 +177,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                 ) {
                     AppInputText(
                         value = formState.firstName,
+                        lightBackground = true,
                         placeHolderRes = R.string.all_first_name,
                         modifier = Modifier.weight(1f),
                         keyboardOptions = KeyboardOptions(
@@ -184,6 +188,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                     )
                     AppInputText(
                         value = formState.lastname,
+                        lightBackground = true,
                         placeHolderRes = R.string.all_last_name,
                         modifier = Modifier.weight(1f),
                         keyboardOptions = KeyboardOptions(
@@ -196,6 +201,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                 SpaceVertical(12.dp)
                 AppInputText(
                     value = formState.email,
+                    lightBackground = true,
                     placeHolderRes = R.string.all_email,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     onValueChange = { viewModel.updateEmail(it) }
@@ -209,6 +215,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                 SpaceVertical(12.dp)
                 AppInputText(
                     value = formState.password,
+                    lightBackground = true,
                     placeHolderRes = R.string.all_password,
                     isPassword = true,
                     maxLength = 6,

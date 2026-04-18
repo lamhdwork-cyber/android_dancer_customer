@@ -46,4 +46,16 @@ object Colors {
     val GoldFFD700 = Color(0xFFFFD700)
     val Gray9CA3AF = Color(0xFF9CA3AF)
     val Gray6B7280 = Color(0xFF6B7280)
+
+    val Pink26F425F4: Color = Color(0x26F425F4)
+    val Pink1AF425F4: Color = Color(0x1AF425F4)
+    val Pink33F425F4: Color = Color(0x33F425F4)
+    val Pink4DF425F4: Color = Color(0x4DF425F4)
+    val Pink66F425F4: Color = Color(0x66F425F4)
+    val GrayF1F5F9: Color = Color(0xFFF1F5F9)
+    val GrayCBD5E1: Color = Color(0xFFCBD5E1)
+    val Dark475569: Color = Color(0xFF475569)
+    val Dark1E293B: Color = Color(0xFF1E293B)
+    val Dark660F172A: Color = Color(0x660F172A)
+    val Pink0DF425F4: Color = Color(0x0DF425F4)
 }
