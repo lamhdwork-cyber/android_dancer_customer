@@ -132,14 +132,12 @@ fun ManageStaffSignInScreen(
                     onSignInClick = { viewModel.signIn() }
                 )
                 SpaceVertical(16.dp)
+                ManageStaffSignInFooterVisual(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp, bottom = 24.dp)
+                )
             }
-
-            ManageStaffSignInFooterVisual(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
-                    .padding(top = 16.dp, bottom = 24.dp)
-            )
         }
     }
 }
