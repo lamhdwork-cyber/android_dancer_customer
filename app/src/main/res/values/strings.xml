@@ -21,6 +21,18 @@
     <string name="auth_guest_hint_email" translatable="false">your@email.com</string>
     <string name="auth_guest_hint_password" translatable="false">••••••••</string>
     <string name="auth_guest_footer_no_account">Don\'t have an account?</string>
+    <string name="auth_guest_sign_up_brand_line" translatable="false">Vantage Club</string>
+    <string name="auth_guest_sign_up_title">Guest Registration</string>
+    <string name="auth_guest_sign_up_hero_prefix">Join the </string>
+    <string name="auth_guest_sign_up_hero_elite" translatable="false">Elite</string>
+    <string name="auth_guest_sign_up_subtitle">Experience the city\'s most exclusive nightlife. Register your guest profile below.</string>
+    <string name="auth_guest_sign_up_full_name_label">Full Name</string>
+    <string name="auth_guest_sign_up_create_account">Create Account</string>
+    <string name="auth_guest_sign_up_hint_full_name" translatable="false">John Doe</string>
+    <string name="auth_guest_sign_up_terms_prefix">I agree to the </string>
+    <string name="auth_guest_sign_up_terms_link">Terms &amp; Conditions</string>
+    <string name="auth_guest_sign_up_terms_and"> and </string>
+    <string name="auth_guest_sign_up_privacy_link">Privacy Policy</string>
     <string name="auth_forgot_pw">Forgot password?</string>
     <string name="auth_with">Or login with</string>
     <string name="auth_first_time_here">First time here?</string>
@@ -61,6 +73,7 @@
     <string name="auth_already_have_an_account">Already have an account?</string>
     <string name="error_blank_first_name">First Name should not be empty!</string>
     <string name="error_blank_last_name">Last Name should not be empty!</string>
+    <string name="error_blank_full_name">Full name should not be empty!</string>
     <string name="error_blank_email">Email should not be empty!</string>
     <string name="error_blank_phone">Phone number should not be empty!</string>
     <string name="error_valid_email">The email address is incorrect!</string>

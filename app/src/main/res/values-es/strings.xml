@@ -20,6 +20,15 @@
     <string name="auth_guest_hint_email" translatable="false">your@email.com</string>
     <string name="auth_guest_hint_password" translatable="false">••••••••</string>
     <string name="auth_guest_footer_no_account">¿No tienes una cuenta?</string>
+    <string name="auth_guest_sign_up_title">Registro de invitado</string>
+    <string name="auth_guest_sign_up_hero_prefix">Únete a la </string>
+    <string name="auth_guest_sign_up_subtitle">Vive la vida nocturna más exclusiva de la ciudad. Registra tu perfil de invitado a continuación.</string>
+    <string name="auth_guest_sign_up_full_name_label">Nombre completo</string>
+    <string name="auth_guest_sign_up_create_account">Crear cuenta</string>
+    <string name="auth_guest_sign_up_terms_prefix">Acepto los </string>
+    <string name="auth_guest_sign_up_terms_link">Términos y condiciones</string>
+    <string name="auth_guest_sign_up_terms_and"> y la </string>
+    <string name="auth_guest_sign_up_privacy_link">Política de privacidad</string>
     <string name="auth_forgot_pw">¿Olvidaste tu contraseña?</string>
     <string name="auth_with">O inicia sesión con</string>
     <string name="auth_first_time_here">¿Eres nuevo aquí?</string>
@@ -59,6 +68,7 @@
     <string name="auth_already_have_an_account">¿Ya tienes una cuenta?</string>
     <string name="error_blank_first_name">¡El apellido no puede estar vacío!</string>
     <string name="error_blank_last_name">¡El nombre no puede estar vacío!</string>
+    <string name="error_blank_full_name">¡El nombre completo no puede estar vacío!</string>
     <string name="error_blank_email">¡El correo electrónico no puede estar vacío!</string>
     <string name="error_blank_phone">¡El número de teléfono no puede estar vacío!</string>
     <string name="error_valid_email">¡La dirección de correo no es válida!</string>

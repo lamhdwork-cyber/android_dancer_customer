@@ -20,6 +20,15 @@
     <string name="auth_guest_hint_email" translatable="false">your@email.com</string>
     <string name="auth_guest_hint_password" translatable="false">••••••••</string>
     <string name="auth_guest_footer_no_account">Chưa có tài khoản?</string>
+    <string name="auth_guest_sign_up_title">Đăng ký khách</string>
+    <string name="auth_guest_sign_up_hero_prefix">Gia nhập </string>
+    <string name="auth_guest_sign_up_subtitle">Trải nghiệm nightlife độc quyền nhất thành phố. Đăng ký hồ sơ khách bên dưới.</string>
+    <string name="auth_guest_sign_up_full_name_label">Họ và tên</string>
+    <string name="auth_guest_sign_up_create_account">Tạo tài khoản</string>
+    <string name="auth_guest_sign_up_terms_prefix">Tôi đồng ý với </string>
+    <string name="auth_guest_sign_up_terms_link">Điều khoản &amp; Điều kiện</string>
+    <string name="auth_guest_sign_up_terms_and"> và </string>
+    <string name="auth_guest_sign_up_privacy_link">Chính sách bảo mật</string>
     <string name="auth_forgot_pw">Quên mật khẩu?</string>
     <string name="auth_with">Hoặc đăng nhập bằng</string>
     <string name="auth_first_time_here">Bạn là người dùng mới ?</string>
@@ -59,6 +68,7 @@
     <string name="auth_already_have_an_account">Bạn đã có tài khoản?</string>
     <string name="error_blank_first_name">Họ không được để trống!</string>
     <string name="error_blank_last_name">Tên không được để trống!</string>
+    <string name="error_blank_full_name">Họ và tên không được để trống!</string>
     <string name="error_blank_email">Email không được để trống!</string>
     <string name="error_blank_phone">Số điện thoại không được để trống!</string>
     <string name="error_valid_email">Địa chỉ email không đúng!</string>

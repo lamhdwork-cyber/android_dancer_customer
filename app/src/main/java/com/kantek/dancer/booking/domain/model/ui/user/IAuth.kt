@@ -1,6 +1,5 @@
 package com.kantek.dancer.booking.domain.model.ui.user
 
-import android.net.Uri
 import android.os.Build
 import com.google.gson.annotations.SerializedName
 import com.kantek.dancer.booking.R
@@ -23,16 +22,14 @@ data class SignInForm(
     var deviceToken: String = ""
 ) : IAccount {
     fun validate() {
-        if (account.isBlank()) resourceError(R.string.error_blank_email_or_phone)
+        if (account.isBlank()) resourceError(R.string.error_blank_email)
         if (password.isBlank()) resourceError(R.string.error_blank_password)
         if (password.length < 6) resourceError(R.string.error_valid_password)
     }
 }
 
 data class SignUpForm(
-    var avatarUri: Uri? = null,
-    var firstName: String = "",
-    var lastname: String = "",
+    var fullName: String = "",
     var email: String = "",
     var phone: String = "",
     var password: String = "",
@@ -45,8 +42,8 @@ data class SignUpForm(
     var hasAgree: Boolean = false
 ) {
     fun valid() {
-        if (firstName.isBlank()) resourceError(R.string.error_blank_first_name)
-        if (lastname.isBlank()) resourceError(R.string.error_blank_last_name)
+        val trimmed = fullName.trim()
+        if (trimmed.isBlank()) resourceError(R.string.error_blank_full_name)
         if (email.isBlank()) resourceError(R.string.error_blank_email)
         if (!email.isEmail()) resourceError(R.string.error_valid_email)
         if (phone.isBlank() || phone.length != 10) resourceError(R.string.error_blank_phone)

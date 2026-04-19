@@ -1,30 +1,41 @@
 package com.kantek.dancer.booking.presentation.screen.auth
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.net.Uri
-import android.support.core.extensions.parcelableArrayList
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowForward
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Smartphone
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -35,10 +46,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -46,14 +62,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.app.AppSettings
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.extensions.buildMultipart
-import com.kantek.dancer.booking.data.extensions.toImagePart
 import com.kantek.dancer.booking.data.helper.network.RequestBodyBuilder
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
-import com.kantek.dancer.booking.domain.factory.PhotoFactory
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.user.SignUpForm
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
@@ -61,22 +74,14 @@ import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppKeyboard
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
 import com.kantek.dancer.booking.presentation.widget.AppInputText
-import com.kantek.dancer.booking.presentation.widget.AppPhotoPickerDialog
 import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
-import com.kantek.dancer.booking.presentation.widget.AvatarImage
 import com.kantek.dancer.booking.presentation.widget.LegalDisclaimerDialog
-import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
-import com.sangcomz.fishbun.FishBun
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import okhttp3.MultipartBody
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -85,37 +90,11 @@ import org.koin.androidx.compose.koinViewModel
 fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
     ApplyDarkEdgeToEdgeStatusBars()
 
-    val context = LocalContext.current
     val appNavigator = use<AppNavigator>(Scopes.App)
     val formState by viewModel.formState.collectAsState()
     val success by viewModel.onSuccess.collectAsState()
 
-    val sheetState = rememberModalBottomSheetState()
-    var showBottomSheet by remember { mutableStateOf(false) }
     var showLegalDisclaimerDialog by remember { mutableStateOf(false) }
-
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
-    var imageUriPending by remember { mutableStateOf<Uri?>(null) }
-    val appSetting = remember { AppSettings(context) }
-    val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val photos: List<Uri> =
-                result.data?.parcelableArrayList(FishBun.INTENT_PATH) ?: listOf()
-            imageUri = photos.firstOrNull()
-            viewModel.updateAvatar(imageUri)
-        }
-    }
-
-    val cameraLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            imageUri = imageUriPending
-            viewModel.updateAvatar(imageUri)
-        }
-    }
 
     LaunchedEffect(success) {
         if (success) {
@@ -123,190 +102,330 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
         }
     }
 
-    PermissionProvider {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Colors.Dark120812)
+    ) {
+        GuestSignUpMeshBackground(Modifier.matchParentSize())
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .statusBarsPadding()
+                .navigationBarsPadding()
         ) {
-            ActionBarBackAndTitleView(R.string.top_bar_sign_up) { appNavigator.back() }
+            GuestSignUpTopBar(onBack = { appNavigator.back() })
+
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .weight(1f)
+                    .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
-                    .padding(16.dp),
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 8.dp)
             ) {
-                SpaceVertical(5.dp)
-                Text(
-                    text = stringResource(R.string.all_get_started),
-                    fontSize = 22.sp,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
-                Text(
-                    text = stringResource(R.string.reg_enter_your_info),
-                    fontSize = 14.sp,
-                    color = Color.Gray,
-                )
-                SpaceVertical(30.dp)
-                Box(
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape)
-                        .align(Alignment.CenterHorizontally)
-                        .background(Colors.Blue227)
-                        .clickable { showBottomSheet = true },
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (imageUri == null) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_avatar_select),
-                            contentDescription = "Add Photo",
-                            tint = Colors.Primary,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    } else AvatarImage(imageUri.toString(), size = 100.dp)
-                }
-
-                SpaceVertical(14.dp)
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(20.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    AppInputText(
-                        value = formState.firstName,
-                        lightBackground = true,
-                        placeHolderRes = R.string.all_first_name,
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Words,
-                            keyboardType = KeyboardType.Text
-                        ),
-                        onValueChange = { viewModel.updateFirstName(it) }
-                    )
-                    AppInputText(
-                        value = formState.lastname,
-                        lightBackground = true,
-                        placeHolderRes = R.string.all_last_name,
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Words,
-                            keyboardType = KeyboardType.Text
-                        ),
-                        onValueChange = { viewModel.updateLastName(it) }
-                    )
-                }
-                SpaceVertical(12.dp)
+                SpaceVertical(8.dp)
+                GuestSignUpHero()
+                SpaceVertical(20.dp)
                 AppInputText(
-                    value = formState.email,
-                    lightBackground = true,
-                    placeHolderRes = R.string.all_email,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                    onValueChange = { viewModel.updateEmail(it) }
+                    value = formState.fullName,
+                    lightBackground = false,
+                    placeHolderRes = R.string.auth_guest_sign_up_full_name_label,
+                    hintRes = R.string.auth_guest_sign_up_hint_full_name,
+                    leadingIcon = Icons.Outlined.Person,
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Words,
+                        keyboardType = KeyboardType.Text
+                    ),
+                    onValueChange = { viewModel.updateFullName(it) }
                 )
-                SpaceVertical(12.dp)
+                SpaceVertical(20.dp)
                 AppInputPhoneNumber(
                     value = formState.phone,
+                    lightBackground = false,
+                    leadingIcon = Icons.Outlined.Smartphone,
                     placeHolderRes = R.string.all_phone_number,
                     onValueChange = { viewModel.updatePhone(it) }
                 )
-                SpaceVertical(12.dp)
+                SpaceVertical(20.dp)
+                AppInputText(
+                    value = formState.email,
+                    lightBackground = false,
+                    placeHolderRes = R.string.auth_guest_label_email,
+                    hintRes = R.string.auth_guest_hint_email,
+                    leadingIcon = Icons.Outlined.Email,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    onValueChange = { viewModel.updateEmail(it) }
+                )
+                SpaceVertical(20.dp)
                 AppInputText(
                     value = formState.password,
-                    lightBackground = true,
+                    lightBackground = false,
                     placeHolderRes = R.string.all_password,
+                    hintRes = R.string.auth_guest_hint_password,
+                    leadingIcon = Icons.Outlined.Lock,
                     isPassword = true,
                     maxLength = 6,
                     onValueChange = { viewModel.updatePassword(it) }
                 )
                 SpaceVertical(20.dp)
-                AppButton(R.string.all_register) { viewModel.signUp() }
-                SpaceVertical(10.dp)
-                Row(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .clickable { showLegalDisclaimerDialog = true }
-                        .padding(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clip(CircleShape)
-                            .background(Colors.Primary),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "i",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-
-                    SpaceHorizontal(8.dp)
-
-                    Text(
-                        text = stringResource(R.string.reg_legal_disclaimer),
-                        color = Colors.Primary,
-                        fontWeight = FontWeight.Normal,
-                        textDecoration = TextDecoration.Underline
-                    )
-                }
-                Column(Modifier.weight(1f)) { }
-                SpaceVertical(20.dp)
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.auth_already_have_an_account),
-                        fontSize = 14.sp,
-                        color = Color.Black
-                    )
-                    SpaceHorizontal(30.dp)
-                    AppButton(
-                        nameRes = R.string.all_sign_in,
-                        backgroundColor = Colors.Blue241,
-                        textColor = Colors.Primary,
-                        modifier = Modifier.height(55.dp)
-                    ) {
-                        appNavigator.back()
-                    }
-                }
-            }
-
-            if (showBottomSheet) {
-                AppPhotoPickerDialog(
-                    sheetState,
-                    onCameraClick = {
-                        accessCapture {
-                            appSetting.openCameraForImage(cameraLauncher) {
-                                imageUriPending = it
-                            }
-                        }
-                    },
-                    onGalleryClick = {
-                        accessReadImage { appSetting.openGalleryForImage(galleryLauncher) }
-                    }, onDismiss = { showBottomSheet = false })
-            }
-
-            if (showLegalDisclaimerDialog) {
-                LegalDisclaimerDialog(
-                    formState.hasAgree,
-                    onAgree = {
-                        showLegalDisclaimerDialog = false
-                        viewModel.updateLegalDisclaimer(true)
-                    },
-                    onDismiss = {
-                        showLegalDisclaimerDialog = false
-                    }
+                GuestSignUpTermsRow(
+                    checked = formState.hasAgree,
+                    onCheckedChange = { viewModel.updateLegalDisclaimer(it) },
+                    onLegalLinkClick = { showLegalDisclaimerDialog = true }
                 )
+                SpaceVertical(16.dp)
+            }
+
+            Column(
+                modifier = Modifier.padding(horizontal = 24.dp).padding(top = 8.dp, bottom = 24.dp)
+            ) {
+                GuestSignUpCreateAccountButton(onClick = { viewModel.signUp() })
+                SpaceVertical(24.dp)
+                GuestSignUpSignInFooter(onSignInClick = { appNavigator.back() })
             }
         }
+
+        if (showLegalDisclaimerDialog) {
+            LegalDisclaimerDialog(
+                formState.hasAgree,
+                onAgree = {
+                    showLegalDisclaimerDialog = false
+                    viewModel.updateLegalDisclaimer(true)
+                },
+                onDismiss = {
+                    showLegalDisclaimerDialog = false
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun GuestSignUpMeshBackground(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.drawBehind {
+            drawRect(Colors.Dark120812)
+            val r = size.maxDimension * 0.55f
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(Colors.Pink26F425F4, Color.Transparent),
+                    center = Offset.Zero,
+                    radius = r * 1.2f
+                ),
+                radius = r,
+                center = Offset.Zero
+            )
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(Colors.Pink1AF425F4, Color.Transparent),
+                    center = Offset(size.width, size.height),
+                    radius = r
+                ),
+                radius = r * 0.9f,
+                center = Offset(size.width, size.height)
+            )
+        }
+    )
+}
+
+@Composable
+private fun GuestSignUpTopBar(onBack: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(Colors.Pink33F425F4)
+                .clickable { onBack() },
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(R.drawable.baseline_arrow_back_24),
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                colorFilter = ColorFilter.tint(Color.White)
+            )
+        }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = stringResource(R.string.auth_guest_sign_up_brand_line),
+                color = Colors.Primary,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 2.sp
+            )
+            Text(
+                text = stringResource(R.string.auth_guest_sign_up_title),
+                color = Colors.GrayF1F5F9,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 0.5.sp
+            )
+        }
+        Spacer(modifier = Modifier.size(40.dp))
+    }
+}
+
+@Composable
+private fun GuestSignUpHero() {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            verticalAlignment = Alignment.Bottom,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.auth_guest_sign_up_hero_prefix),
+                color = Colors.GrayF1F5F9,
+                fontSize = 34.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = (-0.5).sp
+            )
+            Text(
+                text = stringResource(R.string.auth_guest_sign_up_hero_elite),
+                color = Colors.Primary,
+                fontSize = 34.sp,
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Italic,
+                letterSpacing = (-0.5).sp
+            )
+        }
+        SpaceVertical(8.dp)
+        Text(
+            text = stringResource(R.string.auth_guest_sign_up_subtitle),
+            color = Colors.Blue148,
+            fontSize = 14.sp,
+            lineHeight = 20.sp
+        )
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun GuestSignUpTermsRow(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    onLegalLinkClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Top
+    ) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = CheckboxDefaults.colors(
+                checkedColor = Colors.Primary,
+                uncheckedColor = Colors.Gray6B7280,
+                checkmarkColor = Color.White
+            ),
+            modifier = Modifier.padding(top = 2.dp)
+        )
+        FlowRow(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.spacedBy(0.dp),
+            verticalArrangement = Arrangement.spacedBy(0.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.auth_guest_sign_up_terms_prefix),
+                fontSize = 14.sp,
+                color = Colors.Blue148
+            )
+            Text(
+                text = stringResource(R.string.auth_guest_sign_up_terms_link),
+                color = Colors.Primary,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.clickable { onLegalLinkClick() }
+            )
+            Text(
+                text = stringResource(R.string.auth_guest_sign_up_terms_and),
+                fontSize = 14.sp,
+                color = Colors.Blue148
+            )
+            Text(
+                text = stringResource(R.string.auth_guest_sign_up_privacy_link),
+                color = Colors.Primary,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.clickable { onLegalLinkClick() }
+            )
+        }
+    }
+}
+
+@Composable
+private fun GuestSignUpCreateAccountButton(onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(64.dp)
+            .shadow(
+                elevation = 24.dp,
+                shape = RoundedCornerShape(16.dp),
+                spotColor = Colors.Pink33F425F4,
+                ambientColor = Colors.Pink0DF425F4
+            ),
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Colors.Primary,
+            contentColor = Color.White
+        ),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 8.dp
+        )
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.auth_guest_sign_up_create_account),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Icon(
+                imageVector = Icons.Outlined.ArrowForward,
+                contentDescription = null,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun GuestSignUpSignInFooter(onSignInClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(R.string.auth_already_have_an_account),
+            fontSize = 14.sp,
+            color = Colors.Blue148
+        )
+        Text(
+            text = stringResource(R.string.all_sign_in),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = Colors.Primary,
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .clickable { onSignInClick() }
+        )
     }
 }
 
@@ -320,14 +439,9 @@ class SignUpVM(
 
     val onSuccess = MutableStateFlow(false)
 
-    fun updateFirstName(it: String) {
-        if (_form.value.firstName != it)
-            _form.value = _form.value.copy(firstName = it)
-    }
-
-    fun updateLastName(it: String) {
-        if (_form.value.lastname != it)
-            _form.value = _form.value.copy(lastname = it)
+    fun updateFullName(it: String) {
+        if (_form.value.fullName != it)
+            _form.value = _form.value.copy(fullName = it)
     }
 
     fun updateEmail(it: String) {
@@ -343,11 +457,6 @@ class SignUpVM(
     fun updatePassword(it: String) {
         if (_form.value.password != it)
             _form.value = _form.value.copy(password = it)
-    }
-
-    fun updateAvatar(it: Uri?) {
-        if (_form.value.avatarUri != it)
-            _form.value = _form.value.copy(avatarUri = it)
     }
 
     fun updateLegalDisclaimer(it: Boolean) {
@@ -367,26 +476,21 @@ class SignUpVM(
 
 class SignUpRepo(
     private val userLocalSource: UserLocalSource,
-    private val userApi: UserApi,
-    private val photoFactory: PhotoFactory
+    private val userApi: UserApi
 ) {
     suspend operator fun invoke(form: SignUpForm) {
-        var avatarPart: MultipartBody.Part? = null
-        if (form.avatarUri != null)
-            avatarPart = photoFactory.resizeIfNeed(form.avatarUri!!)?.toImagePart("avatar")
-
         userLocalSource.saveUserResponse(
             userApi.signUp(
                 RequestBodyBuilder()
-                    .put("first_name", form.firstName)
-                    .put("last_name", form.lastname)
+                    .put("fullname", form.fullName.trim())
                     .put("phone", form.phone)
                     .put("email", form.email)
                     .put("password", form.password)
                     .put("device_token", userLocalSource.getTokenPush())
                     .put("device", form.device_info)
                     .put("mac_address", form.macAddress)
-                    .buildMultipart(), avatarPart
+                    .buildMultipart(),
+                null
             ).await()
         )
     }

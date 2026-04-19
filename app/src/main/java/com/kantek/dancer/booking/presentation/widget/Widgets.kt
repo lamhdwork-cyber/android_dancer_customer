@@ -520,6 +520,7 @@ fun AppInputPhoneNumber(
     modifier: Modifier = Modifier.fillMaxWidth(),
     /** When true, field uses light fill/border/text for white surfaces (same as [AppInputText]). */
     lightBackground: Boolean = true,
+    leadingIcon: ImageVector? = null,
     onValueChange: (String) -> Unit = {}
 ) {
     val placeHolder = stringResource(id = placeHolderRes)
@@ -551,6 +552,7 @@ fun AppInputPhoneNumber(
     val labelColor = if (lightBackground) Colors.Gray146 else Colors.GrayCBD5E1
     val textColor = if (lightBackground) Color.Black else Colors.GrayF1F5F9
     val hintColor = if (lightBackground) Colors.Gray146 else Colors.Dark475569
+    val iconTint = if (isFocused) Colors.Primary else Colors.Gray6B7280
 
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
@@ -600,6 +602,16 @@ fun AppInputPhoneNumber(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    if (leadingIcon != null) {
+                        Icon(
+                            imageVector = leadingIcon,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 4.dp)
+                                .size(24.dp),
+                            tint = iconTint
+                        )
+                    }
                     Box(
                         modifier = Modifier
                             .weight(1f)
