@@ -116,7 +116,7 @@ fun AuthScreen() = ScopeProvider(Scopes.AppRole) {
                     descriptionRes = R.string.role_manager_description,
                     buttonRes = R.string.role_manager_action,
                     isGuest = false,
-                    onClick = {}
+                    onClick = { appNavigator.navigateManageStaffSignIn() }
                 )
             }
 

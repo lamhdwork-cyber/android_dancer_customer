@@ -45,6 +45,8 @@ object Colors {
     val Overlay99120812 = Color(0x99120812)
     val GoldFFD700 = Color(0xFFFFD700)
     val Gray9CA3AF = Color(0xFF9CA3AF)
+    /** Tailwind slate-500 — secondary muted labels (e.g. trust badges). */
+    val Gray64748B: Color = Color(0xFF64748B)
     val Gray6B7280 = Color(0xFF6B7280)
 
     val Pink26F425F4: Color = Color(0x26F425F4)
@@ -58,4 +60,6 @@ object Colors {
     val Dark1E293B: Color = Color(0xFF1E293B)
     val Dark660F172A: Color = Color(0x660F172A)
     val Pink0DF425F4: Color = Color(0x0DF425F4)
+    /** Deep violet for manager / staff accent gradients (pairs with [Primary]). */
+    val Purple9333EA: Color = Color(0xFF9333EA)
 }

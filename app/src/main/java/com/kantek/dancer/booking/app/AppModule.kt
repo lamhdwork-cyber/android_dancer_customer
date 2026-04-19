@@ -117,6 +117,7 @@ import com.kantek.dancer.booking.presentation.viewmodel.MainVM
 import com.kantek.dancer.booking.presentation.viewmodel.NotificationVM
 import com.kantek.dancer.booking.presentation.viewmodel.ReviewVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignInGoogleRepo
+import com.kantek.dancer.booking.presentation.viewmodel.ManageStaffSignInVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignInVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignOutRepo
 import kotlinx.coroutines.CoroutineScope
@@ -198,6 +199,7 @@ val presentationModule = module {
     viewModel { MainVM(get()) }
     viewModel { AccountVM(get(), get(), get()) }
     viewModel { SignInVM(get(), get(), get(), get()) }
+    viewModel { ManageStaffSignInVM(get(), get()) }
     viewModel { SignUpVM(get(), get()) }
     viewModel { ForgotPasswordVM(get(), get(), get()) }
     viewModel { IntroduceVM(get()) }

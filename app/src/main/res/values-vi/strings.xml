@@ -29,6 +29,13 @@
     <string name="auth_guest_sign_up_terms_link">Điều khoản &amp; Điều kiện</string>
     <string name="auth_guest_sign_up_terms_and"> và </string>
     <string name="auth_guest_sign_up_privacy_link">Chính sách bảo mật</string>
+    <string name="auth_manage_staff_portal_line">Cổng Nightlife</string>
+    <string name="auth_manage_staff_title">Truy cập quản lý</string>
+    <string name="auth_manage_staff_subtitle">Terminal bảo mật chỉ dành cho nhân sự được ủy quyền</string>
+    <string name="auth_manage_staff_label_work_email">Email công việc</string>
+    <string name="auth_manage_staff_label_security_key">Mã bảo mật</string>
+    <string name="auth_manage_staff_login_cta">Đăng nhập nhân viên</string>
+    <string name="auth_manage_staff_encrypted_line">Kết nối đã được mã hóa</string>
     <string name="auth_forgot_pw">Quên mật khẩu?</string>
     <string name="auth_with">Hoặc đăng nhập bằng</string>
     <string name="auth_first_time_here">Bạn là người dùng mới ?</string>

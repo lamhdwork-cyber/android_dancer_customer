@@ -5,6 +5,7 @@ import com.kantek.dancer.booking.R
 enum class Screen {
     Auth,
     SignIn,
+    ManageStaffSignIn,
     SignUp,
     ForgotPassword,
     Home,

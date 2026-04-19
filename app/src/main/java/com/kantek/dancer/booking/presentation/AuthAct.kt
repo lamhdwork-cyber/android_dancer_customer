@@ -15,6 +15,7 @@ import com.kantek.dancer.booking.presentation.provider.NavigationProvider
 import com.kantek.dancer.booking.presentation.screen.approle.AuthScreen
 import com.kantek.dancer.booking.presentation.screen.auth.GuestSignInScreen
 import com.kantek.dancer.booking.presentation.screen.auth.GuestSignUpScreen
+import com.kantek.dancer.booking.presentation.screen.auth.ManageStaffSignInScreen
 import com.kantek.dancer.booking.presentation.screen.auth.forgot.ForgotPasswordScreen
 
 class AuthAct : AppComponentAct() {
@@ -38,6 +39,9 @@ class AuthAct : AppComponentAct() {
                     composable(Screen.SignIn.name) {
                         BackHandler { finish() }
                         GuestSignInScreen(false)
+                    }
+                    composable(Screen.ManageStaffSignIn.name) {
+                        ManageStaffSignInScreen(false)
                     }
                     composable(Screen.SignUp.name) {
                         GuestSignUpScreen()

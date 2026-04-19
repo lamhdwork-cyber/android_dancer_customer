@@ -36,6 +36,7 @@ import com.kantek.dancer.booking.presentation.screen.account.MyProfileScreen
 import com.kantek.dancer.booking.presentation.screen.auth.ChangePasswordScreen
 import com.kantek.dancer.booking.presentation.screen.auth.GuestSignInScreen
 import com.kantek.dancer.booking.presentation.screen.auth.GuestSignUpScreen
+import com.kantek.dancer.booking.presentation.screen.auth.ManageStaffSignInScreen
 import com.kantek.dancer.booking.presentation.screen.auth.forgot.CreateNewPwScreen
 import com.kantek.dancer.booking.presentation.screen.auth.forgot.ForgotPasswordScreen
 import com.kantek.dancer.booking.presentation.screen.auth.otp.OTPVerifyScreen
@@ -122,6 +123,9 @@ class MainAct : AppComponentAct() {
                             }
                             composable(Screen.SignIn.name) {
                                 GuestSignInScreen(true)
+                            }
+                            composable(Screen.ManageStaffSignIn.name) {
+                                ManageStaffSignInScreen(true)
                             }
                             composable(Screen.SignUp.name) {
                                 GuestSignUpScreen()

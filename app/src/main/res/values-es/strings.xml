@@ -29,6 +29,13 @@
     <string name="auth_guest_sign_up_terms_link">Términos y condiciones</string>
     <string name="auth_guest_sign_up_terms_and"> y la </string>
     <string name="auth_guest_sign_up_privacy_link">Política de privacidad</string>
+    <string name="auth_manage_staff_portal_line">Portal Nightlife</string>
+    <string name="auth_manage_staff_title">Acceso de gestor</string>
+    <string name="auth_manage_staff_subtitle">Terminal seguro solo para personal autorizado</string>
+    <string name="auth_manage_staff_label_work_email">Correo laboral</string>
+    <string name="auth_manage_staff_label_security_key">Clave de seguridad</string>
+    <string name="auth_manage_staff_login_cta">Iniciar sesión como personal</string>
+    <string name="auth_manage_staff_encrypted_line">Conexión cifrada activa</string>
     <string name="auth_forgot_pw">¿Olvidaste tu contraseña?</string>
     <string name="auth_with">O inicia sesión con</string>
     <string name="auth_first_time_here">¿Eres nuevo aquí?</string>

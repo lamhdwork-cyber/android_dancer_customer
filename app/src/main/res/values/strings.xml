@@ -33,6 +33,15 @@
     <string name="auth_guest_sign_up_terms_link">Terms &amp; Conditions</string>
     <string name="auth_guest_sign_up_terms_and"> and </string>
     <string name="auth_guest_sign_up_privacy_link">Privacy Policy</string>
+    <string name="auth_manage_staff_portal_line" translatable="false">Nightlife Portal</string>
+    <string name="auth_manage_staff_title">Manager Access</string>
+    <string name="auth_manage_staff_subtitle">Secure terminal for authorized staff only</string>
+    <string name="auth_manage_staff_label_work_email">Work Email</string>
+    <string name="auth_manage_staff_hint_work_email" translatable="false">manager@club.com</string>
+    <string name="auth_manage_staff_label_security_key">Security Key</string>
+    <string name="auth_manage_staff_login_cta">Login as Staff</string>
+    <string name="auth_manage_staff_encrypted_line">Encrypted Connection Active</string>
+    <string name="auth_manage_staff_footer_image_url" translatable="false"><![CDATA[https://lh3.googleusercontent.com/aida-public/AB6AXuCkBExaPe7ZKDCRQ5KEA3KL5OoVUXFOpilzUHTzAaDHUBtO0JIzvlRR_zTWdit-2TuGDf9fj2ILvyQW0XOhaqJp1smnUy0sJZbWV9iNBgdo64G7VKsBFZdlrQh8XGKLlRmjXfXZTyeyVGC5LTaLztnnCq7XnMhfwvZ-L8-NtJOutnlP1H1E2vEAvD0CeKmsDeNfVvQc3eHaLo5e1wO6IU4Mk0WFUzgkHJHeHR4MJ2Dcy3LCtT9vtkkRPHNKuku2MY2HKntQaP_I6QA]]></string>
     <string name="auth_forgot_pw">Forgot password?</string>
     <string name="auth_with">Or login with</string>
     <string name="auth_first_time_here">First time here?</string>

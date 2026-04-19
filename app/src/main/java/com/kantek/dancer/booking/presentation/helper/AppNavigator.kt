@@ -73,6 +73,12 @@ class AppNavigator : Updatable {
         }
     }
 
+    fun navigateManageStaffSignIn() {
+        navHost?.navigate(Screen.ManageStaffSignIn.name) {
+            launchSingleTop = true
+        }
+    }
+
     fun navigateSignUp() {
         navHost?.navigate(Screen.SignUp.name)
     }
