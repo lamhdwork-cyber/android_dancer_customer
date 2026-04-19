@@ -18,6 +18,8 @@
     <string name="auth_guest_brand_title" translatable="false">VELVET</string>
     <string name="auth_guest_brand_subtitle">Premium Nightlife Access</string>
     <string name="auth_guest_label_email">Email address</string>
+    <string name="auth_guest_hint_email" translatable="false">your@email.com</string>
+    <string name="auth_guest_hint_password" translatable="false">••••••••</string>
     <string name="auth_guest_footer_no_account">Don\'t have an account?</string>
     <string name="auth_forgot_pw">Forgot password?</string>
     <string name="auth_with">Or login with</string>
@@ -54,6 +56,7 @@
     <string name="all_last_name">Last Name</string>
     <string name="all_email">Email</string>
     <string name="all_phone_number">Phone number</string>
+    <string name="all_phone_hint_format" translatable="false">(555) 000-0000</string>
     <string name="all_register">Register</string>
     <string name="auth_already_have_an_account">Already have an account?</string>
     <string name="error_blank_first_name">First Name should not be empty!</string>

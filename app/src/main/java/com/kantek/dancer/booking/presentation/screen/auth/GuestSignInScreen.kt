@@ -244,6 +244,7 @@ private fun GuestSignInFormSection(
             AppInputText(
                 value = account,
                 placeHolderRes = R.string.auth_guest_label_email,
+                hintRes = R.string.auth_guest_hint_email,
                 leadingIcon = Icons.Outlined.Email,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 onValueChange = onAccountChange
@@ -252,6 +253,7 @@ private fun GuestSignInFormSection(
             AppInputText(
                 value = password,
                 placeHolderRes = R.string.all_password,
+                hintRes = R.string.auth_guest_hint_password,
                 leadingIcon = Icons.Outlined.Lock,
                 isPassword = true,
                 maxLength = 6,

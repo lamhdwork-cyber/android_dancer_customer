@@ -64,11 +64,11 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.ApplyLightStatusBarsForAuthScreens
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.AppPhotoPickerDialog
+import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
 import com.kantek.dancer.booking.presentation.widget.LegalDisclaimerDialog
 import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
@@ -83,7 +83,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
-    ApplyLightStatusBarsForAuthScreens()
+    ApplyDarkEdgeToEdgeStatusBars()
 
     val context = LocalContext.current
     val appNavigator = use<AppNavigator>(Scopes.App)
