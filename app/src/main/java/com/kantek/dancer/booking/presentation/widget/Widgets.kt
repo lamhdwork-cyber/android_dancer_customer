@@ -366,6 +366,7 @@ fun LoadingView(
 fun AppInputText(
     value: String = "",
     @StringRes placeHolderRes: Int = R.string.app_name,
+    @StringRes hintRes: Int? = null,
     @DrawableRes leadingIconRes: Int? = null,
     /** When set, shown instead of [leadingIconRes] (Material / Compose icons, e.g. [Icons.Outlined.Email]). */
     leadingIcon: ImageVector? = null,
@@ -381,6 +382,7 @@ fun AppInputText(
     onValueChange: (String) -> Unit = {}
 ) {
     val placeHolder = stringResource(id = placeHolderRes)
+    val hintText = hintRes?.let { stringResource(id = it) }
     var passwordVisible by remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -408,6 +410,7 @@ fun AppInputText(
     val fieldBackground = if (lightBackground) Colors.Gray249 else Colors.Dark660F172A
     val labelColor = if (lightBackground) Colors.Gray146 else Colors.GrayCBD5E1
     val textColor = if (lightBackground) Color.Black else Colors.GrayF1F5F9
+    val hintColor = if (lightBackground) Colors.Gray146 else Colors.Dark475569
     val effectiveMaxLines = if (singleLine) 1 else maxLines.coerceAtLeast(1)
     val resolvedLeadingIcon: ImageVector? =
         leadingIcon ?: leadingIconRes?.let { ImageVector.vectorResource(id = it) }
@@ -478,6 +481,13 @@ fun AppInputText(
                             .weight(1f)
                             .padding(horizontal = 4.dp)
                     ) {
+                        if (hintText != null && textFieldValue.text.isEmpty()) {
+                            Text(
+                                text = hintText,
+                                color = hintColor,
+                                fontSize = 16.sp
+                            )
+                        }
                         innerTextField()
                     }
                     if (isPassword) {
@@ -508,9 +518,12 @@ fun AppInputPhoneNumber(
     readOnly: Boolean = false,
     @StringRes placeHolderRes: Int = R.string.app_name,
     modifier: Modifier = Modifier.fillMaxWidth(),
+    /** When true, field uses light fill/border/text for white surfaces (same as [AppInputText]). */
+    lightBackground: Boolean = true,
     onValueChange: (String) -> Unit = {}
 ) {
     val placeHolder = stringResource(id = placeHolderRes)
+    val hintPhone = stringResource(R.string.all_phone_hint_format)
     var textFieldValue by remember { mutableStateOf(TextFieldValue(text = value)) }
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -528,41 +541,83 @@ fun AppInputPhoneNumber(
         }
     }
 
-    OutlinedTextField(
-        value = textFieldValue,
-        readOnly = readOnly,
-        label = { Text(placeHolder, fontSize = 14.sp) },
-        onValueChange = {
-            val stripped = numericRegex.replace(it.text, "")
-            val phoneNumber = if (stripped.length >= 10) {
-                stripped.substring(0..9)
-            } else {
-                stripped
-            }
-            textFieldValue = it.copy(
-                text = phoneNumber,
-                selection = if (it.text != phoneNumber) {
-                    TextRange(phoneNumber.length)
+    val borderColor = when {
+        isFocused -> Colors.Primary
+        lightBackground -> Colors.Gray238
+        else -> Colors.Dark1E293B
+    }
+    val borderWidth = if (isFocused) 2.dp else 1.dp
+    val fieldBackground = if (lightBackground) Colors.Gray249 else Colors.Dark660F172A
+    val labelColor = if (lightBackground) Colors.Gray146 else Colors.GrayCBD5E1
+    val textColor = if (lightBackground) Color.Black else Colors.GrayF1F5F9
+    val hintColor = if (lightBackground) Colors.Gray146 else Colors.Dark475569
+
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = placeHolder,
+            modifier = Modifier.padding(start = 4.dp, bottom = 8.dp),
+            color = labelColor,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium
+        )
+        BasicTextField(
+            value = textFieldValue,
+            onValueChange = { newValue ->
+                val stripped = numericRegex.replace(newValue.text, "")
+                val phoneNumber = if (stripped.length >= 10) {
+                    stripped.substring(0..9)
                 } else {
-                    it.selection
+                    stripped
                 }
-            )
-            onValueChange(phoneNumber)
-        },
-        textStyle = TextStyle(fontSize = if (isFocused) 16.sp else 14.sp),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.Transparent,
-            unfocusedContainerColor = Color.Transparent,
-            focusedIndicatorColor = Colors.Primary,
-            unfocusedIndicatorColor = Colors.Gray238,
-            cursorColor = Colors.Primary
-        ),
-        interactionSource = interactionSource,
-        shape = RoundedCornerShape(12.dp),
-        modifier = modifier,
-        visualTransformation = USPhoneNumberTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-    )
+                textFieldValue = newValue.copy(
+                    text = phoneNumber,
+                    selection = if (newValue.text != phoneNumber) {
+                        TextRange(phoneNumber.length)
+                    } else {
+                        newValue.selection
+                    }
+                )
+                onValueChange(phoneNumber)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 56.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .border(borderWidth, borderColor, RoundedCornerShape(16.dp))
+                .background(fieldBackground, RoundedCornerShape(16.dp))
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+            readOnly = readOnly,
+            textStyle = TextStyle(color = textColor, fontSize = 16.sp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true,
+            maxLines = 1,
+            minLines = 1,
+            visualTransformation = USPhoneNumberTransformation(),
+            interactionSource = interactionSource,
+            cursorBrush = SolidColor(Colors.Primary),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 4.dp)
+                    ) {
+                        if (textFieldValue.text.isEmpty()) {
+                            Text(
+                                text = hintPhone,
+                                color = hintColor,
+                                fontSize = 16.sp
+                            )
+                        }
+                        innerTextField()
+                    }
+                }
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
