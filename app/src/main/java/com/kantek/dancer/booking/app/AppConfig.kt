@@ -5,7 +5,7 @@ import android.os.Build
 import java.util.Locale
 
 object AppConfig {
-    const val END_POINT: String = "https://law-booking.kendemo.com/api/"
+    const val END_POINT: String = "https://dancer.kendemo.com/api/v1/"
     const val SOCKET_IO: String = "https://law-booking.kendemo.com:6016"
 
     const val PER_PAGE = 15

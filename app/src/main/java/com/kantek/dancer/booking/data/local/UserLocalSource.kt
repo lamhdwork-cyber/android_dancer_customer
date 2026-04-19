@@ -19,13 +19,17 @@ class UserLocalSource(
     var account: String by caching.string("auth:account", "")
     var password: String by caching.string("auth:password", "")
     var apiToken: String by caching.string("token:api", "")
+    var refreshToken: String by caching.string("token:refresh", "")
     private var chatIDCurrent: Int by caching.int("chat:room:id", 0)
     private var pushToken: String by caching.string("token:push", "")
     private var user: UserDTO? by caching.reference(UserDTO::class.java.name)
 
     fun saveUserResponse(it: UserResponse?) {
         saveUser(it?.user)
-        if (!it?.token.isNullOrEmpty()) saveToken(it?.token!!)
+        val access = it?.tokens?.accessToken
+        if (!access.isNullOrEmpty()) saveToken(access)
+        val refresh = it?.tokens?.refreshToken
+        if (!refresh.isNullOrEmpty()) this.refreshToken = refresh
         languageLocalSource.save(it?.user?.language)
     }
 
@@ -45,6 +49,7 @@ class UserLocalSource(
     fun logout() {
         saveUser(null)
         saveToken("")
+        refreshToken = ""
     }
 
     fun saveTokenPush(pushToken: String) {

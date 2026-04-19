@@ -13,13 +13,13 @@ class UserFactory(private val textFormatter: TextFormatter) {
         if (it == null) return null
         return object : IUser {
             override val id: Int
-                get() = it.id.safe()
+                get() = it.id?.toIntOrNull().safe()
             override val avatarURL: String
-                get() = it.avatar_url.safe()
+                get() = it.avatar.safe()
             override val firstName: String
-                get() = it.first_name.safe()
+                get() = it.firstName.safe()
             override val lastName: String
-                get() = it.last_name.safe()
+                get() = it.lastName.safe()
             override val fullName: String
                 get() = "$firstName $lastName"
             override val email: String

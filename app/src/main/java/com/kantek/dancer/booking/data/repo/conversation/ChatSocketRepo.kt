@@ -46,7 +46,7 @@ class ChatSocketRepo(
     fun emitJoinRoom(bookingID: Int) {
         chatSocketClient.emitJoinRoom(
             bookingID.toString(),
-            userLocalSource.getUserDto()?.id.toString(),
+            userLocalSource.getUserDto()?.id ?: "",
             userLocalSource.getToken()
         )
     }
@@ -54,7 +54,7 @@ class ChatSocketRepo(
     fun emitLeaveRoom(bookingID: Int) {
         chatSocketClient.emitLeaveRoom(
             bookingID.toString(),
-            userLocalSource.getUserDto()?.id.toString()
+            userLocalSource.getUserDto()?.id ?: ""
         )
     }
 
@@ -62,8 +62,8 @@ class ChatSocketRepo(
         val user = userLocalSource.getUserDto()
         chatSocketClient.emitTyping(
             bookingID.toString(),
-            user?.id.toString(),
-            user?.avatar_url.safe(),
+            user?.id ?: "",
+            user?.avatar.safe(),
             msg
         )
     }
@@ -78,7 +78,7 @@ class ChatSocketRepo(
         localID: String
     ) {
         chatSocketClient.emitSendMessage(
-            userID = userLocalSource.getUserDto()?.id.toString(),
+            userID = userLocalSource.getUserDto()?.id ?: "",
             token = userLocalSource.getToken(),
             roomId = bookingID.toString(),
             localID = localID,
@@ -91,7 +91,7 @@ class ChatSocketRepo(
         photo: List<String>
     ) {
         chatSocketClient.emitSendPhotos(
-            userID = userLocalSource.getUserDto()?.id.toString(),
+            userID = userLocalSource.getUserDto()?.id ?: "",
             token = userLocalSource.getToken(),
             roomId = bookingID.toString(),
             photo = photo

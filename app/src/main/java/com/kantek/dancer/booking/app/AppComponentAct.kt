@@ -89,7 +89,9 @@ abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErro
 
     private fun openLogin() {
         userLocalSource.logout()
-        val intent = Intent(this, AuthAct::class.java)
+        val intent = Intent(this, AuthAct::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
         startActivity(intent)
     }
 

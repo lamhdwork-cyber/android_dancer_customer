@@ -19,9 +19,9 @@ class ApiError(
 
     val body: String
         get() {
-            val content = contentError
-            if (content.isNullOrBlank()) return message ?: error ?: "Unknown"
-            return "$message\n$content"
+//            val content = contentError
+//            if (content.isNullOrBlank()) return message ?: error ?: "Unknown"
+            return message ?: "Unknown"
         }
 }
 

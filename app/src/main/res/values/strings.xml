@@ -28,7 +28,8 @@
     <string name="auth_guest_sign_up_subtitle">Experience the city\'s most exclusive nightlife. Register your guest profile below.</string>
     <string name="auth_guest_sign_up_full_name_label">Full Name</string>
     <string name="auth_guest_sign_up_create_account">Create Account</string>
-    <string name="auth_guest_sign_up_hint_full_name" translatable="false">John Doe</string>
+    <string name="auth_guest_sign_up_hint_first" translatable="false">John</string>
+    <string name="auth_guest_sign_up_hint_last" translatable="false">Doe</string>
     <string name="auth_guest_sign_up_terms_prefix">I agree to the </string>
     <string name="auth_guest_sign_up_terms_link">Terms &amp; Conditions</string>
     <string name="auth_guest_sign_up_terms_and"> and </string>

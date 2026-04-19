@@ -63,10 +63,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.data.extensions.buildMultipart
-import com.kantek.dancer.booking.data.helper.network.RequestBodyBuilder
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
+import com.kantek.dancer.booking.domain.extension.resourceError
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.user.SignUpForm
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
@@ -92,6 +91,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
 
     val appNavigator = use<AppNavigator>(Scopes.App)
     val formState by viewModel.formState.collectAsState()
+    val termsAgreed by viewModel.termsAgreed.collectAsState()
     val success by viewModel.onSuccess.collectAsState()
 
     var showLegalDisclaimerDialog by remember { mutableStateOf(false) }
@@ -128,18 +128,38 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                 SpaceVertical(8.dp)
                 GuestSignUpHero()
                 SpaceVertical(20.dp)
-                AppInputText(
-                    value = formState.fullName,
-                    lightBackground = false,
-                    placeHolderRes = R.string.auth_guest_sign_up_full_name_label,
-                    hintRes = R.string.auth_guest_sign_up_hint_full_name,
-                    leadingIcon = Icons.Outlined.Person,
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Words,
-                        keyboardType = KeyboardType.Text
-                    ),
-                    onValueChange = { viewModel.updateFullName(it) }
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    AppInputText(
+                        value = formState.firstName,
+                        lightBackground = false,
+                        placeHolderRes = R.string.all_first_name,
+                        hintRes = R.string.auth_guest_sign_up_hint_first,
+                        leadingIcon = Icons.Outlined.Person,
+                        modifier = Modifier.weight(1f),
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            keyboardType = KeyboardType.Text
+                        ),
+                        onValueChange = { viewModel.updateFirstName(it) }
+                    )
+                    AppInputText(
+                        value = formState.lastName,
+                        lightBackground = false,
+                        placeHolderRes = R.string.all_last_name,
+                        hintRes = R.string.auth_guest_sign_up_hint_last,
+                        leadingIcon = Icons.Outlined.Person,
+                        modifier = Modifier.weight(1f),
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            keyboardType = KeyboardType.Text
+                        ),
+                        onValueChange = { viewModel.updateLastName(it) }
+                    )
+                }
                 SpaceVertical(20.dp)
                 AppInputPhoneNumber(
                     value = formState.phone,
@@ -171,7 +191,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                 )
                 SpaceVertical(20.dp)
                 GuestSignUpTermsRow(
-                    checked = formState.hasAgree,
+                    checked = termsAgreed,
                     onCheckedChange = { viewModel.updateLegalDisclaimer(it) },
                     onLegalLinkClick = { showLegalDisclaimerDialog = true }
                 )
@@ -179,7 +199,9 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
             }
 
             Column(
-                modifier = Modifier.padding(horizontal = 24.dp).padding(top = 8.dp, bottom = 24.dp)
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 8.dp, bottom = 24.dp)
             ) {
                 GuestSignUpCreateAccountButton(onClick = { viewModel.signUp() })
                 SpaceVertical(24.dp)
@@ -189,7 +211,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
 
         if (showLegalDisclaimerDialog) {
             LegalDisclaimerDialog(
-                formState.hasAgree,
+                termsAgreed,
                 onAgree = {
                     showLegalDisclaimerDialog = false
                     viewModel.updateLegalDisclaimer(true)
@@ -437,11 +459,19 @@ class SignUpVM(
     private val _form = MutableStateFlow(SignUpForm())
     val formState: StateFlow<SignUpForm> = _form
 
+    private val _termsAgreed = MutableStateFlow(false)
+    val termsAgreed: StateFlow<Boolean> = _termsAgreed
+
     val onSuccess = MutableStateFlow(false)
 
-    fun updateFullName(it: String) {
-        if (_form.value.fullName != it)
-            _form.value = _form.value.copy(fullName = it)
+    fun updateFirstName(it: String) {
+        if (_form.value.firstName != it)
+            _form.value = _form.value.copy(firstName = it)
+    }
+
+    fun updateLastName(it: String) {
+        if (_form.value.lastName != it)
+            _form.value = _form.value.copy(lastName = it)
     }
 
     fun updateEmail(it: String) {
@@ -460,14 +490,16 @@ class SignUpVM(
     }
 
     fun updateLegalDisclaimer(it: Boolean) {
-        if (_form.value.hasAgree != it)
-            _form.value = _form.value.copy(hasAgree = it)
+        if (_termsAgreed.value != it) _termsAgreed.value = it
     }
 
     fun signUp() = launch(loading, error) {
         appKeyboard.hide()
         _form.value.run {
             valid()
+            if (!_termsAgreed.value) {
+                resourceError(R.string.error_valid_legal_disclaimer)
+            }
             signUpRepo(this)
             onSuccess.value = true
         }
@@ -479,19 +511,11 @@ class SignUpRepo(
     private val userApi: UserApi
 ) {
     suspend operator fun invoke(form: SignUpForm) {
-        userLocalSource.saveUserResponse(
-            userApi.signUp(
-                RequestBodyBuilder()
-                    .put("fullname", form.fullName.trim())
-                    .put("phone", form.phone)
-                    .put("email", form.email)
-                    .put("password", form.password)
-                    .put("device_token", userLocalSource.getTokenPush())
-                    .put("device", form.device_info)
-                    .put("mac_address", form.macAddress)
-                    .buildMultipart(),
-                null
-            ).await()
+        val body = form.copy(
+            firstName = form.firstName.trim(),
+            lastName = form.lastName.trim(),
+            deviceToken = userLocalSource.getTokenPush()
         )
+        userLocalSource.saveUserResponse(userApi.signUp(body).await())
     }
 }

@@ -63,7 +63,7 @@ class LawyerFactory(private val timeFormatter: TimeFormatter) {
             override val name: String
                 get() = it.user_name.safe()
             override val avatarURL: String
-                get() = it.user.avatar_url.safe()
+                get() = it.user.avatar.safe()
             override val createAt: String
                 get() = timeFormatter.timeAgo(it.created_at)
             override val rating: Float

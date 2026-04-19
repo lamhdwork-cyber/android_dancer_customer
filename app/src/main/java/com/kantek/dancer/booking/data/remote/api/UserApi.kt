@@ -10,6 +10,7 @@ import com.kantek.dancer.booking.domain.model.ui.user.ChangePasswordForm
 import com.kantek.dancer.booking.domain.model.ui.user.DeleteAccountForm
 import com.kantek.dancer.booking.domain.model.ui.user.ResetPasswordForm
 import com.kantek.dancer.booking.domain.model.ui.user.SignInForm
+import com.kantek.dancer.booking.domain.model.ui.user.SignUpForm
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -22,7 +23,7 @@ import retrofit2.http.PartMap
 
 interface UserApi {
 
-    @POST("user/login")
+    @POST("auth/login")
     fun signIn(@Body signInForm: SignInForm): ApiAsync<UserResponse>
 
     @POST("user/login-with")
@@ -32,12 +33,8 @@ interface UserApi {
     ): ApiAsync<UserResponse>
 
     @NoTokenRequired
-    @POST("user/register")
-    @Multipart
-    fun signUp(
-        @PartMap buildMultipart: Map<String, @JvmSuppressWildcards RequestBody?>,
-        @Part avatarPart: MultipartBody.Part?
-    ): ApiAsync<UserResponse>
+    @POST("auth/register")
+    fun signUp(@Body form: SignUpForm): ApiAsync<UserResponse>
 
     @POST("user/logout")
     fun logout(): ApiAsync<Any>

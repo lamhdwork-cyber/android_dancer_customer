@@ -38,7 +38,7 @@ class ApiAsyncAdapterFactory(errorHandler: ApiCallErrorHandler) :
 
         override suspend fun awaitNullable(): Any? {
             val result = async.awaitNullable()
-            if (result?.result == false) throw ApiRequestException(
+            if (result?.success == false) throw ApiRequestException(
                 result.message
             )
             return result?.data

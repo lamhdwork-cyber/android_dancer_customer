@@ -46,9 +46,13 @@ class FAQsThreadsFactory(private val timeFormatter: TimeFormatter) {
             override val id: Int
                 get() = it.id.safe()
             override val name: String
-                get() = it.user.name.safe()
+                get() = it.user.name.safe().ifBlank {
+                    listOfNotNull(it.user.firstName, it.user.lastName)
+                        .filter { s -> !s.isNullOrBlank() }
+                        .joinToString(" ")
+                }
             override val avatarURL: String
-                get() = it.user.avatar_url.safe()
+                get() = it.user.avatar.safe()
             override val timeAgo: String
                 get() = timeFormatter.timeAgo(it.time)
             override val content: String

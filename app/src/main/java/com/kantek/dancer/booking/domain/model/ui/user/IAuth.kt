@@ -3,10 +3,10 @@ package com.kantek.dancer.booking.domain.model.ui.user
 import android.os.Build
 import com.google.gson.annotations.SerializedName
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.domain.extension.isEmail
 import com.kantek.dancer.booking.domain.extension.resourceError
 import java.util.Locale
+import kotlin.jvm.Transient
 
 interface IAccount {
     val account: String
@@ -14,11 +14,10 @@ interface IAccount {
 }
 
 data class SignInForm(
+    @SerializedName("email")
     override var account: String = "",
     override var password: String = "",
-    @SerializedName("mac_address")
-    var macAddress: String = "",
-    @SerializedName("device_token")
+    @SerializedName("fcmToken")
     var deviceToken: String = ""
 ) : IAccount {
     fun validate() {
@@ -29,27 +28,23 @@ data class SignInForm(
 }
 
 data class SignUpForm(
-    var fullName: String = "",
+    var firstName: String = "",
+    var lastName: String = "",
     var email: String = "",
+    @Transient
     var phone: String = "",
     var password: String = "",
-    @SerializedName("mac_address")
-    var macAddress: String = "",
-    @SerializedName("device_token")
-    var deviceToken: String = "",
-    val device_info: String = AppConfig.deviceInfo,
-    @SerializedName("legal_disclaimer")
-    var hasAgree: Boolean = false
+    @SerializedName("fcmToken")
+    var deviceToken: String = ""
 ) {
     fun valid() {
-        val trimmed = fullName.trim()
-        if (trimmed.isBlank()) resourceError(R.string.error_blank_full_name)
+        if (firstName.isBlank()) resourceError(R.string.error_blank_first_name)
+        if (lastName.isBlank()) resourceError(R.string.error_blank_last_name)
+        if (phone.isBlank() || phone.length != 10) resourceError(R.string.error_blank_phone)
         if (email.isBlank()) resourceError(R.string.error_blank_email)
         if (!email.isEmail()) resourceError(R.string.error_valid_email)
-        if (phone.isBlank() || phone.length != 10) resourceError(R.string.error_blank_phone)
         if (password.isBlank()) resourceError(R.string.error_blank_password)
         if (password.length < 6) resourceError(R.string.error_valid_password)
-        if (!hasAgree) resourceError(R.string.error_valid_legal_disclaimer)
     }
 }
 

@@ -237,7 +237,7 @@ val dataModule = module {
     factory { FetchUserRepo(get(), get(), get()) }
     factory { SignOutRepo(get(), get()) }
     factory { GetAccountRepo(get()) }
-    factory { SignInRepo(get(), get(), get()) }
+    factory { SignInRepo(get(), get()) }
     factory { SignUpRepo(get(), get()) }
     factory { ForgotPasswordRepo(get()) }
     factory { FetchIntroduceRepo(get()) }

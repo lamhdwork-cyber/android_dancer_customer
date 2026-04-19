@@ -9,6 +9,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.kantek.dancer.booking.app.AppComponentAct
 import com.kantek.dancer.booking.data.local.LanguageLocalSource
+import com.kantek.dancer.booking.data.local.UserLocalSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -17,6 +18,7 @@ import org.koin.android.ext.android.inject
 class SplashScreenAct : AppComponentAct() {
 
     private val languageLocalSource: LanguageLocalSource by inject()
+    private val userLocalSource: UserLocalSource by inject()
     private var hasKeep = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,10 +33,19 @@ class SplashScreenAct : AppComponentAct() {
                 delay(500)
                 openAppIntroduce()
             } else {
+                if (userLocalSource.isLogin())
+                    openMain()
+                else openAuth()
                 hasKeep = false
-                openMain()
             }
         }
+    }
+
+    private fun openAuth() {
+        val intent = Intent(this, AuthAct::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
     }
 
     private fun openLanguage() {
