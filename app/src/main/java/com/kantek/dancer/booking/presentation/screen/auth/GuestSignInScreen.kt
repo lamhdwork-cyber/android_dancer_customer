@@ -2,6 +2,7 @@ package com.kantek.dancer.booking.presentation.screen.auth
 
 import android.app.Activity
 import android.content.Intent
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -77,6 +78,10 @@ fun GuestSignInScreen(
     val openMain by viewModel.loginSuccess.collectAsState()
     val appNavigator = use<AppNavigator>(Scopes.App)
     val hasShowComingSoon = remember { mutableStateOf(false) }
+
+    BackHandler {
+        appNavigator.back()
+    }
 
     fun openMain() {
         val intent = Intent(context, MainAct::class.java).apply {

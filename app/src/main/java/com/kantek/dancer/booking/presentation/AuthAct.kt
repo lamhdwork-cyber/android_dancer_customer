@@ -1,6 +1,5 @@
 package com.kantek.dancer.booking.presentation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -37,7 +36,6 @@ class AuthAct : AppComponentAct() {
                         AuthScreen()
                     }
                     composable(Screen.SignIn.name) {
-                        BackHandler { finish() }
                         GuestSignInScreen(false)
                     }
                     composable(Screen.ManageStaffSignIn.name) {
