@@ -9,7 +9,7 @@
     <string name="error_server">Ocurrió un error del servidor. ¡Por favor, inténtalo más tarde!</string>
     <string name="error_internal_server">¡Lo sentimos! Hemos tenido un problema técnico. Nuestro equipo ya está trabajando en ello. Intenta nuevamente más tarde. Disculpa por los inconvenientes.</string>
     <string name="nav_home">Inicio</string>
-    <string name="nav_search">Buscar Abogado</string>
+    <string name="nav_explore">Buscar Abogado</string>
     <string name="nav_my_booking">Caso</string>
     <string name="nav_account">Cuenta</string>
     <string name="nav_notification">Notificaciones</string>

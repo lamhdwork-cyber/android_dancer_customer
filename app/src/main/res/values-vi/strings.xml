@@ -9,7 +9,7 @@
     <string name="error_server">Đã xảy ra lỗi máy chủ. Vui lòng thử lại sau!</string>
     <string name="error_internal_server">Rất tiếc! Chúng tôi gặp phải sự cố kỹ thuật. Đội ngũ của chúng tôi đang xử lý. Vui lòng thử lại sau. Xin lỗi vì sự bất tiện.</string>
     <string name="nav_home">Trang chủ</string>
-    <string name="nav_search">Tìm kiếm</string>
+    <string name="nav_explore">Tìm kiếm</string>
     <string name="nav_my_booking">Lịch</string>
     <string name="nav_account">Tài Khoản</string>
     <string name="nav_notification">Thông Báo</string>

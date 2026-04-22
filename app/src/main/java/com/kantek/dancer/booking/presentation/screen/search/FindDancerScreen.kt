@@ -39,7 +39,7 @@ fun FindDancerScreen() = ScopeProvider(Scopes.Search) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Colors.Dark0A050A)
     ) {
         ActionBarMainView(R.string.top_bar_find_dancer)
         Column(

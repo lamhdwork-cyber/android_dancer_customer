@@ -36,7 +36,7 @@ sealed class BottomNavigationScreen(
     val icon: Int
 ) {
     object Home : BottomNavigationScreen("home", R.string.nav_home, R.drawable.ic_nav_home)
-    object Search : BottomNavigationScreen("search", R.string.nav_search, R.drawable.ic_nav_search)
+    object Search : BottomNavigationScreen("search", R.string.nav_explore, R.drawable.ic_nav_search)
     object Cases : BottomNavigationScreen("bookings", R.string.nav_my_booking, R.drawable.ic_nav_cases)
     object Notification : BottomNavigationScreen(
         "notification",

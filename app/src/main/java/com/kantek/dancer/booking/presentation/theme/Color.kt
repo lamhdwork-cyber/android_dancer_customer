@@ -62,4 +62,8 @@ object Colors {
     val Pink0DF425F4: Color = Color(0x0DF425F4)
     /** Deep violet for manager / staff accent gradients (pairs with [Primary]). */
     val Purple9333EA: Color = Color(0xFF9333EA)
+    val Dark64748B: Color = Color(0xFF64748B)
+    val White1AFFFFFF: Color = Color(0x1AFFFFFF)
+    val Dark0A050A: Color = Color(0x0A050A)
+    val DarkCC0A050A: Color = Color(0xCC0A050A)
 }

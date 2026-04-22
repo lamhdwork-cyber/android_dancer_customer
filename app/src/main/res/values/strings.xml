@@ -9,7 +9,7 @@
     <string name="error_server">Server error occurred. Please try again later!</string>
     <string name="error_internal_server">Oops! We\'re having a technical issue. Our team is on it. Please try again later. Sorry for the inconvenience.</string>
     <string name="nav_home">Home</string>
-    <string name="nav_search">Search</string>
+    <string name="nav_explore">Explore</string>
     <string name="nav_my_booking">Bookings</string>
     <string name="nav_account">Account</string>
     <string name="nav_notification">Notification</string>

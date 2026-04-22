@@ -190,6 +190,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 
 @Composable
@@ -994,14 +995,14 @@ fun AppBottomBar(
             modifier = Modifier.fillMaxWidth(), color = Color.Transparent, shadowElevation = 4.dp
         ) {
             HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(), thickness = 2.dp, color = Colors.Gray238
+                modifier = Modifier.fillMaxWidth(), thickness = 2.dp, color = Colors.White1AFFFFFF
             )
         }
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Colors.Dark120812),
+                .background(Colors.DarkCC0A050A),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -1034,7 +1035,7 @@ fun AppBottomBar(
                         Icon(
                             imageVector = ImageVector.vectorResource(it.icon),
                             contentDescription = stringResource(it.titleRes),
-                            tint = if (isSelected) Color.White else Color.Black,
+                            tint = if (isSelected) Color.White else Colors.Dark64748B,
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(
@@ -1045,9 +1046,9 @@ fun AppBottomBar(
                     }
                     val dynamicFontSize = bottomBarFontSize()
                     Text(
-                        text = stringResource(it.titleRes),
-                        color = if (isSelected) Colors.Primary else Color.Black,
-                        fontSize = dynamicFontSize,
+                        text = stringResource(it.titleRes).uppercase(Locale.getDefault()),
+                        color = if (isSelected) Colors.Primary else Colors.Dark64748B,
+                        fontSize = 11.sp,
                         textAlign = TextAlign.Center,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
