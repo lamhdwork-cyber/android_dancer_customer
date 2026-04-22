@@ -447,7 +447,7 @@ fun AppInputText(
             readOnly = readOnly,
             textStyle = TextStyle(color = textColor, fontSize = 16.sp),
             keyboardOptions = if (isPassword) {
-                KeyboardOptions(keyboardType = KeyboardType.Number)
+                KeyboardOptions(keyboardType = KeyboardType.Text)
             } else {
                 keyboardOptions
             },
@@ -982,7 +982,7 @@ fun AppBottomBar(
     onItemRouterSelected: (String) -> Unit
 ) {
     val items = listOf(
-        BottomNavigationScreen.Home,
+//        BottomNavigationScreen.Home,
         BottomNavigationScreen.Search,
         BottomNavigationScreen.Cases,
         BottomNavigationScreen.Notification,
@@ -1001,7 +1001,7 @@ fun AppBottomBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.White),
+                .background(Colors.Dark120812),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {

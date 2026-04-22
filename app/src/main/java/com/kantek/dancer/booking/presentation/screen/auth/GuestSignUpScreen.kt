@@ -1,6 +1,7 @@
 package com.kantek.dancer.booking.presentation.screen.auth
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -52,6 +53,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -68,6 +70,7 @@ import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.domain.extension.resourceError
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.user.SignUpForm
+import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
@@ -89,16 +92,25 @@ import org.koin.androidx.compose.koinViewModel
 fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
     ApplyDarkEdgeToEdgeStatusBars()
 
+    val context = LocalContext.current
     val appNavigator = use<AppNavigator>(Scopes.App)
     val formState by viewModel.formState.collectAsState()
     val termsAgreed by viewModel.termsAgreed.collectAsState()
     val success by viewModel.onSuccess.collectAsState()
 
+    fun navigateToMain() {
+        val intent = Intent(context, MainAct::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        context.startActivity(intent)
+    }
+
+
     var showLegalDisclaimerDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(success) {
         if (success) {
-            appNavigator.navigateHome()
+            navigateToMain()
         }
     }
 
@@ -186,7 +198,6 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                     hintRes = R.string.auth_guest_hint_password,
                     leadingIcon = Icons.Outlined.Lock,
                     isPassword = true,
-                    maxLength = 6,
                     onValueChange = { viewModel.updatePassword(it) }
                 )
                 SpaceVertical(20.dp)

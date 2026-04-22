@@ -261,7 +261,6 @@ private fun GuestSignInFormSection(
                 hintRes = R.string.auth_guest_hint_password,
                 leadingIcon = Icons.Outlined.Lock,
                 isPassword = true,
-                maxLength = 6,
                 onValueChange = onPasswordChange
             )
             SpaceVertical(40.dp)

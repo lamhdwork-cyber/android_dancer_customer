@@ -23,6 +23,7 @@ import com.kantek.dancer.booking.presentation.screen.account.AccountScreen
 import com.kantek.dancer.booking.presentation.screen.cases.MyBookingScreen
 import com.kantek.dancer.booking.presentation.screen.notification.NotificationScreen
 import com.kantek.dancer.booking.presentation.screen.search.FindDancerScreen
+import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppBottomBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -33,7 +34,7 @@ fun HomeScreen() = ScopeProvider(Scopes.Home) {
     NavigationProvider { nav ->
         val navBackStackEntry by nav.currentBackStackEntryAsState()
         val currentRoute =
-            navBackStackEntry?.destination?.route ?: BottomNavigationScreen.Home.route
+            navBackStackEntry?.destination?.route ?: BottomNavigationScreen.Search.route
 
         Scaffold(
             modifier = Modifier
@@ -55,17 +56,17 @@ fun HomeScreen() = ScopeProvider(Scopes.Home) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White)
+                    .background(Colors.Dark120812)
                     .padding(bottom = paddingValues.calculateBottomPadding())
             ) {
                 NavHost(
                     navController = nav,
-                    startDestination = BottomNavigationScreen.Home.route,
+                    startDestination = BottomNavigationScreen.Search.route,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White)
+                        .background(Colors.Dark120812)
                 ) {
-                    composable(BottomNavigationScreen.Home.route) { FAQsScreen() }
+//                    composable(BottomNavigationScreen.Home.route) { FAQsScreen() }
                     composable(BottomNavigationScreen.Search.route) { FindDancerScreen() }
                     composable(BottomNavigationScreen.Cases.route) { MyBookingScreen() }
                     composable(BottomNavigationScreen.Notification.route) { NotificationScreen() }
