@@ -228,6 +228,14 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="error_valid_legal_disclaimer">Por favor, lea y acepte los términos del "Aviso legal"</string>
     <string name="lbl_find_option">Por favor, seleccione una opción</string>
     <string name="all_select_dancer">Selecciona un bailarín</string>
+    <string name="club_select_this_club">Seleccionar este club</string>
+    <string name="club_current_location">Ubicación actual</string>
+    <string name="club_current_location_placeholder">123 Neon District, City</string>
+    <string name="club_nearby_clubs">Clubs cercanos</string>
+    <string name="club_view_map">Ver mapa</string>
+    <string name="club_open_now">Abierto ahora</string>
+    <string name="club_closed">Cerrado</string>
+    <string name="club_open_hours_format">ABIERTO: %1$s - %2$s</string>
     <string name="all_quick_request">Solicitud rápida</string>
     <string name="find_select_state">Seleccionar estado</string>
     <string name="all_request">Solicitar</string>

@@ -26,6 +26,7 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.calculatePan
 import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -304,8 +305,8 @@ fun ActionBarMainView(textRes: Int = R.string.nav_home) {
             Text(
                 text = stringResource(textRes),
                 color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -856,6 +857,7 @@ fun AppButton(
     onClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val interactionSource = remember { MutableInteractionSource() }
     Button(
         onClick = {
             // Play sound
@@ -868,7 +870,14 @@ fun AppButton(
         },
         enabled = isEnabled,
         contentPadding = contentPadding,
-        modifier = modifier,
+        modifier = modifier.indication(
+            interactionSource = interactionSource,
+            indication = rememberRipple(
+                bounded = true,
+                color = textColor.copy(alpha = 0.45f)
+            )
+        ),
+        interactionSource = interactionSource,
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 0.dp,
             pressedElevation = 14.dp,
@@ -1125,7 +1134,7 @@ fun <T> AppLazyColumn(
     onLoadMore: (() -> Unit)? = null,
     isRefreshing: Boolean = false,
     onRefresh: (() -> Unit)? = null,
-    backgroundColor: Color = Colors.Gray249,
+    backgroundColor: Color = Colors.DarkFF0A050A,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .wrapContentHeight(),

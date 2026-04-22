@@ -16,6 +16,7 @@ import com.kantek.dancer.booking.data.local.FilterLocalSource
 import com.kantek.dancer.booking.data.local.LanguageLocalSource
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.BookingApi
+import com.kantek.dancer.booking.data.remote.api.ClubApi
 import com.kantek.dancer.booking.data.remote.api.ConfigApi
 import com.kantek.dancer.booking.data.remote.api.ConversationApi
 import com.kantek.dancer.booking.data.remote.api.FAQsThreadsApi
@@ -26,12 +27,14 @@ import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.remote.socket.ChatSocketClient
 import com.kantek.dancer.booking.data.remote.socket.SocketClient
 import com.kantek.dancer.booking.data.repo.FetchAllBannerRepo
+import com.kantek.dancer.booking.data.repo.FetchClubByPageRepoImpl
 import com.kantek.dancer.booking.data.repo.FetchNotificationByPageRepoImpl
 import com.kantek.dancer.booking.data.repo.GetAccountRepo
 import com.kantek.dancer.booking.data.repo.GetLinkAboutUsRepo
 import com.kantek.dancer.booking.data.repo.GetLinkTermsRepo
 import com.kantek.dancer.booking.data.repo.GetStartDestinationMainRepo
 import com.kantek.dancer.booking.data.repo.LanguageRepo
+import com.kantek.dancer.booking.data.repo.ClubRepo
 import com.kantek.dancer.booking.data.repo.NotificationRepo
 import com.kantek.dancer.booking.data.repo.SignInRepo
 import com.kantek.dancer.booking.data.repo.conversation.ChatRepo
@@ -40,6 +43,7 @@ import com.kantek.dancer.booking.data.repo.conversation.FetchMessageByPageRepo
 import com.kantek.dancer.booking.data.repo.conversation.UploadPhotosRepo
 import com.kantek.dancer.booking.domain.extension.getBy
 import com.kantek.dancer.booking.domain.factory.BookingFactory
+import com.kantek.dancer.booking.domain.factory.ClubFactory
 import com.kantek.dancer.booking.domain.factory.ConfigFactory
 import com.kantek.dancer.booking.domain.factory.ConversationFactory
 import com.kantek.dancer.booking.domain.factory.FAQsThreadsFactory
@@ -54,6 +58,7 @@ import com.kantek.dancer.booking.domain.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.formatter.TimeFormatter
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.usecase.FetchNotificationCase
+import com.kantek.dancer.booking.domain.usecase.FetchClubCase
 import com.kantek.dancer.booking.domain.usecase.GetStartDestinationCase
 import com.kantek.dancer.booking.presentation.helper.ActivityRetriever
 import com.kantek.dancer.booking.presentation.helper.AppKeyboard
@@ -114,6 +119,7 @@ import com.kantek.dancer.booking.presentation.viewmodel.FetchReviewByPageRepo
 import com.kantek.dancer.booking.presentation.viewmodel.FetchUserRepo
 import com.kantek.dancer.booking.presentation.viewmodel.LanguageVM
 import com.kantek.dancer.booking.presentation.viewmodel.MainVM
+import com.kantek.dancer.booking.presentation.viewmodel.FindClubVM
 import com.kantek.dancer.booking.presentation.viewmodel.NotificationVM
 import com.kantek.dancer.booking.presentation.viewmodel.ReviewVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignInGoogleRepo
@@ -181,6 +187,7 @@ val apiModule = module {
     single { provideApi<NotificationApi>(get()) }
     single { provideApi<ConfigApi>(get()) }
     single { provideApi<BookingApi>(get()) }
+    single { provideApi<ClubApi>(get()) }
     single { provideApi<LawyerApi>(get()) }
     single { provideApi<FilterApi>(get()) }
     single { provideApi<FAQsThreadsApi>(get()) }
@@ -195,6 +202,7 @@ val presentationModule = module {
         scoped<CoroutineScope> { ScopedCoroutineScope() }
     }
     viewModel { NotificationVM(get()) }
+    viewModel { FindClubVM(get()) }
     viewModel { LanguageVM(get()) }
     viewModel { MainVM(get()) }
     viewModel { AccountVM(get(), get(), get()) }
@@ -231,6 +239,7 @@ val dataModule = module {
     single { LanguageInterceptor(get()) }
     single { ShareIOScope() }
     single<NotificationRepo> { FetchNotificationByPageRepoImpl(get()) }
+    single<ClubRepo> { FetchClubByPageRepoImpl(get()) }
     factory { LanguageRepo(get(), get(), get(), get()) }
     single { LanguageLocalSource(get()) }
     factory { GetStartDestinationMainRepo(get(), get()) }
@@ -278,6 +287,7 @@ val dataModule = module {
 
 val domainModule = module {
     factory { FetchNotificationCase(get(), get()) }
+    factory { FetchClubCase(get(), get()) }
     factory { GetStartDestinationCase(get()) }
     single { TextFormatter() }
     single { NotificationFactory(get()) }
@@ -287,6 +297,7 @@ val domainModule = module {
     single { PhotoFactory(get()) }
     single { ConfigFactory(get()) }
     single { BookingFactory(get(), get()) }
+    single { ClubFactory() }
     single { LawyerFactory(get()) }
     single { FilterFactory() }
     single { FAQsThreadsFactory(get()) }

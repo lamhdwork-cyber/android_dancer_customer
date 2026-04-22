@@ -44,7 +44,7 @@ fun HomeScreen() = ScopeProvider(Scopes.Home) {
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Colors.Dark0A050A),
+                .background(Colors.DarkFF0A050A),
             bottomBar = {
                 AppBottomBar(currentRoute) { router ->
                     if (currentRoute != router)
@@ -61,7 +61,7 @@ fun HomeScreen() = ScopeProvider(Scopes.Home) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Colors.Dark0A050A)
+                    .background(Colors.DarkFF0A050A)
                     .padding(bottom = paddingValues.calculateBottomPadding())
             ) {
                 NavHost(

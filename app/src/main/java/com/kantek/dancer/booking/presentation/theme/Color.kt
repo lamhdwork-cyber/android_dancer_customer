@@ -64,6 +64,9 @@ object Colors {
     val Purple9333EA: Color = Color(0xFF9333EA)
     val Dark64748B: Color = Color(0xFF64748B)
     val White1AFFFFFF: Color = Color(0x1AFFFFFF)
-    val Dark0A050A: Color = Color(0x0A050A)
+    val White33FFFFFF: Color = Color(0x33FFFFFF)
+    val DarkFF0A050A: Color = Color(0xFF0A050A)
     val DarkCC0A050A: Color = Color(0xCC0A050A)
+    val DarkAA1A0D18: Color = Color(0xAA1A0D18)
+    val Dark5E453E: Color = Color(0xFF5E453E)
 }

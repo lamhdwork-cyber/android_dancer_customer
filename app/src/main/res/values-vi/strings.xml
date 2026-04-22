@@ -231,6 +231,14 @@
     <string name="error_valid_legal_disclaimer">Vui lòng đọc và đồng ý với điều khoản của \"Miễn trừ trách nhiệm pháp lý\"</string>
     <string name="lbl_find_option">Vui lòng chọn một tùy chọn</string>
     <string name="all_select_dancer">Chọn vũ công</string>
+    <string name="club_select_this_club">Chọn câu lạc bộ này</string>
+    <string name="club_current_location">Vị trí hiện tại</string>
+    <string name="club_current_location_placeholder">123 Neon District, City</string>
+    <string name="club_nearby_clubs">Câu lạc bộ gần bạn</string>
+    <string name="club_view_map">Xem bản đồ</string>
+    <string name="club_open_now">Đang mở cửa</string>
+    <string name="club_closed">Đã đóng cửa</string>
+    <string name="club_open_hours_format">MỞ CỬA: %1$s - %2$s</string>
     <string name="all_quick_request">Yêu cầu nhanh</string>
     <string name="find_select_state">Chọn Bang</string>
     <string name="all_request">Yêu cầu</string>

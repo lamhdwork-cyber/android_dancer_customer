@@ -237,6 +237,14 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="error_valid_legal_disclaimer">Please read and agree to the terms of the "Legal Disclaimer"</string>
     <string name="lbl_find_option">Please Select a Option</string>
     <string name="all_select_dancer">Select a Dancer</string>
+    <string name="club_select_this_club">Select this club</string>
+    <string name="club_current_location">Current location</string>
+    <string name="club_current_location_placeholder">123 Neon District, City</string>
+    <string name="club_nearby_clubs">Nearby clubs</string>
+    <string name="club_view_map">View map</string>
+    <string name="club_open_now">Open now</string>
+    <string name="club_closed">Closed</string>
+    <string name="club_open_hours_format">OPEN: %1$s - %2$s</string>
     <string name="all_quick_request">Quick Request</string>
     <string name="find_select_state">Select State</string>
     <string name="all_request">Request</string>
