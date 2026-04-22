@@ -10,6 +10,6 @@
     <string name="top_bar_otp_verify">Verificación del código OTP</string>
     <string name="top_bar_reset_pw">Restablecer tu contraseña</string>
     <string name="top_bar_conversation">Consultor</string>
-    <string name="top_bar_find_dancer">Buscar un abogado</string>
+    <string name="top_bar_select_club">Buscar un abogado</string>
     <string name="top_bar_dancer_list">Lista de abogados</string>
 </resources>

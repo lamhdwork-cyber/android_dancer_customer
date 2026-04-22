@@ -1,5 +1,12 @@
 package com.kantek.dancer.booking.domain.model.support
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.Explore
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.kantek.dancer.booking.R
 
 enum class Screen {
@@ -33,17 +40,17 @@ enum class Screen {
 sealed class BottomNavigationScreen(
     val route: String,
     val titleRes: Int,
-    val icon: Int
+    val icon: ImageVector
 ) {
-    object Home : BottomNavigationScreen("home", R.string.nav_home, R.drawable.ic_nav_home)
-    object Search : BottomNavigationScreen("search", R.string.nav_explore, R.drawable.ic_nav_search)
-    object Cases : BottomNavigationScreen("bookings", R.string.nav_my_booking, R.drawable.ic_nav_cases)
+    object Home : BottomNavigationScreen("home", R.string.nav_home, Icons.Outlined.Home)
+    object Search : BottomNavigationScreen("search", R.string.nav_explore, Icons.Outlined.Explore)
+    object Cases : BottomNavigationScreen("bookings", R.string.nav_my_booking, Icons.Outlined.CalendarMonth)
     object Notification : BottomNavigationScreen(
         "notification",
         R.string.nav_notification,
-        R.drawable.ic_nav_notification
+        Icons.Outlined.Notifications
     )
 
     object Account :
-        BottomNavigationScreen("account", R.string.nav_account, R.drawable.ic_nav_account)
+        BottomNavigationScreen("account", R.string.nav_account, Icons.Outlined.AccountCircle)
 }

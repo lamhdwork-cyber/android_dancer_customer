@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -55,7 +56,10 @@ import com.kantek.dancer.booking.presentation.screen.review.CreateReviewScreen
 import com.kantek.dancer.booking.presentation.screen.review.ReviewScreen
 import com.kantek.dancer.booking.presentation.screen.search.DancerListScreen
 import com.kantek.dancer.booking.presentation.screen.search.QuickRequestScreen
+import com.kantek.dancer.booking.presentation.theme.Colors
+import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.BookingSuccessDialog
+import com.kantek.dancer.booking.presentation.widget.SetSystemBarsColor
 
 class MainAct : AppComponentAct() {
     private var redirectToBookingDetail = mutableIntStateOf(-1)
@@ -83,6 +87,11 @@ class MainAct : AppComponentAct() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         handleIntent(intent)
+    }
+
+    @Composable
+    override fun ConfigureSystemBars() {
+        ApplyDarkEdgeToEdgeStatusBars()
     }
 
     private fun handleIntent(intent: Intent) {

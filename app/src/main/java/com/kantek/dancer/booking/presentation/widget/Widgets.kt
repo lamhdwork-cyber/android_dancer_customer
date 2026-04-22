@@ -71,6 +71,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material.icons.filled.StarOutline
+import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -290,19 +291,19 @@ fun ActionBarBackAndTitleView(
 fun ActionBarMainView(textRes: Int = R.string.nav_home) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color.White, shadowElevation = 8.dp
+        color = Colors.Dark120812, shadowElevation = 8.dp
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .height(56.dp)
-                .background(Color.White)
+                .background(Colors.Dark120812)
                 .fillMaxWidth()
         ) {
             Text(
                 text = stringResource(textRes),
-                color = Color.Black,
+                color = Color.White,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
@@ -990,19 +991,26 @@ fun AppBottomBar(
         BottomNavigationScreen.Account
     )
 
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Colors.DarkCC0A050A)
+    ) {
         Surface(
             modifier = Modifier.fillMaxWidth(), color = Color.Transparent, shadowElevation = 4.dp
         ) {
             HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(), thickness = 2.dp, color = Colors.White1AFFFFFF
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp,
+                color = Colors.White1AFFFFFF
             )
         }
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Colors.DarkCC0A050A),
+                .background(Colors.DarkCC0A050A)
+                .padding(horizontal = 8.dp, vertical = 6.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -1015,40 +1023,30 @@ fun AppBottomBar(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = rememberRipple(bounded = false),
                             onClick = { onItemRouterSelected(it.route) })
-                        .padding(8.dp),
+                        .padding(vertical = 4.dp, horizontal = 6.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
                         modifier = Modifier
-                            .height(32.dp)
-                            .width(48.dp)
+                            .height(34.dp)
+                            .width(52.dp)
                             .background(
-                                color = if (isSelected) Colors.Primary else Color.Transparent,
+                                color = if (isSelected) Colors.Pink33F425F4 else Color.Transparent,
                                 shape = RoundedCornerShape(18.dp)
                             ), contentAlignment = Alignment.Center
                     ) {
-                        Spacer(
-                            modifier = Modifier
-                                .width(5.dp)
-                                .height(5.dp)
-                        )
                         Icon(
-                            imageVector = ImageVector.vectorResource(it.icon),
+                            imageVector = it.icon,
                             contentDescription = stringResource(it.titleRes),
                             tint = if (isSelected) Color.White else Colors.Dark64748B,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .width(5.dp)
-                                .height(5.dp)
+                            modifier = Modifier.size(24.dp)
                         )
                     }
-                    val dynamicFontSize = bottomBarFontSize()
                     Text(
                         text = stringResource(it.titleRes).uppercase(Locale.getDefault()),
                         color = if (isSelected) Colors.Primary else Colors.Dark64748B,
-                        fontSize = 11.sp,
+                        fontSize = 10.sp,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                         textAlign = TextAlign.Center,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis

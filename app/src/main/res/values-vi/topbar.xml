@@ -10,6 +10,6 @@
     <string name="top_bar_otp_verify">Xác minh mã OTP</string>
     <string name="top_bar_reset_pw">Đặt lại mật khẩu của bạn</string>
     <string name="top_bar_conversation">Nhân viên tư vấn</string>
-    <string name="top_bar_find_dancer">Tìm vũ công</string>
+    <string name="top_bar_select_club">Tìm vũ công</string>
     <string name="top_bar_dancer_list">Danh sách vũ công</string>
 </resources>

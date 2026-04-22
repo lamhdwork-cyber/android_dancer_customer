@@ -10,6 +10,6 @@
     <string name="top_bar_otp_verify">OTP Code Verification</string>
     <string name="top_bar_reset_pw">Reset your Password</string>
     <string name="top_bar_conversation">Consultant</string>
-    <string name="top_bar_find_dancer">Find a dancer</string>
+    <string name="top_bar_select_club">Select Club</string>
     <string name="top_bar_dancer_list">Dancer List</string>
 </resources>
