@@ -19,6 +19,7 @@ import com.kantek.dancer.booking.data.remote.api.BookingApi
 import com.kantek.dancer.booking.data.remote.api.ClubApi
 import com.kantek.dancer.booking.data.remote.api.ConfigApi
 import com.kantek.dancer.booking.data.remote.api.ConversationApi
+import com.kantek.dancer.booking.data.remote.api.DancerApi
 import com.kantek.dancer.booking.data.remote.api.FAQsThreadsApi
 import com.kantek.dancer.booking.data.remote.api.FilterApi
 import com.kantek.dancer.booking.data.remote.api.LawyerApi
@@ -28,6 +29,7 @@ import com.kantek.dancer.booking.data.remote.socket.ChatSocketClient
 import com.kantek.dancer.booking.data.remote.socket.SocketClient
 import com.kantek.dancer.booking.data.repo.FetchAllBannerRepo
 import com.kantek.dancer.booking.data.repo.FetchClubByPageRepoImpl
+import com.kantek.dancer.booking.data.repo.FetchDancerByPageRepoImpl
 import com.kantek.dancer.booking.data.repo.FetchNotificationByPageRepoImpl
 import com.kantek.dancer.booking.data.repo.GetAccountRepo
 import com.kantek.dancer.booking.data.repo.GetLinkAboutUsRepo
@@ -35,6 +37,7 @@ import com.kantek.dancer.booking.data.repo.GetLinkTermsRepo
 import com.kantek.dancer.booking.data.repo.GetStartDestinationMainRepo
 import com.kantek.dancer.booking.data.repo.LanguageRepo
 import com.kantek.dancer.booking.data.repo.ClubRepo
+import com.kantek.dancer.booking.data.repo.DancerRepo
 import com.kantek.dancer.booking.data.repo.NotificationRepo
 import com.kantek.dancer.booking.data.repo.SignInRepo
 import com.kantek.dancer.booking.data.repo.conversation.ChatRepo
@@ -46,6 +49,7 @@ import com.kantek.dancer.booking.domain.factory.BookingFactory
 import com.kantek.dancer.booking.domain.factory.ClubFactory
 import com.kantek.dancer.booking.domain.factory.ConfigFactory
 import com.kantek.dancer.booking.domain.factory.ConversationFactory
+import com.kantek.dancer.booking.domain.factory.DancerFactory
 import com.kantek.dancer.booking.domain.factory.FAQsThreadsFactory
 import com.kantek.dancer.booking.domain.factory.FilterFactory
 import com.kantek.dancer.booking.domain.factory.IntroduceFactory
@@ -59,6 +63,7 @@ import com.kantek.dancer.booking.domain.formatter.TimeFormatter
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.usecase.FetchNotificationCase
 import com.kantek.dancer.booking.domain.usecase.FetchClubCase
+import com.kantek.dancer.booking.domain.usecase.FetchDancerByClubCase
 import com.kantek.dancer.booking.domain.usecase.GetStartDestinationCase
 import com.kantek.dancer.booking.presentation.helper.ActivityRetriever
 import com.kantek.dancer.booking.presentation.helper.AppKeyboard
@@ -105,12 +110,7 @@ import com.kantek.dancer.booking.presentation.screen.lawyer.GetLawyerDetailRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewVM
 import com.kantek.dancer.booking.presentation.screen.search.BookingCreateRepo
-import com.kantek.dancer.booking.presentation.screen.search.FetchAllCityRepo
-import com.kantek.dancer.booking.presentation.screen.search.FetchAllSpecialityRepo
-import com.kantek.dancer.booking.presentation.screen.search.FetchAllStateRepo
-import com.kantek.dancer.booking.presentation.screen.search.FetchLawyerListRepo
-import com.kantek.dancer.booking.presentation.screen.search.FilterCurrentRepo
-import com.kantek.dancer.booking.presentation.screen.search.LawyerListVM
+import com.kantek.dancer.booking.presentation.screen.search.DancerListVM
 import com.kantek.dancer.booking.presentation.screen.search.QuickRequestVM
 import com.kantek.dancer.booking.presentation.viewmodel.AccountVM
 import com.kantek.dancer.booking.presentation.viewmodel.BrowserVM
@@ -189,6 +189,7 @@ val apiModule = module {
     single { provideApi<BookingApi>(get()) }
     single { provideApi<ClubApi>(get()) }
     single { provideApi<LawyerApi>(get()) }
+    single { provideApi<DancerApi>(get()) }
     single { provideApi<FilterApi>(get()) }
     single { provideApi<FAQsThreadsApi>(get()) }
 }
@@ -222,7 +223,7 @@ val presentationModule = module {
     viewModel { BrowserVM(get(), get()) }
     viewModel { OTPVerifyVM(get(), get()) }
     viewModel { RetPasswordVM(get(), getBy(Scopes.App)) }
-    viewModel { LawyerListVM(get(), get(), get(), get(), get(), get()) }
+    viewModel { DancerListVM(get()) }
     viewModel { ReviewVM(get()) }
     viewModel { CreateReviewVM(get(), get(), get()) }
     viewModel { FAQsThreadsVM(get()) }
@@ -240,6 +241,7 @@ val dataModule = module {
     single { ShareIOScope() }
     single<NotificationRepo> { FetchNotificationByPageRepoImpl(get()) }
     single<ClubRepo> { FetchClubByPageRepoImpl(get()) }
+    single<DancerRepo> { FetchDancerByPageRepoImpl(get()) }
     factory { LanguageRepo(get(), get(), get(), get()) }
     single { LanguageLocalSource(get()) }
     factory { GetStartDestinationMainRepo(get(), get()) }
@@ -269,14 +271,9 @@ val dataModule = module {
     factory { RequestOTPRepo(get()) }
     factory { VerifyOTPRepo(get(), get()) }
     factory { ResetPasswordRepo(get()) }
-    factory { FetchAllStateRepo(get(), get()) }
-    factory { FetchLawyerListRepo(get(), get(), get()) }
     factory { FetchDetailLawyerRepo(get(), get()) }
     factory { FetchReviewByPageRepo(get(), get()) }
     single { FilterLocalSource(get()) }
-    factory { FilterCurrentRepo(get()) }
-    factory { FetchAllCityRepo(get(), get()) }
-    factory { FetchAllSpecialityRepo(get(), get()) }
     factory { CreateReviewRepo(get()) }
     factory { FetchFAQsThreadsPagingRepo(get(), get()) }
     factory { FetchQuestionThreadsByPage(get(), get()) }
@@ -288,6 +285,7 @@ val dataModule = module {
 val domainModule = module {
     factory { FetchNotificationCase(get(), get()) }
     factory { FetchClubCase(get(), get()) }
+    factory { FetchDancerByClubCase(get(), get()) }
     factory { GetStartDestinationCase(get()) }
     single { TextFormatter() }
     single { NotificationFactory(get()) }
@@ -298,6 +296,7 @@ val domainModule = module {
     single { ConfigFactory(get()) }
     single { BookingFactory(get(), get()) }
     single { ClubFactory() }
+    single { DancerFactory() }
     single { LawyerFactory(get()) }
     single { FilterFactory() }
     single { FAQsThreadsFactory(get()) }

@@ -8,6 +8,7 @@ import com.kantek.dancer.booking.domain.model.support.Screen
 import com.kantek.dancer.booking.domain.model.support.Updatable
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_DTO
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_ID
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLUB_ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.EMAIL
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.IS_IN_APP
@@ -41,6 +42,7 @@ class AppNavigator : Updatable {
             const val REVIEW_TOTAL = "review_total"
             const val NAME = "name"
             const val ID = "id"
+            const val CLUB_ID = "club_id"
         }
     }
 
@@ -165,8 +167,8 @@ class AppNavigator : Updatable {
         navHost?.navigate("${Screen.QuickRequest.name}?$LAWYER_DTO=${dataJson}")
     }
 
-    fun navigateLawyerList() {
-        navHost?.navigate(Screen.RequestWithLawyer.name)
+    fun navigateLawyerList(clubId: String) {
+        navHost?.navigate("${Screen.RequestWithLawyer.name}?$CLUB_ID=$clubId")
     }
 
     fun navigateChangeLawyer() {

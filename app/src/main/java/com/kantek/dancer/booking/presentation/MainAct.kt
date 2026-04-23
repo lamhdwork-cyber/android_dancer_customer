@@ -247,6 +247,8 @@ class MainAct : AppComponentAct() {
 
                             val keyLawyerArg =
                                 AppNavigator.Companion.ArgKey.LAWYER_DTO
+                            val keyClubIDArg =
+                                AppNavigator.Companion.ArgKey.CLUB_ID
                             composable(
                                 "${Screen.QuickRequest.name}?$keyLawyerArg={$keyLawyerArg}",
                                 arguments = listOf(navArgument(keyLawyerArg) {
@@ -259,8 +261,16 @@ class MainAct : AppComponentAct() {
                                 QuickRequestScreen(arg)
                             }
 
-                            composable(Screen.RequestWithLawyer.name) {
-                                DancerListScreen()
+                            composable(
+                                "${Screen.RequestWithLawyer.name}?$keyClubIDArg={$keyClubIDArg}",
+                                arguments = listOf(navArgument(keyClubIDArg) {
+                                    type = NavType.StringType
+                                    defaultValue = ""
+                                })
+                            ) { backStackEntry ->
+                                val clubId =
+                                    backStackEntry.arguments?.getString(keyClubIDArg) ?: ""
+                                DancerListScreen(clubId = clubId)
                             }
 
                             val keyRoomIDArg =

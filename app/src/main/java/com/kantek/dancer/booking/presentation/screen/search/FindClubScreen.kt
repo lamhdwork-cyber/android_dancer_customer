@@ -88,7 +88,7 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
         ) { club, _, _ ->
             ClubItemCard(
                 club = club,
-                onSelectClub = { appNavigator.navigateLawyerList() }
+                onSelectClub = { appNavigator.navigateLawyerList(club.id) }
             )
         }
         if (isEmpty) NoDataView(htmlRes = R.string.no_data_notifications)

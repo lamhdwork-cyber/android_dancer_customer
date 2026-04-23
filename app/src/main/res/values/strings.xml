@@ -244,6 +244,8 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="club_view_map">View map</string>
     <string name="club_open_now">Open now</string>
     <string name="club_closed">Closed</string>
+    <string name="dancer_available_now">Available</string>
+    <string name="dancer_style_unknown">Dance style</string>
     <string name="club_open_hours_format">OPEN: %1$s - %2$s</string>
     <string name="all_quick_request">Quick Request</string>
     <string name="find_select_state">Select State</string>
@@ -251,6 +253,10 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="no_data_lawyer"><![CDATA[
    <big><b>No lawyers found!</b></big><br/><br/>
    Please try changing the location or filters
+]]></string>
+    <string name="no_data_dancer"><![CDATA[
+   <big><b>No dancers found!</b></big><br/><br/>
+   Please select another club or refresh to try again
 ]]></string>
     <string name="all_lawyer">The lawyer you selected</string>
     <string name="all_change_lawyer">Change lawyer</string>

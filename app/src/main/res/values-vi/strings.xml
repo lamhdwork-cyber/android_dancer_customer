@@ -238,6 +238,8 @@
     <string name="club_view_map">Xem bản đồ</string>
     <string name="club_open_now">Đang mở cửa</string>
     <string name="club_closed">Đã đóng cửa</string>
+    <string name="dancer_available_now">Sẵn sàng</string>
+    <string name="dancer_style_unknown">Phong cách nhảy</string>
     <string name="club_open_hours_format">MỞ CỬA: %1$s - %2$s</string>
     <string name="all_quick_request">Yêu cầu nhanh</string>
     <string name="find_select_state">Chọn Bang</string>
@@ -245,6 +247,10 @@
     <string name="no_data_lawyer"><![CDATA[
    <big><b>Không tìm thấy luật sư nào!</b></big><br/><br/>
     Vui lòng thử thay đổi khu vực hoặc bộ lọc
+]]></string>
+    <string name="no_data_dancer"><![CDATA[
+   <big><b>Không tìm thấy vũ công nào!</b></big><br/><br/>
+   Vui lòng chọn câu lạc bộ khác hoặc tải lại để thử lại
 ]]></string>
     <string name="all_lawyer">Luật sư bạn chọn</string>
     <string name="all_change_lawyer">Thay đổi luật sư</string>

@@ -235,6 +235,8 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="club_view_map">Ver mapa</string>
     <string name="club_open_now">Abierto ahora</string>
     <string name="club_closed">Cerrado</string>
+    <string name="dancer_available_now">Disponible</string>
+    <string name="dancer_style_unknown">Estilo de baile</string>
     <string name="club_open_hours_format">ABIERTO: %1$s - %2$s</string>
     <string name="all_quick_request">Solicitud rápida</string>
     <string name="find_select_state">Seleccionar estado</string>
@@ -242,6 +244,10 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="no_data_lawyer"><![CDATA[
    <big><b>¡No se encontró ningún abogado!</b></big><br/><br/>
    Intente cambiar la ubicación o los filtros
+]]></string>
+    <string name="no_data_dancer"><![CDATA[
+   <big><b>¡No se encontraron bailarines!</b></big><br/><br/>
+   Selecciona otro club o actualiza para volver a intentarlo
 ]]></string>
     <string name="all_lawyer">Tu abogado seleccionado</string>
     <string name="all_change_lawyer">Cambiar abogado</string>
