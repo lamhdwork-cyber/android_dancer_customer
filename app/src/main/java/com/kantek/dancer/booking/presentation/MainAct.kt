@@ -14,7 +14,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -49,17 +48,15 @@ import com.kantek.dancer.booking.presentation.screen.faqs.FAQsThreadsScreen
 import com.kantek.dancer.booking.presentation.screen.faqs.QuestionThreadsScreen
 import com.kantek.dancer.booking.presentation.screen.home.HomeScreen
 import com.kantek.dancer.booking.presentation.screen.language.LanguageScreen
-import com.kantek.dancer.booking.presentation.screen.lawyer.DetailLawyerScreen
+import com.kantek.dancer.booking.presentation.screen.dancer.DetailLawyerScreen
 import com.kantek.dancer.booking.presentation.screen.media.PhotoViewerScreen
 import com.kantek.dancer.booking.presentation.screen.media.PhotosViewerScreen
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewScreen
 import com.kantek.dancer.booking.presentation.screen.review.ReviewScreen
-import com.kantek.dancer.booking.presentation.screen.search.DancerListScreen
-import com.kantek.dancer.booking.presentation.screen.search.QuickRequestScreen
-import com.kantek.dancer.booking.presentation.theme.Colors
+import com.kantek.dancer.booking.presentation.screen.dancer.DancerListScreen
+import com.kantek.dancer.booking.presentation.screen.club.QuickRequestScreen
 import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.BookingSuccessDialog
-import com.kantek.dancer.booking.presentation.widget.SetSystemBarsColor
 
 class MainAct : AppComponentAct() {
     private var redirectToBookingDetail = mutableIntStateOf(-1)
@@ -262,7 +259,7 @@ class MainAct : AppComponentAct() {
                             }
 
                             composable(
-                                "${Screen.RequestWithLawyer.name}?$keyClubIDArg={$keyClubIDArg}",
+                                "${Screen.DancerList.name}?$keyClubIDArg={$keyClubIDArg}",
                                 arguments = listOf(navArgument(keyClubIDArg) {
                                     type = NavType.StringType
                                     defaultValue = ""

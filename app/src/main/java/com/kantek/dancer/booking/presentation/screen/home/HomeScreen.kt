@@ -21,7 +21,7 @@ import com.kantek.dancer.booking.presentation.provider.NavigationProvider
 import com.kantek.dancer.booking.presentation.screen.account.AccountScreen
 import com.kantek.dancer.booking.presentation.screen.cases.MyBookingScreen
 import com.kantek.dancer.booking.presentation.screen.notification.NotificationScreen
-import com.kantek.dancer.booking.presentation.screen.search.FindClubScreen
+import com.kantek.dancer.booking.presentation.screen.club.FindClubScreen
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppBottomBar
 import com.kantek.dancer.booking.presentation.widget.SetSystemBarsColor

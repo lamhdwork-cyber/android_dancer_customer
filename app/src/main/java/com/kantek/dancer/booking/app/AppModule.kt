@@ -104,14 +104,14 @@ import com.kantek.dancer.booking.presentation.screen.home.FetchFAQsPagingRepo
 import com.kantek.dancer.booking.presentation.screen.home.HomeVM
 import com.kantek.dancer.booking.presentation.screen.introduce.FetchIntroduceRepo
 import com.kantek.dancer.booking.presentation.screen.introduce.IntroduceVM
-import com.kantek.dancer.booking.presentation.screen.lawyer.DetailLawyerVM
-import com.kantek.dancer.booking.presentation.screen.lawyer.FetchDetailLawyerRepo
-import com.kantek.dancer.booking.presentation.screen.lawyer.GetLawyerDetailRepo
+import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerVM
+import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailLawyerRepo
+import com.kantek.dancer.booking.presentation.screen.dancer.GetLawyerDetailRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewVM
-import com.kantek.dancer.booking.presentation.screen.search.BookingCreateRepo
-import com.kantek.dancer.booking.presentation.screen.search.DancerListVM
-import com.kantek.dancer.booking.presentation.screen.search.QuickRequestVM
+import com.kantek.dancer.booking.presentation.screen.club.BookingCreateRepo
+import com.kantek.dancer.booking.presentation.screen.dancer.DancerListVM
+import com.kantek.dancer.booking.presentation.screen.club.QuickRequestVM
 import com.kantek.dancer.booking.presentation.viewmodel.AccountVM
 import com.kantek.dancer.booking.presentation.viewmodel.BrowserVM
 import com.kantek.dancer.booking.presentation.viewmodel.DeleteAccountRepo
@@ -216,7 +216,7 @@ val presentationModule = module {
     viewModel { MyCasesVM(get(), get(), get()) }
     viewModel { QuickRequestVM(get(), get(), get()) }
     viewModel { DetailCasesVM(get(), get(), get(), get(), get()) }
-    viewModel { DetailLawyerVM(get(), get()) }
+    viewModel { DetailDancerVM(get(), get()) }
     viewModel { ChangePasswordVM(get(), getBy(Scopes.App)) }
     viewModel { MyProfileVM(get(), get(), getBy(Scopes.App)) }
     viewModel { ContactUsVM(get(), get(), getBy(Scopes.App)) }

@@ -1,4 +1,4 @@
-package com.kantek.dancer.booking.presentation.screen.lawyer
+package com.kantek.dancer.booking.presentation.screen.dancer
 
 import android.support.core.extensions.safe
 import androidx.compose.foundation.background
@@ -72,8 +72,8 @@ import org.koin.androidx.compose.koinViewModel
 fun DetailLawyerScreen(
     lawyerID: Int = -1,
     dataJson: String = "",//BookingDTO::class
-    viewModel: DetailLawyerVM = koinViewModel()
-) = ScopeProvider(Scopes.Lawyer) {
+    viewModel: DetailDancerVM = koinViewModel()
+) = ScopeProvider(Scopes.Dancer) {
     val context = LocalContext.current
     val appNavigator = use<AppNavigator>(Scopes.App)
     val appSetting = remember { AppSettings(context) }
@@ -411,7 +411,7 @@ fun DetailLawyerScreen(
     }
 }
 
-class DetailLawyerVM(
+class DetailDancerVM(
     private val getLawyerDetailRepo: GetLawyerDetailRepo,
     private val fetchDetailLawyerRepo: FetchDetailLawyerRepo
 ) : AppViewModel() {

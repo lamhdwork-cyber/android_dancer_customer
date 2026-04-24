@@ -49,7 +49,7 @@ fun ReviewScreen(
     reviewTotal: String = "",
     lawyerID: Int = -1,
     viewModel: ReviewVM = koinViewModel()
-) = ScopeProvider(Scopes.Lawyer) {
+) = ScopeProvider(Scopes.Dancer) {
     val appNavigator = use<AppNavigator>(Scopes.App)
     val reviews by viewModel.items.collectAsState()
     val isEmpty by viewModel.isEmpty.collectAsState()

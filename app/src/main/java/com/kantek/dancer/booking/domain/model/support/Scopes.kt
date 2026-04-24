@@ -10,7 +10,7 @@ enum class Scopes : IChars {
     Search,
     MyCase,
     Notification,
-    Lawyer,
+    Dancer,
     Conversation,
     FAQsThreads,
     Home;

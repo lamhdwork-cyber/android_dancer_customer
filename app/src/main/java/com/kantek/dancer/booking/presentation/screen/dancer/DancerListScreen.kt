@@ -1,4 +1,4 @@
-package com.kantek.dancer.booking.presentation.screen.search
+package com.kantek.dancer.booking.presentation.screen.dancer
 
 import android.support.core.event.LoadingEvent
 import android.support.core.event.LoadingFlow
@@ -59,7 +59,7 @@ import org.koin.androidx.compose.koinViewModel
 fun DancerListScreen(
     clubId: String,
     viewModel: DancerListVM = koinViewModel()
-) = ScopeProvider(Scopes.Search) {
+) = ScopeProvider(Scopes.Dancer) {
     val appNavigator = use<AppNavigator>(Scopes.App)
     val dancers by viewModel.items.collectAsState()
     val isEmpty by viewModel.isEmpty.collectAsState()

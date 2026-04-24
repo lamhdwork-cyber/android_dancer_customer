@@ -1,4 +1,4 @@
-package com.kantek.dancer.booking.presentation.screen.search
+package com.kantek.dancer.booking.presentation.screen.club
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -88,7 +87,7 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
         ) { club, _, _ ->
             ClubItemCard(
                 club = club,
-                onSelectClub = { appNavigator.navigateLawyerList(club.id) }
+                onSelectClub = { appNavigator.navigateDancerList(club.id) }
             )
         }
         if (isEmpty) NoDataView(htmlRes = R.string.no_data_notifications)

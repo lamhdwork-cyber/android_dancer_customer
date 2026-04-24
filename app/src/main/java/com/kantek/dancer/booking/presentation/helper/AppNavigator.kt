@@ -167,13 +167,13 @@ class AppNavigator : Updatable {
         navHost?.navigate("${Screen.QuickRequest.name}?$LAWYER_DTO=${dataJson}")
     }
 
-    fun navigateLawyerList(clubId: String) {
-        navHost?.navigate("${Screen.RequestWithLawyer.name}?$CLUB_ID=$clubId")
+    fun navigateDancerList(clubId: String) {
+        navHost?.navigate("${Screen.DancerList.name}?$CLUB_ID=$clubId")
     }
 
     fun navigateChangeLawyer() {
-        navHost?.navigate(Screen.RequestWithLawyer.name) {
-            popUpTo(Screen.RequestWithLawyer.name) { inclusive = false }
+        navHost?.navigate(Screen.DancerList.name) {
+            popUpTo(Screen.DancerList.name) { inclusive = false }
             launchSingleTop = true
         }
     }

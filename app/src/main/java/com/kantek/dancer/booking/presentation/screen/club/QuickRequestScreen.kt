@@ -1,4 +1,4 @@
-package com.kantek.dancer.booking.presentation.screen.search
+package com.kantek.dancer.booking.presentation.screen.club
 
 import android.content.Context
 import android.support.core.extensions.safe

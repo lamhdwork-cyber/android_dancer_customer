@@ -31,7 +31,7 @@ enum class Screen {
     ResetPassword,
     Conversion,
     QuickRequest,
-    RequestWithLawyer,
+    DancerList,
     Reviews,
     CreateReviews,
     Language;

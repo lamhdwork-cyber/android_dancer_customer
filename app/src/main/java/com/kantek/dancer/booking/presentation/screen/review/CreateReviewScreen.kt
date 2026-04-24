@@ -36,7 +36,7 @@ import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.screen.lawyer.GetLawyerDetailRepo
+import com.kantek.dancer.booking.presentation.screen.dancer.GetLawyerDetailRepo
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
