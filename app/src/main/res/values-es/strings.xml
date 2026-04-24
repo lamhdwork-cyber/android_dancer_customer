@@ -59,6 +59,13 @@
     <string name="all_contact_us">Contáctanos</string>
     <string name="account_delete">Eliminar cuenta</string>
     <string name="all_logout">Cerrar sesión</string>
+    <string name="account_edit_profile">Editar perfil</string>
+    <string name="account_edit_profile_desc">Actualiza tus datos personales</string>
+    <string name="account_notification_settings">Configuración de notificaciones</string>
+    <string name="account_notification_settings_desc">Administra alertas y actualizaciones de reservas</string>
+    <string name="account_logout_desc">Cerrar sesión en esta cuenta</string>
+    <string name="account_danger_zone">Zona de peligro</string>
+    <string name="account_delete_desc">Eliminación permanente de tus datos</string>
     <string name="message_logout_app">¿Deseas cerrar sesión en la aplicación?</string>
     <string name="auth_msg_token_expired">Tu sesión ha expirado. Por favor, inicia sesión de nuevo.</string>
     <string name="btn_relogin">Iniciar sesión nuevamente</string>

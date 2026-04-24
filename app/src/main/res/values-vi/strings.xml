@@ -59,6 +59,13 @@
     <string name="all_contact_us">Liên hệ với chúng tôi</string>
     <string name="account_delete">Xóa tài khoản</string>
     <string name="all_logout">Đăng xuất</string>
+    <string name="account_edit_profile">Chỉnh sửa hồ sơ</string>
+    <string name="account_edit_profile_desc">Cập nhật thông tin cá nhân của bạn</string>
+    <string name="account_notification_settings">Cài đặt thông báo</string>
+    <string name="account_notification_settings_desc">Quản lý cảnh báo và cập nhật đặt lịch</string>
+    <string name="account_logout_desc">Đăng xuất khỏi tài khoản này</string>
+    <string name="account_danger_zone">Vùng nguy hiểm</string>
+    <string name="account_delete_desc">Xóa vĩnh viễn dữ liệu của bạn</string>
     <string name="message_logout_app">Bạn có muốn đăng xuất khỏi ứng dụng không?</string>
     <string name="auth_msg_token_expired">Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.</string>
     <string name="btn_relogin">Đăng nhập lại</string>

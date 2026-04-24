@@ -66,6 +66,13 @@
     <string name="all_contact_us">Contact Us</string>
     <string name="account_delete">Delete Account</string>
     <string name="all_logout">Logout</string>
+    <string name="account_edit_profile">Edit Profile</string>
+    <string name="account_edit_profile_desc">Update your personal details</string>
+    <string name="account_notification_settings">Notification Settings</string>
+    <string name="account_notification_settings_desc">Manage alerts and booking updates</string>
+    <string name="account_logout_desc">Sign out from this account</string>
+    <string name="account_danger_zone">Danger Zone</string>
+    <string name="account_delete_desc">Permanent deletion of your data</string>
     <string name="message_logout_app">Are you want to sign out of the app?</string>
     <string name="auth_msg_token_expired">Login session has expired, please login again.</string>
     <string name="btn_relogin">Re-login</string>

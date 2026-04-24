@@ -28,6 +28,7 @@ object Colors {
 
     val White = Color(0xFFFFFFFF)
     val PinkFF00F5 = Color(0xFFFF00F5)
+    val Pink99F425F4 = Color(0x99F425F4)
     val Dark210514 = Color(0xFF210514)
     val Dark3C0B2A = Color(0xFF3C0B2A)
     val Dark1D0512 = Color(0xFF1D0512)
@@ -69,4 +70,8 @@ object Colors {
     val DarkCC0A050A: Color = Color(0xCC0A050A)
     val DarkAA1A0D18: Color = Color(0xAA1A0D18)
     val Dark5E453E: Color = Color(0xFF5E453E)
+    val Red1AEF4444: Color = Color(0x1AEF4444)
+    val Red33EF4444: Color = Color(0x33EF4444)
+    val RedEF4444: Color = Color(0xFFEF4444)
+    val Red99EF4444: Color = Color(0x99EF4444)
 }
