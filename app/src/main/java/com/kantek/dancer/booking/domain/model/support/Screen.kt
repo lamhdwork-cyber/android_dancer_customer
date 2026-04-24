@@ -17,7 +17,7 @@ enum class Screen {
     ForgotPassword,
     Home,
     DetailCase,
-    DetailLawyer,
+    DetailDancer,
     PhotoViewer,
     PhotosViewer,
     ChangePassword,

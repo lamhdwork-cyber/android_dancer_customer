@@ -36,7 +36,6 @@ import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.screen.dancer.GetLawyerDetailRepo
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
@@ -126,7 +125,6 @@ fun CreateReviewScreen(
 
 class CreateReviewVM(
     private val appEvent: AppEvent,
-    private val getLawyerDetailRepo: GetLawyerDetailRepo,
     private val createReviewRepo: CreateReviewRepo
 ) : AppViewModel() {
     val details = MutableStateFlow<ILawyerDetail?>(null)
@@ -142,7 +140,7 @@ class CreateReviewVM(
             null
         }
         _form.value = _form.value.copy(contact_request_id = bookingDTO?.id)
-        details.emit(getLawyerDetailRepo(dataJson))
+//        details.emit(getLawyerDetailRepo(dataJson))
     }
 
     fun updateRating(it: Float) {

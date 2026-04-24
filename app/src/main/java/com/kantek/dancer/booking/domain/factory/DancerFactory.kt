@@ -3,6 +3,7 @@ package com.kantek.dancer.booking.domain.factory
 import android.support.core.extensions.safe
 import com.kantek.dancer.booking.domain.model.response.dancer.DancerDTO
 import com.kantek.dancer.booking.domain.model.ui.search.IDancer
+import com.kantek.dancer.booking.domain.model.ui.search.IDancerDetail
 
 class DancerFactory {
 
@@ -26,6 +27,26 @@ class DancerFactory {
                 get() = item.bio.safe()
             override val isAvailableNow: Boolean
                 get() = item.isAvailableNow == true
+        }
+    }
+
+    fun createDetail(item: DancerDTO?): IDancerDetail? {
+        if (item == null) return null
+        return object : IDancerDetail, IDancer by create(item) {
+            override val age: Int
+                get() = item.age ?: 0
+            override val dancerCode: String
+                get() = item.id.safe().takeLast(4)
+            override val danceStyles: List<String>
+                get() = item.danceStyles ?: emptyList()
+            override val gallery: List<String>
+                get() = item.gallery ?: emptyList()
+            override val experience: Int
+                get() = item.experience ?: 0
+            override val hourlyRate: String
+                get() = item.hourlyRate.safe()
+            override val totalReviews: Int
+                get() = item.totalReviews ?: 0
         }
     }
 }

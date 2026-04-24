@@ -48,7 +48,7 @@ import com.kantek.dancer.booking.presentation.screen.faqs.FAQsThreadsScreen
 import com.kantek.dancer.booking.presentation.screen.faqs.QuestionThreadsScreen
 import com.kantek.dancer.booking.presentation.screen.home.HomeScreen
 import com.kantek.dancer.booking.presentation.screen.language.LanguageScreen
-import com.kantek.dancer.booking.presentation.screen.dancer.DetailLawyerScreen
+import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerScreen
 import com.kantek.dancer.booking.presentation.screen.media.PhotoViewerScreen
 import com.kantek.dancer.booking.presentation.screen.media.PhotosViewerScreen
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewScreen
@@ -190,23 +190,25 @@ class MainAct : AppComponentAct() {
                                 AppNavigator.Companion.ArgKey.BOOKING_DTO
                             val keyLawyerIDArg =
                                 AppNavigator.Companion.ArgKey.LAWYER_ID
+                            val keyDancerIdArg =
+                                AppNavigator.Companion.ArgKey.ID
                             composable(
-                                "${Screen.DetailLawyer.name}?$keyBookingArg={$keyBookingArg}&$keyLawyerIDArg={$keyLawyerIDArg}",
+                                "${Screen.DetailDancer.name}?$keyBookingArg={$keyBookingArg}&$keyLawyerIDArg={$keyLawyerIDArg}&$keyDancerIdArg={$keyDancerIdArg}",
                                 arguments = listOf(navArgument(keyBookingArg) {
                                     type = NavType.StringType
+                                    defaultValue = ""
                                 }, navArgument(keyLawyerIDArg) {
                                     type = NavType.IntType
+                                    defaultValue = -1
+                                }, navArgument(keyDancerIdArg) {
+                                    type = NavType.StringType
+                                    defaultValue = ""
                                 })
                             ) { backStackEntry ->
-                                val arg =
-                                    backStackEntry.arguments?.getString(keyBookingArg)
-                                        ?: ""
-                                val argID =
-                                    backStackEntry.arguments?.getInt(keyLawyerIDArg)
-                                        ?: -1
-                                DetailLawyerScreen(argID, arg)
+                                val dancerId =
+                                    backStackEntry.arguments?.getString(keyDancerIdArg) ?: ""
+                                DetailDancerScreen(dancerId)
                             }
-
                             val keyPhotoArg = AppNavigator.Companion.ArgKey.PHOTO_URL
                             composable(
                                 "${Screen.PhotoViewer.name}?$keyPhotoArg={$keyPhotoArg}",

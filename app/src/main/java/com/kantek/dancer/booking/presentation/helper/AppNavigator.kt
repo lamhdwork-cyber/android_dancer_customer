@@ -95,9 +95,14 @@ class AppNavigator : Updatable {
 
     fun navigateDetailLawyer(
         lawyerID: Int = -1,
-        dataJson: String = ""
+        dataJson: String = "",
+        dancerId: String = ""
     ) {
-        navHost?.navigate("${Screen.DetailLawyer.name}?$BOOKING_DTO=$dataJson&$LAWYER_ID=$lawyerID")
+        navHost?.navigate("${Screen.DetailDancer.name}?$BOOKING_DTO=$dataJson&$LAWYER_ID=$lawyerID&$ID=$dancerId")
+    }
+
+    fun navigateDetailDancer(dancerId: String) {
+        navHost?.navigate("${Screen.DetailDancer.name}?$ID=$dancerId")
     }
 
     fun navigatePhotoViewer(photoURL: String) {

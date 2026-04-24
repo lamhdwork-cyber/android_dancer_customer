@@ -64,6 +64,7 @@ import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.usecase.FetchNotificationCase
 import com.kantek.dancer.booking.domain.usecase.FetchClubCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerByClubCase
+import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.domain.usecase.GetStartDestinationCase
 import com.kantek.dancer.booking.presentation.helper.ActivityRetriever
 import com.kantek.dancer.booking.presentation.helper.AppKeyboard
@@ -105,8 +106,7 @@ import com.kantek.dancer.booking.presentation.screen.home.HomeVM
 import com.kantek.dancer.booking.presentation.screen.introduce.FetchIntroduceRepo
 import com.kantek.dancer.booking.presentation.screen.introduce.IntroduceVM
 import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerVM
-import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailLawyerRepo
-import com.kantek.dancer.booking.presentation.screen.dancer.GetLawyerDetailRepo
+import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailDancerRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewVM
 import com.kantek.dancer.booking.presentation.screen.club.BookingCreateRepo
@@ -216,7 +216,7 @@ val presentationModule = module {
     viewModel { MyCasesVM(get(), get(), get()) }
     viewModel { QuickRequestVM(get(), get(), get()) }
     viewModel { DetailCasesVM(get(), get(), get(), get(), get()) }
-    viewModel { DetailDancerVM(get(), get()) }
+    viewModel { DetailDancerVM(get()) }
     viewModel { ChangePasswordVM(get(), getBy(Scopes.App)) }
     viewModel { MyProfileVM(get(), get(), getBy(Scopes.App)) }
     viewModel { ContactUsVM(get(), get(), getBy(Scopes.App)) }
@@ -225,7 +225,7 @@ val presentationModule = module {
     viewModel { RetPasswordVM(get(), getBy(Scopes.App)) }
     viewModel { DancerListVM(get()) }
     viewModel { ReviewVM(get()) }
-    viewModel { CreateReviewVM(get(), get(), get()) }
+    viewModel { CreateReviewVM(get(), get()) }
     viewModel { FAQsThreadsVM(get()) }
     viewModel { QuestionThreadsVM(get(), get(), get(),get()) }
 }
@@ -259,7 +259,6 @@ val dataModule = module {
     factory { BookingRequestAgainRepo(get()) }
     factory { BookingCancelRepo(get()) }
     factory { FetchBookingDetailRepo(get(), get()) }
-    factory { GetLawyerDetailRepo(get()) }
     factory { ChangePasswordRepo(get()) }
     factory { DeleteAccountRepo(get(), get(), get()) }
     factory { UpdateProfileRepo(get(), get(), get()) }
@@ -271,7 +270,7 @@ val dataModule = module {
     factory { RequestOTPRepo(get()) }
     factory { VerifyOTPRepo(get(), get()) }
     factory { ResetPasswordRepo(get()) }
-    factory { FetchDetailLawyerRepo(get(), get()) }
+    factory { FetchDetailDancerRepo(get()) }
     factory { FetchReviewByPageRepo(get(), get()) }
     single { FilterLocalSource(get()) }
     factory { CreateReviewRepo(get()) }
@@ -286,6 +285,7 @@ val domainModule = module {
     factory { FetchNotificationCase(get(), get()) }
     factory { FetchClubCase(get(), get()) }
     factory { FetchDancerByClubCase(get(), get()) }
+    factory { FetchDancerDetailCase(get(), get()) }
     factory { GetStartDestinationCase(get()) }
     single { TextFormatter() }
     single { NotificationFactory(get()) }

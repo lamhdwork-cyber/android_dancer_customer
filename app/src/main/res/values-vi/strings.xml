@@ -240,6 +240,16 @@
     <string name="club_closed">Đã đóng cửa</string>
     <string name="dancer_available_now">Sẵn sàng</string>
     <string name="dancer_style_unknown">Phong cách nhảy</string>
+    <string name="dancer_detail_premium_performer">Vũ công cao cấp</string>
+    <string name="dancer_detail_id_format">Mã: %s</string>
+    <string name="dancer_detail_age">Tuổi</string>
+    <string name="dancer_detail_age_format">%s tuổi</string>
+    <string name="dancer_detail_style">Phong cách</string>
+    <string name="dancer_detail_about">Giới thiệu</string>
+    <string name="dancer_detail_book_now">Đặt ngay</string>
+    <string name="dancer_detail_book_late">Đặt trễ</string>
+    <string name="dancer_detail_reviews">Đánh giá %1$s (%2$s)</string>
+    <string name="dancer_detail_experience">%1$s năm kinh nghiệm · $%2$s/giờ</string>
     <string name="club_open_hours_format">MỞ CỬA: %1$s - %2$s</string>
     <string name="all_quick_request">Yêu cầu nhanh</string>
     <string name="find_select_state">Chọn Bang</string>

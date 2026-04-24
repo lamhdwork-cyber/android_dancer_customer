@@ -246,6 +246,16 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="club_closed">Closed</string>
     <string name="dancer_available_now">Available</string>
     <string name="dancer_style_unknown">Dance style</string>
+    <string name="dancer_detail_premium_performer">Premium Performer</string>
+    <string name="dancer_detail_id_format">ID: %s</string>
+    <string name="dancer_detail_age">Age</string>
+    <string name="dancer_detail_age_format">%s Years</string>
+    <string name="dancer_detail_style">Style</string>
+    <string name="dancer_detail_about">About</string>
+    <string name="dancer_detail_book_now">Book Now</string>
+    <string name="dancer_detail_book_late">Book Late</string>
+    <string name="dancer_detail_reviews">Rating %1$s (%2$s)</string>
+    <string name="dancer_detail_experience">%1$s years experience · $%2$s/h</string>
     <string name="club_open_hours_format">OPEN: %1$s - %2$s</string>
     <string name="all_quick_request">Quick Request</string>
     <string name="find_select_state">Select State</string>

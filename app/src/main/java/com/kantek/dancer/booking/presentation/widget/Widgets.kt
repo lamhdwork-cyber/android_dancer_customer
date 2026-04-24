@@ -247,7 +247,7 @@ fun ActionBarBackAndTitleView(
         modifier = Modifier
             .height(56.dp)
             .fillMaxWidth()
-            .background(Color.Transparent)
+            .background(Colors.Dark120812)
     ) {
         Box(
             modifier = Modifier

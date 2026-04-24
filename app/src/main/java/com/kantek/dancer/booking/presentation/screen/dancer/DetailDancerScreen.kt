@@ -1,9 +1,11 @@
 package com.kantek.dancer.booking.presentation.screen.dancer
 
-import android.support.core.extensions.safe
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,433 +16,394 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.outlined.ArrowBackIosNew
+import androidx.compose.material.icons.outlined.EventAvailable
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.app.AppSettings
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.data.remote.api.LawyerApi
-import com.kantek.dancer.booking.domain.extension.toJson
-import com.kantek.dancer.booking.domain.factory.BookingFactory
 import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.user.ILawyerDetail
+import com.kantek.dancer.booking.domain.model.ui.search.IDancerDetail
+import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.copyText
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AvatarImage
-import com.kantek.dancer.booking.presentation.widget.BoxText
-import com.kantek.dancer.booking.presentation.widget.CallPhoneDialog
 import com.kantek.dancer.booking.presentation.widget.NoDataView
-import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
-import com.kantek.dancer.booking.presentation.widget.TagList
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun DetailLawyerScreen(
-    lawyerID: Int = -1,
-    dataJson: String = "",//BookingDTO::class
+fun DetailDancerScreen(
+    dancerId: String,
     viewModel: DetailDancerVM = koinViewModel()
 ) = ScopeProvider(Scopes.Dancer) {
     val context = LocalContext.current
     val appNavigator = use<AppNavigator>(Scopes.App)
-    val appSetting = remember { AppSettings(context) }
-
     val detail by viewModel.details.collectAsState()
-    var hasShowCallDialog by remember { mutableStateOf(false) }
+    val hasLoaded by viewModel.hasLoaded.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.setData(lawyerID, dataJson)
+    LaunchedEffect(dancerId) {
+        viewModel.setData(dancerId)
     }
-    PermissionProvider {
+
+    if (!hasLoaded) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Colors.Dark120812),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(color = Colors.Primary)
+        }
+        return@ScopeProvider
+    }
+
+    if (detail == null) {
+        NoDataView(htmlRes = R.string.no_data)
+        return@ScopeProvider
+    }
+
+    val dancer = detail!!
+    val photos = dancer.gallery.ifEmpty { listOf(dancer.avatar) }
+
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Colors.Dark120812)
+    ) {
+        val heroHeight = maxHeight * 0.6f
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(photos.firstOrNull())
+                .crossfade(true)
+                .build(),
+            contentDescription = dancer.name,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(heroHeight)
+                .clickable { appNavigator.navigatePhotoViewer(photos) },
+            contentScale = ContentScale.Crop
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(heroHeight)
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            Colors.White33FFFFFF,
+                            Colors.DarkAA1A0D18,
+                            Colors.Dark120812
+                        )
+                    )
+                )
+        )
+
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = heroHeight - 30.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(22.dp)
+                    .height(5.dp)
+                    .clip(RoundedCornerShape(999.dp))
+                    .background(Colors.Primary)
+            )
+            repeat(3) {
+                Box(
+                    modifier = Modifier
+                        .size(5.dp)
+                        .clip(CircleShape)
+                        .background(Colors.White33FFFFFF)
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CircleIconButton(Icons.Outlined.ArrowBackIosNew) { appNavigator.back() }
+//            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+//                CircleIconButton(Icons.Outlined.Favorite) {}
+//                CircleIconButton(Icons.Outlined.Share) {}
+//            }
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(top = maxHeight * 0.46f)
+                .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                .background(Colors.OverlayCC120812)
+                .verticalScroll(rememberScrollState())
+                .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 184.dp)
         ) {
-            ActionBarBackAndTitleView(R.string.top_bar_lawyer_detail) { appNavigator.back() }
-            Column(
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .align(Alignment.CenterHorizontally)
+                    .width(44.dp)
+                    .height(4.dp)
+                    .clip(RoundedCornerShape(999.dp))
+                    .background(Colors.White33FFFFFF)
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
             ) {
-                if (detail != null) {
-                    SpaceVertical(10.dp)
-                    AvatarImage(
-                        detail?.avatarURL,
-                        80.dp
-                    ) { appNavigator.navigatePhotoViewer(detail!!.avatarURL) }
-                    SpaceVertical(10.dp)
-
+                Column {
                     Text(
-                        text = detail!!.fullName,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Center
+                        text = dancer.name,
+                        color = Colors.White,
+                        fontSize = 34.sp,
+                        fontWeight = FontWeight.Bold
                     )
-
-                    SpaceVertical(10.dp)
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(top = 2.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        BoxText(stringResource(R.string.exp_s, detail!!.exp))
-                        BoxText(stringResource(R.string.cases_s, detail!!.cases))
-                    }
-                    SpaceVertical(12.dp)
-                    HorizontalDivider(
-                        modifier = Modifier.fillMaxWidth(),
-                        thickness = 1.dp,
-                        color = Colors.Gray238
-                    )
-                    SpaceVertical(20.dp)
-
-                    if (!detail!!.specialties.isNullOrEmpty()) {
-                        Text(
-                            text = stringResource(R.string.all_lawyer_specialties),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        SpaceVertical(10.dp)
-                        TagList(detail!!.specialties!!)
-
-                        SpaceVertical(12.dp)
-                        HorizontalDivider(
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = 1.dp,
-                            color = Colors.Gray238
-                        )
-                        SpaceVertical(20.dp)
-                    }
-
-                    if (detail!!.education.isNotEmpty()) {
-                        Text(
-                            text = stringResource(R.string.all_education),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        SpaceVertical(10.dp)
-                        Text(
-                            text = detail!!.education,
-                            fontSize = 14.sp,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        SpaceVertical(12.dp)
-                        HorizontalDivider(
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = 1.dp,
-                            color = Colors.Gray238
-                        )
-                        SpaceVertical(20.dp)
-                    }
-
-                    Text(
-                        text = stringResource(R.string.all_achievements),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    SpaceVertical(10.dp)
-                    Text(
-                        text = detail!!.achievements,
-                        fontSize = 14.sp,
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    SpaceVertical(12.dp)
-                    HorizontalDivider(
-                        modifier = Modifier.fillMaxWidth(),
-                        thickness = 1.dp,
-                        color = Colors.Gray238
-                    )
-                    SpaceVertical(20.dp)
-
-                    Text(
-                        text = stringResource(R.string.all_lawyer_license),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    SpaceVertical(10.dp)
-                    Row(
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .clickable { appNavigator.navigatePhotoViewer(detail!!.licenseURL) }
-                            .background(
-                                color = Colors.Blue241,
-                                shape = RoundedCornerShape(4.dp)
-                            )
-                            .padding(10.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(R.drawable.ic_file),
-                            contentDescription = "License",
-                            modifier = Modifier.size(15.dp),
-                            tint = Colors.Primary
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(
-                            text = stringResource(R.string.all_view_license),
-                            color = Colors.Primary,
-                            fontSize = 14.sp
-                        )
-                    }
-
-                    SpaceVertical(12.dp)
-                    HorizontalDivider(
-                        modifier = Modifier.fillMaxWidth(),
-                        thickness = 1.dp,
-                        color = Colors.Gray238
-                    )
-
-                    if (detail!!.phoneDisplay.isNotEmpty() && detail!!.email.isNotEmpty()) {
-                        SpaceVertical(20.dp)
-
-                        Text(
-                            text = stringResource(R.string.all_contact_info),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        SpaceVertical(10.dp)
-                        Row(
-                            modifier = Modifier
-                                .clickable {
-                                    accessCallPhone { hasShowCallDialog = true }
-                                }
-                                .fillMaxWidth()
-                                .padding(vertical = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_phone),
-                                contentDescription = "License",
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Text(
-                                text = detail!!.phoneDisplay,
-                                color = Colors.Primary,
-                                fontSize = 14.sp,
-                                modifier = Modifier.weight(1f)
-                            )
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.clickable { context.copyText(detail!!.phoneNumber) }
-                            ) {
-                                Icon(
-                                    imageVector = ImageVector.vectorResource(R.drawable.ic_copy),
-                                    contentDescription = "Copy",
-                                    tint = Colors.Primary,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    text = stringResource(R.string.all_copy),
-                                    color = Colors.Primary,
-                                    fontSize = 14.sp
-                                )
-                            }
-                        }
-
-                        HorizontalDivider(
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = 1.dp,
-                            color = Colors.Gray238
-                        )
-
-                        Row(
-                            modifier = Modifier
-                                .clickable { appSetting.sendEmail(detail!!.email) }
-                                .fillMaxWidth()
-                                .padding(vertical = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(R.drawable.ic_mail),
-                                contentDescription = "License",
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Text(
-                                text = detail!!.email,
-                                color = Colors.Primary,
-                                fontSize = 14.sp,
-                                modifier = Modifier.weight(1f)
-                            )
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.clickable { context.copyText(detail!!.email) }
-                            ) {
-                                Icon(
-                                    imageVector = ImageVector.vectorResource(R.drawable.ic_copy),
-                                    contentDescription = "Copy",
-                                    tint = Colors.Primary,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    text = stringResource(R.string.all_copy),
-                                    color = Colors.Primary,
-                                    fontSize = 14.sp
-                                )
-                            }
-                        }
-                        SpaceVertical(12.dp)
-                        HorizontalDivider(
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = 1.dp,
-                            color = Colors.Gray238
-                        )
-                    }
-                    SpaceVertical(20.dp)
-                    //review
-                    Text(
-                        text = stringResource(R.string.all_reviews),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    SpaceVertical(10.dp)
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = null,
-                            tint = Color.Black,
-                            modifier = Modifier.size(16.dp)
+                            tint = Colors.Primary,
+                            modifier = Modifier.size(14.dp)
                         )
-                        Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            modifier = Modifier.weight(1f),
-                            text = "${detail?.rating} (${detail?.reviewCount})",
-                            fontSize = 14.sp
-                        )
-
-                        SpaceHorizontal(20.dp)
-
-                        AppButton(
-                            modifier = Modifier
-                                .height(35.dp)
-                                .wrapContentWidth(),
-                            backgroundColor = Colors.Blue241,
-                            textColor = Colors.Primary,
-                            contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
-                            nameRes = R.string.all_review_list,
-                            onClick = {
-                                appNavigator.navigateReviewList(
-                                    detail?.id.safe(),
-                                    "${detail?.rating} (${detail?.reviewCount})"
-                                )
-                            }
+                            text = stringResource(R.string.dancer_detail_premium_performer),
+                            color = Colors.Primary,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(start = 4.dp)
                         )
                     }
-
-                    SpaceVertical(20.dp)
-                    HorizontalDivider(
-                        modifier = Modifier.fillMaxWidth(),
-                        thickness = 1.dp,
-                        color = Colors.Gray238
-                    )
-
-                    if (lawyerID != -1 && dataJson.isEmpty()) {
-                        SpaceVertical(14.dp)
-                        AppButton(R.string.all_request) { appNavigator.navigateQuickRequest(detail?.owner.toJson()) }
-                    }
-                } else NoDataView(htmlRes = R.string.no_data)
-                if (hasShowCallDialog) {
-                    CallPhoneDialog(
-                        phoneNumber = detail!!.phoneDisplay,
-                        onConfirm = {
-                            hasShowCallDialog = false
-                            appSetting.call(detail!!.phoneNumber)
-                        }, onDismiss = {
-                            hasShowCallDialog = false
-                        }
-                    )
                 }
+                Text(
+                    text = stringResource(R.string.dancer_detail_id_format, dancer.dancerCode),
+                    color = Colors.Primary,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(50))
+                        .background(Colors.Pink26F425F4)
+                        .padding(horizontal = 10.dp, vertical = 6.dp)
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                DetailTag(
+                    title = stringResource(R.string.dancer_detail_age),
+                    value = stringResource(R.string.dancer_detail_age_format, dancer.age),
+                    modifier = Modifier.weight(1f)
+                )
+                DetailTag(
+                    title = stringResource(R.string.dancer_detail_style),
+                    value = dancer.danceStyle.ifBlank { stringResource(R.string.dancer_style_unknown) },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Text(
+                text = stringResource(R.string.dancer_detail_about),
+                color = Colors.GrayCBD5E1,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(top = 20.dp)
+            )
+            Text(
+                text = dancer.bio,
+                color = Colors.White,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+
+            Text(
+                text = stringResource(
+                    R.string.dancer_detail_reviews,
+                    dancer.rating,
+                    dancer.totalReviews
+                ),
+                color = Colors.GrayCBD5E1,
+                fontSize = 13.sp,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            Text(
+                text = stringResource(
+                    R.string.dancer_detail_experience,
+                    dancer.experience,
+                    dancer.hourlyRate
+                ),
+                color = Colors.GrayCBD5E1,
+                fontSize = 13.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            Colors.Pink0DF425F4,
+                            Colors.Overlay99120812,
+                            Colors.OverlayCC120812
+                        )
+                    )
+                )
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Button(
+                onClick = { appNavigator.navigateQuickRequest() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(54.dp),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Colors.Primary,
+                    contentColor = Colors.White
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.EventAvailable,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = stringResource(R.string.dancer_detail_book_now), fontWeight = FontWeight.Bold)
+            }
+            Button(
+                onClick = { appNavigator.navigateQuickRequest() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(54.dp),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Colors.Dark120812,
+                    contentColor = Colors.Primary
+                ),
+                border = androidx.compose.foundation.BorderStroke(1.5.dp, Colors.Pink66F425F4),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Schedule,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = stringResource(R.string.dancer_detail_book_late), fontWeight = FontWeight.Bold)
             }
         }
     }
 }
 
-class DetailDancerVM(
-    private val getLawyerDetailRepo: GetLawyerDetailRepo,
-    private val fetchDetailLawyerRepo: FetchDetailLawyerRepo
-) : AppViewModel() {
-    val details = MutableStateFlow<ILawyerDetail?>(null)
-
-    fun setData(id: Int, dataJson: String) = launch(loading, error) {
-        details.emit(
-            if (id != -1 && id != 0)
-                fetchDetailLawyerRepo(id)
-            else getLawyerDetailRepo(dataJson)
+@Composable
+private fun CircleIconButton(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(38.dp)
+            .clip(CircleShape)
+            .background(Colors.Dark660F172A)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = Colors.White,
+            modifier = Modifier.size(18.dp)
         )
     }
-
 }
 
-class FetchDetailLawyerRepo(
-    private val lawyerApi: LawyerApi,
-    private val bookingFactory: BookingFactory
+@Composable
+private fun DetailTag(title: String, value: String, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(14.dp))
+            .background(Colors.White1AFFFFFF)
+            .padding(horizontal = 12.dp, vertical = 10.dp)
+    ) {
+        Text(text = title, color = Colors.GrayCBD5E1, fontSize = 10.sp)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = value, color = Colors.White, fontSize = 15.sp, fontWeight = FontWeight.Medium)
+    }
+}
+
+class DetailDancerVM(
+    private val fetchDetailDancerRepo: FetchDetailDancerRepo
+) : AppViewModel() {
+    val details = MutableStateFlow<IDancerDetail?>(null)
+    val hasLoaded = MutableStateFlow(false)
+
+    fun setData(dancerId: String) = launch(loading, error) {
+        hasLoaded.emit(false)
+        if (dancerId.isBlank()) {
+            details.emit(null)
+            hasLoaded.emit(true)
+            return@launch
+        }
+        details.emit(fetchDetailDancerRepo(dancerId))
+        hasLoaded.emit(true)
+    }
+}
+
+class FetchDetailDancerRepo(
+    private val fetchDancerDetailCase: FetchDancerDetailCase
 ) {
-    suspend operator fun invoke(id: Int): ILawyerDetail {
-        return bookingFactory.createLawyerDetail(lawyerApi.detail(id).await())
+    suspend operator fun invoke(id: String): IDancerDetail? {
+        return fetchDancerDetailCase(id)
     }
-
-}
-
-class GetLawyerDetailRepo(private val bookingFactory: BookingFactory) {
-
-    suspend operator fun invoke(dataJson: String): ILawyerDetail? {
-        return bookingFactory.createLawyerDetail(dataJson)
-    }
-
 }
