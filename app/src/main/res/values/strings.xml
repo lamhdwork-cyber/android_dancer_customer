@@ -320,9 +320,27 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="booking_guests_title">Number of Guests</string>
     <string name="booking_guests_subtitle">Clients total</string>
     <string name="booking_total_due">Estimated Total Due</string>
-    <string name="booking_collect">Collect: $950</string>
+    <string name="booking_collect">Collect: $9,500</string>
     <string name="booking_base_fee">Base Fee: $500</string>
     <string name="booking_addons_fee">Add-ons: $450</string>
     <string name="booking_confirm">Confirm Booking</string>
+    <string name="booking_confirm_title">Final Booking Summary</string>
+    <string name="booking_premium_venue">PREMIUM VENUE</string>
+    <string name="booking_date">Date</string>
+    <string name="booking_time">Time</string>
+    <string name="booking_selected_room_type">Selected Room Type</string>
+    <string name="booking_room_suite_label">VIP Suite</string>
+    <string name="booking_private">PRIVATE</string>
+    <string name="booking_total_amount_due">Total Amount Due</string>
+    <string name="booking_collected_at_venue">(Collected at Venue)</string>
+    <string name="booking_cash_only">CASH PAYMENT ONLY</string>
+    <string name="booking_base_fee_295">Base Fee: $295</string>
+    <string name="booking_addons_fee_zero">Add-ons: $0</string>
+    <string name="booking_confirm_uppercase">CONFIRM BOOKING</string>
+    <string name="booking_confirm_mock_club_name">Club Neon</string>
+    <string name="booking_confirm_mock_district">Downtown District</string>
+    <string name="booking_confirm_mock_date">Friday, Nov 24</string>
+    <string name="booking_confirm_mock_time">11:30 PM</string>
+    <string name="booking_confirm_mock_total">$295.00</string>
 
 </resources>

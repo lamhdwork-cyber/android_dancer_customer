@@ -314,5 +314,23 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="booking_base_fee">Tarifa base: $500</string>
     <string name="booking_addons_fee">Extras: $450</string>
     <string name="booking_confirm">Confirmar reserva</string>
+    <string name="booking_confirm_title">Resumen final de reserva</string>
+    <string name="booking_premium_venue">LUGAR PREMIUM</string>
+    <string name="booking_date">Fecha</string>
+    <string name="booking_time">Hora</string>
+    <string name="booking_selected_room_type">Tipo de sala seleccionada</string>
+    <string name="booking_room_suite_label">Suite VIP</string>
+    <string name="booking_private">PRIVADO</string>
+    <string name="booking_total_amount_due">Monto total a pagar</string>
+    <string name="booking_collected_at_venue">(Cobrado en el lugar)</string>
+    <string name="booking_cash_only">SOLO PAGO EN EFECTIVO</string>
+    <string name="booking_base_fee_295">Tarifa base: $295</string>
+    <string name="booking_addons_fee_zero">Extras: $0</string>
+    <string name="booking_confirm_uppercase">CONFIRMAR RESERVA</string>
+    <string name="booking_confirm_mock_club_name">Club Neon</string>
+    <string name="booking_confirm_mock_district">Distrito centro</string>
+    <string name="booking_confirm_mock_date">Viernes, 24 Nov</string>
+    <string name="booking_confirm_mock_time">11:30 PM</string>
+    <string name="booking_confirm_mock_total">$295.00</string>
 
 </resources>

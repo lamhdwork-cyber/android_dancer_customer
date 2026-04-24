@@ -49,6 +49,7 @@ import com.kantek.dancer.booking.presentation.screen.faqs.QuestionThreadsScreen
 import com.kantek.dancer.booking.presentation.screen.home.HomeScreen
 import com.kantek.dancer.booking.presentation.screen.language.LanguageScreen
 import com.kantek.dancer.booking.presentation.screen.booking.BookingScreen
+import com.kantek.dancer.booking.presentation.screen.booking.BookingConfirmScreen
 import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerScreen
 import com.kantek.dancer.booking.presentation.screen.media.PhotoViewerScreen
 import com.kantek.dancer.booking.presentation.screen.media.PhotosViewerScreen
@@ -251,6 +252,8 @@ class MainAct : AppComponentAct() {
                                 AppNavigator.Companion.ArgKey.CLUB_ID
                             val keyHasNowArg =
                                 AppNavigator.Companion.ArgKey.HAS_NOW
+                            val keyRoomIDArg =
+                                AppNavigator.Companion.ArgKey.ROOM_ID
                             composable(
                                 "${Screen.QuickRequest.name}?$keyLawyerArg={$keyLawyerArg}",
                                 arguments = listOf(navArgument(keyLawyerArg) {
@@ -278,6 +281,29 @@ class MainAct : AppComponentAct() {
                                 val hasNowArg = backStackEntry.arguments?.getBoolean(keyHasNowArg) ?: true
                                 BookingScreen(dancerId = dancerIdArg, hasNow = hasNowArg)
                             }
+                            val keyDancerIdsArg = AppNavigator.Companion.ArgKey.DANCER_IDS
+                            composable(
+                                "${Screen.BookingConfirm.name}?$keyDancerIdsArg={$keyDancerIdsArg}&$keyRoomIDArg={$keyRoomIDArg}",
+                                arguments = listOf(
+                                    navArgument(keyDancerIdsArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    },
+                                    navArgument(keyRoomIDArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    }
+                                )
+                            ) { backStackEntry ->
+                                val dancerIdsArg =
+                                    backStackEntry.arguments?.getString(keyDancerIdsArg).orEmpty()
+                                val roomIdArg =
+                                    backStackEntry.arguments?.getString(keyRoomIDArg).orEmpty()
+                                BookingConfirmScreen(
+                                    dancerIds = dancerIdsArg,
+                                    roomId = roomIdArg
+                                )
+                            }
 
                             composable(
                                 "${Screen.DancerList.name}?$keyClubIDArg={$keyClubIDArg}",
@@ -291,8 +317,6 @@ class MainAct : AppComponentAct() {
                                 DancerListScreen(clubId = clubId)
                             }
 
-                            val keyRoomIDArg =
-                                AppNavigator.Companion.ArgKey.ROOM_ID
                             composable(
                                 "${Screen.Conversion.name}?$keyRoomIDArg={$keyRoomIDArg}",
                                 arguments = listOf(navArgument(keyRoomIDArg) {

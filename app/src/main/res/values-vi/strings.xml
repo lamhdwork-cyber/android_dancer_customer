@@ -317,5 +317,23 @@
     <string name="booking_base_fee">Phí cơ bản: $500</string>
     <string name="booking_addons_fee">Phụ phí: $450</string>
     <string name="booking_confirm">Xác nhận đặt lịch</string>
+    <string name="booking_confirm_title">Tổng kết đặt lịch</string>
+    <string name="booking_premium_venue">ĐỊA ĐIỂM CAO CẤP</string>
+    <string name="booking_date">Ngày</string>
+    <string name="booking_time">Giờ</string>
+    <string name="booking_selected_room_type">Loại phòng đã chọn</string>
+    <string name="booking_room_suite_label">Phòng VIP</string>
+    <string name="booking_private">RIÊNG TƯ</string>
+    <string name="booking_total_amount_due">Tổng tiền cần thanh toán</string>
+    <string name="booking_collected_at_venue">(Thu tại địa điểm)</string>
+    <string name="booking_cash_only">CHỈ THANH TOÁN TIỀN MẶT</string>
+    <string name="booking_base_fee_295">Phí cơ bản: $295</string>
+    <string name="booking_addons_fee_zero">Phụ phí: $0</string>
+    <string name="booking_confirm_uppercase">XÁC NHẬN ĐẶT LỊCH</string>
+    <string name="booking_confirm_mock_club_name">Club Neon</string>
+    <string name="booking_confirm_mock_district">Khu trung tâm</string>
+    <string name="booking_confirm_mock_date">Thứ Sáu, 24 Th11</string>
+    <string name="booking_confirm_mock_time">11:30 Tối</string>
+    <string name="booking_confirm_mock_total">$295.00</string>
 
 </resources>

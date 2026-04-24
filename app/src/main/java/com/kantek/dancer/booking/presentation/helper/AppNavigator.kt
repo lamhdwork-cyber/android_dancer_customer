@@ -1,5 +1,6 @@
 package com.kantek.dancer.booking.presentation.helper
 
+import android.net.Uri
 import androidx.navigation.NavHostController
 import com.kantek.dancer.booking.domain.extension.toJson
 import com.kantek.dancer.booking.domain.model.response.BookingDTO
@@ -44,6 +45,7 @@ class AppNavigator : Updatable {
             const val ID = "id"
             const val CLUB_ID = "club_id"
             const val HAS_NOW = "has_now"
+            const val DANCER_IDS = "dancer_ids"
         }
     }
 
@@ -111,6 +113,17 @@ class AppNavigator : Updatable {
         hasNow: Boolean = true
     ) {
         navHost?.navigate("${Screen.Booking.name}?$ID=$dancerId&${ArgKey.HAS_NOW}=$hasNow")
+    }
+
+    fun navigateBookingConfirm(
+        dancerIds: List<String>,
+        roomId: String
+    ) {
+        val dancerIdsArg = Uri.encode(dancerIds.joinToString(","))
+        val roomIdArg = Uri.encode(roomId)
+        navHost?.navigate(
+            "${Screen.BookingConfirm.name}?${ArgKey.DANCER_IDS}=$dancerIdsArg&$ROOM_ID=$roomIdArg"
+        )
     }
 
     fun navigatePhotoViewer(photoURL: String) {

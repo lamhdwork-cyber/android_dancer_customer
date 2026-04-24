@@ -141,7 +141,12 @@ fun BookingScreen(
             textColor = Colors.White,
             iconStartVector = Icons.Outlined.Verified,
             iconStartTint = Colors.White,
-            onClick = {}
+            onClick = {
+                appNavigator.navigateBookingConfirm(
+                    dancerIds = state.performers.map { it.id },
+                    roomId = state.selectedRoomId
+                )
+            }
         )
     }
 }
@@ -477,12 +482,41 @@ private fun SummarySection() {
             .border(1.dp, Colors.Pink66F425F4, RoundedCornerShape(24.dp))
             .padding(16.dp)
     ) {
-        Text(
-            text = stringResource(R.string.booking_total_due),
-            color = Colors.Primary,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.booking_total_due),
+                color = Colors.Primary,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Row(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(999.dp))
+                    .background(Colors.Green.copy(alpha = 0.20f))
+                    .border(1.dp, Colors.Green.copy(alpha = 0.45f), RoundedCornerShape(999.dp))
+                    .padding(horizontal = 10.dp, vertical = 6.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(6.dp)
+                        .clip(CircleShape)
+                        .background(Colors.Green103)
+                )
+                Text(
+                    text = stringResource(R.string.booking_cash_only),
+                    color = Colors.Green103,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Black
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(R.string.booking_collect),
             color = Colors.White,

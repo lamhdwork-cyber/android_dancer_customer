@@ -19,6 +19,7 @@ enum class Screen {
     DetailCase,
     DetailDancer,
     Booking,
+    BookingConfirm,
     PhotoViewer,
     PhotosViewer,
     ChangePassword,

@@ -12,6 +12,7 @@ enum class Scopes : IChars {
     Notification,
     Dancer,
     Booking,
+    BookingConfirm,
     Conversation,
     FAQsThreads,
     Home;
