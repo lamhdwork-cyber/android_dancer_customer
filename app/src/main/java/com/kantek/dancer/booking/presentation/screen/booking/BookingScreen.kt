@@ -24,7 +24,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.AddCircleOutline
 import androidx.compose.material.icons.outlined.Bed
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.MeetingRoom
@@ -32,8 +31,6 @@ import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.PersonAdd
 import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material.icons.outlined.Verified
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,6 +60,7 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
+import com.kantek.dancer.booking.presentation.widget.AppButton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
@@ -133,22 +131,18 @@ fun BookingScreen(
             Spacer(modifier = Modifier.height(100.dp))
         }
 
-        Button(
-            onClick = {},
+        AppButton(
+            nameRes = R.string.booking_confirm,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
-                .height(54.dp),
-            shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Colors.Primary,
-                contentColor = Colors.White
-            )
-        ) {
-            Icon(Icons.Outlined.Verified, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(stringResource(R.string.booking_confirm), fontWeight = FontWeight.Bold)
-        }
+                .height(54.dp)
+                .clip(RoundedCornerShape(16.dp)),
+            textColor = Colors.White,
+            iconStartVector = Icons.Outlined.Verified,
+            iconStartTint = Colors.White,
+            onClick = {}
+        )
     }
 }
 
@@ -440,11 +434,12 @@ private fun StepperCard(
                 text = value.toString(),
                 color = Colors.White,
                 fontWeight = FontWeight.Bold,
+                fontSize = 22.sp,
                 modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .widthIn(min = 18.dp)
+                    .padding(horizontal = 20.dp)
+                    .widthIn(min = 24.dp)
             )
-            StepButton(Icons.Outlined.AddCircleOutline, onIncrease)
+            StepButton(Icons.Outlined.Add, onIncrease)
         }
     }
 }
@@ -453,14 +448,14 @@ private fun StepperCard(
 private fun StepButton(icon: androidx.compose.ui.graphics.vector.ImageVector, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .size(30.dp)
+            .size(40.dp)
             .clip(CircleShape)
-            .border(1.dp, Colors.Pink33F425F4, CircleShape)
-            .background(Colors.Pink1AF425F4)
+            .border(2.dp, Colors.Pink4DF425F4, CircleShape)
+            .background(Colors.Pink26F425F4)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Icon(icon, contentDescription = null, tint = Colors.Primary, modifier = Modifier.size(16.dp))
+        Icon(icon, contentDescription = null, tint = Colors.Primary, modifier = Modifier.size(25.dp))
     }
 }
 

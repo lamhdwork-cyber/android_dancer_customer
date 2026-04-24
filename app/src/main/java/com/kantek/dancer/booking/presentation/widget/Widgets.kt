@@ -853,6 +853,8 @@ fun AppButton(
     contentPadding: PaddingValues = PaddingValues(start = 50.dp, end = 50.dp),
     fontSize: Int = 16,
     iconStartRes: Int = 0,
+    iconStartVector: ImageVector? = null,
+    iconStartTint: Color = Colors.Primary,
     onClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -889,11 +891,18 @@ fun AppButton(
         ),
         shape = RoundedCornerShape(12.dp)
     ) {
-        if (iconStartRes != 0) {
+        if (iconStartVector != null) {
+            Icon(
+                imageVector = iconStartVector,
+                contentDescription = "Icon",
+                tint = iconStartTint
+            )
+            SpaceHorizontal(20.dp)
+        } else if (iconStartRes != 0) {
             Icon(
                 painter = painterResource(id = iconStartRes),
                 contentDescription = "Icon",
-                tint = Colors.Primary
+                tint = iconStartTint
             )
             SpaceHorizontal(20.dp)
         }

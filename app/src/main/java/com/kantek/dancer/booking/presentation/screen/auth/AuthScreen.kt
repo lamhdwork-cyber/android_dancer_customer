@@ -1,4 +1,4 @@
-package com.kantek.dancer.booking.presentation.screen.approle
+package com.kantek.dancer.booking.presentation.screen.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -2,6 +2,7 @@ package com.kantek.dancer.booking.presentation.screen.dancer
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,9 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.EventAvailable
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -62,6 +61,7 @@ import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.NoDataView
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
+import java.util.Locale
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
@@ -97,6 +97,9 @@ fun DetailDancerScreen(
 
     val dancer = detail!!
     val photos = dancer.gallery.ifEmpty { listOf(dancer.avatar) }
+    val ratingBadgeText = dancer.rating.toFloatOrNull()
+        ?.let { "Rating: %.2f".format(Locale.US, it) }
+        ?: "Rating: ${dancer.rating}"
 
     BoxWithConstraints(
         modifier = Modifier
@@ -133,29 +136,6 @@ fun DetailDancerScreen(
 
         Row(
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = heroHeight - 30.dp),
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .width(22.dp)
-                    .height(5.dp)
-                    .clip(RoundedCornerShape(999.dp))
-                    .background(Colors.Primary)
-            )
-            repeat(3) {
-                Box(
-                    modifier = Modifier
-                        .size(5.dp)
-                        .clip(CircleShape)
-                        .background(Colors.White33FFFFFF)
-                )
-            }
-        }
-
-        Row(
-            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -173,6 +153,11 @@ fun DetailDancerScreen(
                 .fillMaxSize()
                 .padding(top = maxHeight * 0.46f)
                 .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                .border(
+                    width = 1.dp,
+                    color = Colors.Pink33F425F4,
+                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+                )
                 .background(Colors.OverlayCC120812)
                 .verticalScroll(rememberScrollState())
                 .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 184.dp)
@@ -180,13 +165,16 @@ fun DetailDancerScreen(
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
+                    .padding(top = 8.dp)
                     .width(44.dp)
                     .height(4.dp)
                     .clip(RoundedCornerShape(999.dp))
                     .background(Colors.White33FFFFFF)
             )
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Top
             ) {
@@ -217,7 +205,7 @@ fun DetailDancerScreen(
                     }
                 }
                 Text(
-                    text = stringResource(R.string.dancer_detail_id_format, dancer.dancerCode),
+                    text = ratingBadgeText,
                     color = Colors.Primary,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
@@ -261,28 +249,6 @@ fun DetailDancerScreen(
                 modifier = Modifier.padding(top = 8.dp)
             )
 
-            Text(
-                text = stringResource(
-                    R.string.dancer_detail_reviews,
-                    dancer.rating,
-                    dancer.totalReviews
-                ),
-                color = Colors.GrayCBD5E1,
-                fontSize = 13.sp,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-            Text(
-                text = stringResource(
-                    R.string.dancer_detail_experience,
-                    dancer.experience,
-                    dancer.hourlyRate
-                ),
-                color = Colors.GrayCBD5E1,
-                fontSize = 13.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(top = 4.dp)
-            )
         }
 
         Column(
@@ -292,7 +258,7 @@ fun DetailDancerScreen(
                 .background(
                     Brush.verticalGradient(
                         listOf(
-                            Colors.Pink0DF425F4,
+                            Colors.Overlay99120812,
                             Colors.Overlay99120812,
                             Colors.OverlayCC120812
                         )
@@ -318,13 +284,23 @@ fun DetailDancerScreen(
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.EventAvailable,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = stringResource(R.string.dancer_detail_book_now), fontWeight = FontWeight.Bold)
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.EventAvailable,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 20.dp)
+                            .size(24.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.dancer_detail_book_now),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
             Button(
                 onClick = {
@@ -344,13 +320,23 @@ fun DetailDancerScreen(
                 border = androidx.compose.foundation.BorderStroke(1.5.dp, Colors.Pink66F425F4),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Schedule,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = stringResource(R.string.dancer_detail_book_late), fontWeight = FontWeight.Bold)
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Schedule,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 20.dp)
+                            .size(24.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.dancer_detail_book_late),
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
