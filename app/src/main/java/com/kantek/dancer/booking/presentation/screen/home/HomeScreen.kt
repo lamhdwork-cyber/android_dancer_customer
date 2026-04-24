@@ -23,7 +23,7 @@ import com.kantek.dancer.booking.presentation.screen.cases.MyBookingScreen
 import com.kantek.dancer.booking.presentation.screen.notification.NotificationScreen
 import com.kantek.dancer.booking.presentation.screen.club.FindClubScreen
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.AppBottomBar
+import com.kantek.dancer.booking.presentation.widget.AppNavigateBottomBar
 import com.kantek.dancer.booking.presentation.widget.SetSystemBarsColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -46,7 +46,7 @@ fun HomeScreen() = ScopeProvider(Scopes.Home) {
                 .fillMaxSize()
                 .background(Colors.DarkFF0A050A),
             bottomBar = {
-                AppBottomBar(currentRoute) { router ->
+                AppNavigateBottomBar(currentRoute) { router ->
                     if (currentRoute != router)
                         nav.navigate(router) {
                             popUpTo(nav.graph.startDestinationId) {

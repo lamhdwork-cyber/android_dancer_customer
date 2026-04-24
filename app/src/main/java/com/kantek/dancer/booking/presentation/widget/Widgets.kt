@@ -72,7 +72,6 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material.icons.filled.StarOutline
-import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -988,7 +987,7 @@ fun LogoutDialog(
 }
 
 @Composable
-fun AppBottomBar(
+fun AppNavigateBottomBar(
     selectedItemRouter: String,
     onItemRouterSelected: (String) -> Unit
 ) {
@@ -1054,7 +1053,7 @@ fun AppBottomBar(
                     Text(
                         text = stringResource(it.titleRes).uppercase(Locale.getDefault()),
                         color = if (isSelected) Colors.Primary else Colors.Dark64748B,
-                        fontSize = 10.sp,
+                        fontSize = bottomBarFontSize(),
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                         textAlign = TextAlign.Center,
                         maxLines = 1,
