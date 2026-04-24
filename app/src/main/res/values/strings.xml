@@ -302,5 +302,27 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="error_blank_title">Please enter a title!</string>
     <string name="all_submit_your_answer">Submit your answer</string>
     <string name="faqs_your_answer">Your Answer</string>
+    <string name="booking_title">Create Booking</string>
+    <string name="booking_selected_performers">Selected Dancers</string>
+    <string name="booking_total_format">%1$d/%2$d TOTAL</string>
+    <string name="booking_add">Add</string>
+    <string name="booking_mode_now">Book Now</string>
+    <string name="booking_mode_later">Book Later</string>
+    <string name="booking_schedule">Schedule</string>
+    <string name="booking_select_room">Select Room</string>
+    <string name="booking_room_vip">VIP Room</string>
+    <string name="booking_room_vip_desc">Private area, premium service</string>
+    <string name="booking_room_suite">Private Suite</string>
+    <string name="booking_room_suite_desc">Full isolation, bar access</string>
+    <string name="booking_price_format">$%1$s</string>
+    <string name="booking_songs_title">Number of Songs</string>
+    <string name="booking_songs_subtitle">Per performance</string>
+    <string name="booking_guests_title">Number of Guests</string>
+    <string name="booking_guests_subtitle">Clients total</string>
+    <string name="booking_total_due">Estimated Total Due</string>
+    <string name="booking_collect">Collect: $950</string>
+    <string name="booking_base_fee">Base Fee: $500</string>
+    <string name="booking_addons_fee">Add-ons: $450</string>
+    <string name="booking_confirm">Confirm Booking</string>
 
 </resources>

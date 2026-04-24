@@ -43,6 +43,7 @@ class AppNavigator : Updatable {
             const val NAME = "name"
             const val ID = "id"
             const val CLUB_ID = "club_id"
+            const val HAS_NOW = "has_now"
         }
     }
 
@@ -103,6 +104,13 @@ class AppNavigator : Updatable {
 
     fun navigateDetailDancer(dancerId: String) {
         navHost?.navigate("${Screen.DetailDancer.name}?$ID=$dancerId")
+    }
+
+    fun navigateBooking(
+        dancerId: String = "",
+        hasNow: Boolean = true
+    ) {
+        navHost?.navigate("${Screen.Booking.name}?$ID=$dancerId&${ArgKey.HAS_NOW}=$hasNow")
     }
 
     fun navigatePhotoViewer(photoURL: String) {

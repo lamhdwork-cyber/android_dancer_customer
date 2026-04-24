@@ -18,6 +18,7 @@ enum class Screen {
     Home,
     DetailCase,
     DetailDancer,
+    Booking,
     PhotoViewer,
     PhotosViewer,
     ChangePassword,

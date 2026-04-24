@@ -48,6 +48,7 @@ import com.kantek.dancer.booking.presentation.screen.faqs.FAQsThreadsScreen
 import com.kantek.dancer.booking.presentation.screen.faqs.QuestionThreadsScreen
 import com.kantek.dancer.booking.presentation.screen.home.HomeScreen
 import com.kantek.dancer.booking.presentation.screen.language.LanguageScreen
+import com.kantek.dancer.booking.presentation.screen.booking.BookingScreen
 import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerScreen
 import com.kantek.dancer.booking.presentation.screen.media.PhotoViewerScreen
 import com.kantek.dancer.booking.presentation.screen.media.PhotosViewerScreen
@@ -248,6 +249,8 @@ class MainAct : AppComponentAct() {
                                 AppNavigator.Companion.ArgKey.LAWYER_DTO
                             val keyClubIDArg =
                                 AppNavigator.Companion.ArgKey.CLUB_ID
+                            val keyHasNowArg =
+                                AppNavigator.Companion.ArgKey.HAS_NOW
                             composable(
                                 "${Screen.QuickRequest.name}?$keyLawyerArg={$keyLawyerArg}",
                                 arguments = listOf(navArgument(keyLawyerArg) {
@@ -258,6 +261,22 @@ class MainAct : AppComponentAct() {
                                     backStackEntry.arguments?.getString(keyLawyerArg)
                                         ?: ""
                                 QuickRequestScreen(arg)
+                            }
+                            composable(
+                                "${Screen.Booking.name}?${AppNavigator.Companion.ArgKey.ID}={${AppNavigator.Companion.ArgKey.ID}}&$keyHasNowArg={$keyHasNowArg}",
+                                arguments = listOf(navArgument(AppNavigator.Companion.ArgKey.ID) {
+                                    type = NavType.StringType
+                                    defaultValue = ""
+                                }, navArgument(keyHasNowArg) {
+                                    type = NavType.BoolType
+                                    defaultValue = true
+                                })
+                            ) { backStackEntry ->
+                                val dancerIdArg =
+                                    backStackEntry.arguments?.getString(AppNavigator.Companion.ArgKey.ID)
+                                        .orEmpty()
+                                val hasNowArg = backStackEntry.arguments?.getBoolean(keyHasNowArg) ?: true
+                                BookingScreen(dancerId = dancerIdArg, hasNow = hasNowArg)
                             }
 
                             composable(

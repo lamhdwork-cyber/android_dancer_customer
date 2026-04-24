@@ -46,6 +46,8 @@ import com.kantek.dancer.booking.data.repo.conversation.FetchMessageByPageRepo
 import com.kantek.dancer.booking.data.repo.conversation.UploadPhotosRepo
 import com.kantek.dancer.booking.domain.extension.getBy
 import com.kantek.dancer.booking.domain.factory.BookingFactory
+import com.kantek.dancer.booking.domain.factory.BookingMockFactory
+import com.kantek.dancer.booking.domain.factory.BookingRoomFactory
 import com.kantek.dancer.booking.domain.factory.ClubFactory
 import com.kantek.dancer.booking.domain.factory.ConfigFactory
 import com.kantek.dancer.booking.domain.factory.ConversationFactory
@@ -105,6 +107,8 @@ import com.kantek.dancer.booking.presentation.screen.home.FetchFAQsPagingRepo
 import com.kantek.dancer.booking.presentation.screen.home.HomeVM
 import com.kantek.dancer.booking.presentation.screen.introduce.FetchIntroduceRepo
 import com.kantek.dancer.booking.presentation.screen.introduce.IntroduceVM
+import com.kantek.dancer.booking.presentation.screen.booking.BookingVM
+import com.kantek.dancer.booking.presentation.screen.booking.FetchBookingMockRepo
 import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerVM
 import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailDancerRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewRepo
@@ -224,6 +228,7 @@ val presentationModule = module {
     viewModel { OTPVerifyVM(get(), get()) }
     viewModel { RetPasswordVM(get(), getBy(Scopes.App)) }
     viewModel { DancerListVM(get()) }
+    viewModel { BookingVM(get()) }
     viewModel { ReviewVM(get()) }
     viewModel { CreateReviewVM(get(), get()) }
     viewModel { FAQsThreadsVM(get()) }
@@ -271,6 +276,7 @@ val dataModule = module {
     factory { VerifyOTPRepo(get(), get()) }
     factory { ResetPasswordRepo(get()) }
     factory { FetchDetailDancerRepo(get()) }
+    factory { FetchBookingMockRepo(get(), get()) }
     factory { FetchReviewByPageRepo(get(), get()) }
     single { FilterLocalSource(get()) }
     factory { CreateReviewRepo(get()) }
@@ -295,6 +301,8 @@ val domainModule = module {
     single { PhotoFactory(get()) }
     single { ConfigFactory(get()) }
     single { BookingFactory(get(), get()) }
+    single { BookingRoomFactory() }
+    single { BookingMockFactory() }
     single { ClubFactory() }
     single { DancerFactory() }
     single { LawyerFactory(get()) }

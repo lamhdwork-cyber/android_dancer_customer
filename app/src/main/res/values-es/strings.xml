@@ -292,5 +292,27 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="error_blank_title">¡Por favor ingresa un título!</string>
     <string name="all_submit_your_answer">Enviar tu respuesta</string>
     <string name="faqs_your_answer">Tu respuesta</string>
+    <string name="booking_title">Crear reserva</string>
+    <string name="booking_selected_performers">Bailarines seleccionados</string>
+    <string name="booking_total_format">%1$d/%2$d TOTAL</string>
+    <string name="booking_add">Agregar</string>
+    <string name="booking_mode_now">Reservar ahora</string>
+    <string name="booking_mode_later">Reservar después</string>
+    <string name="booking_schedule">Horario</string>
+    <string name="booking_select_room">Seleccionar sala</string>
+    <string name="booking_room_vip">Sala VIP</string>
+    <string name="booking_room_vip_desc">Área privada, servicio premium</string>
+    <string name="booking_room_suite">Suite privada</string>
+    <string name="booking_room_suite_desc">Aislamiento total, acceso al bar</string>
+    <string name="booking_price_format">$%1$s</string>
+    <string name="booking_songs_title">Número de canciones</string>
+    <string name="booking_songs_subtitle">Por presentación</string>
+    <string name="booking_guests_title">Número de invitados</string>
+    <string name="booking_guests_subtitle">Total de clientes</string>
+    <string name="booking_total_due">Total estimado</string>
+    <string name="booking_collect">Cobrar: $950</string>
+    <string name="booking_base_fee">Tarifa base: $500</string>
+    <string name="booking_addons_fee">Extras: $450</string>
+    <string name="booking_confirm">Confirmar reserva</string>
 
 </resources>

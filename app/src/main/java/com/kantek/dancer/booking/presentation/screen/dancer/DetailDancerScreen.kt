@@ -302,7 +302,12 @@ fun DetailDancerScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Button(
-                onClick = { appNavigator.navigateQuickRequest() },
+                onClick = {
+                    appNavigator.navigateBooking(
+                        dancerId = dancer.id,
+                        hasNow = true
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(54.dp),
@@ -322,7 +327,12 @@ fun DetailDancerScreen(
                 Text(text = stringResource(R.string.dancer_detail_book_now), fontWeight = FontWeight.Bold)
             }
             Button(
-                onClick = { appNavigator.navigateQuickRequest() },
+                onClick = {
+                    appNavigator.navigateBooking(
+                        dancerId = dancer.id,
+                        hasNow = false
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(54.dp),

@@ -295,5 +295,27 @@
     <string name="error_blank_title">Vui lòng nhập tiêu đề!</string>
     <string name="all_submit_your_answer">Gửi câu trả lời của bạn</string>
     <string name="faqs_your_answer">Câu trả lời của bạn</string>
+    <string name="booking_title">Tạo đặt lịch</string>
+    <string name="booking_selected_performers">Vũ công được chọn</string>
+    <string name="booking_total_format">%1$d/%2$d TỔNG</string>
+    <string name="booking_add">Thêm</string>
+    <string name="booking_mode_now">Đặt ngay</string>
+    <string name="booking_mode_later">Đặt sau</string>
+    <string name="booking_schedule">Lịch hẹn</string>
+    <string name="booking_select_room">Chọn phòng</string>
+    <string name="booking_room_vip">Phòng VIP</string>
+    <string name="booking_room_vip_desc">Khu riêng tư, dịch vụ cao cấp</string>
+    <string name="booking_room_suite">Phòng riêng</string>
+    <string name="booking_room_suite_desc">Cách âm hoàn toàn, có quầy bar</string>
+    <string name="booking_price_format">$%1$s</string>
+    <string name="booking_songs_title">Số lượng bài hát</string>
+    <string name="booking_songs_subtitle">Mỗi lượt biểu diễn</string>
+    <string name="booking_guests_title">Số lượng khách</string>
+    <string name="booking_guests_subtitle">Tổng số khách</string>
+    <string name="booking_total_due">Tổng dự kiến</string>
+    <string name="booking_collect">Thu: $950</string>
+    <string name="booking_base_fee">Phí cơ bản: $500</string>
+    <string name="booking_addons_fee">Phụ phí: $450</string>
+    <string name="booking_confirm">Xác nhận đặt lịch</string>
 
 </resources>
