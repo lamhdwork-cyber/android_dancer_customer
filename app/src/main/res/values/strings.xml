@@ -330,7 +330,7 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="booking_guests_title">Number of Guests</string>
     <string name="booking_guests_subtitle">Clients total</string>
     <string name="booking_total_due">Estimated Total Due</string>
-    <string name="booking_collect">Collect: $9,500</string>
+    <string name="booking_collect_format">Collect: $%1$s</string>
     <string name="booking_base_fee">Base Fee: $500</string>
     <string name="booking_addons_fee">Add-ons: $450</string>
     <string name="booking_confirm">Confirm Booking</string>

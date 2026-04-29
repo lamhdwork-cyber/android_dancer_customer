@@ -73,6 +73,8 @@ import com.kantek.dancer.booking.presentation.widget.AppButton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.util.Locale
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -187,7 +189,25 @@ fun BookingScreen(
             }
 
             Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                SummarySection()
+                val collectRaw = remember(state.performers.size, state.selectedRoomId, state.rooms) {
+                    val performerCount = state.performers.size
+                    val selectedRoomPrice = state.rooms
+                        .firstOrNull { it.id == state.selectedRoomId }
+                        ?.price
+                        ?.toDoubleOrNull()
+                        ?: 0.0
+
+                    val collectAmount = performerCount * selectedRoomPrice
+                    val format = NumberFormat.getNumberInstance(Locale.US).apply {
+                        minimumFractionDigits = 0
+                        maximumFractionDigits = 2
+                    }
+                    format.format(collectAmount)
+                }
+
+                val collectText = stringResource(R.string.booking_collect_format, collectRaw)
+
+                SummarySection(collectText = collectText)
             }
             Spacer(modifier = Modifier.height(100.dp))
         }
@@ -569,7 +589,9 @@ private fun StepButton(icon: androidx.compose.ui.graphics.vector.ImageVector, on
 }
 
 @Composable
-private fun SummarySection() {
+private fun SummarySection(
+    collectText: String
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -622,7 +644,7 @@ private fun SummarySection() {
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = stringResource(R.string.booking_collect),
+            text = collectText,
             color = Colors.White,
             fontSize = 34.sp,
             fontWeight = FontWeight.Black

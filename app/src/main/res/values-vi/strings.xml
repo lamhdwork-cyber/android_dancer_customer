@@ -323,7 +323,7 @@
     <string name="booking_guests_title">Số lượng khách</string>
     <string name="booking_guests_subtitle">Tổng số khách</string>
     <string name="booking_total_due">Tổng dự kiến</string>
-    <string name="booking_collect">Thu: $950</string>
+    <string name="booking_collect_format">Thu: $%1$s</string>
     <string name="booking_base_fee">Phí cơ bản: $500</string>
     <string name="booking_addons_fee">Phụ phí: $450</string>
     <string name="booking_confirm">Xác nhận đặt lịch</string>

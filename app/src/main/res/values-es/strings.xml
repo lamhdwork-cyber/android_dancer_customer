@@ -320,7 +320,7 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="booking_guests_title">Número de invitados</string>
     <string name="booking_guests_subtitle">Total de clientes</string>
     <string name="booking_total_due">Total estimado</string>
-    <string name="booking_collect">Cobrar: $950</string>
+    <string name="booking_collect_format">Cobrar: $%1$s</string>
     <string name="booking_base_fee">Tarifa base: $500</string>
     <string name="booking_addons_fee">Extras: $450</string>
     <string name="booking_confirm">Confirmar reserva</string>
