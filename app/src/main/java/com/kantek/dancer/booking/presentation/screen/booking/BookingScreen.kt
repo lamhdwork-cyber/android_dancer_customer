@@ -14,10 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,8 +44,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -116,30 +116,32 @@ fun BookingScreen(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 14.dp),
+                .padding(vertical = 14.dp),
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
-            PerformerSection(
-                performers = state.performers,
-                canAddMore = state.performers.size < BookingVM.MAX_PERFORMERS,
-                onAddClick = {
-                    when {
-                        state.performers.size >= BookingVM.MAX_PERFORMERS ->
-                            coroutineScope.launch {
-                                appPopup.show(context.getString(R.string.booking_max_performers_message))
-                            }
-                        state.clubId.isBlank() ->
-                            coroutineScope.launch {
-                                appPopup.show(context.getString(R.string.booking_add_performer_no_club))
-                            }
-                        else ->
-                            appNavigator.navigateDancerListForBookingPick(
-                                clubId = state.clubId,
-                                excludeDancerIds = state.performers.map { it.id }
-                            )
+            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                PerformerSection(
+                    performers = state.performers,
+                    canAddMore = state.performers.size < BookingVM.MAX_PERFORMERS,
+                    onAddClick = {
+                        when {
+                            state.performers.size >= BookingVM.MAX_PERFORMERS ->
+                                coroutineScope.launch {
+                                    appPopup.show(context.getString(R.string.booking_max_performers_message))
+                                }
+                            state.clubId.isBlank() ->
+                                coroutineScope.launch {
+                                    appPopup.show(context.getString(R.string.booking_add_performer_no_club))
+                                }
+                            else ->
+                                appNavigator.navigateDancerListForBookingPick(
+                                    clubId = state.clubId,
+                                    excludeDancerIds = state.performers.map { it.id }
+                                )
+                        }
                     }
-                }
-            )
+                )
+            }
 
             if (!state.hasNow) {
                 ScheduleSection(
@@ -152,30 +154,38 @@ fun BookingScreen(
                 )
             }
 
-            RoomSection(
-                rooms = state.rooms,
-                selectedRoomId = state.selectedRoomId,
-                onSelectRoom = { viewModel.selectRoom(it) }
-            )
+            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                RoomSection(
+                    rooms = state.rooms,
+                    selectedRoomId = state.selectedRoomId,
+                    onSelectRoom = { viewModel.selectRoom(it) }
+                )
+            }
 
-            StepperCard(
-                title = stringResource(R.string.booking_songs_title),
-                subtitle = stringResource(R.string.booking_songs_subtitle),
-                value = state.songs,
-                icon = Icons.Outlined.MusicNote,
-                onIncrease = { viewModel.increaseSongs() },
-                onDecrease = { viewModel.decreaseSongs() }
-            )
-            StepperCard(
-                title = stringResource(R.string.booking_guests_title),
-                subtitle = stringResource(R.string.booking_guests_subtitle),
-                value = state.guests,
-                icon = Icons.Outlined.PersonAdd,
-                onIncrease = { viewModel.increaseGuests() },
-                onDecrease = { viewModel.decreaseGuests() }
-            )
+            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                StepperCard(
+                    title = stringResource(R.string.booking_songs_title),
+                    subtitle = stringResource(R.string.booking_songs_subtitle),
+                    value = state.songs,
+                    icon = Icons.Outlined.MusicNote,
+                    onIncrease = { viewModel.increaseSongs() },
+                    onDecrease = { viewModel.decreaseSongs() }
+                )
+            }
+            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                StepperCard(
+                    title = stringResource(R.string.booking_guests_title),
+                    subtitle = stringResource(R.string.booking_guests_subtitle),
+                    value = state.guests,
+                    icon = Icons.Outlined.PersonAdd,
+                    onIncrease = { viewModel.increaseGuests() },
+                    onDecrease = { viewModel.decreaseGuests() }
+                )
+            }
 
-            SummarySection()
+            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                SummarySection()
+            }
             Spacer(modifier = Modifier.height(100.dp))
         }
 
@@ -292,27 +302,26 @@ private fun ScheduleSection(
     onSelectDay: (Int) -> Unit,
     onSelectTime: (String) -> Unit
 ) {
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(
-            text = stringResource(R.string.booking_schedule),
+            text = stringResource(R.string.booking_schedule).uppercase(),
             color = Colors.Gray9CA3AF,
             fontSize = 11.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
-        Row(
+        LazyRow(
             modifier = Modifier
-                .requiredWidth(screenWidth)
-                .offset(x = (-16).dp)
-                .horizontalScroll(rememberScrollState()),
+                .graphicsLayer(clip = false),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Spacer(modifier = Modifier.width(16.dp))
-            days.forEachIndexed { index, day ->
+            items(days.size) { index ->
+                val day = days[index]
                 val selected = index == selectedDay
                 Column(
                     modifier = Modifier
-                        .width(58.dp)
+                        .widthIn(min = 58.dp)
                         .clip(RoundedCornerShape(14.dp))
                         .background(if (selected) Colors.Primary else Colors.White1AFFFFFF)
                         .border(
@@ -328,17 +337,15 @@ private fun ScheduleSection(
                     Text(day.dayNumber, color = Colors.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 }
             }
-            Spacer(modifier = Modifier.width(16.dp))
         }
-        Row(
+        LazyRow(
             modifier = Modifier
-                .requiredWidth(screenWidth)
-                .offset(x = (-16).dp)
-                .horizontalScroll(rememberScrollState()),
+                .graphicsLayer(clip = false),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Spacer(modifier = Modifier.width(16.dp))
-            times.forEach { time ->
+            items(times.size) { index ->
+                val time = times[index]
                 val selected = time == selectedTime
                 Box(
                     modifier = Modifier
@@ -360,7 +367,6 @@ private fun ScheduleSection(
                     )
                 }
             }
-            Spacer(modifier = Modifier.width(16.dp))
         }
     }
 }
@@ -373,7 +379,7 @@ private fun RoomSection(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(
-            text = stringResource(R.string.booking_select_room),
+            text = stringResource(R.string.booking_select_room).uppercase(),
             color = Colors.Gray9CA3AF,
             fontSize = 11.sp,
             fontWeight = FontWeight.Bold
