@@ -15,11 +15,11 @@ Then create a guideline for:
 
 IMPORTANT:
 Follow rules in:
-.rules/architecture.md
-.rules/compose.md
-.rules/naming.md
-.rules/network.md
-.rules/structure.md
+.cursor/rules/architecture.md
+.cursor/rules/compose.md
+.cursor/rules/naming.md
+.cursor/rules/network.md
+.cursor/rules/structure.md
 
 
 #Step2
@@ -438,8 +438,9 @@ Steps:
 5. Implement logic
 
 Follow rules:
-.rules/architecture.md
-.rules/compose.md
-.rules/naming.md
-.rules/network.md
-.rules/structure.md
+.cursor/rules/architecture.md
+.cursor/rules/compose.md
+.cursor/rules/naming.md
+.cursor/rules/network.md
+.cursor/rules/structure.md
+.cursor/rules/i18n.md

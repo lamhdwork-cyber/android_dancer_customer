@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Dancer Booking</string>
+    <string name="app_name" translatable="false">Pickboxx</string>
     <string name="all_password">Password</string>
     <string name="all_sign_in">Sign in</string>
     <string name="all_loading">Loading…</string>

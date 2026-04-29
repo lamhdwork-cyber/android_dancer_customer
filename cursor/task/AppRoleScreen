@@ -116,6 +116,6 @@ Steps:
 3. Implement logic click guest and manager
 
 Follow rules:
-.rules/compose.md
-.rules/structure.md
-.rules/i18n.md
+.cursor/rules/compose.md
+.cursor/rules/structure.md
+.cursor/rules/i18n.md
