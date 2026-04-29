@@ -22,7 +22,7 @@ class AppPopup : Updatable {
     }
 
     override fun update(value: Any?, notify: Boolean) {
-        snackbarHostState = if (value is SnackbarHostState) value else null
+        snackbarHostState = value as? SnackbarHostState
     }
 
     suspend fun show(s: String) {

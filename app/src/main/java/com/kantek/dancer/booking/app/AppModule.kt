@@ -228,7 +228,7 @@ val presentationModule = module {
     viewModel { OTPVerifyVM(get(), get()) }
     viewModel { RetPasswordVM(get(), getBy(Scopes.App)) }
     viewModel { DancerListVM(get()) }
-    viewModel { BookingVM(get()) }
+    viewModel { BookingVM(get(), get()) }
     viewModel { ReviewVM(get()) }
     viewModel { CreateReviewVM(get(), get()) }
     viewModel { FAQsThreadsVM(get()) }

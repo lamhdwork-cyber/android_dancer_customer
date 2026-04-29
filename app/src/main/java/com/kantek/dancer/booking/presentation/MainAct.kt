@@ -265,21 +265,36 @@ class MainAct : AppComponentAct() {
                                         ?: ""
                                 QuickRequestScreen(arg)
                             }
+                            val keyBookingClubIdArg = AppNavigator.Companion.ArgKey.CLUB_ID
                             composable(
-                                "${Screen.Booking.name}?${AppNavigator.Companion.ArgKey.ID}={${AppNavigator.Companion.ArgKey.ID}}&$keyHasNowArg={$keyHasNowArg}",
-                                arguments = listOf(navArgument(AppNavigator.Companion.ArgKey.ID) {
-                                    type = NavType.StringType
-                                    defaultValue = ""
-                                }, navArgument(keyHasNowArg) {
-                                    type = NavType.BoolType
-                                    defaultValue = true
-                                })
+                                "${Screen.Booking.name}?${AppNavigator.Companion.ArgKey.ID}={${AppNavigator.Companion.ArgKey.ID}}&$keyHasNowArg={$keyHasNowArg}&$keyBookingClubIdArg={$keyBookingClubIdArg}",
+                                arguments = listOf(
+                                    navArgument(AppNavigator.Companion.ArgKey.ID) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    },
+                                    navArgument(keyHasNowArg) {
+                                        type = NavType.BoolType
+                                        defaultValue = true
+                                    },
+                                    navArgument(keyBookingClubIdArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    }
+                                )
                             ) { backStackEntry ->
                                 val dancerIdArg =
                                     backStackEntry.arguments?.getString(AppNavigator.Companion.ArgKey.ID)
                                         .orEmpty()
                                 val hasNowArg = backStackEntry.arguments?.getBoolean(keyHasNowArg) ?: true
-                                BookingScreen(dancerId = dancerIdArg, hasNow = hasNowArg)
+                                val clubIdArg =
+                                    backStackEntry.arguments?.getString(keyBookingClubIdArg).orEmpty()
+                                BookingScreen(
+                                    dancerId = dancerIdArg,
+                                    clubId = clubIdArg,
+                                    hasNow = hasNowArg,
+                                    navBackStackEntry = backStackEntry
+                                )
                             }
                             val keyDancerIdsArg = AppNavigator.Companion.ArgKey.DANCER_IDS
                             composable(
@@ -305,16 +320,37 @@ class MainAct : AppComponentAct() {
                                 )
                             }
 
+                            val keyPickForBookingArg = AppNavigator.Companion.ArgKey.PICK_FOR_BOOKING
+                            val keyExcludeDancerIdsArg = AppNavigator.Companion.ArgKey.EXCLUDE_DANCER_IDS
                             composable(
-                                "${Screen.DancerList.name}?$keyClubIDArg={$keyClubIDArg}",
-                                arguments = listOf(navArgument(keyClubIDArg) {
-                                    type = NavType.StringType
-                                    defaultValue = ""
-                                })
+                                "${Screen.DancerList.name}?$keyClubIDArg={$keyClubIDArg}&$keyPickForBookingArg={$keyPickForBookingArg}&$keyExcludeDancerIdsArg={$keyExcludeDancerIdsArg}",
+                                arguments = listOf(
+                                    navArgument(keyClubIDArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    },
+                                    navArgument(keyPickForBookingArg) {
+                                        type = NavType.BoolType
+                                        defaultValue = false
+                                    },
+                                    navArgument(keyExcludeDancerIdsArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    }
+                                )
                             ) { backStackEntry ->
                                 val clubId =
                                     backStackEntry.arguments?.getString(keyClubIDArg) ?: ""
-                                DancerListScreen(clubId = clubId)
+                                val pickForBooking =
+                                    backStackEntry.arguments?.getBoolean(keyPickForBookingArg) ?: false
+                                val excludeCsv =
+                                    backStackEntry.arguments?.getString(keyExcludeDancerIdsArg).orEmpty()
+                                val excludeIds = excludeCsv.split(',').map { it.trim() }.filter { it.isNotEmpty() }.toSet()
+                                DancerListScreen(
+                                    clubId = clubId,
+                                    pickForBooking = pickForBooking,
+                                    excludeDancerIds = excludeIds
+                                )
                             }
 
                             composable(

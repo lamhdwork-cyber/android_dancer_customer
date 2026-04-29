@@ -303,6 +303,9 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="booking_selected_performers">Bailarines seleccionados</string>
     <string name="booking_total_format">%1$d/%2$d TOTAL</string>
     <string name="booking_add">Agregar</string>
+    <string name="booking_pick_performer_title">Añadir bailarín</string>
+    <string name="booking_max_performers_message">Puedes seleccionar hasta 5 bailarines.</string>
+    <string name="booking_add_performer_no_club">Falta la información del club. No se pueden añadir más bailarines.</string>
     <string name="booking_mode_now">Reservar ahora</string>
     <string name="booking_mode_later">Reservar después</string>
     <string name="booking_schedule">Horario</string>

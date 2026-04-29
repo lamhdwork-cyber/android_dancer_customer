@@ -271,7 +271,8 @@ fun DetailDancerScreen(
                 onClick = {
                     appNavigator.navigateBooking(
                         dancerId = dancer.id,
-                        hasNow = true
+                        hasNow = true,
+                        clubId = dancer.clubId
                     )
                 },
                 modifier = Modifier
@@ -306,7 +307,8 @@ fun DetailDancerScreen(
                 onClick = {
                     appNavigator.navigateBooking(
                         dancerId = dancer.id,
-                        hasNow = false
+                        hasNow = false,
+                        clubId = dancer.clubId
                     )
                 },
                 modifier = Modifier

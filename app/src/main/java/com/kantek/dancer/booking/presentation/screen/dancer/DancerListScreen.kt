@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,13 +60,19 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun DancerListScreen(
     clubId: String,
+    pickForBooking: Boolean = false,
+    excludeDancerIds: Set<String> = emptySet(),
     viewModel: DancerListVM = koinViewModel()
 ) = ScopeProvider(Scopes.Dancer) {
     val appNavigator = use<AppNavigator>(Scopes.App)
     val dancers by viewModel.items.collectAsState()
-    val isEmpty by viewModel.isEmpty.collectAsState()
     val isLoading by viewModel.customLoading.isLoading().collectAsState()
     val isRefreshing by viewModel.isRefreshLoading.isLoading().collectAsState()
+
+    val visibleDancers = remember(dancers, excludeDancerIds) {
+        dancers.filter { it.id !in excludeDancerIds }
+    }
+    val showNoData = visibleDancers.isEmpty() && !isLoading && !isRefreshing
 
     LaunchedEffect(clubId) {
         viewModel.updateClubId(clubId)
@@ -77,14 +84,16 @@ fun DancerListScreen(
             .fillMaxSize()
             .background(Colors.DarkFF0A050A)
     ) {
-        ActionBarBackAndTitleView(R.string.top_bar_dancer_list) { appNavigator.back() }
+        ActionBarBackAndTitleView(
+            if (pickForBooking) R.string.booking_pick_performer_title else R.string.top_bar_dancer_list
+        ) { appNavigator.back() }
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Colors.DarkFF0A050A)
         ) {
             AppLazyVerticalGrid(
-                items = dancers,
+                items = visibleDancers,
                 keyItem = { it.id },
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -98,9 +107,15 @@ fun DancerListScreen(
                     .fillMaxSize()
                     .background(Colors.DarkFF0A050A)
             ) { item, _, _ ->
-                DancerCard(item) { appNavigator.navigateDetailDancer(item.id) }
+                DancerCard(item) {
+                    if (pickForBooking) {
+                        appNavigator.finishBookingDancerPick(item.id)
+                    } else {
+                        appNavigator.navigateDetailDancer(item.id)
+                    }
+                }
             }
-            if (isEmpty && !isLoading && !isRefreshing) {
+            if (showNoData) {
                 NoDataView(htmlRes = R.string.no_data_dancer)
             }
         }

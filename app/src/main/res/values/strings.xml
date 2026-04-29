@@ -313,6 +313,9 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="booking_selected_performers">Selected Dancers</string>
     <string name="booking_total_format">%1$d/%2$d TOTAL</string>
     <string name="booking_add">Add</string>
+    <string name="booking_pick_performer_title">Add dancer</string>
+    <string name="booking_max_performers_message">You can select up to 5 dancers.</string>
+    <string name="booking_add_performer_no_club">Club information is missing. Cannot add more dancers.</string>
     <string name="booking_mode_now">Book Now</string>
     <string name="booking_mode_later">Book Later</string>
     <string name="booking_schedule">Schedule</string>

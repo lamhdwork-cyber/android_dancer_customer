@@ -33,6 +33,8 @@ class DancerFactory {
     fun createDetail(item: DancerDTO?): IDancerDetail? {
         if (item == null) return null
         return object : IDancerDetail, IDancer by create(item) {
+            override val clubId: String
+                get() = item.clubId.safe().ifBlank { item.club?.id.safe() }
             override val age: Int
                 get() = item.age ?: 0
             override val dancerCode: String

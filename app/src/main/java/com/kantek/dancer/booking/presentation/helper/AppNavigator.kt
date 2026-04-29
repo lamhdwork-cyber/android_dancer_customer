@@ -10,6 +10,11 @@ import com.kantek.dancer.booking.domain.model.support.Updatable
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_DTO
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLUB_ID
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.DANCER_IDS
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.EXCLUDE_DANCER_IDS
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICK_FOR_BOOKING
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.HAS_NOW
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.EMAIL
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.IS_IN_APP
@@ -46,6 +51,9 @@ class AppNavigator : Updatable {
             const val CLUB_ID = "club_id"
             const val HAS_NOW = "has_now"
             const val DANCER_IDS = "dancer_ids"
+            const val PICK_FOR_BOOKING = "pick_for_booking"
+            const val EXCLUDE_DANCER_IDS = "exclude_dancer_ids"
+            const val PICKED_DANCER_ID = "picked_dancer_id"
         }
     }
 
@@ -110,9 +118,12 @@ class AppNavigator : Updatable {
 
     fun navigateBooking(
         dancerId: String = "",
-        hasNow: Boolean = true
+        hasNow: Boolean = true,
+        clubId: String = ""
     ) {
-        navHost?.navigate("${Screen.Booking.name}?$ID=$dancerId&${ArgKey.HAS_NOW}=$hasNow")
+        val clubArg = if (clubId.isBlank()) "" else Uri.encode(clubId)
+        val dancerArg = Uri.encode(dancerId)
+        navHost?.navigate("${Screen.Booking.name}?$ID=$dancerArg&$HAS_NOW=$hasNow&$CLUB_ID=$clubArg")
     }
 
     fun navigateBookingConfirm(
@@ -122,7 +133,7 @@ class AppNavigator : Updatable {
         val dancerIdsArg = Uri.encode(dancerIds.joinToString(","))
         val roomIdArg = Uri.encode(roomId)
         navHost?.navigate(
-            "${Screen.BookingConfirm.name}?${ArgKey.DANCER_IDS}=$dancerIdsArg&$ROOM_ID=$roomIdArg"
+            "${Screen.BookingConfirm.name}?$DANCER_IDS=$dancerIdsArg&$ROOM_ID=$roomIdArg"
         )
     }
 
@@ -194,11 +205,25 @@ class AppNavigator : Updatable {
     }
 
     fun navigateDancerList(clubId: String) {
-        navHost?.navigate("${Screen.DancerList.name}?$CLUB_ID=$clubId")
+        navHost?.navigate("${Screen.DancerList.name}?$CLUB_ID=${Uri.encode(clubId)}&$PICK_FOR_BOOKING=false&$EXCLUDE_DANCER_IDS=")
+    }
+
+    fun navigateDancerListForBookingPick(clubId: String, excludeDancerIds: List<String>) {
+        val exclude = Uri.encode(excludeDancerIds.joinToString(","))
+        navHost?.navigate(
+            "${Screen.DancerList.name}?$CLUB_ID=${Uri.encode(clubId)}&$PICK_FOR_BOOKING=true&$EXCLUDE_DANCER_IDS=$exclude"
+        )
+    }
+
+    fun finishBookingDancerPick(dancerId: String) {
+        navHost?.previousBackStackEntry?.savedStateHandle?.set(PICKED_DANCER_ID, dancerId)
+        navHost?.popBackStack()
     }
 
     fun navigateChangeLawyer() {
-        navHost?.navigate(Screen.DancerList.name) {
+        val route =
+            "${Screen.DancerList.name}?$CLUB_ID=&$PICK_FOR_BOOKING=false&$EXCLUDE_DANCER_IDS="
+        navHost?.navigate(route) {
             popUpTo(Screen.DancerList.name) { inclusive = false }
             launchSingleTop = true
         }

@@ -306,6 +306,9 @@
     <string name="booking_selected_performers">Vũ công được chọn</string>
     <string name="booking_total_format">%1$d/%2$d TỔNG</string>
     <string name="booking_add">Thêm</string>
+    <string name="booking_pick_performer_title">Chọn vũ công</string>
+    <string name="booking_max_performers_message">Bạn chỉ có thể chọn tối đa 5 vũ công.</string>
+    <string name="booking_add_performer_no_club">Thiếu thông tin club. Không thể thêm vũ công.</string>
     <string name="booking_mode_now">Đặt ngay</string>
     <string name="booking_mode_later">Đặt sau</string>
     <string name="booking_schedule">Lịch hẹn</string>

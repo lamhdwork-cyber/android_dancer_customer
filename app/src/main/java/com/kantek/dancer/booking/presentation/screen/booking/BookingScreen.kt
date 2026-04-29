@@ -37,8 +37,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Brush
@@ -47,35 +50,60 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavBackStackEntry
 import coil.compose.AsyncImage
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingPerformer
+import com.kantek.dancer.booking.domain.model.ui.search.IDancerDetail
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingRoom
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingScheduleDay
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
+import com.kantek.dancer.booking.presentation.helper.AppPopup
 import com.kantek.dancer.booking.presentation.theme.Colors
+import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailDancerRepo
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun BookingScreen(
     dancerId: String = "",
+    clubId: String = "",
     hasNow: Boolean = true,
+    navBackStackEntry: NavBackStackEntry,
     viewModel: BookingVM = koinViewModel()
 ) = ScopeProvider(Scopes.Booking) {
     val appNavigator = use<AppNavigator>(Scopes.App)
+    val appPopup = use<AppPopup>(Scopes.App)
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(dancerId, hasNow) {
-        viewModel.loadMockData(dancerId = dancerId, hasNow = hasNow)
+    val pickedFlow = remember(navBackStackEntry) {
+        navBackStackEntry.savedStateHandle.getStateFlow<String?>(PICKED_DANCER_ID, null)
+    }
+    val pickedDancerId by pickedFlow.collectAsState()
+
+    LaunchedEffect(dancerId, clubId, hasNow) {
+        viewModel.loadMockData(dancerId = dancerId, clubId = clubId, hasNow = hasNow)
+    }
+
+    LaunchedEffect(pickedDancerId) {
+        val id = pickedDancerId ?: return@LaunchedEffect
+        navBackStackEntry.savedStateHandle.remove<String>(PICKED_DANCER_ID)
+        val messageRes = viewModel.addPerformerFromPick(id)
+        if (messageRes != null) {
+            appPopup.show(context.getString(messageRes))
+        }
     }
 
     Column(
@@ -91,7 +119,27 @@ fun BookingScreen(
                 .padding(horizontal = 16.dp, vertical = 14.dp),
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
-            PerformerSection(performers = state.performers)
+            PerformerSection(
+                performers = state.performers,
+                canAddMore = state.performers.size < BookingVM.MAX_PERFORMERS,
+                onAddClick = {
+                    when {
+                        state.performers.size >= BookingVM.MAX_PERFORMERS ->
+                            coroutineScope.launch {
+                                appPopup.show(context.getString(R.string.booking_max_performers_message))
+                            }
+                        state.clubId.isBlank() ->
+                            coroutineScope.launch {
+                                appPopup.show(context.getString(R.string.booking_add_performer_no_club))
+                            }
+                        else ->
+                            appNavigator.navigateDancerListForBookingPick(
+                                clubId = state.clubId,
+                                excludeDancerIds = state.performers.map { it.id }
+                            )
+                    }
+                }
+            )
 
             if (!state.hasNow) {
                 ScheduleSection(
@@ -133,6 +181,7 @@ fun BookingScreen(
 
         AppButton(
             nameRes = R.string.booking_confirm,
+            isEnabled = state.performers.isNotEmpty(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
@@ -152,7 +201,11 @@ fun BookingScreen(
 }
 
 @Composable
-private fun PerformerSection(performers: List<IBookingPerformer>) {
+private fun PerformerSection(
+    performers: List<IBookingPerformer>,
+    canAddMore: Boolean,
+    onAddClick: () -> Unit
+) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
@@ -162,7 +215,7 @@ private fun PerformerSection(performers: List<IBookingPerformer>) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = stringResource(R.string.booking_total_format, performers.size, 5),
+                text = stringResource(R.string.booking_total_format, performers.size, BookingVM.MAX_PERFORMERS),
                 color = Colors.Primary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold
@@ -173,7 +226,7 @@ private fun PerformerSection(performers: List<IBookingPerformer>) {
             modifier = Modifier.horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            performers.forEachIndexed { index, performer ->
+            performers.forEach { performer ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(
                         modifier = Modifier
@@ -181,7 +234,7 @@ private fun PerformerSection(performers: List<IBookingPerformer>) {
                             .clip(RoundedCornerShape(14.dp))
                             .border(
                                 2.dp,
-                                if (index == 0) Colors.Primary else Colors.Pink33F425F4,
+                                Colors.Primary,
                                 RoundedCornerShape(14.dp)
                             )
                             .padding(3.dp)
@@ -198,31 +251,33 @@ private fun PerformerSection(performers: List<IBookingPerformer>) {
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = performer.name,
-                        color = if (index == 0) Colors.Primary else Colors.GrayCBD5E1,
+                        color = Colors.Primary,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
             }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(
-                    modifier = Modifier
-                        .size(72.dp)
-                        .clip(RoundedCornerShape(14.dp))
-                        .border(2.dp, Colors.White1AFFFFFF, RoundedCornerShape(14.dp))
-                        .clickable {}
-                        .background(Colors.White1AFFFFFF),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(Icons.Outlined.Add, contentDescription = null, tint = Colors.GrayCBD5E1)
+            if (canAddMore) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Box(
+                        modifier = Modifier
+                            .size(72.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .border(2.dp, Colors.White1AFFFFFF, RoundedCornerShape(14.dp))
+                            .clickable { onAddClick() }
+                            .background(Colors.White1AFFFFFF),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(Icons.Outlined.Add, contentDescription = null, tint = Colors.GrayCBD5E1)
+                    }
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = stringResource(R.string.booking_add),
+                        color = Colors.GrayCBD5E1,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = stringResource(R.string.booking_add),
-                    color = Colors.GrayCBD5E1,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Bold
-                )
             }
         }
     }
@@ -542,27 +597,55 @@ data class BookingState(
     val songs: Int = 4,
     val guests: Int = 2,
     val dancerId: String = "",
+    val clubId: String = "",
     val hasNow: Boolean = true
 )
 
 class BookingVM(
-    private val fetchBookingMockRepo: FetchBookingMockRepo
+    private val fetchBookingMockRepo: FetchBookingMockRepo,
+    private val fetchDetailDancerRepo: FetchDetailDancerRepo
 ) : AppViewModel() {
     private val _state = MutableStateFlow(BookingState())
     val state: StateFlow<BookingState> = _state
 
-    fun loadMockData(dancerId: String, hasNow: Boolean) = launch(loading, error) {
+    fun loadMockData(dancerId: String, clubId: String, hasNow: Boolean) = launch(loading, error) {
+        val current = _state.value
+        val hasLoadedSameInput = current.rooms.isNotEmpty() &&
+            current.dancerId == dancerId &&
+            current.clubId == clubId &&
+            current.hasNow == hasNow
+        if (hasLoadedSameInput) return@launch
+
         val seed = fetchBookingMockRepo()
-        _state.value = _state.value.copy(
-            performers = seed.performers,
+        val initialPerformers = if (dancerId.isNotBlank()) {
+            fetchDetailDancerRepo(dancerId)?.toBookingPerformer()?.let { listOf(it) } ?: emptyList()
+        } else {
+            emptyList()
+        }
+        _state.value = BookingState(
+            performers = initialPerformers,
             rooms = seed.rooms,
             scheduleDays = seed.scheduleDays,
             scheduleTimes = seed.scheduleTimes,
             selectedRoomId = seed.rooms.firstOrNull()?.id.orEmpty(),
             selectedTime = seed.scheduleTimes.firstOrNull().orEmpty(),
             dancerId = dancerId,
+            clubId = clubId,
             hasNow = hasNow
         )
+    }
+
+    suspend fun addPerformerFromPick(dancerId: String): Int? {
+        val cur = _state.value
+        if (cur.performers.size >= MAX_PERFORMERS) return R.string.booking_max_performers_message
+        if (cur.performers.any { it.id == dancerId }) return null
+        val detail = fetchDetailDancerRepo(dancerId) ?: return null
+        _state.value = cur.copy(performers = cur.performers + detail.toBookingPerformer())
+        return null
+    }
+
+    companion object {
+        const val MAX_PERFORMERS = 5
     }
 
     fun selectDay(index: Int) {
@@ -593,6 +676,15 @@ class BookingVM(
     fun decreaseGuests() {
         if (_state.value.guests <= 1) return
         _state.value = _state.value.copy(guests = _state.value.guests - 1)
+    }
+}
+
+private fun IDancerDetail.toBookingPerformer(): IBookingPerformer {
+    val d = this
+    return object : IBookingPerformer {
+        override val id: String = d.id
+        override val name: String = d.name
+        override val avatar: String = d.avatar
     }
 }
 
