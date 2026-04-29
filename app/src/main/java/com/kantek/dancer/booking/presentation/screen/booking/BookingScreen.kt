@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,9 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Bed
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.MeetingRoom
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.PersonAdd
 import androidx.compose.material.icons.outlined.Remove
@@ -37,15 +34,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -54,19 +53,21 @@ import androidx.navigation.NavBackStackEntry
 import coil.compose.AsyncImage
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
+import com.kantek.dancer.booking.domain.factory.BookingFactory
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingPerformer
-import com.kantek.dancer.booking.domain.model.ui.search.IDancerDetail
-import com.kantek.dancer.booking.domain.model.ui.booking.IBookingRoom
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingScheduleDay
+import com.kantek.dancer.booking.domain.model.ui.booking.IRoom
+import com.kantek.dancer.booking.domain.model.ui.search.IDancerDetail
+import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
 import com.kantek.dancer.booking.presentation.helper.AppPopup
-import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailDancerRepo
+import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -129,10 +130,12 @@ fun BookingScreen(
                                 coroutineScope.launch {
                                     appPopup.show(context.getString(R.string.booking_max_performers_message))
                                 }
+
                             state.clubId.isBlank() ->
                                 coroutineScope.launch {
                                     appPopup.show(context.getString(R.string.booking_add_performer_no_club))
                                 }
+
                             else ->
                                 appNavigator.navigateDancerListForBookingPick(
                                     clubId = state.clubId,
@@ -225,7 +228,11 @@ private fun PerformerSection(
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = stringResource(R.string.booking_total_format, performers.size, BookingVM.MAX_PERFORMERS),
+                text = stringResource(
+                    R.string.booking_total_format,
+                    performers.size,
+                    BookingVM.MAX_PERFORMERS
+                ),
                 color = Colors.Primary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold
@@ -278,7 +285,11 @@ private fun PerformerSection(
                             .background(Colors.White1AFFFFFF),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(Icons.Outlined.Add, contentDescription = null, tint = Colors.GrayCBD5E1)
+                        Icon(
+                            Icons.Outlined.Add,
+                            contentDescription = null,
+                            tint = Colors.GrayCBD5E1
+                        )
                     }
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
@@ -333,8 +344,18 @@ private fun ScheduleSection(
                         .padding(vertical = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(day.label, color = if (selected) Colors.White else Colors.GrayCBD5E1, fontSize = 10.sp, fontWeight = FontWeight.Bold)
-                    Text(day.dayNumber, color = Colors.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Text(
+                        day.label,
+                        color = if (selected) Colors.White else Colors.GrayCBD5E1,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        day.dayNumber,
+                        color = Colors.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
                 }
             }
         }
@@ -373,7 +394,7 @@ private fun ScheduleSection(
 
 @Composable
 private fun RoomSection(
-    rooms: List<IBookingRoom>,
+    rooms: List<IRoom>,
     selectedRoomId: String,
     onSelectRoom: (String) -> Unit
 ) {
@@ -409,25 +430,32 @@ private fun RoomSection(
                             .background(Colors.Pink26F425F4),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            imageVector = if (room.icon == "king_bed") Icons.Outlined.Bed else Icons.Outlined.MeetingRoom,
+                        AsyncImage(
+                            colorFilter = ColorFilter.tint(
+                                if (selected) Colors.Primary else Colors.Blue148
+                            ),
+                            model = room.imageURL,
                             contentDescription = null,
-                            tint = Colors.Primary
+                            placeholder = rememberVectorPainter(room.imagePlaceholder),
+                            error = rememberVectorPainter(room.imagePlaceholder),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(10.dp),
+                            contentScale = ContentScale.Fit
                         )
                     }
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
                         Text(
-                            text = stringResource(if (room.nameKey == "vip_room") R.string.booking_room_vip else R.string.booking_room_suite),
+                            text = room.name,
                             color = Colors.White,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = stringResource(
-                                if (room.descriptionKey == "vip_room_desc") R.string.booking_room_vip_desc else R.string.booking_room_suite_desc
-                            ),
+                            text = room.services,
                             color = Colors.GrayCBD5E1,
-                            fontSize = 11.sp
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Medium
                         )
                     }
                 }
@@ -486,12 +514,22 @@ private fun StepperCard(
                     .background(Colors.Pink26F425F4),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(icon, contentDescription = null, tint = Colors.Primary, modifier = Modifier.size(20.dp))
+                Icon(
+                    icon,
+                    contentDescription = null,
+                    tint = Colors.Primary,
+                    modifier = Modifier.size(20.dp)
+                )
             }
             Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(title, color = Colors.White, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                Text(subtitle, color = Colors.GrayCBD5E1, fontWeight = FontWeight.Medium, fontSize = 10.sp)
+                Text(
+                    subtitle,
+                    color = Colors.GrayCBD5E1,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 10.sp
+                )
             }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -521,7 +559,12 @@ private fun StepButton(icon: androidx.compose.ui.graphics.vector.ImageVector, on
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Icon(icon, contentDescription = null, tint = Colors.Primary, modifier = Modifier.size(25.dp))
+        Icon(
+            icon,
+            contentDescription = null,
+            tint = Colors.Primary,
+            modifier = Modifier.size(25.dp)
+        )
     }
 }
 
@@ -585,16 +628,26 @@ private fun SummarySection() {
             fontWeight = FontWeight.Black
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(stringResource(R.string.booking_base_fee), color = Colors.GrayCBD5E1, fontSize = 10.sp, fontWeight = FontWeight.Bold)
-            Text(stringResource(R.string.booking_addons_fee), color = Colors.GrayCBD5E1, fontSize = 10.sp, fontWeight = FontWeight.Bold)
-        }
+//        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+//            Text(
+//                stringResource(R.string.booking_base_fee),
+//                color = Colors.GrayCBD5E1,
+//                fontSize = 10.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+//            Text(
+//                stringResource(R.string.booking_addons_fee),
+//                color = Colors.GrayCBD5E1,
+//                fontSize = 10.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+//        }
     }
 }
 
 data class BookingState(
     val performers: List<IBookingPerformer> = emptyList(),
-    val rooms: List<IBookingRoom> = emptyList(),
+    val rooms: List<IRoom> = emptyList(),
     val scheduleDays: List<IBookingScheduleDay> = emptyList(),
     val scheduleTimes: List<String> = emptyList(),
     val selectedDay: Int = 0,
@@ -608,33 +661,42 @@ data class BookingState(
 )
 
 class BookingVM(
-    private val fetchBookingMockRepo: FetchBookingMockRepo,
-    private val fetchDetailDancerRepo: FetchDetailDancerRepo
+    private val fetchDetailDancerRepo: FetchDetailDancerRepo,
+    private val fetchRoomsByClubCase: FetchRoomsByClubCase,
+    private val bookingFactory: BookingFactory
 ) : AppViewModel() {
     private val _state = MutableStateFlow(BookingState())
     val state: StateFlow<BookingState> = _state
 
     fun loadMockData(dancerId: String, clubId: String, hasNow: Boolean) = launch(loading, error) {
         val current = _state.value
-        val hasLoadedSameInput = current.rooms.isNotEmpty() &&
+        val hasLoadedSameInput =
             current.dancerId == dancerId &&
-            current.clubId == clubId &&
-            current.hasNow == hasNow
+                    current.clubId == clubId &&
+                    current.hasNow == hasNow &&
+                    current.scheduleDays.isNotEmpty()
         if (hasLoadedSameInput) return@launch
 
-        val seed = fetchBookingMockRepo()
         val initialPerformers = if (dancerId.isNotBlank()) {
             fetchDetailDancerRepo(dancerId)?.toBookingPerformer()?.let { listOf(it) } ?: emptyList()
         } else {
             emptyList()
         }
+
+        val rooms = if (clubId.isNotBlank()) {
+            fetchRoomsByClubCase(clubId = clubId)
+        } else emptyList()
+
+        val scheduleDays = bookingFactory.createScheduleDays()
+        val scheduleTimes = bookingFactory.createScheduleTimes()
+
         _state.value = BookingState(
             performers = initialPerformers,
-            rooms = seed.rooms,
-            scheduleDays = seed.scheduleDays,
-            scheduleTimes = seed.scheduleTimes,
-            selectedRoomId = seed.rooms.firstOrNull()?.id.orEmpty(),
-            selectedTime = seed.scheduleTimes.firstOrNull().orEmpty(),
+            rooms = rooms,
+            scheduleDays = scheduleDays,
+            scheduleTimes = scheduleTimes,
+            selectedRoomId = rooms.firstOrNull()?.id.orEmpty(),
+            selectedTime = scheduleTimes.firstOrNull().orEmpty(),
             dancerId = dancerId,
             clubId = clubId,
             hasNow = hasNow
@@ -694,9 +756,4 @@ private fun IDancerDetail.toBookingPerformer(): IBookingPerformer {
     }
 }
 
-data class BookingMockSeed(
-    val performers: List<IBookingPerformer>,
-    val rooms: List<IBookingRoom>,
-    val scheduleDays: List<IBookingScheduleDay>,
-    val scheduleTimes: List<String>
-)
+
