@@ -52,7 +52,7 @@ import org.koin.androidx.compose.koinViewModel
 fun QuestionThreadsScreen(
     categoryID: Int = -1, categoryName: String = "", viewModel: QuestionThreadsVM = koinViewModel()
 ) = ScopeProvider(Scopes.FAQsThreads) {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
 
     val faqsList by viewModel.categories.collectAsState()
     val isEmpty by viewModel.isEmptyFAQs.collectAsState()

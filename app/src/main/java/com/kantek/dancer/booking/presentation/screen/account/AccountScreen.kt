@@ -61,7 +61,7 @@ fun AccountScreen(viewModel: AccountVM = koinViewModel()) = ScopeProvider(Scopes
     val context = LocalContext.current
     val user by viewModel.userLive.collectAsState()
     val onSignOut by viewModel.signOutSuccess.collectAsState()
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val isDialogVisible = remember { mutableStateOf(false) }
     val isDeleteDialog = remember { mutableStateOf(false) }
     val hasShowComingSoon = remember { mutableStateOf(false) }

@@ -43,7 +43,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ForgotPasswordScreen(viewModel: ForgotPasswordVM = koinViewModel()) = ScopeProvider {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val emailState by viewModel.email.collectAsState()
     val onSuccess by viewModel.success.collectAsState("")
     val onEmailVerified by viewModel.otpVerify.collectAsState()

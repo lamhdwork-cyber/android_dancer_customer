@@ -29,7 +29,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AboutUsScreen(viewModel: BrowserVM = koinViewModel()) = ScopeProvider {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     var isLoading by remember { mutableStateOf(false) }
     val isLoadingApi by viewModel.customLoading.isLoading().collectAsState()
 

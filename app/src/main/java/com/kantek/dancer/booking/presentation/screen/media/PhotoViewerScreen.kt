@@ -18,7 +18,7 @@ import com.kantek.dancer.booking.presentation.widget.ZoomableAsyncImage
 
 @Composable
 fun PhotoViewerScreen(photoURL: String) = ScopeProvider {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
 
     Column(
         modifier = Modifier

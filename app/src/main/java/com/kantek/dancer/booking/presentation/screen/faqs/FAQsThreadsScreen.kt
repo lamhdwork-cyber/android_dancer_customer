@@ -40,7 +40,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun FAQsThreadsScreen(viewModel: FAQsThreadsVM = koinViewModel()) =
     ScopeProvider(Scopes.FAQsThreads) {
-        val appNavigator = use<AppNavigator>(Scopes.App)
+        val appNavigator = use<AppNavigator>()
 
         LaunchedEffect(Unit) {
             viewModel.refreshFAQs()

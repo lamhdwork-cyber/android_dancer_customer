@@ -48,7 +48,7 @@ import com.kantek.dancer.booking.presentation.widget.AppNextButton
 fun AuthScreen() = ScopeProvider(Scopes.AppRole) {
     ApplyDarkEdgeToEdgeStatusBars()
 
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
 
     Box(
         modifier = Modifier

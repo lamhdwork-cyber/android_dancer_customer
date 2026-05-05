@@ -50,7 +50,7 @@ fun ReviewScreen(
     lawyerID: Int = -1,
     viewModel: ReviewVM = koinViewModel()
 ) = ScopeProvider(Scopes.Dancer) {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val reviews by viewModel.items.collectAsState()
     val isEmpty by viewModel.isEmpty.collectAsState()
     val isLoading by viewModel.customLoading.isLoading().collectAsState()

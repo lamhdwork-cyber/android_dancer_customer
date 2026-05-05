@@ -85,7 +85,7 @@ fun BookingScreen(
     navBackStackEntry: NavBackStackEntry,
     viewModel: BookingVM = koinViewModel()
 ) = ScopeProvider(Scopes.Booking) {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val appPopup = use<AppPopup>(Scopes.App)
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()

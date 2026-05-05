@@ -67,7 +67,7 @@ fun DetailCaseScreen(
     viewModel: DetailCasesVM = koinViewModel()
 ) = ScopeProvider(Scopes.MyCase) {
 
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val detail by viewModel.details.collectAsState()
     val onBack by viewModel.onBack.collectAsState()
 

@@ -55,7 +55,7 @@ fun MyBookingScreen(viewModel: MyCasesVM = koinViewModel()) = ScopeProvider(Scop
     val myCase by viewModel.items.collectAsState()
     val user by viewModel.userLive.collectAsState(null)
     val isEmpty by viewModel.isEmpty.collectAsState()
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val isLoading by viewModel.customLoading.isLoading().collectAsState()
     val isRefreshing by viewModel.isRefreshLoading.isLoading().collectAsState()
     var hasShowComingSoon by remember { mutableStateOf(false) }

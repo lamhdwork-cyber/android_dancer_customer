@@ -55,7 +55,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scopes.Search) {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val clubs by viewModel.items.collectAsState()
     val isEmpty by viewModel.isEmpty.collectAsState()
     val isLoading by viewModel.customLoading.isLoading().collectAsState()

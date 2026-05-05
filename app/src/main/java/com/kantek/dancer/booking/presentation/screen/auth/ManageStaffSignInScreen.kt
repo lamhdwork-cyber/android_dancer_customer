@@ -80,7 +80,7 @@ fun ManageStaffSignInScreen(
     val context = LocalContext.current
     val formState by viewModel.formState.collectAsState()
     val openMain by viewModel.loginSuccess.collectAsState()
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
 
     fun navigateToMain() {
         val intent = Intent(context, MainAct::class.java).apply {

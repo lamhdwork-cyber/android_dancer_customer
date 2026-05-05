@@ -66,7 +66,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ContactUsScreen(viewModel: ContactUsVM = koinViewModel()) = ScopeProvider(Scopes.Account) {
     val context = LocalContext.current
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
 
     val appSetting = remember { AppSettings(context) }
     var hasShowCallDialog by remember { mutableStateOf(false) }

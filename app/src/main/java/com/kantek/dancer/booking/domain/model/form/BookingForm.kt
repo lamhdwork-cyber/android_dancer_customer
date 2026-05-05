@@ -15,6 +15,8 @@ data class BookingForm(
     val bookingDate: String? = null,
     @SerializedName("startTime")
     val startTime: String? = null,
+    @SerializedName("endTime")
+    val endTime: String? = null,
     @SerializedName("notes")
     val notes: String? = null
 )

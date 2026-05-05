@@ -36,7 +36,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ChangePasswordScreen(viewModel: ChangePasswordVM = koinViewModel()) = ScopeProvider {
     val context = LocalContext.current
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
 
     val formState by viewModel.formState.collectAsState()
     val onBack by viewModel.onSuccess.collectAsState()

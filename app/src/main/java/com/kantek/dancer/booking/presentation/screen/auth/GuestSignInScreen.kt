@@ -36,13 +36,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -58,10 +58,10 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.SignInVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import org.koin.androidx.compose.koinViewModel
@@ -76,7 +76,7 @@ fun GuestSignInScreen(
     val context = LocalContext.current
     val formState by viewModel.formState.collectAsState()
     val openMain by viewModel.loginSuccess.collectAsState()
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val hasShowComingSoon = remember { mutableStateOf(false) }
 
     BackHandler {
@@ -112,7 +112,10 @@ fun GuestSignInScreen(
                 .statusBarsPadding()
                 .navigationBarsPadding()
         ) {
-            ActionBarBackAndTitleView(R.string.auth_guest_screen_title) { appNavigator.back() }
+            ActionBarBackAndTitleView(
+                R.string.auth_guest_screen_title,
+                Color.Transparent
+            ) { appNavigator.back() }
 
             Column(
                 modifier = Modifier

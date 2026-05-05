@@ -76,7 +76,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Scopes.Account) {
     val context = LocalContext.current
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val formState by viewModel.formState.collectAsState()
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }

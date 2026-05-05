@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppPermission
+import androidx.core.net.toUri
 
 @Composable
 fun PermissionProvider(content: @Composable AppPermission.() -> Unit) {
@@ -33,10 +34,6 @@ fun PermissionProvider(content: @Composable AppPermission.() -> Unit) {
     ) { results ->
         val grantedPermissions = results.filterValues { it }.keys
         val deniedPermissions = results.filterValues { !it }.keys
-
-        val allDeniedFirstTime =
-            deniedPermissions.size == results.keys.size
-                    && deniedPermissions.size == recheckPermissions.size
 
         recheckPermissions = recheckPermissions.toMutableMap().apply {
             deniedPermissions.forEach { permission ->
@@ -55,7 +52,7 @@ fun PermissionProvider(content: @Composable AppPermission.() -> Unit) {
                 onGranted?.invoke()
             }
 
-            newPermanentlyDenied.isNotEmpty() || allDeniedFirstTime -> {
+            newPermanentlyDenied.isNotEmpty() -> {
                 showPermissionDialog(activity)
             }
 
@@ -82,7 +79,7 @@ fun showPermissionDialog(activity: Activity) {
         .setMessage(activity.getString(R.string.permission_des))
         .setPositiveButton(activity.getString(R.string.permission_settings)) { _, _ ->
             activity.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.parse("package:" + activity.packageName)
+                data = ("package:" + activity.packageName).toUri()
             })
         }
         .setNegativeButton(activity.getString(R.string.permission_cancel), null)

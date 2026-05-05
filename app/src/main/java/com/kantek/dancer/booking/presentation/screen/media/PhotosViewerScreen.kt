@@ -18,7 +18,7 @@ import com.kantek.dancer.booking.presentation.widget.ZoomablePager
 
 @Composable
 fun PhotosViewerScreen(photosURL: String) = ScopeProvider {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val imageUrls by lazy { photosURL.toObjects(String::class.java) }
 
     Column(

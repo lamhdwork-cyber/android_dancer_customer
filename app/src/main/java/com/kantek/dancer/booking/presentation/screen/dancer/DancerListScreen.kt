@@ -64,7 +64,7 @@ fun DancerListScreen(
     excludeDancerIds: Set<String> = emptySet(),
     viewModel: DancerListVM = koinViewModel()
 ) = ScopeProvider(Scopes.Dancer) {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val dancers by viewModel.items.collectAsState()
     val isLoading by viewModel.customLoading.isLoading().collectAsState()
     val isRefreshing by viewModel.isRefreshLoading.isLoading().collectAsState()

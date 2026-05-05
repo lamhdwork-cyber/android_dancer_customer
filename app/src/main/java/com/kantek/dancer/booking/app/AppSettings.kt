@@ -15,6 +15,7 @@ import com.kantek.dancer.booking.data.helper.file.FileUtils
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.sangcomz.fishbun.FishBun
 import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter
+import androidx.core.net.toUri
 
 class AppSettings(private val context: Context) {
 
@@ -77,7 +78,7 @@ class AppSettings(private val context: Context) {
         message: String? = ""
     ) {
         val intent = Intent(Intent.ACTION_SENDTO)
-        intent.data = Uri.parse("mailto:")
+        intent.data = "mailto:".toUri()
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
         intent.putExtra(Intent.EXTRA_SUBJECT, subject)
         intent.putExtra(Intent.EXTRA_TEXT, message)
@@ -86,7 +87,7 @@ class AppSettings(private val context: Context) {
 
     fun call(phoneNumber: String) {
         val intent = Intent(Intent.ACTION_CALL)
-        intent.data = Uri.parse("tel:$phoneNumber")
+        intent.data = "tel:$phoneNumber".toUri()
         context.startActivity(intent)
     }
 }

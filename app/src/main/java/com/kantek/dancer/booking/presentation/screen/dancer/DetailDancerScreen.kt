@@ -70,7 +70,7 @@ fun DetailDancerScreen(
     viewModel: DetailDancerVM = koinViewModel()
 ) = ScopeProvider(Scopes.Dancer) {
     val context = LocalContext.current
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val detail by viewModel.details.collectAsState()
     val hasLoaded by viewModel.hasLoaded.collectAsState()
 

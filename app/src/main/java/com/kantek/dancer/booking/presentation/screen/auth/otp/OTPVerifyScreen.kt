@@ -49,7 +49,7 @@ fun OTPVerifyScreen(
     email: String,
     viewModel: OTPVerifyVM = koinViewModel()
 ) = ScopeProvider {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val lifecycleOwner = LocalLifecycleOwner.current
 
     var isOtpInvalid by remember { mutableStateOf(false) }

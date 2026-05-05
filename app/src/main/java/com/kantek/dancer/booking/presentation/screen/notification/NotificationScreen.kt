@@ -44,7 +44,7 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
         val appEvent = remember { get<AppEvent>() }
         val isRefreshingByEvent by appEvent.onRefreshNotification.collectAsState()
 
-        val appNavigator = use<AppNavigator>(Scopes.App)
+        val appNavigator = use<AppNavigator>()
         val notifications by viewModel.items.collectAsState()
         val user by viewModel.userLive.collectAsState(null)
         val isEmpty by viewModel.isEmpty.collectAsState()

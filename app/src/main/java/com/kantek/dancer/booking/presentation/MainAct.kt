@@ -1,6 +1,8 @@
 package com.kantek.dancer.booking.presentation
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.support.core.extensions.safe
@@ -15,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -508,10 +511,18 @@ class MainAct : AppComponentAct() {
                         }
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            accessNotification { }
+                            LaunchedEffect(Unit) {
+                                val hasNotificationPermission = ContextCompat.checkSelfPermission(
+                                    this@MainAct,
+                                    Manifest.permission.POST_NOTIFICATIONS
+                                ) == PackageManager.PERMISSION_GRANTED
+                                if (!hasNotificationPermission) {
+                                    accessNotification { }
+                                }
+                            }
                         }
 
-                        val appNavigator = use<AppNavigator>(Scopes.App)
+                        val appNavigator = use<AppNavigator>()
                         LaunchedEffect(roomID) {
                             if (roomID > 0) {
                                 appNavigator.navigateConversation(roomID)

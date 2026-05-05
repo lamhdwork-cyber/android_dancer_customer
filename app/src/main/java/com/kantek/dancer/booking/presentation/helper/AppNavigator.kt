@@ -80,8 +80,11 @@ class AppNavigator : Updatable {
     }
 
     fun back() {
-        if (navHost?.currentDestination?.navigatorName != Screen.SignIn.name)
-            navHost?.popBackStack()
+        navHost?.let { controller ->
+            if (!controller.popBackStack()) {
+                controller.navigateUp()
+            }
+        }
     }
 
     override fun update(value: Any?, notify: Boolean) {

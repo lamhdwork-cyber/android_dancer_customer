@@ -74,7 +74,7 @@ fun BookingConfirmScreen(
     hasNow: Boolean = true,
     viewModel: BookingConfirmVM = koinViewModel()
 ) = ScopeProvider(Scopes.BookingConfirm) {
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val showSuccessDialog = remember { mutableStateOf(false) }
     val state by viewModel.state.collectAsState()
 
@@ -589,15 +589,16 @@ class BookingConfirmRepo(
             return
         }
 
+        val startTime = toApiTime(bookingTime)
         bookingApi.reserve(
             BookingForm(
                 dancerIds = dancerIds,
                 roomId = roomId,
                 bookingDate = bookingDate,
-                startTime = toApiTime(bookingTime),
+                startTime = startTime,
+                endTime = addMinutes(startTime, 20),
                 numberOfSongs = songs,
-                numberOfGuests = guests,
-                notes = null
+                numberOfGuests = guests
             )
         ).await()
     }
@@ -613,6 +614,16 @@ class BookingConfirmRepo(
         var hour24 = hourRaw % 12
         if (period == "PM") hour24 += 12
         return String.format(Locale.US, "%02d:%s", hour24, minute)
+    }
+
+    private fun addMinutes(time: String, minutesToAdd: Int): String {
+        val match = Regex("^(\\d{1,2}):(\\d{2})$").find(time.trim()) ?: return time
+        val hour = match.groupValues[1].toIntOrNull() ?: return time
+        val minute = match.groupValues[2].toIntOrNull() ?: return time
+        val totalMinutes = ((hour * 60 + minute + minutesToAdd) % (24 * 60) + (24 * 60)) % (24 * 60)
+        val newHour = totalMinutes / 60
+        val newMinute = totalMinutes % 60
+        return String.format(Locale.US, "%02d:%02d", newHour, newMinute)
     }
 }
 

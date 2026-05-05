@@ -75,7 +75,7 @@ fun ChatScreen(
     val context = LocalContext.current
     val isFirstLoading by viewModel.firstLoading.isLoading().collectAsState()
 
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     var message by remember { mutableStateOf("") }
     val isEmpty by viewModel.isEmpty.collectAsState()
     val messages by viewModel.messages.collectAsState()

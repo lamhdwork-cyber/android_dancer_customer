@@ -14,11 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.kantek.dancer.booking.data.repo.LanguageRepo
 import com.kantek.dancer.booking.domain.model.support.BottomNavigationScreen
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.provider.NavigationProvider
 import com.kantek.dancer.booking.presentation.screen.account.AccountScreen
 import com.kantek.dancer.booking.presentation.screen.cases.MyBookingScreen
 import com.kantek.dancer.booking.presentation.screen.notification.NotificationScreen
@@ -37,58 +37,60 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
         statusBarDarkIcons = false,
         navigationBarDarkIcons = false
     )
-    NavigationProvider { nav ->
-        LaunchedEffect(startTab) {
-            if (startTab.isNotBlank() && startTab != BottomNavigationScreen.Search.route) {
-                nav.navigate(startTab) {
-                    popUpTo(nav.graph.startDestinationId) {
-                        saveState = true
+    val nav = rememberNavController()
+
+    LaunchedEffect(startTab) {
+        if (startTab.isNotBlank() && startTab != BottomNavigationScreen.Search.route) {
+            nav.navigate(startTab) {
+                popUpTo(nav.graph.startDestinationId) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        }
+    }
+
+    val navBackStackEntry by nav.currentBackStackEntryAsState()
+    val currentRoute =
+        navBackStackEntry?.destination?.route ?: BottomNavigationScreen.Search.route
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Colors.DarkFF0A050A),
+        bottomBar = {
+            AppNavigateBottomBar(currentRoute) { router ->
+                if (currentRoute != router) {
+                    nav.navigate(router) {
+                        popUpTo(nav.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
                     }
-                    launchSingleTop = true
-                    restoreState = true
                 }
             }
         }
-        val navBackStackEntry by nav.currentBackStackEntryAsState()
-        val currentRoute =
-            navBackStackEntry?.destination?.route ?: BottomNavigationScreen.Search.route
-
-        Scaffold(
+    ) { paddingValues ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Colors.DarkFF0A050A),
-            bottomBar = {
-                AppNavigateBottomBar(currentRoute) { router ->
-                    if (currentRoute != router)
-                        nav.navigate(router) {
-                            popUpTo(nav.graph.startDestinationId) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                }
-            }
-        ) { paddingValues ->
-            Box(
+                .background(Colors.DarkFF0A050A)
+                .padding(bottom = paddingValues.calculateBottomPadding())
+        ) {
+            NavHost(
+                navController = nav,
+                startDestination = BottomNavigationScreen.Search.route,
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Colors.DarkFF0A050A)
-                    .padding(bottom = paddingValues.calculateBottomPadding())
+                    .background(Colors.Dark120812)
             ) {
-                NavHost(
-                    navController = nav,
-                    startDestination = BottomNavigationScreen.Search.route,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Colors.Dark120812)
-                ) {
 //                    composable(BottomNavigationScreen.Home.route) { FAQsScreen() }
-                    composable(BottomNavigationScreen.Search.route) { FindClubScreen() }
-                    composable(BottomNavigationScreen.Cases.route) { MyBookingScreen() }
-                    composable(BottomNavigationScreen.Notification.route) { NotificationScreen() }
-                    composable(BottomNavigationScreen.Account.route) { AccountScreen() }
-                }
+                composable(BottomNavigationScreen.Search.route) { FindClubScreen() }
+                composable(BottomNavigationScreen.Cases.route) { MyBookingScreen() }
+                composable(BottomNavigationScreen.Notification.route) { NotificationScreen() }
+                composable(BottomNavigationScreen.Account.route) { AccountScreen() }
             }
         }
     }

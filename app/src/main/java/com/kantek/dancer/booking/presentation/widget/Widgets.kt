@@ -233,21 +233,23 @@ fun AgentView(it: ILoginAgent, onCommand: (Command) -> Unit = {}) {
 @Composable
 fun ActionBarBackAndTitleView(
     textRes: Int = R.string.app_name,
+    backgroundColor: Color = Colors.Dark120812,
     onCommand: (Command) -> Unit = {}
 ) {
-    ActionBarBackAndTitleView(stringResource(textRes), onCommand)
+    ActionBarBackAndTitleView(stringResource(textRes), backgroundColor, onCommand)
 }
 
 @Composable
 fun ActionBarBackAndTitleView(
     text: String = stringResource(R.string.app_name),
+    backgroundColor: Color = Colors.Dark120812,
     onCommand: (Command) -> Unit = {}
 ) {
     Box(
         modifier = Modifier
             .height(56.dp)
             .fillMaxWidth()
-            .background(Color.Transparent)
+            .background(backgroundColor)
     ) {
         Box(
             modifier = Modifier

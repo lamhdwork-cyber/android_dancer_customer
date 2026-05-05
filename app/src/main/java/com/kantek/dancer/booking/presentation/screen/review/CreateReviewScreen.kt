@@ -53,7 +53,7 @@ fun CreateReviewScreen(
     viewModel: CreateReviewVM = koinViewModel()
 ) = ScopeProvider(Scopes.MyCase) {
 
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val formState by viewModel.formState.collectAsState()
     val detail by viewModel.details.collectAsState()
     val onSuccess by viewModel.onSuccess.collectAsState()

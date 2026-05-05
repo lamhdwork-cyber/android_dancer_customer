@@ -48,7 +48,7 @@ fun LanguageScreen(
     viewModel: LanguageVM = koinViewModel()
 ) = ScopeProvider {
     val context = LocalContext.current
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val selectedLanguage = viewModel.selectedLanguage.collectAsState().value
     val languages by viewModel.items.collectAsState()
     val onContinueSuccess by viewModel.onContinueSuccess.collectAsState()

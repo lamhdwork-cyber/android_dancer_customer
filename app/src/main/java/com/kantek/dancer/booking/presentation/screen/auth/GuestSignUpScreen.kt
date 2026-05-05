@@ -93,7 +93,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
     ApplyDarkEdgeToEdgeStatusBars()
 
     val context = LocalContext.current
-    val appNavigator = use<AppNavigator>(Scopes.App)
+    val appNavigator = use<AppNavigator>()
     val formState by viewModel.formState.collectAsState()
     val termsAgreed by viewModel.termsAgreed.collectAsState()
     val success by viewModel.onSuccess.collectAsState()

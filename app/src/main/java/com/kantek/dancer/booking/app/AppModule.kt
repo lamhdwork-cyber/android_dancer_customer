@@ -204,8 +204,8 @@ val apiModule = module {
 val presentationModule = module {
     single(createdAtStart = true) { ActivityRetriever(get<Application>()) }
     single { AppKeyboard(get()) }
+    single { AppNavigator() }
     scope<Any> {
-        scoped { AppNavigator() }
         scoped { AppPopup() }
         scoped<CoroutineScope> { ScopedCoroutineScope() }
     }
