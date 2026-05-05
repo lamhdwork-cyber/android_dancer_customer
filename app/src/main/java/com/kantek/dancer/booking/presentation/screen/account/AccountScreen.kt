@@ -1,5 +1,6 @@
 package com.kantek.dancer.booking.presentation.screen.account
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -32,18 +33,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.domain.model.ui.user.IUser
 import com.kantek.dancer.booking.domain.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.ui.user.IUser
+import com.kantek.dancer.booking.presentation.AuthAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
@@ -53,7 +55,6 @@ import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.LogoutDialog
-import com.kantek.dancer.booking.presentation.widget.NoLoginView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -67,7 +68,10 @@ fun AccountScreen(viewModel: AccountVM = koinViewModel()) = ScopeProvider(Scopes
     val hasShowComingSoon = remember { mutableStateOf(false) }
 
     fun openAuth() {
-        appNavigator.navigateSignIn()
+        val intent = Intent(context, AuthAct::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        context.startActivity(intent)
     }
 
     LaunchedEffect(onSignOut) {
@@ -83,7 +87,8 @@ fun AccountScreen(viewModel: AccountVM = koinViewModel()) = ScopeProvider(Scopes
     ) {
         ActionBarMainView(R.string.nav_account)
         if (user == null) {
-            NoLoginView(titleRes = R.string.account_not_login) { openAuth() }
+            if (onSignOut)
+                openAuth()
         } else {
             Column(
                 modifier = Modifier
@@ -155,7 +160,8 @@ fun AccountScreen(viewModel: AccountVM = koinViewModel()) = ScopeProvider(Scopes
             viewModel.logout()
         })
         if (isDeleteDialog.value) {
-            AppConfirmDialog(title = stringResource(R.string.all_delete_account),
+            AppConfirmDialog(
+                title = stringResource(R.string.all_delete_account),
                 message = stringResource(R.string.all_msg_delete_app),
                 textConfirm = stringResource(R.string.all_delete),
                 onConfirm = {
@@ -280,7 +286,12 @@ private fun AccountMenuItem(
             )
         }
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = title, color = Colors.White, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+            Text(
+                text = title,
+                color = Colors.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium
+            )
             Text(text = subtitle, color = Colors.Pink99F425F4, fontSize = 12.sp)
         }
         Icon(
@@ -325,7 +336,12 @@ private fun AccountDangerItem(
             )
         }
         Column {
-            Text(text = title, color = Colors.RedEF4444, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = title,
+                color = Colors.RedEF4444,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
             Text(text = subtitle, color = Colors.Red99EF4444, fontSize = 12.sp)
         }
     }

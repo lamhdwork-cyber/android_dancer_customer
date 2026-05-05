@@ -41,7 +41,7 @@ class SignOutRepo(
 ) {
 
     suspend operator fun invoke() {
-        userApi.logout().await()
+        userApi.logout().awaitNullable()
         userLocalSource.logout()
     }
 }

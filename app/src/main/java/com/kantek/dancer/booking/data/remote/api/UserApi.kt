@@ -36,7 +36,7 @@ interface UserApi {
     @POST("auth/register")
     fun signUp(@Body form: SignUpForm): ApiAsync<UserResponse>
 
-    @POST("user/logout")
+    @POST("auth/logout")
     fun logout(): ApiAsync<Any>
 
     @POST("user/verify-account")
