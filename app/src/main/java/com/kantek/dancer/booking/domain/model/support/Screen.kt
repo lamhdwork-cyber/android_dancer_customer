@@ -32,7 +32,6 @@ enum class Screen {
     OTP,
     ResetPassword,
     Conversion,
-    QuickRequest,
     DancerList,
     Reviews,
     CreateReviews,

@@ -224,9 +224,23 @@ fun BookingScreen(
             iconStartVector = Icons.Outlined.Verified,
             iconStartTint = Colors.White,
             onClick = {
+                val selectedRoom = state.rooms.firstOrNull { it.id == state.selectedRoomId }
+                val selectedRoomPrice = selectedRoom?.price?.toDoubleOrNull() ?: 0.0
+                val totalAmount = selectedRoomPrice * state.performers.size
                 appNavigator.navigateBookingConfirm(
                     dancerIds = state.performers.map { it.id },
-                    roomId = state.selectedRoomId
+                    dancerNames = state.performers.map { it.name },
+                    dancerAvatars = state.performers.map { it.avatar },
+                    roomId = state.selectedRoomId,
+                    clubName = state.clubName.ifBlank { state.clubId },
+                    clubImage = state.clubImage,
+                    bookingDate = if (state.hasNow) "" else state.scheduleDays.getOrNull(state.selectedDay)?.dateValue.orEmpty(),
+                    bookingTime = if (state.hasNow) "" else state.selectedTime,
+                    roomName = selectedRoom?.name.orEmpty(),
+                    songs = state.songs,
+                    guests = state.guests,
+                    totalAmount = totalAmount.toString(),
+                    hasNow = state.hasNow
                 )
             }
         )
@@ -481,7 +495,7 @@ private fun RoomSection(
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = stringResource(R.string.booking_price_format, room.price),
+                        text = room.priceDisplay,
                         color = if (selected) Colors.Primary else Colors.White,
                         fontWeight = FontWeight.Black
                     )
@@ -675,10 +689,12 @@ data class BookingState(
     val selectedDay: Int = 0,
     val selectedTime: String = "",
     val selectedRoomId: String = "",
-    val songs: Int = 4,
-    val guests: Int = 2,
+    val songs: Int = 1,
+    val guests: Int = 1,
     val dancerId: String = "",
     val clubId: String = "",
+    val clubName: String = "",
+    val clubImage: String = "",
     val hasNow: Boolean = true
 )
 
@@ -699,11 +715,8 @@ class BookingVM(
                     current.scheduleDays.isNotEmpty()
         if (hasLoadedSameInput) return@launch
 
-        val initialPerformers = if (dancerId.isNotBlank()) {
-            fetchDetailDancerRepo(dancerId)?.toBookingPerformer()?.let { listOf(it) } ?: emptyList()
-        } else {
-            emptyList()
-        }
+        val initialDetail = if (dancerId.isNotBlank()) fetchDetailDancerRepo(dancerId) else null
+        val initialPerformers = initialDetail?.toBookingPerformer()?.let { listOf(it) } ?: emptyList()
 
         val rooms = if (clubId.isNotBlank()) {
             fetchRoomsByClubCase(clubId = clubId)
@@ -721,6 +734,8 @@ class BookingVM(
             selectedTime = scheduleTimes.firstOrNull().orEmpty(),
             dancerId = dancerId,
             clubId = clubId,
+            clubName = initialDetail?.clubName.orEmpty(),
+            clubImage = initialDetail?.clubCoverImage.orEmpty(),
             hasNow = hasNow
         )
     }
@@ -730,7 +745,11 @@ class BookingVM(
         if (cur.performers.size >= MAX_PERFORMERS) return R.string.booking_max_performers_message
         if (cur.performers.any { it.id == dancerId }) return null
         val detail = fetchDetailDancerRepo(dancerId) ?: return null
-        _state.value = cur.copy(performers = cur.performers + detail.toBookingPerformer())
+        _state.value = cur.copy(
+            performers = cur.performers + detail.toBookingPerformer(),
+            clubName = cur.clubName.ifBlank { detail.clubName },
+            clubImage = cur.clubImage.ifBlank { detail.clubCoverImage }
+        )
         return null
     }
 

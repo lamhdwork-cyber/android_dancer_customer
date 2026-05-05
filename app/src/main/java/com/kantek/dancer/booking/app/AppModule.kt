@@ -111,13 +111,13 @@ import com.kantek.dancer.booking.presentation.screen.home.HomeVM
 import com.kantek.dancer.booking.presentation.screen.introduce.FetchIntroduceRepo
 import com.kantek.dancer.booking.presentation.screen.introduce.IntroduceVM
 import com.kantek.dancer.booking.presentation.screen.booking.BookingVM
+import com.kantek.dancer.booking.presentation.screen.booking.BookingConfirmRepo
+import com.kantek.dancer.booking.presentation.screen.booking.BookingConfirmVM
 import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerVM
 import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailDancerRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewVM
-import com.kantek.dancer.booking.presentation.screen.club.BookingCreateRepo
 import com.kantek.dancer.booking.presentation.screen.dancer.DancerListVM
-import com.kantek.dancer.booking.presentation.screen.club.QuickRequestVM
 import com.kantek.dancer.booking.presentation.viewmodel.AccountVM
 import com.kantek.dancer.booking.presentation.viewmodel.BrowserVM
 import com.kantek.dancer.booking.presentation.viewmodel.DeleteAccountRepo
@@ -221,7 +221,6 @@ val presentationModule = module {
     viewModel { IntroduceVM(get()) }
     viewModel { HomeVM(get(), get()) }
     viewModel { MyCasesVM(get(), get(), get()) }
-    viewModel { QuickRequestVM(get(), get(), get()) }
     viewModel { DetailCasesVM(get(), get(), get(), get(), get()) }
     viewModel { DetailDancerVM(get()) }
     viewModel { ChangePasswordVM(get(), getBy(Scopes.App)) }
@@ -232,6 +231,7 @@ val presentationModule = module {
     viewModel { RetPasswordVM(get(), getBy(Scopes.App)) }
     viewModel { DancerListVM(get()) }
     viewModel { BookingVM(get(), get(), get()) }
+    viewModel { BookingConfirmVM(get()) }
     viewModel { ReviewVM(get()) }
     viewModel { CreateReviewVM(get(), get()) }
     viewModel { FAQsThreadsVM(get()) }
@@ -263,7 +263,7 @@ val dataModule = module {
     factory { FetchIntroduceRepo(get()) }
     factory { FetchAllBannerRepo(get(), get()) }
     factory { FetchFAQsPagingRepo(get(), get()) }
-    factory { BookingCreateRepo(get(), get(), get()) }
+    factory { BookingConfirmRepo(get()) }
     factory { FetchMyCaseByPageRepo(get(), get()) }
     factory { BookingRequestAgainRepo(get()) }
     factory { BookingCancelRepo(get()) }
@@ -305,7 +305,7 @@ val domainModule = module {
     single { PhotoFactory(get()) }
     single { ConfigFactory(get()) }
     single { BookingFactory(get(), get()) }
-    single { RoomFactory() }
+    single { RoomFactory(get()) }
     single { ClubFactory() }
     single { DancerFactory() }
     single { LawyerFactory(get()) }

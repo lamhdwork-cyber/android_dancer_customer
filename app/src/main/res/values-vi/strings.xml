@@ -134,6 +134,7 @@
     <string name="error_blank_address">Địa chỉ không được để trống!</string>
     <string name="error_blank_description">Mô tả không được để trống!</string>
     <string name="all_view_detail">Xem chi tiết</string>
+    <string name="all_view_my_booking">Xem lịch đặt của tôi</string>
     <string name="booking_request_submitted">Xác Nhận Yêu cầu Đặt Thành Công!</string>
     <string name="all_close">Đóng</string>
     <string name="booking_without_login_success">Cảm ơn bạn! Chúng tôi xin xác nhận rằng yêu cầu đặt dịch vụ của bạn đã được gửi thành công. Nhân viên của chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận thông tin.\n\n Bạn có thể dùng số điện thoại/email của mình để đăng nhập với mật khẩu mặc định là 123456 để theo dõi trạng thái đặt dịch vụ.</string>

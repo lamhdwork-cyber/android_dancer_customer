@@ -134,6 +134,7 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="error_blank_address">¡La dirección no debe estar vacía!</string>
     <string name="error_blank_description">¡La descripción no debe estar vacía!</string>
     <string name="all_view_detail">Ver detalles</string>
+    <string name="all_view_my_booking">Ver mi reserva</string>
     <string name="booking_request_submitted">¡Solicitud de reserva confirmada con éxito!</string>
     <string name="all_close">Cerrar</string>
     <string name="booking_without_login_success">

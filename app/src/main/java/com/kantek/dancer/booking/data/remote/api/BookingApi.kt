@@ -4,6 +4,7 @@ import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.data.helper.network.ApiAsync
 import com.kantek.dancer.booking.data.helper.network.model.ApiResponsePaging
 import com.kantek.dancer.booking.domain.model.form.BookingForm
+import com.kantek.dancer.booking.domain.model.response.BookingConfirmDTO
 import com.kantek.dancer.booking.domain.model.response.BookingDTO
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -14,15 +15,15 @@ import retrofit2.http.Query
 
 interface BookingApi {
 
-    @POST("contact-request/create")
-    fun create(@Body form: BookingForm): ApiAsync<BookingDTO>
+    @POST("bookings/book-now")
+    fun bookNow(@Body form: BookingForm): ApiAsync<List<BookingConfirmDTO>>
+
+    @POST("bookings/reserve")
+    fun reserve(@Body form: BookingForm): ApiAsync<List<BookingConfirmDTO>>
 
     @FormUrlEncoded
     @POST("contact-request/recreate")
     fun recreate(@Field("contact_request_id") id: Int): ApiAsync<Any>
-
-    @POST("contact-request/guest-create")
-    fun createWithoutAuth(@Body form: BookingForm): ApiAsync<Any>
 
     @FormUrlEncoded
     @POST("contact-request/user-cancel")

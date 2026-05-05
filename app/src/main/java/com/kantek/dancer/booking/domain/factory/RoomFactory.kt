@@ -7,10 +7,11 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MeetingRoom
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.kantek.dancer.booking.domain.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.model.response.room.RoomDTO
 import com.kantek.dancer.booking.domain.model.ui.booking.IRoom
 
-class RoomFactory {
+class RoomFactory(private val textFormatter: TextFormatter) {
 
     fun createList(items: List<RoomDTO>?): List<IRoom> {
         return items?.map(::create) ?: listOf()
@@ -34,6 +35,8 @@ class RoomFactory {
                 get() = it.services.safe().joinToString(", ")
             override val price: String
                 get() = it.hourlyRate.safe()
+            override val priceDisplay: String
+                get() = textFormatter.formatBookingPrice(price)
             override val imageURL: String
                 get() = it.image.safe()
             override val imagePlaceholder: ImageVector

@@ -143,10 +143,12 @@ class BookingFactory(
         val calendar = Calendar.getInstance()
         val dayFormat = SimpleDateFormat("EEE", Locale.getDefault())
         val dateFormat = SimpleDateFormat("dd", Locale.getDefault())
+        val valueFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return List(7) {
             val day = object : IBookingScheduleDay {
                 override val label: String = dayFormat.format(calendar.time).uppercase(Locale.getDefault())
                 override val dayNumber: String = dateFormat.format(calendar.time)
+                override val dateValue: String = valueFormat.format(calendar.time)
             }
             calendar.add(Calendar.DAY_OF_MONTH, 1)
             day

@@ -7,6 +7,7 @@ interface IRoom {
     val name: String
     val services: String
     val price: String
+    val priceDisplay: String
     val imageURL: String
     val imagePlaceholder: ImageVector
 }

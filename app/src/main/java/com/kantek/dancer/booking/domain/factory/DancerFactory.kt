@@ -35,6 +35,10 @@ class DancerFactory {
         return object : IDancerDetail, IDancer by create(item) {
             override val clubId: String
                 get() = item.clubId.safe().ifBlank { item.club?.id.safe() }
+            override val clubName: String
+                get() = item.club?.name.safe()
+            override val clubCoverImage: String
+                get() = item.club?.coverImage.safe()
             override val age: Int
                 get() = item.age ?: 0
             override val dancerCode: String

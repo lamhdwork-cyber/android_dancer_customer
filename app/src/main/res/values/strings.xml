@@ -142,6 +142,7 @@
     <string name="error_blank_address">Address should not be empty!</string>
     <string name="error_blank_description">Description should not be empty!</string>
     <string name="all_view_detail">View Detail</string>
+    <string name="all_view_my_booking">View My Booking</string>
     <string name="booking_request_submitted">Booking Request Confirmed Successfully!</string>
     <string name="all_close">Close</string>
     <string name="booking_without_login_success">

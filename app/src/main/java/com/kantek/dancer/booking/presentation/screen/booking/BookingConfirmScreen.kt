@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +24,11 @@ import androidx.compose.material.icons.outlined.Verified
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,40 +39,76 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.kantek.dancer.booking.R
+import com.kantek.dancer.booking.app.AppViewModel
+import com.kantek.dancer.booking.data.remote.api.BookingApi
+import com.kantek.dancer.booking.domain.model.form.BookingForm
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
+import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
+import com.kantek.dancer.booking.presentation.widget.BookingSuccessDialog
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import org.koin.androidx.compose.koinViewModel
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun BookingConfirmScreen(
     dancerIds: String = "",
-    roomId: String = ""
+    dancerNames: String = "",
+    dancerAvatars: String = "",
+    roomId: String = "",
+    clubName: String = "",
+    clubImage: String = "",
+    bookingDate: String = "",
+    bookingTime: String = "",
+    roomName: String = "",
+    songs: Int = 1,
+    guests: Int = 1,
+    totalAmount: String = "0",
+    hasNow: Boolean = true,
+    viewModel: BookingConfirmVM = koinViewModel()
 ) = ScopeProvider(Scopes.BookingConfirm) {
     val appNavigator = use<AppNavigator>(Scopes.App)
-    val dancerIdList = dancerIds.split(",").filter { it.isNotBlank() }
+    val showSuccessDialog = remember { mutableStateOf(false) }
+    val state by viewModel.state.collectAsState()
 
-    val summary = BookingConfirmUi(
-        clubName = stringResource(R.string.booking_confirm_mock_club_name),
-        district = stringResource(R.string.booking_confirm_mock_district),
-        dateText = stringResource(R.string.booking_confirm_mock_date),
-        timeText = stringResource(R.string.booking_confirm_mock_time),
-        roomName = stringResource(R.string.booking_room_suite_label),
-        songs = 12,
-        guests = 4,
-        totalText = stringResource(R.string.booking_confirm_mock_total),
-        dancers = if (dancerIdList.isEmpty()) {
-            listOf("Elena", "Jade", "Sasha")
-        } else {
-            dancerIdList.mapIndexed { index, _ ->
-                "Dancer ${index + 1}"
-            }
-        },
-        roomId = roomId
-    )
+    LaunchedEffect(
+        dancerIds,
+        dancerNames,
+        dancerAvatars,
+        roomId,
+        clubName,
+        clubImage,
+        bookingDate,
+        bookingTime,
+        roomName,
+        songs,
+        guests,
+        totalAmount,
+        hasNow
+    ) {
+        viewModel.bindArgs(
+            dancerIds = dancerIds,
+            dancerNames = dancerNames,
+            dancerAvatars = dancerAvatars,
+            roomId = roomId,
+            clubName = clubName,
+            clubImage = clubImage,
+            bookingDate = bookingDate,
+            bookingTime = bookingTime,
+            roomName = roomName,
+            songs = songs,
+            guests = guests,
+            totalAmount = totalAmount,
+            hasNow = hasNow
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -85,11 +124,13 @@ fun BookingConfirmScreen(
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            ClubCard(summary = summary)
-            DateTimeRow(summary = summary)
-            RoomCard(summary = summary)
-            DancersCard(summary = summary)
-            AmountCard(summary = summary)
+            ClubCard(summary = state)
+            if (!state.hasNow) {
+                DateTimeRow(summary = state)
+            }
+            RoomCard(summary = state)
+            DancersCard(summary = state)
+            AmountCard(summary = state)
             Spacer(modifier = Modifier.height(100.dp))
         }
 
@@ -108,9 +149,27 @@ fun BookingConfirmScreen(
                 textColor = Colors.White,
                 iconStartVector = Icons.Outlined.Verified,
                 iconStartTint = Colors.White,
-                onClick = {}
+                onClick = {
+                    viewModel.submit { showSuccessDialog.value = true }
+                }
             )
         }
+    }
+
+    if (showSuccessDialog.value) {
+        BookingSuccessDialog(
+            title = stringResource(R.string.booking_request_submitted),
+            message = stringResource(R.string.booking_success),
+            textConfirm = stringResource(R.string.all_view_my_booking),
+            onConfirm = {
+                showSuccessDialog.value = false
+                appNavigator.navigateHomeMyBookings()
+            },
+            onDismiss = {
+                showSuccessDialog.value = false
+                appNavigator.navigateHomeAndClearStack()
+            }
+        )
     }
 }
 
@@ -124,36 +183,20 @@ private fun ClubCard(summary: BookingConfirmUi) {
             .border(1.dp, Colors.Pink33F425F4, RoundedCornerShape(20.dp))
     ) {
         AsyncImage(
-            model = "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop",
+            model = summary.clubImage,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(160.dp),
             contentScale = ContentScale.Crop
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top
-        ) {
-            Column {
-                Text(summary.clubName, color = Colors.White, fontWeight = FontWeight.Bold, fontSize = 22.sp)
-                Text(summary.district, color = Colors.Primary, fontSize = 13.sp, fontWeight = FontWeight.Medium)
-            }
-            Text(
-                text = stringResource(R.string.booking_premium_venue),
-                color = Colors.Primary,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(999.dp))
-                    .background(Colors.Pink26F425F4)
-                    .border(1.dp, Colors.Pink33F425F4, RoundedCornerShape(999.dp))
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
-            )
-        }
+        Text(
+            text = summary.clubName,
+            color = Colors.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp,
+            modifier = Modifier.padding(16.dp)
+        )
     }
 }
 
@@ -201,7 +244,12 @@ private fun DateTimeItem(
                 .background(Colors.Pink26F425F4),
             contentAlignment = Alignment.Center
         ) {
-            Icon(icon, contentDescription = null, tint = Colors.Primary, modifier = Modifier.size(18.dp))
+            Icon(
+                icon,
+                contentDescription = null,
+                tint = Colors.Primary,
+                modifier = Modifier.size(18.dp)
+            )
         }
         Column {
             Text(title, color = Colors.Gray9CA3AF, fontSize = 10.sp, fontWeight = FontWeight.Bold)
@@ -244,7 +292,11 @@ private fun RoomCard(summary: BookingConfirmUi) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = if (summary.roomId.isBlank()) summary.roomName else "${summary.roomName} (${summary.roomId})",
+                text = if (summary.roomId.isBlank()) summary.roomName else "${summary.roomName} (#${
+                    summary.roomId.takeLast(
+                        6
+                    )
+                })",
                 color = Colors.White,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold
@@ -285,7 +337,7 @@ private fun DancersCard(summary: BookingConfirmUi) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            summary.dancers.forEach { name ->
+            summary.dancers.forEach { dancer ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(
                         modifier = Modifier
@@ -295,8 +347,8 @@ private fun DancersCard(summary: BookingConfirmUi) {
                             .padding(2.dp)
                     ) {
                         AsyncImage(
-                            model = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop",
-                            contentDescription = name,
+                            model = dancer.avatar,
+                            contentDescription = dancer.name,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clip(CircleShape),
@@ -304,7 +356,12 @@ private fun DancersCard(summary: BookingConfirmUi) {
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(name, color = Colors.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        dancer.name,
+                        color = Colors.White,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
@@ -322,13 +379,31 @@ private fun AmountCard(summary: BookingConfirmUi) {
             .padding(16.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(stringResource(R.string.booking_songs_title), color = Colors.GrayCBD5E1, fontSize = 14.sp)
-            Text(summary.songs.toString(), color = Colors.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(
+                stringResource(R.string.booking_songs_title),
+                color = Colors.GrayCBD5E1,
+                fontSize = 14.sp
+            )
+            Text(
+                summary.songs.toString(),
+                color = Colors.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
         Spacer(modifier = Modifier.height(12.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(stringResource(R.string.booking_guests_title), color = Colors.GrayCBD5E1, fontSize = 14.sp)
-            Text(summary.guests.toString(), color = Colors.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(
+                stringResource(R.string.booking_guests_title),
+                color = Colors.GrayCBD5E1,
+                fontSize = 14.sp
+            )
+            Text(
+                summary.guests.toString(),
+                color = Colors.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
         Spacer(modifier = Modifier.height(14.dp))
         Box(
@@ -369,27 +444,175 @@ private fun AmountCard(summary: BookingConfirmUi) {
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(summary.totalText, color = Colors.Primary, fontSize = 32.sp, fontWeight = FontWeight.Black)
+                Text(
+                    summary.totalText,
+                    color = Colors.Primary,
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Black
+                )
             }
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(stringResource(R.string.booking_base_fee_295), color = Colors.Gray9CA3AF, fontSize = 11.sp)
-            Text(stringResource(R.string.booking_addons_fee_zero), color = Colors.Gray9CA3AF, fontSize = 11.sp)
-        }
+//        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+//            Text(stringResource(R.string.booking_base_fee_295), color = Colors.Gray9CA3AF, fontSize = 11.sp)
+//            Text(stringResource(R.string.booking_addons_fee_zero), color = Colors.Gray9CA3AF, fontSize = 11.sp)
+//        }
     }
 }
 
-private data class BookingConfirmUi(
+data class BookingConfirmUi(
     val clubName: String,
-    val district: String,
+    val clubImage: String,
     val dateText: String,
     val timeText: String,
     val roomName: String,
     val songs: Int,
     val guests: Int,
     val totalText: String,
-    val dancers: List<String>,
-    val roomId: String
+    val dancers: List<BookingConfirmDancerUi>,
+    val roomId: String,
+    val dancerIds: List<String>,
+    val hasNow: Boolean
 )
+
+data class BookingConfirmDancerUi(
+    val id: String,
+    val name: String,
+    val avatar: String
+)
+
+class BookingConfirmVM(
+    private val bookingConfirmRepo: BookingConfirmRepo
+) : AppViewModel() {
+    private val _state = MutableStateFlow(
+        BookingConfirmUi(
+            clubName = "",
+            clubImage = "",
+            dateText = "",
+            timeText = "",
+            roomName = "",
+            songs = 1,
+            guests = 1,
+            totalText = "",
+            dancers = emptyList(),
+            roomId = "",
+            dancerIds = emptyList(),
+            hasNow = true
+        )
+    )
+    val state: StateFlow<BookingConfirmUi> = _state
+
+    fun bindArgs(
+        dancerIds: String,
+        dancerNames: String,
+        dancerAvatars: String,
+        roomId: String,
+        clubName: String,
+        clubImage: String,
+        bookingDate: String,
+        bookingTime: String,
+        roomName: String,
+        songs: Int,
+        guests: Int,
+        totalAmount: String,
+        hasNow: Boolean
+    ) {
+        val ids = dancerIds.split(",").map { it.trim() }.filter { it.isNotBlank() }
+        val names = dancerNames.split("|,|").map { it.trim() }.filter { it.isNotBlank() }
+        val avatars = dancerAvatars.split("|,|").map { it.trim() }
+        val dancers = ids.mapIndexed { index, id ->
+            BookingConfirmDancerUi(
+                id = id,
+                name = names.getOrNull(index).orEmpty().ifBlank { "Dancer ${index + 1}" },
+                avatar = avatars.getOrNull(index).orEmpty()
+            )
+        }
+        val totalValue = totalAmount.toDoubleOrNull() ?: 0.0
+        val totalNumber = NumberFormat.getNumberInstance(Locale.US).apply {
+            minimumFractionDigits = 0
+            maximumFractionDigits = 2
+        }.format(totalValue)
+        val totalText = "$$totalNumber"
+        _state.value = BookingConfirmUi(
+            clubName = clubName.ifBlank { roomId },
+            clubImage = clubImage,
+            dateText = bookingDate,
+            timeText = bookingTime,
+            roomName = roomName,
+            songs = songs,
+            guests = guests,
+            totalText = totalText,
+            dancers = dancers,
+            roomId = roomId,
+            dancerIds = ids,
+            hasNow = hasNow
+        )
+    }
+
+    fun submit(onSuccess: suspend () -> Unit) = launch(loading, error) {
+        val current = _state.value
+        if (current.dancerIds.isEmpty() || current.roomId.isBlank()) return@launch
+        bookingConfirmRepo(
+            dancerIds = current.dancerIds,
+            roomId = current.roomId,
+            songs = current.songs,
+            guests = current.guests,
+            bookingDate = current.dateText,
+            bookingTime = current.timeText,
+            hasNow = current.hasNow
+        )
+        onSuccess()
+    }
+}
+
+class BookingConfirmRepo(
+    private val bookingApi: BookingApi
+) {
+    suspend operator fun invoke(
+        dancerIds: List<String>,
+        roomId: String,
+        songs: Int,
+        guests: Int,
+        bookingDate: String,
+        bookingTime: String,
+        hasNow: Boolean
+    ) {
+        if (hasNow) {
+            bookingApi.bookNow(
+                BookingForm(
+                    dancerIds = dancerIds,
+                    roomId = roomId,
+                    numberOfSongs = songs,
+                    numberOfGuests = guests
+                )
+            ).await()
+            return
+        }
+
+        bookingApi.reserve(
+            BookingForm(
+                dancerIds = dancerIds,
+                roomId = roomId,
+                bookingDate = bookingDate,
+                startTime = toApiTime(bookingTime),
+                numberOfSongs = songs,
+                numberOfGuests = guests,
+                notes = null
+            )
+        ).await()
+    }
+
+    private fun toApiTime(displayTime: String): String {
+        val value = displayTime.trim()
+        if (value.isBlank()) return "00:00"
+        val regex = Regex("^(\\d{1,2}):(\\d{2})\\s*([AP]M)$", RegexOption.IGNORE_CASE)
+        val match = regex.find(value) ?: return value
+        val hourRaw = match.groupValues[1].toIntOrNull() ?: return value
+        val minute = match.groupValues[2]
+        val period = match.groupValues[3].uppercase(Locale.getDefault())
+        var hour24 = hourRaw % 12
+        if (period == "PM") hour24 += 12
+        return String.format(Locale.US, "%02d:%s", hour24, minute)
+    }
+}
 

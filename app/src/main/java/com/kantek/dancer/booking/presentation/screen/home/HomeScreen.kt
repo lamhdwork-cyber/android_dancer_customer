@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,7 +29,7 @@ import com.kantek.dancer.booking.presentation.widget.SetSystemBarsColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen() = ScopeProvider(Scopes.Home) {
+fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
     val languageRepo by inject<LanguageRepo>()
     SetSystemBarsColor(
         statusBarColor = Colors.Dark120812,
@@ -37,6 +38,17 @@ fun HomeScreen() = ScopeProvider(Scopes.Home) {
         navigationBarDarkIcons = false
     )
     NavigationProvider { nav ->
+        LaunchedEffect(startTab) {
+            if (startTab.isNotBlank() && startTab != BottomNavigationScreen.Search.route) {
+                nav.navigate(startTab) {
+                    popUpTo(nav.graph.startDestinationId) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
+        }
         val navBackStackEntry by nav.currentBackStackEntryAsState()
         val currentRoute =
             navBackStackEntry?.destination?.route ?: BottomNavigationScreen.Search.route

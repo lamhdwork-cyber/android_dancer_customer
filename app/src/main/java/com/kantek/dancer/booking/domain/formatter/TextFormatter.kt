@@ -6,6 +6,8 @@ import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.domain.model.response.LanguageDTO
 import com.kantek.dancer.booking.presentation.theme.Colors
 import java.net.URLDecoder
+import java.text.NumberFormat
+import java.util.Locale
 
 class TextFormatter {
     fun cleanPhoneNumber(phoneNumber: String): String {
@@ -55,6 +57,19 @@ class TextFormatter {
         } catch (e: Exception) {
             message
         }
+    }
+
+    fun formatCurrency(raw: String): String {
+        val value = raw.toDoubleOrNull() ?: return raw
+        val format = NumberFormat.getNumberInstance(Locale.US).apply {
+            minimumFractionDigits = 0
+            maximumFractionDigits = 2
+        }
+        return format.format(value)
+    }
+
+    fun formatBookingPrice(raw: String): String {
+        return "$${formatCurrency(raw)}"
     }
 
 }

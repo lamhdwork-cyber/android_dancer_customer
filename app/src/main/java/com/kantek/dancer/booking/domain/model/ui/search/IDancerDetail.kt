@@ -3,6 +3,8 @@ package com.kantek.dancer.booking.domain.model.ui.search
 interface IDancerDetail : IDancer {
     /** Club the dancer belongs to; used for booking add-performer list. */
     val clubId: String
+    val clubName: String
+    val clubCoverImage: String
     val age: Int
     val dancerCode: String
     val danceStyles: List<String>
