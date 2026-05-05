@@ -187,6 +187,7 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="all_msg_delete_app">Eliminar tu cuenta significa que todos tus datos se perderán. Esta acción no se puede deshacer.\n\n¿Estás seguro de que deseas eliminar tu cuenta?</string>
     <string name="all_delete">Eliminar</string>
     <string name="all_save">Guardar</string>
+    <string name="account_change_photo">Cambiar foto</string>
     <string name="contact_us_des">¿Necesitas ayuda? ¡Estamos aquí para ayudarte!</string>
     <string name="all_message">Mensaje</string>
     <string name="error_blank_message">¡El mensaje no debe estar vacío!</string>

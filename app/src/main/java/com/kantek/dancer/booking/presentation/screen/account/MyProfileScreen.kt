@@ -7,6 +7,7 @@ import android.support.core.extensions.parcelableArrayList
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,14 +15,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,13 +42,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppSettings
 import com.kantek.dancer.booking.app.AppViewModel
@@ -60,10 +72,9 @@ import com.kantek.dancer.booking.presentation.helper.AppPopup
 import com.kantek.dancer.booking.presentation.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.AppPhotoPickerDialog
+import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import com.sangcomz.fishbun.FishBun
@@ -75,6 +86,8 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Scopes.Account) {
+    ApplyDarkEdgeToEdgeStatusBars()
+
     val context = LocalContext.current
     val appNavigator = use<AppNavigator>()
     val formState by viewModel.formState.collectAsState()
@@ -102,100 +115,166 @@ fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Sc
     }
 
     PermissionProvider {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .background(Colors.Dark120812)
         ) {
-            ActionBarBackAndTitleView(R.string.top_bar_my_profile) { appNavigator.back() }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(20.dp),
+                    .statusBarsPadding()
+                    .padding(top = 8.dp)
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                SpaceVertical(30.dp)
-                Box(
+                ActionBarBackAndTitleView(R.string.top_bar_my_profile) { appNavigator.back() }
+                Column(
                     modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape)
-                        .align(Alignment.CenterHorizontally)
-                        .background(Colors.Blue227)
-                        .clickable { showBottomSheet = true },
-                    contentAlignment = Alignment.Center
+                        .fillMaxSize()
+                        .padding(20.dp),
                 ) {
-                    if (formState.avatarUri == null) {
-                        AvatarImage(formState.avatarPath, size = 100.dp)
-                    } else AvatarImage(formState.avatarUri.toString(), size = 100.dp)
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_camera),
-                        contentDescription = "Camera",
-                        tint = Color.Unspecified,
+                    SpaceVertical(30.dp)
+                    Box(
                         modifier = Modifier
-                            .size(40.dp)
-                            .align(Alignment.Center)
-                    )
-                }
-
-                SpaceVertical(20.dp)
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(20.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    AppInputText(
-                        value = formState.firstName,
-                        placeHolderRes = R.string.all_first_name,
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Words,
-                            keyboardType = KeyboardType.Text
-                        ),
-                        onValueChange = { viewModel.updateFirstName(it) }
-                    )
-                    AppInputText(
-                        value = formState.lastname,
-                        placeHolderRes = R.string.all_last_name,
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Words,
-                            keyboardType = KeyboardType.Text
-                        ),
-                        onValueChange = { viewModel.updateLastName(it) }
-                    )
-                }
-                SpaceVertical(12.dp)
-                AppInputText(
-                    value = formState.email,
-                    placeHolderRes = R.string.all_email,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                    onValueChange = { viewModel.updateEmail(it) }
-                )
-                SpaceVertical(12.dp)
-                AppInputPhoneNumber(
-                    value = formState.phone,
-                    placeHolderRes = R.string.all_phone_number,
-                    onValueChange = { viewModel.updatePhone(it) }
-                )
-                SpaceVertical(20.dp)
-                AppButton(R.string.all_save) { viewModel.save(context) }
-            }
-
-            if (showBottomSheet) {
-                AppPhotoPickerDialog(
-                    sheetState,
-                    onCameraClick = {
-                        accessCapture {
-                            appSetting.openCameraForImage(cameraLauncher) {
-                                imageUriPending = it
-                            }
+                            .align(Alignment.CenterHorizontally)
+                            .clickable { showBottomSheet = true },
+                        contentAlignment = Alignment.BottomEnd
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(132.dp)
+                                .clip(CircleShape)
+                                .background(
+                                    Brush.linearGradient(
+                                        listOf(Colors.Primary, Colors.Primary.copy(alpha = 0.2f))
+                                    )
+                                )
+                                .padding(2.dp)
+                        ) {
+                            if (formState.avatarUri == null) {
+                                AvatarImage(formState.avatarPath, size = 128.dp)
+                            } else AvatarImage(formState.avatarUri.toString(), size = 128.dp)
                         }
-                    },
-                    onGalleryClick = {
-                        accessReadImage { appSetting.openGalleryForImage(galleryLauncher) }
-                    }, onDismiss = { showBottomSheet = false })
+
+                        Box(
+                            modifier = Modifier
+                                .offset(x = (-4).dp, y = (-2).dp)
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .background(Colors.Primary)
+                                .border(3.dp, Colors.Dark120812, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Edit,
+                                contentDescription = "Edit avatar",
+                                tint = Color.White,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+
+                    Text(
+                        text = stringResource(R.string.account_change_photo).uppercase(),
+                        color = Colors.Primary,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = 2.sp,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 16.dp)
+                            .clickable { showBottomSheet = true }
+                    )
+
+                    SpaceVertical(50.dp)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        AppInputText(
+                            value = formState.firstName,
+                            placeHolderRes = R.string.all_first_name,
+                            modifier = Modifier.weight(1f),
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.Words,
+                                keyboardType = KeyboardType.Text
+                            ),
+                            onValueChange = { viewModel.updateFirstName(it) }
+                        )
+                        AppInputText(
+                            value = formState.lastname,
+                            placeHolderRes = R.string.all_last_name,
+                            modifier = Modifier.weight(1f),
+                            keyboardOptions = KeyboardOptions(
+                                capitalization = KeyboardCapitalization.Words,
+                                keyboardType = KeyboardType.Text
+                            ),
+                            onValueChange = { viewModel.updateLastName(it) }
+                        )
+                    }
+                    SpaceVertical(12.dp)
+                    AppInputText(
+                        value = formState.email,
+                        readOnly = true,
+                        placeHolderRes = R.string.all_email,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                        onValueChange = { viewModel.updateEmail(it) }
+                    )
+//                    SpaceVertical(12.dp)
+//                    AppInputPhoneNumber(
+//                        value = formState.phone,
+//                        lightBackground = false,
+//                        placeHolderRes = R.string.all_phone_number,
+//                        onValueChange = { viewModel.updatePhone(it) }
+//                    )
+                    SpaceVertical(50.dp)
+                    Button(
+                        onClick = { viewModel.save(context) },
+                        shape = CircleShape,
+                        colors = ButtonDefaults.buttonColors(containerColor = Colors.Primary),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(64.dp)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "SAVE CHANGES",
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 12.sp,
+                                letterSpacing = 3.sp,
+                                color = Color.White
+                            )
+                            Icon(
+                                imageVector = Icons.Outlined.Check,
+                                contentDescription = "Save profile",
+                                tint = Color.White
+                            )
+                        }
+                    }
+                }
+
+                if (showBottomSheet) {
+                    AppPhotoPickerDialog(
+                        sheetState,
+                        onCameraClick = {
+                            accessCapture {
+                                appSetting.openCameraForImage(cameraLauncher) {
+                                    imageUriPending = it
+                                }
+                            }
+                        },
+                        onGalleryClick = {
+                            accessReadImage { appSetting.openGalleryForImage(galleryLauncher) }
+                        },
+                        onDismiss = { showBottomSheet = false }
+                    )
+                }
             }
         }
     }
@@ -279,10 +358,8 @@ class UpdateProfileRepo(
         userLocalSource.saveUser(
             userApi.updateProfile(
                 RequestBodyBuilder()
-                    .put("first_name", form.firstName)
-                    .put("last_name", form.lastname)
-                    .put("phone", form.phone)
-                    .put("email", form.email)
+                    .put("firstName", form.firstName)
+                    .put("lastName", form.lastname)
                     .buildMultipart(), avatarPart
             ).await()
         )

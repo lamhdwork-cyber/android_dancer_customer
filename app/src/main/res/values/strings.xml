@@ -195,6 +195,7 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="all_msg_delete_app">Deleting your account means all your data will be lost. This action cannot be undone.\n\nAre you sure you want to delete your account?</string>
     <string name="all_delete">Delete</string>
     <string name="all_save">Save</string>
+    <string name="account_change_photo">Change photo</string>
     <string name="contact_us_des">Need assistance? We’re here to help!</string>
     <string name="all_message">Message</string>
     <string name="error_blank_message">Message should not be empty!</string>

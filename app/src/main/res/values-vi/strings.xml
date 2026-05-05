@@ -185,6 +185,7 @@
     <string name="all_msg_delete_app">Việc xóa tài khoản đồng nghĩa sẽ mất hết dữ liệu. Hành động này không thể hoàn tác.\n\nBạn có chắc chắn rằng muốn xóa tài khoản không?</string>
     <string name="all_delete">Xóa</string>
     <string name="all_save">Lưu</string>
+    <string name="account_change_photo">Đổi ảnh</string>
     <string name="contact_us_des">Cần giúp đỡ? Chúng tôi sẵn sàng hỗ trợ bạn!</string>
     <string name="all_message">Gửi tin nhắn liên hệ</string>
     <string name="error_blank_message">Nội dung không được để trống!</string>

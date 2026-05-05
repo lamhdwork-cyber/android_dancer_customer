@@ -172,14 +172,14 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                         onValueChange = { viewModel.updateLastName(it) }
                     )
                 }
-                SpaceVertical(20.dp)
-                AppInputPhoneNumber(
-                    value = formState.phone,
-                    lightBackground = false,
-                    leadingIcon = Icons.Outlined.Smartphone,
-                    placeHolderRes = R.string.all_phone_number,
-                    onValueChange = { viewModel.updatePhone(it) }
-                )
+//                SpaceVertical(20.dp)
+//                AppInputPhoneNumber(
+//                    value = formState.phone,
+//                    lightBackground = false,
+//                    leadingIcon = Icons.Outlined.Smartphone,
+//                    placeHolderRes = R.string.all_phone_number,
+//                    onValueChange = { viewModel.updatePhone(it) }
+//                )
                 SpaceVertical(20.dp)
                 AppInputText(
                     value = formState.email,

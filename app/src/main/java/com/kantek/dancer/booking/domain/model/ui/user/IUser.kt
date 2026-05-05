@@ -48,7 +48,7 @@ data class ProfileForm(
         if (lastname.isBlank()) resourceError(R.string.error_blank_last_name)
         if (email.isBlank()) resourceError(R.string.error_blank_email)
         if (!email.isEmail()) resourceError(R.string.error_valid_email)
-        if (phone.isBlank() || phone.length != 10) resourceError(R.string.error_blank_phone)
+//        if (phone.isBlank() || phone.length != 10) resourceError(R.string.error_blank_phone)
     }
 }
 
