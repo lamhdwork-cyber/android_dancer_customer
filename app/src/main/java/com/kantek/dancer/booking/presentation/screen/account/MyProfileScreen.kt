@@ -86,8 +86,6 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Scopes.Account) {
-    ApplyDarkEdgeToEdgeStatusBars()
-
     val context = LocalContext.current
     val appNavigator = use<AppNavigator>()
     val formState by viewModel.formState.collectAsState()
@@ -123,8 +121,6 @@ fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Sc
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .statusBarsPadding()
-                    .padding(top = 8.dp)
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
