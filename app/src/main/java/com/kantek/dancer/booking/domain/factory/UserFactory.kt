@@ -21,7 +21,7 @@ class UserFactory(private val textFormatter: TextFormatter) {
             override val lastName: String
                 get() = it.lastName.safe()
             override val fullName: String
-                get() = "$firstName $lastName"
+                get() = "$lastName $firstName"
             override val email: String
                 get() = it.email.safe()
             override val phoneNumber: String
