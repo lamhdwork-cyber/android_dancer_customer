@@ -405,7 +405,7 @@ private fun GuestSignUpCreateAccountButton(onClick: () -> Unit) {
             .height(64.dp)
             .shadow(
                 elevation = 24.dp,
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(28.dp),
                 spotColor = Colors.Pink33F425F4,
                 ambientColor = Colors.Pink0DF425F4
             ),

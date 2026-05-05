@@ -273,7 +273,7 @@ private fun GuestSignInFormSection(
                     .height(56.dp)
                     .shadow(
                         elevation = 20.dp,
-                        shape = RoundedCornerShape(16.dp),
+                        shape = RoundedCornerShape(28.dp),
                         spotColor = Colors.Pink33F425F4,
                         ambientColor = Colors.Pink33F425F4
                     ),

@@ -404,7 +404,7 @@ fun AppInputText(
         }
     }
 
-    val iconTint = if (isFocused) Colors.Primary else Colors.Gray6B7280
+    val iconTint = if (isFocused) Colors.Primary else Colors.Dark64748B
     val borderColor = when {
         isFocused -> Colors.Primary
         lightBackground -> Colors.Gray238

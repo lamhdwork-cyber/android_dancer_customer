@@ -296,7 +296,7 @@ private fun ManageStaffSignInFormSection(
                 .height(56.dp)
                 .shadow(
                     elevation = 16.dp,
-                    shape = RoundedCornerShape(12.dp),
+                    shape = RoundedCornerShape(28.dp),
                     spotColor = Colors.Pink33F425F4,
                     ambientColor = Colors.Pink0DF425F4
                 ),
