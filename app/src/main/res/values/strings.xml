@@ -129,6 +129,18 @@
     After you create a booking request, it will appear here.
     ]]>
     </string>
+    <string name="no_data_my_booking_accepted">
+    <![CDATA[
+    <big><b>No accepted bookings yet!</b></big><br/><br/>
+    Once a booking is accepted, it will appear here.
+    ]]>
+    </string>
+    <string name="no_data_my_booking_completed">
+    <![CDATA[
+    <big><b>No completed bookings yet!</b></big><br/><br/>
+    Completed bookings will appear here after service is finished.
+    ]]>
+    </string>
     <string name="find_consultation_info">Consultation Information</string>
     <string name="all_zip">ZIP</string>
     <string name="all_state">State</string>

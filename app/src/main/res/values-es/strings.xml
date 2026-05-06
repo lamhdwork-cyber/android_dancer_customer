@@ -121,6 +121,18 @@ Cuando tengamos información legal útil, la mostraremos aquí para tu fácil re
 Una vez que envíes una solicitud de reserva, aparecerá aquí.
 ]]>
 </string>
+    <string name="no_data_my_booking_accepted">
+<![CDATA[
+<big><b>¡Aún no hay reservas aceptadas!</b></big><br/><br/>
+Cuando una reserva sea aceptada, aparecerá aquí.
+]]>
+</string>
+    <string name="no_data_my_booking_completed">
+<![CDATA[
+<big><b>¡Aún no hay reservas completadas!</b></big><br/><br/>
+Las reservas completadas aparecerán aquí cuando finalice el servicio.
+]]>
+</string>
     <string name="find_consultation_info">Información de la consulta</string>
     <string name="all_zip">Código postal</string>
     <string name="all_state">Provincia</string>

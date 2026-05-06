@@ -121,6 +121,18 @@
         Sau khi bạn gửi yêu cầu đặt lịch, lịch đặt sẽ xuất hiện tại đây
     ]]>
     </string>
+    <string name="no_data_my_booking_accepted">
+    <![CDATA[
+    <big><b>Chưa có lịch đặt nào được nhận!</b></big><br/><br/>
+    Khi lịch đặt được xác nhận, chúng sẽ xuất hiện tại đây.
+    ]]>
+    </string>
+    <string name="no_data_my_booking_completed">
+    <![CDATA[
+    <big><b>Chưa có lịch đặt nào hoàn thành!</b></big><br/><br/>
+    Lịch đặt đã hoàn thành sẽ hiển thị tại đây sau khi kết thúc dịch vụ.
+    ]]>
+    </string>
     <string name="find_consultation_info">Thông tin tư vấn</string>
     <string name="all_zip">Mã ZIP</string>
     <string name="all_state">Tỉnh</string>

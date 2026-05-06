@@ -163,7 +163,12 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                             })
                     }
                     if (!tabState.isLoading && !tabState.isRefreshing && tabState.items.isEmpty()) {
-                        NoDataView(htmlRes = R.string.no_data_my_booking)
+                        val noDataRes = when (tab) {
+                            MyBookingTab.PENDING -> R.string.no_data_my_booking
+                            MyBookingTab.ACCEPTED -> R.string.no_data_my_booking_accepted
+                            MyBookingTab.COMPLETED -> R.string.no_data_my_booking_completed
+                        }
+                        NoDataView(htmlRes = noDataRes)
                     }
                 }
             }
@@ -254,8 +259,6 @@ class MyBookingVM(
 ) : AppViewModel() {
 
     var requestID: String = ""
-    val customLoading: LoadingEvent = LoadingFlow()
-    val isRefreshLoading: LoadingEvent = LoadingFlow()
     private val _pendingState = MutableStateFlow(TabBookingState())
     private val _acceptedState = MutableStateFlow(TabBookingState())
     private val _completedState = MutableStateFlow(TabBookingState())
@@ -305,15 +308,13 @@ class MyBookingVM(
         if (userLive.value == null) return
         val flow = mutableStateOf(tab)
         val state = flow.value
-        if (isRefreshLoading.isLoading().value
-            || customLoading.isLoading().value
-            || state.isLoading
+        if (state.isLoading
             || state.isRefreshing
             || !state.hasMoreData
         ) return
 
         val isFirstPage = state.page == 1
-        launch(if (isFirstPage) isRefreshLoading else customLoading, error) {
+        launch(null, error) {
             flow.value = if (isFirstPage) {
                 state.copy(isRefreshing = true)
             } else {
