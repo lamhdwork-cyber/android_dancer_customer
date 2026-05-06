@@ -26,6 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,24 +35,25 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.domain.model.ui.search.IClub
 import com.kantek.dancer.booking.domain.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.ui.search.IClub
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
+import com.kantek.dancer.booking.presentation.viewmodel.FindClubVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
+import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.NoDataView
-import com.kantek.dancer.booking.presentation.viewmodel.FindClubVM
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -60,6 +63,7 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
     val isEmpty by viewModel.isEmpty.collectAsState()
     val isLoading by viewModel.customLoading.isLoading().collectAsState()
     val isRefreshing by viewModel.isRefreshLoading.isLoading().collectAsState()
+    val hasShowComingSoon = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) { viewModel.onFetch() }
 
@@ -73,7 +77,7 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             CurrentLocationCard()
-            NearbyHeader()
+            NearbyHeader { hasShowComingSoon.value = true }
         }
         AppLazyColumn(
             items = clubs,
@@ -91,6 +95,12 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
             )
         }
         if (isEmpty) NoDataView(htmlRes = R.string.no_data_notifications)
+
+        if (hasShowComingSoon.value) {
+            AppNotificationDialog(stringResource(R.string.all_coming_soon)) {
+                hasShowComingSoon.value = false
+            }
+        }
     }
 }
 
@@ -146,7 +156,7 @@ private fun CurrentLocationCard() {
 }
 
 @Composable
-private fun NearbyHeader() {
+private fun NearbyHeader(callBack: (() -> Unit)) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -163,7 +173,9 @@ private fun NearbyHeader() {
             color = Colors.Primary,
             fontSize = 13.sp,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.clickable {}
+            modifier = Modifier.clickable {
+                callBack()
+            }
         )
     }
 }
@@ -192,7 +204,9 @@ private fun ClubItemCard(
                     .build(),
                 contentDescription = club.name,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth().height(250.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp)
             )
             Box(
                 modifier = Modifier
@@ -254,7 +268,11 @@ private fun ClubItemCard(
                 )
                 Text(text = "  •  ", color = Colors.Dark64748B, fontSize = 13.sp)
                 Text(
-                    text = stringResource(R.string.club_open_hours_format, club.openTime, club.closeTime),
+                    text = stringResource(
+                        R.string.club_open_hours_format,
+                        club.openTime,
+                        club.closeTime
+                    ),
                     color = Colors.Gray9CA3AF,
                     fontSize = 11.sp,
                     maxLines = 1,
