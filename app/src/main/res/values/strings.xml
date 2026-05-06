@@ -123,10 +123,10 @@
     <string name="account_not_login">Sign in to see manage your profile, and more</string>
     <string name="notification_not_login">Notifications about your important cases</string>
     <string name="my_cases_not_login">Your legal case list</string>
-    <string name="no_data_my_case">
+    <string name="no_data_my_booking">
     <![CDATA[
-    <big><b>No new cases yet!</b></big><br/><br/>
-    After you submit a consultation request, your case will appear here.
+    <big><b>No bookings yet!</b></big><br/><br/>
+    After you create a booking request, it will appear here.
     ]]>
     </string>
     <string name="find_consultation_info">Consultation Information</string>
@@ -344,6 +344,7 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="booking_room_suite_label">VIP Suite</string>
     <string name="booking_private">PRIVATE</string>
     <string name="booking_total_amount_due">Total Amount Due</string>
+    <string name="booking_selected_talent">SELECTED TALENT</string>
     <string name="booking_collected_at_venue">(Collected at Venue)</string>
     <string name="booking_cash_only">CASH PAYMENT ONLY</string>
     <string name="booking_base_fee_295">Base Fee: $295</string>

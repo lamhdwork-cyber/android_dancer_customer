@@ -51,7 +51,7 @@ import org.koin.androidx.compose.koinViewModel
 fun CreateReviewScreen(
     dataJson: String = "",//BookingDTO::class
     viewModel: CreateReviewVM = koinViewModel()
-) = ScopeProvider(Scopes.MyCase) {
+) = ScopeProvider(Scopes.MyBooking) {
 
     val appNavigator = use<AppNavigator>()
     val formState by viewModel.formState.collectAsState()
@@ -158,7 +158,7 @@ class CreateReviewVM(
     fun submit() = launch(loading, error) {
         _form.value.valid()
         createReviewRepo(_form.value)
-        appEvent.onRefreshMyCases.emit(true)
+        appEvent.onRefreshMyBooking.emit(true)
         onSuccess.emit(true)
     }
 

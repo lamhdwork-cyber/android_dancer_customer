@@ -115,10 +115,10 @@ Cuando tengamos información legal útil, la mostraremos aquí para tu fácil re
     <string name="account_not_login">Inicia sesión para gestionar tu perfil\ny configuraciones</string>
     <string name="notification_not_login">Notificaciones sobre tus casos importantes</string>
     <string name="my_cases_not_login">Lista de tus casos</string>
-    <string name="no_data_my_case">
+    <string name="no_data_my_booking">
 <![CDATA[
-<big><b>¡Aún no hay casos nuevos!</b></big><br/><br/>
-Una vez que envíes una solicitud de consulta, aparecerá aquí.
+<big><b>¡Aún no hay reservas nuevas!</b></big><br/><br/>
+Una vez que envíes una solicitud de reserva, aparecerá aquí.
 ]]>
 </string>
     <string name="find_consultation_info">Información de la consulta</string>
@@ -334,6 +334,7 @@ Una vez que envíes una solicitud de consulta, aparecerá aquí.
     <string name="booking_room_suite_label">Suite VIP</string>
     <string name="booking_private">PRIVADO</string>
     <string name="booking_total_amount_due">Monto total a pagar</string>
+    <string name="booking_selected_talent">TALENTO SELECCIONADO</string>
     <string name="booking_collected_at_venue">(Cobrado en el lugar)</string>
     <string name="booking_cash_only">SOLO PAGO EN EFECTIVO</string>
     <string name="booking_base_fee_295">Tarifa base: $295</string>

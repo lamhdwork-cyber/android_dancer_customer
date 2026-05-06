@@ -31,6 +31,15 @@ class TextFormatter {
         }
     }
 
+    fun getColorWithStatus(status: String): Color {
+        return when (status.lowercase()) {
+            "pending", "scheduled" -> Colors.Orange251
+            "accepted" -> Colors.Blue75
+            "completed" -> Colors.Blue148
+            else -> Colors.Red247
+        }
+    }
+
     fun getLanguage(languages: List<LanguageDTO>?): String {
         return if (languages.isNullOrEmpty()) ""
         else languages[0].name

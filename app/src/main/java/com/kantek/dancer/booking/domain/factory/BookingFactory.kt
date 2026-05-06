@@ -2,7 +2,6 @@ package com.kantek.dancer.booking.domain.factory
 
 import android.support.core.extensions.safe
 import androidx.compose.ui.graphics.Color
-import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.domain.extension.Format.FORMAT_DATE_TIME
 import com.kantek.dancer.booking.domain.extension.formatWith
 import com.kantek.dancer.booking.domain.extension.toObject
@@ -30,36 +29,80 @@ class BookingFactory(
     }
 
     private fun create(it: BookingDTO): IBooking {
+        val bookingDancers = if (!it.dancers.isNullOrEmpty()) {
+            it.dancers
+        } else {
+            listOfNotNull(it.dancer)
+        }
         return object : IBooking {
-            override val id: Int
+            override val id: String
                 get() = it.id.safe()
-            override val status: Int
-                get() = it.status
+            override val status: String
+                get() = it.status.safe()
             override val statusDisplay: String
-                get() = it.status_title
+                get() = status.replaceFirstChar { c -> c.uppercase() }
             override val colorStatus: Color
                 get() = textFormatter.getColorWithStatus(status)
             override val description: String
-                get() = it.description.safe()
+                get() = it.notes.safe()
             override val reason: String
-                get() = it.reason_cancel.safe()
+                get() = it.cancelReason.safe()
             override val address: String
-                get() = it.address.safe()
+                get() = it.club?.address.safe()
             override val datetime: String
-                get() = it.created_at.utcToDateLocal().formatWith(FORMAT_DATE_TIME)
+                get() = it.createdAt.safe().utcToDateLocal().formatWith(FORMAT_DATE_TIME)
+            override val customerName: String
+                get() = it.user?.firstName.safe()
+            override val customerNameDisplay: String
+                get() = customerName.ifBlank { "Guest" }.uppercase()
+            override val bookingCodeDisplay: String
+                get() = "#${id.takeLast(6)}"
+            override val roomName: String
+                get() = it.room?.name.safe()
+            override val roomNameDisplay: String
+                get() = roomName.ifBlank { "-" }
+            override val totalAmount: String
+                get() = it.totalAmount.safe()
+            override val totalAmountDisplay: String
+                get() = if (totalAmount.isBlank()) "$0.00" else "$$totalAmount"
+            override val dancers: List<String>
+                get() = bookingDancers.mapNotNull { dancer ->
+                    dancer.name?.takeIf { name -> name.isNotBlank() }
+                }
+            override val dancersDisplay: String
+                get() = dancersDisplayList.joinToString(", ")
+            override val dancersDisplayOrFallback: String
+                get() = dancersDisplay.ifBlank { "-" }
+            override val dancersDisplayList: List<String>
+                get() = dancers.take(5)
+            override val dancerAvatars: List<String>
+                get() = bookingDancers.mapNotNull { dancer ->
+                    dancer.avatar?.takeIf { avatar -> avatar.isNotBlank() }
+                }
+            override val dancerAvatarsDisplay: List<String>
+                get() = dancerAvatars.take(5)
+            override val numberOfGuests: Int
+                get() = it.numberOfGuests.safe()
+            override val numberOfGuestsDisplay: String
+                get() = numberOfGuests.toString()
+            override val numberOfSongs: Int
+                get() = it.numberOfSongs.safe()
+            override val numberOfSongsDisplay: String
+                get() = numberOfSongs.toString()
+            override val isNow: Boolean
+                get() = it.bookingType.safe().equals("immediate", true)
+            override val timeDisplay: String
+                get() = if (isNow) "NOW" else datetime
             override val hasShowButtonCancel: Boolean
-                get() = status == AppConfig.Booking.Status.NEW || status == AppConfig.Booking.Status.PENDING
+                get() = status.equals("pending", true) || status.equals("scheduled", true)
             override val hasCancel: Boolean
-                get() = status == AppConfig.Booking.Status.CANCELED
+                get() = status.equals("cancelled", true)
             override val hasComplete: Boolean
-                get() = status == AppConfig.Booking.Status.COMPLETE
+                get() = status.equals("completed", true)
             override val hasNew: Boolean
-                get() = status == AppConfig.Booking.Status.NEW
+                get() = status.equals("pending", true)
             override val lawyer: ILawyer?
-                get() = if (it.partner_account != null) createLawyer(
-                    it.partner_account,
-                    it.type_service
-                ) else null
+                get() = null
             override val owner: BookingDTO
                 get() = it
         }
@@ -91,11 +134,11 @@ class BookingFactory(
         if (it == null) return null
         return object : IBookingDetail, IBooking by create(it) {
             override val language: String
-                get() = textFormatter.getLanguage(it.languages)
+                get() = it.bookingType.safe()
             override val user: IUser?
                 get() = userFactory.create(it.user)
             override val hasReview: Boolean
-                get() = it.is_review
+                get() = it.isReview
         }
     }
 
@@ -128,7 +171,7 @@ class BookingFactory(
     fun createLawyerDetail(it: String): ILawyerDetail? {
         return try {
             val bookingDTO = it.toObject<BookingDTO>()
-            createDetail(bookingDTO.partner_account, bookingDTO.type_service)
+            null
         } catch (e: Exception) {
             e.printStackTrace()
             null

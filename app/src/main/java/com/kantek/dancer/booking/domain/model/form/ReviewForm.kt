@@ -4,7 +4,7 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.domain.extension.resourceError
 
 data class ReviewForm(
-    var contact_request_id: Int? = 0,
+    var contact_request_id: String? = "",
     var rating: Float = 5f,
     var review_text: String = "",
 ) {

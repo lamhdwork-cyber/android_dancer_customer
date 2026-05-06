@@ -20,7 +20,7 @@ import com.kantek.dancer.booking.domain.model.support.BottomNavigationScreen
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.screen.account.AccountScreen
-import com.kantek.dancer.booking.presentation.screen.cases.MyBookingScreen
+import com.kantek.dancer.booking.presentation.screen.booking.MyBookingScreen
 import com.kantek.dancer.booking.presentation.screen.notification.NotificationScreen
 import com.kantek.dancer.booking.presentation.screen.club.FindClubScreen
 import com.kantek.dancer.booking.presentation.theme.Colors

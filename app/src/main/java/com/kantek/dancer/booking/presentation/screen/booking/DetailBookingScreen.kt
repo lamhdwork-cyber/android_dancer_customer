@@ -1,4 +1,4 @@
-package com.kantek.dancer.booking.presentation.screen.cases
+package com.kantek.dancer.booking.presentation.screen.booking
 
 import android.support.core.extensions.safe
 import androidx.compose.foundation.background
@@ -63,9 +63,9 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DetailCaseScreen(
-    bookingID: Int = -1,
-    viewModel: DetailCasesVM = koinViewModel()
-) = ScopeProvider(Scopes.MyCase) {
+    bookingID: String = "",
+    viewModel: DetailBookingVM = koinViewModel()
+) = ScopeProvider(Scopes.MyBooking) {
 
     val appNavigator = use<AppNavigator>()
     val detail by viewModel.details.collectAsState()
@@ -76,7 +76,7 @@ fun DetailCaseScreen(
     var hasShowCancel by remember { mutableStateOf(false) }
 
     LaunchedEffect(bookingID) {
-        if (bookingID != -1 && detail == null)
+        if (bookingID.isNotBlank() && detail == null)
             viewModel.fetchDetails()
     }
     LaunchedEffect(onBack) {
@@ -379,7 +379,7 @@ fun DetailCaseScreen(
     }
 }
 
-class DetailCasesVM(
+class DetailBookingVM(
     private val appEvent: AppEvent,
     private val fetchBookingDetailRepo: FetchBookingDetailRepo,
     private val bookingRequestAgainRepo: BookingRequestAgainRepo,
@@ -387,25 +387,25 @@ class DetailCasesVM(
     private val appNotifications: AppNotifications
 ) : AppViewModel() {
     val details = fetchBookingDetailRepo.result
-    var requestID: Int = 0
+    var requestID: String = ""
     val onBack = MutableStateFlow(false)
 
     fun fetchDetails() = launch(loading, error) {
         fetchBookingDetailRepo(requestID)
-        appNotifications.cancelNotification(requestID)
+        appNotifications.cancelNotification(requestID.toIntOrNull() ?: 0)
     }
 
     fun submitRequestAgain() = launch(loading, error) {
         bookingRequestAgainRepo(requestID)
         onBack.emit(true)
-        appEvent.onRefreshMyCases.emit(true)
+        appEvent.onRefreshMyBooking.emit(true)
         appEvent.onRefreshNotification.emit(true)
     }
 
     fun submitCancel(reason: String) = launch(loading, error) {
         bookingCancelRepo(requestID, reason)
         fetchDetails()
-        appEvent.onRefreshMyCases.emit(true)
+        appEvent.onRefreshMyBooking.emit(true)
         appEvent.onRefreshNotification.emit(true)
     }
 }
@@ -415,7 +415,7 @@ class FetchBookingDetailRepo(
     private val bookingFactory: BookingFactory
 ) {
     val result = MutableStateFlow<IBookingDetail?>(null)
-    suspend operator fun invoke(id: Int) {
+    suspend operator fun invoke(id: String) {
         result.emit(bookingFactory.createDetails(bookingApi.details(id).awaitNullable()))
     }
 

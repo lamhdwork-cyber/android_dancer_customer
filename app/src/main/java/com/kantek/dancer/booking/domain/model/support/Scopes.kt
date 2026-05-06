@@ -8,7 +8,7 @@ enum class Scopes : IChars {
     AppRole,
     Account,
     Search,
-    MyCase,
+    MyBooking,
     Notification,
     Dancer,
     Booking,

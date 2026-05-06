@@ -1,4 +1,4 @@
-package com.kantek.dancer.booking.presentation.screen.cases
+package com.kantek.dancer.booking.presentation.screen.booking
 
 import android.support.core.event.LoadingEvent
 import android.support.core.event.LoadingFlow
@@ -39,7 +39,7 @@ import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
-import com.kantek.dancer.booking.presentation.widget.CaseItemView
+import com.kantek.dancer.booking.presentation.widget.BookingItemView
 import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.NoLoginView
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,10 +47,10 @@ import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MyBookingScreen(viewModel: MyCasesVM = koinViewModel()) = ScopeProvider(Scopes.MyCase) {
+fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Scopes.MyBooking) {
     val context = LocalContext.current
     val appEvent = remember { get<AppEvent>() }
-    val isRefreshingByEvent by appEvent.onRefreshMyCases.collectAsState()
+    val isRefreshingByEvent by appEvent.onRefreshMyBooking.collectAsState()
 
     val myCase by viewModel.items.collectAsState()
     val user by viewModel.userLive.collectAsState(null)
@@ -71,7 +71,7 @@ fun MyBookingScreen(viewModel: MyCasesVM = koinViewModel()) = ScopeProvider(Scop
     LaunchedEffect(isRefreshingByEvent) {
         if (isRefreshingByEvent) {
             viewModel.onRefresh()
-            appEvent.onRefreshMyCases.emit(false)
+            appEvent.onRefreshMyBooking.emit(false)
         }
     }
 
@@ -95,27 +95,20 @@ fun MyBookingScreen(viewModel: MyCasesVM = koinViewModel()) = ScopeProvider(Scop
                 onRefresh = { viewModel.onRefresh() },
                 onLoadMore = { viewModel.onFetch() }
             ) { item, _, _ ->
-                CaseItemView(
+                BookingItemView(
                     item,
                     onItemClick = { appNavigator.navigateDetailCase(item.id) },
                     onRequestClick = {
                         hasShowRequest = true
                         viewModel.requestID = item.id
                     },
-                    onLawyerClick = {
-                        appNavigator.navigateDetailLawyer(dataJson = item.owner.toJson())
-                    },
                     onCancelClick = {
                         hasShowCancel = true
                         viewModel.requestID = item.id
-                    },
-                    onChatClick = {
-//                        hasShowComingSoon = true
-                        appNavigator.navigateConversation(item.id)
                     })
             }
             if (isEmpty)
-                NoDataView(htmlRes = R.string.no_data_my_case)
+                NoDataView(htmlRes = R.string.no_data_my_booking)
         }
         if (hasShowComingSoon) {
             AppNotificationDialog(stringResource(R.string.all_coming_soon)) {
@@ -147,13 +140,13 @@ fun MyBookingScreen(viewModel: MyCasesVM = koinViewModel()) = ScopeProvider(Scop
     }
 }
 
-class MyCasesVM(
-    private val fetchMyCaseByPageRepo: FetchMyCaseByPageRepo,
+class MyBookingVM(
+    private val fetchMyBookingByPageRepo: FetchMyBookingByPageRepo,
     private val bookingRequestAgainRepo: BookingRequestAgainRepo,
     private val bookingCancelRepo: BookingCancelRepo,
 ) : AppViewModel() {
 
-    var requestID: Int = 0
+    var requestID: String = ""
     private val _items = MutableStateFlow<List<IBooking>>(emptyList())
     val items: StateFlow<List<IBooking>> = _items
 
@@ -195,7 +188,7 @@ class MyCasesVM(
             || userLive.value == null
         ) return
         launch(if (page == 1) isRefreshLoading else customLoading, error) {
-            val rs = fetchMyCaseByPageRepo(page)
+            val rs = fetchMyBookingByPageRepo(page)
             _isEmpty.value = (page == 1 && rs.isEmpty())
             if (rs.isEmpty()) hasMoreData = false
             else {
@@ -224,7 +217,7 @@ class MyCasesVM(
 
 class BookingCancelRepo(private val bookingApi: BookingApi) {
 
-    suspend operator fun invoke(requestID: Int, reason: String) {
+    suspend operator fun invoke(requestID: String, reason: String) {
         bookingApi.cancel(requestID, reason).await()
     }
 
@@ -232,18 +225,18 @@ class BookingCancelRepo(private val bookingApi: BookingApi) {
 
 class BookingRequestAgainRepo(private val bookingApi: BookingApi) {
 
-    suspend operator fun invoke(requestAgainID: Int) {
+    suspend operator fun invoke(requestAgainID: String) {
         bookingApi.recreate(requestAgainID).await()
     }
 
 }
 
-class FetchMyCaseByPageRepo(
+class FetchMyBookingByPageRepo(
     private val bookingApi: BookingApi,
     private val bookingFactory: BookingFactory
 ) {
     suspend operator fun invoke(page: Int): List<IBooking> {
-        return bookingFactory.createList(bookingApi.fetchByPage(page).awaitNullable()?.data)
+        return bookingFactory.createList(bookingApi.fetchByPage(page).awaitNullable()?.items)
     }
 
 }

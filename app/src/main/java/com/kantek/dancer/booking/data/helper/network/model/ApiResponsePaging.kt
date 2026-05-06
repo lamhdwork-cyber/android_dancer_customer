@@ -3,6 +3,7 @@ package com.kantek.dancer.booking.data.helper.network.model
 import com.google.gson.annotations.SerializedName
 
 class ApiResponsePaging<T>(
+    @SerializedName("items", alternate = ["data"])
     val items: List<T>? = null,
     val meta: ApiPagingMeta? = null,
 ) {

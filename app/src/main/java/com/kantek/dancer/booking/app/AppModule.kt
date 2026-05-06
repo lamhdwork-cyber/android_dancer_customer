@@ -92,12 +92,12 @@ import com.kantek.dancer.booking.presentation.screen.auth.forgot.ResetPasswordRe
 import com.kantek.dancer.booking.presentation.screen.auth.forgot.RetPasswordVM
 import com.kantek.dancer.booking.presentation.screen.auth.otp.OTPVerifyVM
 import com.kantek.dancer.booking.presentation.screen.auth.otp.VerifyOTPRepo
-import com.kantek.dancer.booking.presentation.screen.cases.BookingCancelRepo
-import com.kantek.dancer.booking.presentation.screen.cases.BookingRequestAgainRepo
-import com.kantek.dancer.booking.presentation.screen.cases.DetailCasesVM
-import com.kantek.dancer.booking.presentation.screen.cases.FetchBookingDetailRepo
-import com.kantek.dancer.booking.presentation.screen.cases.FetchMyCaseByPageRepo
-import com.kantek.dancer.booking.presentation.screen.cases.MyCasesVM
+import com.kantek.dancer.booking.presentation.screen.booking.BookingCancelRepo
+import com.kantek.dancer.booking.presentation.screen.booking.BookingRequestAgainRepo
+import com.kantek.dancer.booking.presentation.screen.booking.DetailBookingVM
+import com.kantek.dancer.booking.presentation.screen.booking.FetchBookingDetailRepo
+import com.kantek.dancer.booking.presentation.screen.booking.FetchMyBookingByPageRepo
+import com.kantek.dancer.booking.presentation.screen.booking.MyBookingVM
 import com.kantek.dancer.booking.presentation.screen.conversation.ConversationVM
 import com.kantek.dancer.booking.presentation.screen.faqs.FAQsThreadsVM
 import com.kantek.dancer.booking.presentation.screen.faqs.FetchAnswerThreadsByPage
@@ -220,8 +220,8 @@ val presentationModule = module {
     viewModel { ForgotPasswordVM(get(), get(), get()) }
     viewModel { IntroduceVM(get()) }
     viewModel { HomeVM(get(), get()) }
-    viewModel { MyCasesVM(get(), get(), get()) }
-    viewModel { DetailCasesVM(get(), get(), get(), get(), get()) }
+    viewModel { MyBookingVM(get(), get(), get()) }
+    viewModel { DetailBookingVM(get(), get(), get(), get(), get()) }
     viewModel { DetailDancerVM(get()) }
     viewModel { ChangePasswordVM(get(), getBy(Scopes.App)) }
     viewModel { MyProfileVM(get(), get(), getBy(Scopes.App)) }
@@ -264,7 +264,7 @@ val dataModule = module {
     factory { FetchAllBannerRepo(get(), get()) }
     factory { FetchFAQsPagingRepo(get(), get()) }
     factory { BookingConfirmRepo(get()) }
-    factory { FetchMyCaseByPageRepo(get(), get()) }
+    factory { FetchMyBookingByPageRepo(get(), get()) }
     factory { BookingRequestAgainRepo(get()) }
     factory { BookingCancelRepo(get()) }
     factory { FetchBookingDetailRepo(get(), get()) }

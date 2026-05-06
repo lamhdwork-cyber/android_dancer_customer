@@ -41,7 +41,7 @@ class FirebaseMessageService : FirebaseMessagingService() {
                     appNotification.bookingNotify(cloudMessage)
                     appEvent.apply {
                         onPushBookingCompleted.value = cloudMessage
-                        onRefreshMyCases.value = true
+                        onRefreshMyBooking.value = true
                         onRefreshNotification.value = true
                     }
                 }

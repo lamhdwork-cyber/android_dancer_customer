@@ -154,7 +154,7 @@ class AppNavigator : Updatable {
         navHost?.navigate(Screen.ForgotPassword.name)
     }
 
-    fun navigateDetailCase(bookingID: Int) {
+    fun navigateDetailCase(bookingID: String) {
         navHost?.navigate("${Screen.DetailCase.name}?$BOOKING_ID=${bookingID}")
     }
 

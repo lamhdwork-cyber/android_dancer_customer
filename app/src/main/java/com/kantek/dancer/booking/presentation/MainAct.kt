@@ -45,7 +45,7 @@ import com.kantek.dancer.booking.presentation.screen.auth.forgot.ForgotPasswordS
 import com.kantek.dancer.booking.presentation.screen.auth.otp.OTPVerifyScreen
 import com.kantek.dancer.booking.presentation.screen.browser.AboutUsScreen
 import com.kantek.dancer.booking.presentation.screen.browser.TermsScreen
-import com.kantek.dancer.booking.presentation.screen.cases.DetailCaseScreen
+import com.kantek.dancer.booking.presentation.screen.booking.DetailCaseScreen
 import com.kantek.dancer.booking.presentation.screen.conversation.ChatScreen
 import com.kantek.dancer.booking.presentation.screen.faqs.FAQsThreadsScreen
 import com.kantek.dancer.booking.presentation.screen.faqs.QuestionThreadsScreen
@@ -190,12 +190,12 @@ class MainAct : AppComponentAct() {
                             composable(
                                 "${Screen.DetailCase.name}?$keyBookingIDArg={$keyBookingIDArg}",
                                 arguments = listOf(navArgument(keyBookingIDArg) {
-                                    type = NavType.IntType
+                                    type = NavType.StringType
                                 })
                             ) { backStackEntry ->
                                 val arg =
-                                    backStackEntry.arguments?.getInt(keyBookingIDArg)
-                                        ?: -1
+                                    backStackEntry.arguments?.getString(keyBookingIDArg)
+                                        ?: ""
                                 DetailCaseScreen(arg)
                             }
 
@@ -531,7 +531,7 @@ class MainAct : AppComponentAct() {
                         }
                         LaunchedEffect(bookingID) {
                             if (bookingID > 0) {
-                                appNavigator.navigateDetailCase(bookingID)
+                                appNavigator.navigateDetailCase(bookingID.toString())
                                 redirectToBookingDetail.intValue = -1
                             }
                         }
@@ -554,7 +554,7 @@ class MainAct : AppComponentAct() {
                                 booking.body.safe(),
                                 textConfirm = stringResource(R.string.all_view_detail),
                                 onConfirm = {
-                                    appNavigator.navigateDetailCase(booking.contact_request_id)
+                                    appNavigator.navigateDetailCase(booking.contact_request_id.toString())
                                     showCompletedDialog.value = null
                                 },
                                 onDismiss = { showCompletedDialog.value = null }

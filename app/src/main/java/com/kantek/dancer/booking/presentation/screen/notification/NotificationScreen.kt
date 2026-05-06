@@ -89,7 +89,7 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
                         modifier = Modifier
                             .fillMaxWidth(),
                         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                        onClick = { appNavigator.navigateDetailCase(item.bookingID) }
+                        onClick = { appNavigator.navigateDetailCase(item.bookingID.toString()) }
                     ) {
                         Column(
                             modifier = Modifier

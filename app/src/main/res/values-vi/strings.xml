@@ -115,10 +115,10 @@
     <string name="account_not_login">Đăng nhập để quản lý hồ sơ của bạn\nvà các cài đặt</string>
     <string name="notification_not_login">Thông báo về các Vụ Việc quan trọng của bạn</string>
     <string name="my_cases_not_login">Danh sách các vụ việc của bạn</string>
-    <string name="no_data_my_case">
+    <string name="no_data_my_booking">
     <![CDATA[
-    <big><b>Chưa có vụ việc mới!</b></big><br/><br/>
-        Sau khi bạn gửi yêu cầu tư vấn, vụ việc đó sẽ xuất hiện tại đây
+    <big><b>Chưa có đặt lịch mới!</b></big><br/><br/>
+        Sau khi bạn gửi yêu cầu đặt lịch, lịch đặt sẽ xuất hiện tại đây
     ]]>
     </string>
     <string name="find_consultation_info">Thông tin tư vấn</string>
@@ -337,6 +337,7 @@
     <string name="booking_room_suite_label">Phòng VIP</string>
     <string name="booking_private">RIÊNG TƯ</string>
     <string name="booking_total_amount_due">Tổng tiền cần thanh toán</string>
+    <string name="booking_selected_talent">VŨ CÔNG ĐÃ CHỌN</string>
     <string name="booking_collected_at_venue">(Thu tại địa điểm)</string>
     <string name="booking_cash_only">CHỈ THANH TOÁN TIỀN MẶT</string>
     <string name="booking_base_fee_295">Phí cơ bản: $295</string>

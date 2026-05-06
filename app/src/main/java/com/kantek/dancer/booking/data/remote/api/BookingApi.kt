@@ -23,22 +23,22 @@ interface BookingApi {
 
     @FormUrlEncoded
     @POST("contact-request/recreate")
-    fun recreate(@Field("contact_request_id") id: Int): ApiAsync<Any>
+    fun recreate(@Field("contact_request_id") id: String): ApiAsync<Any>
 
     @FormUrlEncoded
     @POST("contact-request/user-cancel")
     fun cancel(
-        @Field("contact_request_id") id: Int,
+        @Field("contact_request_id") id: String,
         @Field("reason_cancel") reason: String
     ): ApiAsync<Any>
 
-    @GET("contact-request")
+    @GET("bookings")
     fun fetchByPage(
         @Query("page") page: Int,
         @Query("per_page") perPage: Int = AppConfig.PER_PAGE
     ): ApiAsync<ApiResponsePaging<BookingDTO>>
 
     @GET("contact-request/detail")
-    fun details(@Query("id") id: Int): ApiAsync<BookingDTO>
+    fun details(@Query("id") id: String): ApiAsync<BookingDTO>
 }
 

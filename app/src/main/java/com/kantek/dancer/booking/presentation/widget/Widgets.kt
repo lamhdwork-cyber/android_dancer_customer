@@ -66,6 +66,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.MeetingRoom
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material.icons.filled.Star
@@ -1467,6 +1470,7 @@ fun NoDataView(@StringRes htmlRes: Int) {
                     text = HtmlCompat.fromHtml(htmlString, HtmlCompat.FROM_HTML_MODE_LEGACY)
                     textSize = 14f
                     gravity = Gravity.CENTER
+                    setTextColor(Colors.Gray9CA3AF.toArgb())
                 }
             },
             modifier = Modifier
@@ -1968,195 +1972,214 @@ fun BookingSuccessDialog(
 }
 
 @Composable
-fun CaseItemView(
+fun BookingItemView(
     it: IBooking,
     onItemClick: () -> Unit,
     onRequestClick: () -> Unit,
-    onLawyerClick: () -> Unit,
-    onCancelClick: () -> Unit,
-    onChatClick: () -> Unit
+    onCancelClick: () -> Unit
 ) {
     Card(
         onClick = onItemClick,
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        colors = CardDefaults.cardColors(containerColor = Colors.Dark190C19),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Colors.White1AFFFFFF)
     ) {
         Column(
             modifier = Modifier
-                .background(Color.White)
+                .background(Colors.Dark190C19)
                 .padding(16.dp)
         ) {
-            // Case ID and Status
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = stringResource(R.string.case_id_s, it.id), fontSize = 14.sp)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .clip(CircleShape)
-                            .background(it.colorStatus)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = it.bookingCodeDisplay,
+                            color = Colors.Pink66F425F4,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                        Text(
+                            text = it.customerNameDisplay,
+                            color = Color.White,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.MeetingRoom,
+                                contentDescription = null,
+                                tint = Colors.Gray6B7280,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Text(
+                                text = it.roomNameDisplay,
+                                color = Colors.Gray9CA3AF,
+                                fontSize = 11.sp
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Groups,
+                                contentDescription = null,
+                                tint = Colors.Pink66F425F4,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Text(
+                                text = it.numberOfGuestsDisplay,
+                                color = Colors.Gray9CA3AF,
+                                fontSize = 11.sp
+                            )
+                        }
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.MusicNote,
+                                contentDescription = null,
+                                tint = Colors.Pink66F425F4,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Text(
+                                text = it.numberOfSongsDisplay,
+                                color = Colors.Gray9CA3AF,
+                                fontSize = 11.sp
+                            )
+                        }
+                    }
+                }
+                SpaceHorizontal(8.dp)
+                Column(horizontalAlignment = Alignment.End) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                        if (it.isNow) {
+                            Box(
+                                modifier = Modifier
+                                    .size(6.dp)
+                                    .clip(CircleShape)
+                                    .background(it.colorStatus)
+                            )
+                        }
+                        Text(
+                            text = it.timeDisplay,
+                            color = if (it.isNow) Colors.Primary else Colors.Gray6B7280,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                     Text(
-                        text = it.statusDisplay,
-                        fontWeight = FontWeight.Medium,
+                        text = it.totalAmountDisplay,
+                        color = Colors.Green103,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 14.sp
                     )
                 }
             }
 
-            SpaceVertical(10.dp)
-
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(),
-                thickness = 1.dp,
-                color = Colors.Gray238
-            )
-
             SpaceVertical(14.dp)
-
-            // Description Title
-            Text(
-                stringResource(R.string.find_issue_des),
-                fontWeight = FontWeight.Medium,
-                fontSize = 14.sp,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Description Box
-            Box(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Colors.Blue247, RoundedCornerShape(8.dp))
-                    .padding(12.dp)
-            ) {
-                Text(text = it.description, fontSize = 14.sp)
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Location & Time
-            Row(
+                    .background(Colors.White1AFFFFFF, RoundedCornerShape(50.dp))
+                    .padding(5.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_datetime),
-                    contentDescription = null,
-                    tint = Colors.Blue66,
-                    modifier = Modifier.size(14.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = it.datetime, color = Colors.Blue95, fontSize = 12.sp,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_address),
-                    contentDescription = null,
-                    tint = Colors.Blue66,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = it.address, color = Colors.Blue95, fontSize = 12.sp,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
-            if (it.hasComplete && it.lawyer != null) {
-                Spacer(modifier = Modifier.height(8.dp))
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .fillMaxWidth()
-                        .background(Colors.Blue241, RoundedCornerShape(8.dp))
-                        .clickable { onLawyerClick() }
-                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                    horizontalArrangement = Arrangement.spacedBy((-8).dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    AvatarImage(url = it.lawyer?.avatarURL, size = 40.dp)
+                    val totalAvatar = maxOf(it.dancerAvatarsDisplay.size, it.dancersDisplayList.size)
+                    repeat(totalAvatar) { index ->
+                        val avatarUrl = it.dancerAvatarsDisplay.getOrNull(index)
+                        val dancerName = it.dancersDisplayList.getOrNull(index).orEmpty()
 
-                    Spacer(modifier = Modifier.width(12.dp))
-
+                        if (!avatarUrl.isNullOrBlank()) {
+                            AppImage(
+                                url = avatarUrl,
+                                isShowLoading = false,
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .clip(CircleShape)
+                                    .border(2.dp, Colors.Dark0D070D, CircleShape)
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .size(28.dp)
+                                    .clip(CircleShape)
+                                    .background(Colors.Dark2A1323)
+                                    .border(2.dp, Colors.Dark0D070D, CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = dancerName.take(1).uppercase(),
+                                    color = Color.White,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
+                }
+                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
                     Text(
-                        text = it.lawyer?.fullName.safe(),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.weight(1f)
+                        text = stringResource(R.string.booking_selected_talent),
+                        color = Colors.Gray6B7280,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold
                     )
-
-                    Icon(
-                        imageVector = Icons.Outlined.KeyboardArrowRight,
-                        contentDescription = "Navigate",
-                        tint = Color.Black
+                    Text(
+                        text = it.dancersDisplayOrFallback,
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        lineHeight = 13.sp
                     )
                 }
-            }
-
-            if (it.hasCancel) {
-                if (it.reason.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    // Reason
-                    Text(
-                        stringResource(R.string.all_cancel_reason),
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 14.sp,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    Text(text = it.reason, fontSize = 14.sp)
-                }
+                Spacer(modifier = Modifier.weight(1f))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
             AppButton(
-                R.string.all_chat,
+                nameRes = R.string.all_cancel,
                 modifier = Modifier
-                    .height(45.dp)
-                    .fillMaxWidth(),
-                textColor = Colors.Primary,
-                backgroundColor = Colors.Blue227,
-                iconStartRes = R.drawable.ic_ab_chat,
-                fontSize = 14,
-            ) { onChatClick() }
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .border(1.dp, Colors.White1AFFFFFF, RoundedCornerShape(28.dp))
+                    .clip(RoundedCornerShape(28.dp)),
+                backgroundColor = Color.Transparent,
+                textColor = Colors.Gray9CA3AF,
+                onClick = onCancelClick
+            )
 
             if (it.hasCancel) {
                 Spacer(modifier = Modifier.height(16.dp))
                 AppButton(
                     nameRes = R.string.all_request_again,
                     modifier = Modifier
-                        .height(45.dp)
-                        .fillMaxWidth(),
-                    fontSize = 14,
+                        .fillMaxWidth()
+                        .height(40.dp)
+                        .clip(RoundedCornerShape(28.dp)),
                     onClick = onRequestClick
-                )
-            }
-
-            // Cancel Button
-            if (it.hasShowButtonCancel) {
-                Spacer(modifier = Modifier.height(16.dp))
-                AppButton(
-                    nameRes = R.string.all_cancel_request,
-                    backgroundColor = Colors.Red247,
-                    modifier = Modifier
-                        .height(45.dp)
-                        .fillMaxWidth(),
-                    fontSize = 14,
-                    onClick = onCancelClick
                 )
             }
         }
