@@ -86,10 +86,6 @@
     public *;
 }
 
-# Fishbun
--keep class com.sangcomz.fishbun.** { *; }
--dontwarn com.sangcomz.fishbun.**
-
 # Google Places API
 -keep class com.google.android.libraries.places.** { *; }
 -dontwarn com.google.android.libraries.places.**

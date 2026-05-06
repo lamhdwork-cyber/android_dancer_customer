@@ -348,5 +348,8 @@
     <string name="booking_confirm_mock_date">Thứ Sáu, 24 Th11</string>
     <string name="booking_confirm_mock_time">11:30 Tối</string>
     <string name="booking_confirm_mock_total">$295.00</string>
+    <string name="booking_tab_pending">ĐANG CHỜ</string>
+    <string name="booking_tab_accepted">ĐÃ NHẬN</string>
+    <string name="booking_tab_completed">HOÀN THÀNH</string>
 
 </resources>

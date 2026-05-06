@@ -355,5 +355,8 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="booking_confirm_mock_date">Friday, Nov 24</string>
     <string name="booking_confirm_mock_time">11:30 PM</string>
     <string name="booking_confirm_mock_total">$295.00</string>
+    <string name="booking_tab_pending">PENDING</string>
+    <string name="booking_tab_accepted">ACCEPTED</string>
+    <string name="booking_tab_completed">COMPLETED</string>
 
 </resources>

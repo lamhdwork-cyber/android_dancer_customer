@@ -2,23 +2,36 @@ package com.kantek.dancer.booking.presentation.screen.booking
 
 import android.support.core.event.LoadingEvent
 import android.support.core.event.LoadingFlow
-import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
+import androidx.compose.material3.Text
 import androidx.compose.ui.unit.dp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
@@ -44,25 +57,40 @@ import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.NoLoginView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
+enum class MyBookingTab(val apiStatus: String) {
+    PENDING("pending"),
+    ACCEPTED("confirmed"),
+    COMPLETED("completed")
+}
+
+data class TabBookingState(
+    val items: List<IBooking> = emptyList(),
+    val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
+    val page: Int = 1,
+    val hasMoreData: Boolean = true,
+    val initialized: Boolean = false
+)
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Scopes.MyBooking) {
     val context = LocalContext.current
     val appEvent = remember { get<AppEvent>() }
     val isRefreshingByEvent by appEvent.onRefreshMyBooking.collectAsState()
 
-    val myCase by viewModel.items.collectAsState()
     val user by viewModel.userLive.collectAsState(null)
-    val isEmpty by viewModel.isEmpty.collectAsState()
     val appNavigator = use<AppNavigator>()
-    val isLoading by viewModel.customLoading.isLoading().collectAsState()
-    val isRefreshing by viewModel.isRefreshLoading.isLoading().collectAsState()
     var hasShowComingSoon by remember { mutableStateOf(false) }
     var hasShowRequest by remember { mutableStateOf(false) }
     var hasShowCancel by remember { mutableStateOf(false) }
     val languageChanged by remember { mutableStateOf(viewModel.getCurrentLanguage()) }
     val userChanged by remember { mutableStateOf(viewModel.getCurrentUser()) }
+    val pagerState = rememberPagerState(pageCount = { MyBookingTab.entries.size })
+    val coroutineScope = rememberCoroutineScope()
 
     fun openAuth() {
         appNavigator.navigateSignIn()
@@ -70,45 +98,75 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
 
     LaunchedEffect(isRefreshingByEvent) {
         if (isRefreshingByEvent) {
-            viewModel.onRefresh()
+            viewModel.refreshAll()
+            viewModel.ensureLoaded(MyBookingTab.entries[pagerState.currentPage])
             appEvent.onRefreshMyBooking.emit(false)
         }
     }
 
-    LaunchedEffect(languageChanged) { viewModel.onChangeLanguage() }
+    LaunchedEffect(languageChanged) {
+        viewModel.onChangeLanguage()
+        viewModel.ensureLoaded(MyBookingTab.entries[pagerState.currentPage])
+    }
 
-    LaunchedEffect(userChanged) { viewModel.onChangeUser() }
+    LaunchedEffect(userChanged) {
+        viewModel.onChangeUser()
+        viewModel.ensureLoaded(MyBookingTab.entries[pagerState.currentPage])
+    }
 
-    Column(modifier = Modifier.background(Colors.Gray249)) {
+    LaunchedEffect(pagerState.currentPage, user?.id) {
+        if (user != null) {
+            viewModel.ensureLoaded(MyBookingTab.entries[pagerState.currentPage])
+        }
+    }
+
+    Column(modifier = Modifier.background(Colors.Dark120812)) {
         ActionBarMainView(R.string.top_bar_my_booking)
         if (user == null) {
             NoLoginView(titleRes = R.string.my_cases_not_login) { openAuth() }
-        }
-        Box(modifier = Modifier.padding(top = 2.dp)) {
-            AppLazyColumn(
-                items = myCase,
-                keyItem = { it.id },
-                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 14.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                isLoading = isLoading,
-                isRefreshing = isRefreshing,
-                onRefresh = { viewModel.onRefresh() },
-                onLoadMore = { viewModel.onFetch() }
-            ) { item, _, _ ->
-                BookingItemView(
-                    item,
-                    onItemClick = { appNavigator.navigateDetailCase(item.id) },
-                    onRequestClick = {
-                        hasShowRequest = true
-                        viewModel.requestID = item.id
-                    },
-                    onCancelClick = {
-                        hasShowCancel = true
-                        viewModel.requestID = item.id
-                    })
+        } else {
+            MyBookingTabs(
+                selectedTab = MyBookingTab.entries[pagerState.currentPage],
+                onTabSelected = { tab ->
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(tab.ordinal)
+                    }
+                }
+            )
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.background(Colors.Dark190C19)
+            ) { page ->
+                val tab = MyBookingTab.entries[page]
+                val tabState by viewModel.stateOf(tab).collectAsState()
+                Box(modifier = Modifier.background(Colors.Dark190C19)) {
+                    AppLazyColumn(
+                        items = tabState.items,
+                        keyItem = { it.id },
+                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 14.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        isLoading = tabState.isLoading,
+                        isRefreshing = tabState.isRefreshing,
+                        onRefresh = { viewModel.onRefresh(tab) },
+                        onLoadMore = { viewModel.onFetch(tab) }
+                    ) { item, _, _ ->
+                        BookingItemView(
+                            item,
+                            onItemClick = { appNavigator.navigateDetailCase(item.id) },
+                            onRequestClick = {
+                                hasShowRequest = true
+                                viewModel.requestID = item.id
+                            },
+                            onCancelClick = {
+                                hasShowCancel = true
+                                viewModel.requestID = item.id
+                            })
+                    }
+                    if (!tabState.isLoading && !tabState.isRefreshing && tabState.items.isEmpty()) {
+                        NoDataView(htmlRes = R.string.no_data_my_booking)
+                    }
+                }
             }
-            if (isEmpty)
-                NoDataView(htmlRes = R.string.no_data_my_booking)
         }
         if (hasShowComingSoon) {
             AppNotificationDialog(stringResource(R.string.all_coming_soon)) {
@@ -121,7 +179,7 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                 textConfirm = stringResource(R.string.all_send_request),
                 onConfirm = {
                     hasShowRequest = false
-                    viewModel.submitRequestAgain()
+                    viewModel.submitRequestAgain(MyBookingTab.entries[pagerState.currentPage])
                 }, onDismiss = {
                     hasShowRequest = false
                 }
@@ -131,11 +189,60 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
             CancellationReasonDialog(
                 onConfirm = {
                     hasShowCancel = false
-                    viewModel.submitCancel(it)
+                    viewModel.submitCancel(
+                        reason = it,
+                        tab = MyBookingTab.entries[pagerState.currentPage]
+                    )
                 }, onDismiss = {
                     hasShowCancel = false
                 }
             )
+        }
+    }
+}
+
+@Composable
+private fun MyBookingTabs(
+    selectedTab: MyBookingTab,
+    onTabSelected: (MyBookingTab) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Colors.Dark120812)
+    ) {
+        val tabs = listOf(
+            MyBookingTab.PENDING to stringResource(R.string.booking_tab_pending),
+            MyBookingTab.ACCEPTED to stringResource(R.string.booking_tab_accepted),
+            MyBookingTab.COMPLETED to stringResource(R.string.booking_tab_completed)
+        )
+
+        tabs.forEach { (tab, title) ->
+            val isSelected = tab == selectedTab
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable { onTabSelected(tab) }
+            ) {
+                Text(
+                    text = title,
+                    color = if (isSelected) Colors.Primary else Colors.Gray6B7280,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 12.dp)
+                )
+                if (isSelected) {
+                    HorizontalDivider(
+                        thickness = 2.dp,
+                        color = Colors.Primary
+                    )
+                } else {
+                    Spacer(modifier = Modifier.height(2.dp))
+                }
+            }
         }
     }
 }
@@ -147,70 +254,94 @@ class MyBookingVM(
 ) : AppViewModel() {
 
     var requestID: String = ""
-    private val _items = MutableStateFlow<List<IBooking>>(emptyList())
-    val items: StateFlow<List<IBooking>> = _items
-
-    private val _isEmpty = MutableStateFlow(true)
-    val isEmpty: StateFlow<Boolean> = _isEmpty
-
     val customLoading: LoadingEvent = LoadingFlow()
     val isRefreshLoading: LoadingEvent = LoadingFlow()
+    private val _pendingState = MutableStateFlow(TabBookingState())
+    private val _acceptedState = MutableStateFlow(TabBookingState())
+    private val _completedState = MutableStateFlow(TabBookingState())
 
-    private var page = 1
-    private var hasMoreData = true
+    private fun mutableStateOf(tab: MyBookingTab): MutableStateFlow<TabBookingState> = when (tab) {
+        MyBookingTab.PENDING -> _pendingState
+        MyBookingTab.ACCEPTED -> _acceptedState
+        MyBookingTab.COMPLETED -> _completedState
+    }
+
+    fun stateOf(tab: MyBookingTab): StateFlow<TabBookingState> = when (tab) {
+        MyBookingTab.PENDING -> _pendingState
+        MyBookingTab.ACCEPTED -> _acceptedState
+        MyBookingTab.COMPLETED -> _completedState
+    }
 
     fun onChangeLanguage() {
         if (currentLanguageBackup != getCurrentLanguage()) {
             currentLanguageBackup = getCurrentLanguage()
-            onRefresh()
+            refreshAll()
         }
     }
 
     fun onChangeUser() {
         if (currentUserBackup != getCurrentUser()) {
             currentUserBackup = getCurrentUser()
-            onRefresh()
-            Log.e("MyCasesScreen", "onChangeUser")
+            refreshAll()
         }
     }
 
-    fun onRefresh() {
-        page = 1
-        hasMoreData = true
-        _items.value = emptyList()
-        onFetch()
+    fun refreshAll() {
+        _pendingState.value = TabBookingState()
+        _acceptedState.value = TabBookingState()
+        _completedState.value = TabBookingState()
     }
 
-    fun onFetch() {
+    fun ensureLoaded(tab: MyBookingTab) {
+        if (!stateOf(tab).value.initialized) onFetch(tab)
+    }
+
+    fun onRefresh(tab: MyBookingTab) {
+        mutableStateOf(tab).value = TabBookingState()
+        onFetch(tab)
+    }
+
+    fun onFetch(tab: MyBookingTab) {
+        if (userLive.value == null) return
+        val flow = mutableStateOf(tab)
+        val state = flow.value
         if (isRefreshLoading.isLoading().value
             || customLoading.isLoading().value
-            || !hasMoreData
-            || userLive.value == null
+            || state.isLoading
+            || state.isRefreshing
+            || !state.hasMoreData
         ) return
-        launch(if (page == 1) isRefreshLoading else customLoading, error) {
-            val rs = fetchMyBookingByPageRepo(page)
-            _isEmpty.value = (page == 1 && rs.isEmpty())
-            if (rs.isEmpty()) hasMoreData = false
-            else {
-                if (rs.size < AppConfig.PER_PAGE) hasMoreData = false
-                val current = _items.value
-                val newItems = rs.filterNot { newItem ->
-                    current.any { it.id == newItem.id }
-                }
-                _items.value = current + newItems
-                page++
+
+        val isFirstPage = state.page == 1
+        launch(if (isFirstPage) isRefreshLoading else customLoading, error) {
+            flow.value = if (isFirstPage) {
+                state.copy(isRefreshing = true)
+            } else {
+                state.copy(isLoading = true)
             }
+
+            val rs = fetchMyBookingByPageRepo(page = state.page, status = tab.apiStatus)
+            val hasMore = rs.size >= AppConfig.PER_PAGE
+            val merged = (state.items + rs).distinctBy { it.id }
+            flow.value = state.copy(
+                items = merged,
+                page = if (rs.isEmpty()) state.page else state.page + 1,
+                hasMoreData = hasMore,
+                isLoading = false,
+                isRefreshing = false,
+                initialized = true
+            )
         }
     }
 
-    fun submitRequestAgain() = launch(loading, error) {
+    fun submitRequestAgain(tab: MyBookingTab) = launch(loading, error) {
         bookingRequestAgainRepo(requestID)
-        onRefresh()
+        onRefresh(tab)
     }
 
-    fun submitCancel(reason: String) = launch(loading, error) {
+    fun submitCancel(reason: String, tab: MyBookingTab) = launch(loading, error) {
         bookingCancelRepo(requestID, reason)
-        onRefresh()
+        onRefresh(tab)
     }
 }
 
@@ -235,8 +366,10 @@ class FetchMyBookingByPageRepo(
     private val bookingApi: BookingApi,
     private val bookingFactory: BookingFactory
 ) {
-    suspend operator fun invoke(page: Int): List<IBooking> {
-        return bookingFactory.createList(bookingApi.fetchByPage(page).awaitNullable()?.items)
+    suspend operator fun invoke(page: Int, status: String): List<IBooking> {
+        return bookingFactory.createList(
+            bookingApi.fetchByPage(page = page, status = status).awaitNullable()?.items
+        )
     }
 
 }

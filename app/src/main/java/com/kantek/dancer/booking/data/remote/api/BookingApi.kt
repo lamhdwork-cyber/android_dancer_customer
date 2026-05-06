@@ -35,7 +35,8 @@ interface BookingApi {
     @GET("bookings")
     fun fetchByPage(
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int = AppConfig.PER_PAGE
+        @Query("status") status: String? = null,
+        @Query("limit") perPage: Int = AppConfig.PER_PAGE
     ): ApiAsync<ApiResponsePaging<BookingDTO>>
 
     @GET("contact-request/detail")
