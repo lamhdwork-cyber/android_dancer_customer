@@ -3,52 +3,29 @@ package com.kantek.dancer.booking.app
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
-import androidx.compose.ui.graphics.toArgb
-import com.kantek.dancer.booking.R
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import com.kantek.dancer.booking.data.helper.file.FileUtils
-import com.kantek.dancer.booking.presentation.theme.Colors
-import com.sangcomz.fishbun.FishBun
-import com.sangcomz.fishbun.adapter.image.impl.GlideAdapter
 import androidx.core.net.toUri
 
 class AppSettings(private val context: Context) {
 
-    fun openGalleryForImage(photoGalleryResults: ActivityResultLauncher<Intent>) {
-        val activity =
-            context as? ComponentActivity ?: error("PermissionProvider only support for Activity!")
-        FishBun.with(activity)
-            .setImageAdapter(GlideAdapter())
-            .setMaxCount(1)
-            .setActionBarColor(
-                Colors.Primary.toArgb(),
-                Colors.Primary.toArgb(),
-                false
-            )
-            .setActionBarTitleColor(Color.WHITE)
-            .startAlbumWithActivityResultCallback(photoGalleryResults)
+    companion object {
+        const val CHAT_GALLERY_MAX_IMAGES = 6
     }
 
-    fun openGalleryForImagesChat(photoGalleryResults: ActivityResultLauncher<Intent>) {
-        val activity =
-            context as? ComponentActivity ?: error("PermissionProvider only support for Activity!")
-        FishBun.with(activity)
-            .setImageAdapter(GlideAdapter())
-            .setMaxCount(6)
-            .setSelectedImages(arrayListOf())
-            .setActionBarColor(
-                Colors.Primary.toArgb(),
-                Colors.Primary.toArgb(),
-                false
-            )
-            .setMenuDoneText(context.getString(R.string.all_send))
-            .setActionBarTitleColor(Color.WHITE)
-            .startAlbumWithActivityResultCallback(photoGalleryResults)
+    fun openGalleryForImage(launcher: ActivityResultLauncher<PickVisualMediaRequest>) {
+        launcher.launch(
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+        )
+    }
+
+    fun openGalleryForImages(launcher: ActivityResultLauncher<PickVisualMediaRequest>) {
+        openGalleryForImage(launcher)
     }
 
     fun openCameraForImage(

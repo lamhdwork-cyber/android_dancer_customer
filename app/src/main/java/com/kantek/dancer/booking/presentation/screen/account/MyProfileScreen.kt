@@ -3,7 +3,6 @@ package com.kantek.dancer.booking.presentation.screen.account
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
-import android.support.core.extensions.parcelableArrayList
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -19,7 +18,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -74,10 +72,8 @@ import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.AppPhotoPickerDialog
-import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
-import com.sangcomz.fishbun.FishBun
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MultipartBody
@@ -94,14 +90,10 @@ fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Sc
 
     var imageUriPending by remember { mutableStateOf<Uri?>(null) }
     val appSetting = remember { AppSettings(context) }
-    val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val photos: List<Uri> =
-                result.data?.parcelableArrayList(FishBun.INTENT_PATH) ?: listOf()
-            viewModel.updateAvatar(photos.firstOrNull())
-        }
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        viewModel.updateAvatar(uri)
     }
 
     val cameraLauncher = rememberLauncherForActivityResult(
@@ -266,7 +258,7 @@ fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Sc
                             }
                         },
                         onGalleryClick = {
-                            accessReadImage { appSetting.openGalleryForImage(galleryLauncher) }
+                            appSetting.openGalleryForImage(photoPickerLauncher)
                         },
                         onDismiss = { showBottomSheet = false }
                     )

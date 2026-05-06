@@ -4,7 +4,6 @@ import android.app.Activity
 import android.net.Uri
 import android.support.core.event.LoadingEvent
 import android.support.core.event.LoadingFlow
-import android.support.core.extensions.parcelableArrayList
 import android.support.core.extensions.safe
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -57,7 +56,6 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.LoadingView
-import com.sangcomz.fishbun.FishBun
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -106,14 +104,10 @@ fun ChatScreen(
 
     var imageUriPending by remember { mutableStateOf<Uri?>(null) }
     val appSetting = remember { AppSettings(context) }
-    val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val photos: List<Uri> =
-                result.data?.parcelableArrayList(FishBun.INTENT_PATH) ?: listOf()
-            viewModel.sendPhotos(photos)
-        }
+    val chatGalleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickMultipleVisualMedia(AppSettings.CHAT_GALLERY_MAX_IMAGES)
+    ) { uris: List<Uri> ->
+        if (uris.isNotEmpty()) viewModel.sendPhotos(uris)
     }
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -187,9 +181,7 @@ fun ChatScreen(
                     }
                 },
                 onOpenGallery = {
-                    accessReadImage {
-                        appSetting.openGalleryForImagesChat(galleryLauncher)
-                    }
+                    appSetting.openGalleryForImages(chatGalleryLauncher)
                 },
                 modifier = Modifier.fillMaxWidth()
             )

@@ -142,8 +142,6 @@ dependencies {
     // Load image
     implementation(libs.io.coil)
 
-    // Fishbun using glide lib
-    implementation(libs.fishbun)
     implementation(libs.glide)
     implementation(libs.glide.compiler)
     // Resize image
