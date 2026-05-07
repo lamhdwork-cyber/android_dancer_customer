@@ -9,12 +9,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.cancellation.CancellationException
 
 fun ViewModel.launch(
     loading: LoadingEvent? = null,
     error: ErrorEvent? = null,
-    context: CoroutineContext = Dispatchers.IO,
+    context: CoroutineContext = EmptyCoroutineContext,
     function: suspend CoroutineScope.() -> Unit
 ) {
     val handler = CoroutineExceptionHandler { _, throwable ->

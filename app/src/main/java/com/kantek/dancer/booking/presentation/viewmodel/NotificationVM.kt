@@ -7,10 +7,8 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.domain.model.ui.user.INotification
 import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import com.kantek.dancer.booking.presentation.extensions.launch
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.withContext
 
 class NotificationVM(
     private val notificationUseCase: NotificationUseCase
@@ -96,9 +94,7 @@ class NotificationVM(
             notificationUseCase.readById(item.id)
         markNotificationReadLocally(item.id)
         if (item.bookingID.isNotBlank()) {
-            withContext(Dispatchers.Main.immediate) {
-                onSuccessNavigate(item.bookingID)
-            }
+            onSuccessNavigate(item.bookingID)
         }
     }
 

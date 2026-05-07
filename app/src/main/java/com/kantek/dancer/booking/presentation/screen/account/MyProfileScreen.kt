@@ -274,6 +274,9 @@ class MyProfileVM(
     private val appPopup: AppPopup
 ) : AppViewModel() {
 
+    private val _form = MutableStateFlow(ProfileForm())
+    val formState: StateFlow<ProfileForm> = _form
+
     init {
         launch(null, error) {
             userLive.collect {
@@ -281,9 +284,6 @@ class MyProfileVM(
             }
         }
     }
-
-    private val _form = MutableStateFlow(ProfileForm())
-    val formState: StateFlow<ProfileForm> = _form
 
     private fun updateFom(it: IUser?) {
         if (it != null) {
