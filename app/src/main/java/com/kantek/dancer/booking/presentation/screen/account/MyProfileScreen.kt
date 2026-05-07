@@ -325,7 +325,6 @@ class MyProfileVM(
         _form.value.apply {
             valid()
             updateProfileRepo(this)
-            _form.value = ProfileForm()
             loading.stop()
             appPopup.show(context.getString(R.string.msg_update_profile_success))
         }
