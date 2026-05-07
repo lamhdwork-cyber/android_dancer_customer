@@ -5,13 +5,15 @@ import android.support.core.event.LoadingFlow
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.domain.model.ui.user.INotification
-import com.kantek.dancer.booking.domain.usecase.FetchNotificationCase
+import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import com.kantek.dancer.booking.presentation.extensions.launch
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.withContext
 
 class NotificationVM(
-    private val fetchNotificationCase: FetchNotificationCase
+    private val notificationUseCase: NotificationUseCase
 ) : AppViewModel() {
 
     private val _items = MutableStateFlow<List<INotification>>(emptyList())
@@ -56,7 +58,7 @@ class NotificationVM(
             || userLive.value == null
         ) return
         launch(if (page == 1) isRefreshLoading else customLoading, error) {
-            val rs = fetchNotificationCase(page)
+            val rs = notificationUseCase(page)
             _isEmpty.value = (page == 1 && rs.isEmpty())
             if (rs.isEmpty()) hasMoreData = false
             else {
@@ -67,6 +69,45 @@ class NotificationVM(
                 }
                 _items.value = current + newItems
                 page++
+            }
+        }
+    }
+
+    fun readAll() = launch(loading, error) {
+        notificationUseCase.readAll()
+        _items.value = _items.value.map { item ->
+            object : INotification by item {
+                override val hasUnRead: Boolean
+                    get() = false
+            }
+        }
+    }
+
+    /**
+     * Marks notification read on server; on success updates local list and runs [onSuccessNavigate]
+     * with [INotification.bookingID] when it is non-blank.
+     */
+    fun onNotificationItemClick(
+        item: INotification,
+        onSuccessNavigate: (bookingId: String) -> Unit
+    ) = launch(loading, error) {
+        if (item.id.isBlank()) return@launch
+        if (item.hasUnRead)
+            notificationUseCase.readById(item.id)
+        markNotificationReadLocally(item.id)
+        if (item.bookingID.isNotBlank()) {
+            withContext(Dispatchers.Main.immediate) {
+                onSuccessNavigate(item.bookingID)
+            }
+        }
+    }
+
+    private fun markNotificationReadLocally(notificationId: String) {
+        _items.value = _items.value.map { existing ->
+            if (existing.id != notificationId) existing
+            else object : INotification by existing {
+                override val hasUnRead: Boolean
+                    get() = false
             }
         }
     }

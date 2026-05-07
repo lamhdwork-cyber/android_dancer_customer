@@ -114,6 +114,9 @@
     <string name="booking_no_yet_des">Đăng nhập hoặc tạo tài khoản để bắt đầu.</string>
     <string name="account_not_login">Đăng nhập để quản lý hồ sơ của bạn\nvà các cài đặt</string>
     <string name="notification_not_login">Thông báo về các Vụ Việc quan trọng của bạn</string>
+    <string name="notification_item_badge_new">MỚI</string>
+    <string name="notification_read_all_confirm_title">Đánh dấu đã đọc tất cả?</string>
+    <string name="notification_read_all_confirm_message">Tất cả thông báo sẽ được đánh dấu là đã đọc. Bạn có muốn tiếp tục không?</string>
     <string name="my_cases_not_login">Danh sách các vụ việc của bạn</string>
     <string name="no_data_my_booking">
     <![CDATA[

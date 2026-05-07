@@ -293,14 +293,16 @@ fun ActionBarBackAndTitleView(
 }
 
 @Composable
-fun ActionBarMainView(textRes: Int = R.string.nav_home) {
+fun ActionBarMainView(
+    textRes: Int = R.string.nav_home,
+    iconRight: ImageVector? = null,
+    onClickIconRight: (() -> Unit)? = null
+) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = Colors.Dark120812, shadowElevation = 8.dp
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
+        Box(
             modifier = Modifier
                 .height(56.dp)
                 .background(Colors.Dark120812)
@@ -313,10 +315,28 @@ fun ActionBarMainView(textRes: Int = R.string.nav_home) {
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
+                    .align(Alignment.Center)
                     .fillMaxWidth()
+                    .padding(horizontal = 56.dp)
                     .wrapContentHeight(Alignment.CenterVertically)
-
             )
+
+            if (iconRight != null) {
+                IconButton(
+                    onClick = { onClickIconRight?.invoke() },
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 4.dp)
+                        .size(48.dp)
+                ) {
+                    Icon(
+                        imageVector = iconRight,
+                        contentDescription = null,
+                        tint = Colors.Primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
         }
     }
 }

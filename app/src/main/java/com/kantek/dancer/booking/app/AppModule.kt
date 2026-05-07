@@ -65,7 +65,7 @@ import com.kantek.dancer.booking.domain.factory.UserFactory
 import com.kantek.dancer.booking.domain.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.formatter.TimeFormatter
 import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.usecase.FetchNotificationCase
+import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import com.kantek.dancer.booking.domain.usecase.FetchClubCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerByClubCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
@@ -291,7 +291,7 @@ val dataModule = module {
 }
 
 val domainModule = module {
-    factory { FetchNotificationCase(get(), get()) }
+    factory { NotificationUseCase(get(), get()) }
     factory { FetchClubCase(get(), get()) }
     factory { FetchDancerByClubCase(get(), get()) }
     factory { FetchDancerDetailCase(get(), get()) }

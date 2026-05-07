@@ -3,8 +3,8 @@ package com.kantek.dancer.booking.domain.model.ui.user
 import android.graphics.Typeface
 
 interface INotification {
-    val id: Long get() = 0
-    val bookingID: Int get() = 0
+    val id: String get() = ""
+    val bookingID: String get() = ""
     val hasUnRead: Boolean get() = true
     val title: String get() = ""
     val datetime: String get() = ""

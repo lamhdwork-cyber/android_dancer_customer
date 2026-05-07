@@ -114,6 +114,9 @@ Cuando tengamos información legal útil, la mostraremos aquí para tu fácil re
     <string name="booking_no_yet_des">Inicia sesión o crea una cuenta para comenzar.</string>
     <string name="account_not_login">Inicia sesión para gestionar tu perfil\ny configuraciones</string>
     <string name="notification_not_login">Notificaciones sobre tus casos importantes</string>
+    <string name="notification_item_badge_new">NUEVO</string>
+    <string name="notification_read_all_confirm_title">¿Marcar todo como leído?</string>
+    <string name="notification_read_all_confirm_message">Todas las notificaciones se marcarán como leídas. ¿Deseas continuar?</string>
     <string name="my_cases_not_login">Lista de tus casos</string>
     <string name="no_data_my_booking">
 <![CDATA[

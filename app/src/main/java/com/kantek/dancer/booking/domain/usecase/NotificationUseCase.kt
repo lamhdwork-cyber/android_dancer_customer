@@ -4,7 +4,7 @@ import com.kantek.dancer.booking.data.repo.NotificationRepo
 import com.kantek.dancer.booking.domain.factory.NotificationFactory
 import com.kantek.dancer.booking.domain.model.ui.user.INotification
 
-class FetchNotificationCase(
+class NotificationUseCase(
     private val notificationRepo: NotificationRepo,
     private val notificationFactory: NotificationFactory
 ) {
@@ -12,4 +12,11 @@ class FetchNotificationCase(
         return notificationFactory.createList(notificationRepo.fetchByPage(page))
     }
 
+    suspend fun readAll(): Any {
+        return notificationRepo.readAll()
+    }
+
+    suspend fun readById(id: String): Any {
+        return notificationRepo.readById(id)
+    }
 }

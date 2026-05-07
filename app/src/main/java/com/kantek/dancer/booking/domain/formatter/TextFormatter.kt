@@ -3,6 +3,9 @@ package com.kantek.dancer.booking.domain.formatter
 import androidx.compose.ui.graphics.Color
 import com.google.common.net.UrlEscapers
 import com.kantek.dancer.booking.app.AppConfig
+import com.kantek.dancer.booking.domain.extension.Format.FORMAT_DATE_TIME
+import com.kantek.dancer.booking.domain.extension.formatWith
+import com.kantek.dancer.booking.domain.extension.utcToDateLocal
 import com.kantek.dancer.booking.domain.model.response.LanguageDTO
 import com.kantek.dancer.booking.presentation.theme.Colors
 import java.net.URLDecoder
@@ -18,8 +21,12 @@ class TextFormatter {
             .replace(" ", "")
     }
 
-    fun formatNotificationID(dataId: Int?): String {
-        return "#$dataId"
+    fun formatNotificationID(dataId: String?): String {
+        return if (dataId.isNullOrBlank()) "" else "#$dataId"
+    }
+
+    fun formatNotificationDateTime(createdAt: String?): String {
+        return createdAt?.utcToDateLocal().formatWith(FORMAT_DATE_TIME)
     }
 
     fun getColorWithStatus(status: Int): Color {

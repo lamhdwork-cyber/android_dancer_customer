@@ -122,6 +122,9 @@
     <string name="booking_no_yet_des">Sign in or create an account to get started.</string>
     <string name="account_not_login">Sign in to see manage your profile, and more</string>
     <string name="notification_not_login">Notifications about your important cases</string>
+    <string name="notification_item_badge_new">NEW</string>
+    <string name="notification_read_all_confirm_title">Mark all as read?</string>
+    <string name="notification_read_all_confirm_message">All notifications will be marked as read. Do you want to continue?</string>
     <string name="my_cases_not_login">Your legal case list</string>
     <string name="no_data_my_booking">
     <![CDATA[
