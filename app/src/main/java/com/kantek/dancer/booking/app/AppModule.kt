@@ -269,7 +269,7 @@ val dataModule = module {
     factory { BookingCancelRepo(get()) }
     factory { FetchBookingDetailRepo(get(), get()) }
     factory { ChangePasswordRepo(get()) }
-    factory { DeleteAccountRepo(get(), get(), get()) }
+    factory { DeleteAccountRepo(get(), get()) }
     factory { UpdateProfileRepo(get(), get(), get()) }
     factory { FetchSettingRepo(get(), get()) }
     factory { ContactUsRepo(get()) }

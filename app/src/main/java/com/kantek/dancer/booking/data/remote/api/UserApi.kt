@@ -14,6 +14,7 @@ import com.kantek.dancer.booking.domain.model.ui.user.SignUpForm
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Multipart
@@ -55,8 +56,8 @@ interface UserApi {
     @POST("user/change-password")
     fun changePassword(@Body form: ChangePasswordForm): ApiAsync<Any>
 
-    @POST("user/delete")
-    fun delete(@Body form: DeleteAccountForm): ApiAsync<Any>
+    @DELETE("users/me")
+    fun delete(): ApiAsync<Any>
 
     @PATCH("users/me")
     @Multipart

@@ -1383,8 +1383,7 @@ fun AvatarImage(
         modifier = Modifier
             .size(size)
             .clip(CircleShape)
-            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
-            .border(2.dp, Colors.Blue227, CircleShape),
+            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier),
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -2020,7 +2019,10 @@ fun BookingItemView(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Text(
                             text = it.bookingCodeDisplay,
                             color = Colors.Pink66F425F4,
@@ -2037,7 +2039,10 @@ fun BookingItemView(
                             modifier = Modifier.weight(1f)
                         )
                     }
-                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(4.dp),
                             verticalAlignment = Alignment.CenterVertically
@@ -2090,7 +2095,10 @@ fun BookingItemView(
                 }
                 SpaceHorizontal(8.dp)
                 Column(horizontalAlignment = Alignment.End) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         if (it.isNow) {
                             Box(
                                 modifier = Modifier
@@ -2128,7 +2136,8 @@ fun BookingItemView(
                     horizontalArrangement = Arrangement.spacedBy((-8).dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val totalAvatar = maxOf(it.dancerAvatarsDisplay.size, it.dancersDisplayList.size)
+                    val totalAvatar =
+                        maxOf(it.dancerAvatarsDisplay.size, it.dancersDisplayList.size)
                     repeat(totalAvatar) { index ->
                         val avatarUrl = it.dancerAvatarsDisplay.getOrNull(index)
                         val dancerName = it.dancersDisplayList.getOrNull(index).orEmpty()
@@ -2216,7 +2225,7 @@ fun CancellationReasonDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = Color.White,
-        title = { Text(stringResource(R.string.msg_cancel_reason)) },
+        title = { Text(stringResource(R.string.msg_cancel_reason), color = Color.Black) },
         text = {
             Column {
                 AppInputText(

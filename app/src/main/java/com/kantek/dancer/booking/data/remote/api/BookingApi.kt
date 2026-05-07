@@ -10,7 +10,9 @@ import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface BookingApi {
@@ -26,10 +28,10 @@ interface BookingApi {
     fun recreate(@Field("contact_request_id") id: String): ApiAsync<Any>
 
     @FormUrlEncoded
-    @POST("contact-request/user-cancel")
+    @PATCH("bookings/{id}/cancel")
     fun cancel(
-        @Field("contact_request_id") id: String,
-        @Field("reason_cancel") reason: String
+        @Path("id") id: String,
+        @Field("reason") reason: String
     ): ApiAsync<Any>
 
     @GET("bookings")

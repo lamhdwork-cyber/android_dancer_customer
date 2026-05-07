@@ -350,7 +350,7 @@ class MyBookingVM(
 class BookingCancelRepo(private val bookingApi: BookingApi) {
 
     suspend operator fun invoke(requestID: String, reason: String) {
-        bookingApi.cancel(requestID, reason).await()
+        bookingApi.cancel(requestID, reason).awaitNullable()
     }
 
 }

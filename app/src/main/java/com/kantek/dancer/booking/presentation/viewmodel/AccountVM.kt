@@ -1,14 +1,11 @@
 package com.kantek.dancer.booking.presentation.viewmodel
 
-import android.content.Context
 import com.kantek.dancer.booking.app.AppNotifications
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.data.extensions.getDeviceID
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.repo.LanguageRepo
 import com.kantek.dancer.booking.domain.factory.UserFactory
-import com.kantek.dancer.booking.domain.model.ui.user.DeleteAccountForm
 import com.kantek.dancer.booking.domain.model.ui.user.IUser
 import com.kantek.dancer.booking.presentation.extensions.launch
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +28,7 @@ class AccountVM(
 
     fun delete() = launch(loading, error) {
         deleteAccountRepo()
+        signOutSuccess.value = true
     }
 
 }
@@ -65,14 +63,11 @@ class FetchUserRepo(
 }
 
 class DeleteAccountRepo(
-    private val context: Context,
     private val userApi: UserApi,
     private val userLocalSource: UserLocalSource
 ) {
     suspend operator fun invoke() {
-        userApi.delete(DeleteAccountForm().apply {
-            macAddress = context.getDeviceID()
-        }).await()
+        userApi.delete().awaitNullable()
         userLocalSource.logout()
     }
 }

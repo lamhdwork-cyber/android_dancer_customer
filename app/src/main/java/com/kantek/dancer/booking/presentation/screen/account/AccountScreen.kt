@@ -34,14 +34,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.user.IUser
@@ -54,6 +52,7 @@ import com.kantek.dancer.booking.presentation.viewmodel.AccountVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import com.kantek.dancer.booking.presentation.widget.AvatarImage
 import com.kantek.dancer.booking.presentation.widget.LogoutDialog
 import org.koin.androidx.compose.koinViewModel
 
@@ -213,14 +212,7 @@ private fun ProfileSection(user: IUser) {
                     .background(Colors.Dark120812)
                     .padding(3.dp)
             ) {
-                AsyncImage(
-                    model = user.avatarURL,
-                    contentDescription = user.fullName,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
+                AvatarImage(user.avatarURL, size = 136.dp)
             }
             Box(
                 modifier = Modifier
