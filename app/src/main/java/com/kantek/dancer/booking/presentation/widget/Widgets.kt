@@ -97,6 +97,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -2188,17 +2189,23 @@ fun BookingItemView(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            AppButton(
-                nameRes = R.string.all_cancel,
+            OutlinedButton(
+                onClick = onCancelClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(40.dp)
-                    .border(1.dp, Colors.White1AFFFFFF, RoundedCornerShape(28.dp))
-                    .clip(RoundedCornerShape(28.dp)),
-                backgroundColor = Color.Transparent,
-                textColor = Colors.Gray9CA3AF,
-                onClick = onCancelClick
-            )
+                    .height(40.dp),
+                shape = RoundedCornerShape(28.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = Colors.RedEF4444.copy(alpha = 0.85f)
+                ),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Colors.Red33EF4444)
+            ) {
+                Text(
+                    text = stringResource(R.string.all_cancel),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 13.sp
+                )
+            }
 
             if (it.hasCancel) {
                 Spacer(modifier = Modifier.height(16.dp))

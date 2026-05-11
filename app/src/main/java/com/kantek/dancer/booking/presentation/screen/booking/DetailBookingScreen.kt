@@ -23,14 +23,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.Bed
 import androidx.compose.material.icons.outlined.CalendarToday
-import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Groups
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.MeetingRoom
 import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.MusicNote
-import androidx.compose.material.icons.outlined.QrCode2
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.ButtonDefaults
@@ -73,8 +71,6 @@ import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
 import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
@@ -90,9 +86,7 @@ fun DetailBookingScreen(
 
     val appNavigator = use<AppNavigator>()
     val detail by viewModel.details.collectAsState()
-    val onBack by viewModel.onBack.collectAsState()
 
-    var hasShowRequest by remember { mutableStateOf(false) }
     var hasShowCancel by remember { mutableStateOf(false) }
     var hasShowComingSoon by remember { mutableStateOf(false) }
 
@@ -100,12 +94,6 @@ fun DetailBookingScreen(
         viewModel.requestID = bookingID
         if (bookingID.isNotBlank()) {
             viewModel.fetchDetails()
-        }
-    }
-
-    LaunchedEffect(onBack) {
-        if (onBack) {
-            appNavigator.back()
         }
     }
 
@@ -151,16 +139,15 @@ fun DetailBookingScreen(
                 )
                 DetailBookingDancersSection(detail = d)
                 DetailBookingSummaryCard(detail = d)
-                DetailBookingActions(
-                    onCheckInPass = { hasShowComingSoon = true },
-                    onCancel = { hasShowCancel = true },
-                    showCancel = d.hasShowButtonCancel
-                )
-                if (d.hasCancel) {
-                    DetailBookingCancelledBlock(
-                        reason = d.reason,
-                        onRequestAgain = { hasShowRequest = true }
+                val canCancel =
+                    d.status.equals("pending", true) || d.status.equals("confirmed", true)
+                if (canCancel) {
+                    DetailBookingActions(
+                        onCancel = { hasShowCancel = true }
                     )
+                }
+                if (d.hasCancel) {
+                    DetailBookingCancelledBlock(reason = d.reason)
                 }
             } else {
                 NoDataView(htmlRes = R.string.no_data)
@@ -172,18 +159,6 @@ fun DetailBookingScreen(
         AppNotificationDialog(stringResource(R.string.all_coming_soon)) {
             hasShowComingSoon = false
         }
-    }
-
-    if (hasShowRequest && detail != null) {
-        AppConfirmDialog(
-            message = stringResource(R.string.msg_request_again),
-            textConfirm = stringResource(R.string.all_send_request),
-            onConfirm = {
-                hasShowRequest = false
-                viewModel.submitRequestAgain()
-            },
-            onDismiss = { hasShowRequest = false }
-        )
     }
 
     if (hasShowCancel && detail != null) {
@@ -695,55 +670,31 @@ private fun DetailSummaryRow(
 
 @Composable
 private fun DetailBookingActions(
-    onCheckInPass: () -> Unit,
-    onCancel: () -> Unit,
-    showCancel: Boolean
+    onCancel: () -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        AppButton(
-            nameRes = R.string.booking_detail_checkin_pass,
+        OutlinedButton(
+            onClick = onCancel,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(52.dp)
-                .clip(RoundedCornerShape(16.dp)),
-            textColor = Colors.White,
-            iconStartVector = Icons.Outlined.QrCode2,
-            iconStartTint = Colors.White,
-            onClick = onCheckInPass
-        )
-        if (showCancel) {
-            OutlinedButton(
-                onClick = onCancel,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = Colors.RedEF4444.copy(alpha = 0.85f)
-                ),
-                border = BorderStroke(1.dp, Colors.Red33EF4444)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Cancel,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(
-                    text = stringResource(R.string.booking_detail_cancel_booking),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp
-                )
-            }
+                .height(52.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.outlinedButtonColors(
+                contentColor = Colors.RedEF4444.copy(alpha = 0.85f)
+            ),
+            border = BorderStroke(1.dp, Colors.Red33EF4444)
+        ) {
+            Text(
+                text = stringResource(R.string.all_cancel),
+                fontWeight = FontWeight.Bold,
+                fontSize = 15.sp
+            )
         }
     }
 }
 
 @Composable
-private fun DetailBookingCancelledBlock(
-    reason: String,
-    onRequestAgain: () -> Unit
-) {
+private fun DetailBookingCancelledBlock(reason: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -764,39 +715,21 @@ private fun DetailBookingCancelledBlock(
             color = Colors.White,
             fontSize = 14.sp
         )
-        AppButton(
-            nameRes = R.string.all_request_again,
-            onClick = onRequestAgain,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
-                .clip(RoundedCornerShape(14.dp)),
-            textColor = Colors.White
-        )
     }
 }
 
 class DetailBookingVM(
     private val appEvent: AppEvent,
     private val fetchBookingDetailRepo: FetchBookingDetailRepo,
-    private val bookingRequestAgainRepo: BookingRequestAgainRepo,
     private val bookingCancelRepo: BookingCancelRepo,
     private val appNotifications: AppNotifications
 ) : AppViewModel() {
     val details = fetchBookingDetailRepo.result
     var requestID: String = ""
-    val onBack = MutableStateFlow(false)
 
     fun fetchDetails() = launch(loading, error) {
         fetchBookingDetailRepo(requestID)
         appNotifications.cancelNotification(requestID.toIntOrNull() ?: 0)
-    }
-
-    fun submitRequestAgain() = launch(loading, error) {
-        bookingRequestAgainRepo(requestID)
-        onBack.emit(true)
-        appEvent.onRefreshMyBooking.emit(true)
-        appEvent.onRefreshNotification.emit(true)
     }
 
     fun submitCancel(reason: String) = launch(loading, error) {

@@ -221,7 +221,7 @@ val presentationModule = module {
     viewModel { IntroduceVM(get()) }
     viewModel { HomeVM(get(), get()) }
     viewModel { MyBookingVM(get(), get(), get()) }
-    viewModel { DetailBookingVM(get(), get(), get(), get(), get()) }
+    viewModel { DetailBookingVM(get(), get(), get(), get()) }
     viewModel { DetailDancerVM(get()) }
     viewModel { ChangePasswordVM(get(), getBy(Scopes.App)) }
     viewModel { MyProfileVM(get(), get(), getBy(Scopes.App)) }
