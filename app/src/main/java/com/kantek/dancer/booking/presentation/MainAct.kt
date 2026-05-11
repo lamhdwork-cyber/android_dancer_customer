@@ -45,7 +45,7 @@ import com.kantek.dancer.booking.presentation.screen.auth.forgot.ForgotPasswordS
 import com.kantek.dancer.booking.presentation.screen.auth.otp.OTPVerifyScreen
 import com.kantek.dancer.booking.presentation.screen.browser.AboutUsScreen
 import com.kantek.dancer.booking.presentation.screen.browser.TermsScreen
-import com.kantek.dancer.booking.presentation.screen.booking.DetailCaseScreen
+import com.kantek.dancer.booking.presentation.screen.booking.DetailBookingScreen
 import com.kantek.dancer.booking.presentation.screen.conversation.ChatScreen
 import com.kantek.dancer.booking.presentation.screen.faqs.FAQsThreadsScreen
 import com.kantek.dancer.booking.presentation.screen.faqs.QuestionThreadsScreen
@@ -196,7 +196,7 @@ class MainAct : AppComponentAct() {
                                 val arg =
                                     backStackEntry.arguments?.getString(keyBookingIDArg)
                                         ?: ""
-                                DetailCaseScreen(arg)
+                                DetailBookingScreen(arg)
                             }
 
                             val keyBookingArg =

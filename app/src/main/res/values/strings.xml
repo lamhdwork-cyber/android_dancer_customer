@@ -373,5 +373,15 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="booking_tab_pending">PENDING</string>
     <string name="booking_tab_accepted">ACCEPTED</string>
     <string name="booking_tab_completed">COMPLETED</string>
+    <string name="booking_detail_checkin_pass">VIEW CHECK-IN PASS</string>
+    <string name="booking_detail_cancel_booking">Cancel booking</string>
+    <string name="booking_detail_guests_format">%1$d people</string>
+    <string name="booking_detail_songs_format">%1$d songs</string>
+    <string name="booking_detail_incl_tax">Incl. Tax &amp; Fees</string>
+    <string name="booking_detail_reserved_format">%1$d RESERVED</string>
+    <string name="booking_detail_vip_guest">VIP Guest</string>
+    <string name="booking_detail_room_short">Room</string>
+    <string name="booking_detail_dancer_style_fallback">Top tier</string>
+    <string name="booking_detail_no_dancers">No dancers selected</string>
 
 </resources>

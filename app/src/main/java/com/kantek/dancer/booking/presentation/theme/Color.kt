@@ -74,4 +74,6 @@ object Colors {
     val Red33EF4444: Color = Color(0x33EF4444)
     val RedEF4444: Color = Color(0xFFEF4444)
     val Red99EF4444: Color = Color(0x99EF4444)
+    val Emerald500: Color = Color(0xFF10B981)
+    val Amber500: Color = Color(0xFFF59E0B)
 }

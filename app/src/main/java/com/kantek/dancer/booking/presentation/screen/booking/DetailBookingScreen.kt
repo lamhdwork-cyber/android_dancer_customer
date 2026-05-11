@@ -1,7 +1,9 @@
 package com.kantek.dancer.booking.presentation.screen.booking
 
-import android.support.core.extensions.safe
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,14 +14,28 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBackIosNew
+import androidx.compose.material.icons.outlined.Bed
+import androidx.compose.material.icons.outlined.CalendarToday
+import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.MeetingRoom
+import androidx.compose.material.icons.outlined.MoreHoriz
+import androidx.compose.material.icons.outlined.MusicNote
+import androidx.compose.material.icons.outlined.QrCode2
+import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material.icons.outlined.StarBorder
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,18 +47,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppNotifications
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.BookingApi
-import com.kantek.dancer.booking.domain.extension.toJson
 import com.kantek.dancer.booking.domain.factory.BookingFactory
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingDetail
@@ -51,18 +73,17 @@ import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
+import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
-import com.kantek.dancer.booking.presentation.widget.LawyerInfo
 import com.kantek.dancer.booking.presentation.widget.NoDataView
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun DetailCaseScreen(
+fun DetailBookingScreen(
     bookingID: String = "",
     viewModel: DetailBookingVM = koinViewModel()
 ) = ScopeProvider(Scopes.MyBooking) {
@@ -71,311 +92,714 @@ fun DetailCaseScreen(
     val detail by viewModel.details.collectAsState()
     val onBack by viewModel.onBack.collectAsState()
 
-    //Actions
     var hasShowRequest by remember { mutableStateOf(false) }
     var hasShowCancel by remember { mutableStateOf(false) }
+    var hasShowComingSoon by remember { mutableStateOf(false) }
 
     LaunchedEffect(bookingID) {
-        if (bookingID.isNotBlank() && detail == null)
+        viewModel.requestID = bookingID
+        if (bookingID.isNotBlank()) {
             viewModel.fetchDetails()
+        }
     }
+
     LaunchedEffect(onBack) {
         if (onBack) {
             appNavigator.back()
         }
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.requestID = bookingID
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.Gray249),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(Colors.DarkFF0A050A)
     ) {
-        ActionBarBackAndTitleView(R.string.top_bar_detail_case) { appNavigator.back() }
+        DetailBookingHero(
+            imageUrl = detail?.clubCoverImage.orEmpty(),
+            detail = detail,
+            onBack = { appNavigator.back() },
+            onMore = { hasShowComingSoon = true }
+        )
+
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
                 .verticalScroll(rememberScrollState())
-                .padding(16.dp),
+                .padding(horizontal = 16.dp)
+                .padding(top = 8.dp, bottom = 32.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Card(
-                shape = RoundedCornerShape(16.dp),
+            if (detail != null) {
+                val d = detail!!
+                DetailBookingClubBlock(
+                    clubName = d.clubNameDisplay,
+                    address = d.address.ifBlank { stringResource(R.string.club_current_location_placeholder) }
+                )
+                DetailBookingWhenWhereRow(
+                    dateLabel = if (d.isNow) {
+                        stringResource(R.string.booking_mode_now)
+                    } else {
+                        d.bookingDateShort.ifBlank { stringResource(R.string.booking_date) }
+                    },
+                    timeLabel = if (d.isNow) {
+                        d.timeDisplay
+                    } else {
+                        d.bookingTimeFormatted.ifBlank { "—" }
+                    },
+                    roomLabel = d.roomNameDisplay,
+                    roomType = d.roomType
+                )
+                DetailBookingDancersSection(detail = d)
+                DetailBookingSummaryCard(detail = d)
+                DetailBookingActions(
+                    onCheckInPass = { hasShowComingSoon = true },
+                    onCancel = { hasShowCancel = true },
+                    showCancel = d.hasShowButtonCancel
+                )
+                if (d.hasCancel) {
+                    DetailBookingCancelledBlock(
+                        reason = d.reason,
+                        onRequestAgain = { hasShowRequest = true }
+                    )
+                }
+            } else {
+                NoDataView(htmlRes = R.string.no_data)
+            }
+        }
+    }
+
+    if (hasShowComingSoon) {
+        AppNotificationDialog(stringResource(R.string.all_coming_soon)) {
+            hasShowComingSoon = false
+        }
+    }
+
+    if (hasShowRequest && detail != null) {
+        AppConfirmDialog(
+            message = stringResource(R.string.msg_request_again),
+            textConfirm = stringResource(R.string.all_send_request),
+            onConfirm = {
+                hasShowRequest = false
+                viewModel.submitRequestAgain()
+            },
+            onDismiss = { hasShowRequest = false }
+        )
+    }
+
+    if (hasShowCancel && detail != null) {
+        CancellationReasonDialog(
+            onConfirm = {
+                hasShowCancel = false
+                viewModel.submitCancel(it)
+            },
+            onDismiss = { hasShowCancel = false }
+        )
+    }
+}
+
+@Composable
+private fun DetailBookingHero(
+    imageUrl: String,
+    detail: IBookingDetail?,
+    onBack: () -> Unit,
+    onMore: () -> Unit
+) {
+    val context = LocalContext.current
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(280.dp)
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(imageUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Colors.Dark120812),
+            contentScale = ContentScale.Crop
+        )
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Black.copy(alpha = 0.4f),
+                            Color.Transparent,
+                            Colors.DarkFF0A050A
+                        )
+                    )
+                )
+        )
+        Row(
+            modifier = Modifier
+                .statusBarsPadding()
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            DetailHeroCircleIcon(
+                icon = Icons.Outlined.ArrowBackIosNew,
+                onClick = onBack
+            )
+            DetailHeroCircleIcon(
+                icon = Icons.Outlined.MoreHoriz,
+                onClick = onMore
+            )
+        }
+        if (detail != null) {
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
+                    .align(Alignment.BottomStart)
+                    .padding(start = 16.dp, bottom = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                if (detail != null) {
-                    Column(
-                        modifier = Modifier
-                            .background(Color.White)
-                            .padding(16.dp)
+                DetailStatusChip(
+                    label = detail.statusDisplay.uppercase(),
+                    isAcceptedLike = detail.status.equals("accepted", true) ||
+                            detail.status.equals("completed", true)
+                )
+                if (detail.showVipGuestBadge) {
+                    DetailVipChip()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun DetailHeroCircleIcon(
+    icon: ImageVector,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(Color.Black.copy(alpha = 0.3f))
+            .border(1.dp, Colors.White1AFFFFFF, CircleShape)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = Colors.White,
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+@Composable
+private fun DetailStatusChip(label: String, isAcceptedLike: Boolean) {
+    val bg = if (isAcceptedLike) Colors.Emerald500 else Colors.Primary
+    val border = if (isAcceptedLike) {
+        Colors.Emerald500.copy(alpha = 0.5f)
+    } else {
+        Colors.Primary.copy(alpha = 0.5f)
+    }
+    Row(
+        modifier = Modifier
+            .height(28.dp)
+            .clip(RoundedCornerShape(999.dp))
+            .background(bg)
+            .border(1.dp, border, RoundedCornerShape(999.dp))
+            .padding(horizontal = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        if (isAcceptedLike) {
+            Box(
+                modifier = Modifier
+                    .size(6.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+            )
+        }
+        Text(
+            text = label,
+            color = Color.White,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Black,
+            letterSpacing = 1.2.sp
+        )
+    }
+}
+
+@Composable
+private fun DetailVipChip() {
+    Row(
+        modifier = Modifier
+            .height(28.dp)
+            .clip(RoundedCornerShape(999.dp))
+            .background(Colors.Primary)
+            .border(1.dp, Colors.Primary.copy(alpha = 0.5f), RoundedCornerShape(999.dp))
+            .padding(horizontal = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(R.string.booking_detail_vip_guest),
+            color = Color.White,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Black,
+            letterSpacing = 1.2.sp
+        )
+    }
+}
+
+@Composable
+private fun DetailBookingClubBlock(clubName: String, address: String) {
+    Column {
+        Text(
+            text = clubName,
+            color = Colors.White,
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = (-0.5).sp
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.LocationOn,
+                contentDescription = null,
+                tint = Colors.Primary,
+                modifier = Modifier.size(16.dp)
+            )
+            Text(
+                text = address,
+                color = Colors.Gray9CA3AF,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+@Composable
+private fun DetailBookingWhenWhereRow(
+    dateLabel: String,
+    timeLabel: String,
+    roomLabel: String,
+    roomType: String
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        DetailGlassMiniTile(
+            title = stringResource(R.string.booking_date),
+            value = dateLabel,
+            icon = Icons.Outlined.CalendarToday,
+            modifier = Modifier.weight(1f)
+        )
+        DetailGlassMiniTile(
+            title = stringResource(R.string.booking_time),
+            value = timeLabel,
+            icon = Icons.Outlined.Schedule,
+            modifier = Modifier.weight(1f)
+        )
+        DetailGlassMiniTile(
+            title = stringResource(R.string.booking_detail_room_short),
+            value = roomLabel,
+            icon = roomIconByType(roomType),
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+private fun roomIconByType(type: String): ImageVector = when (type.lowercase()) {
+    "vip_room" -> Icons.Outlined.Bed
+    "private_suite" -> Icons.Outlined.MeetingRoom
+    "deluxe_lounge" -> Icons.Outlined.Home
+    "executive_suite" -> Icons.Outlined.StarBorder
+    else -> Icons.Outlined.Home
+}
+
+@Composable
+private fun DetailGlassMiniTile(
+    title: String,
+    value: String,
+    icon: ImageVector,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(Colors.Pink1AF425F4)
+            .border(1.dp, Colors.Pink33F425F4, RoundedCornerShape(16.dp))
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = Colors.Primary,
+            modifier = Modifier.size(22.dp)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = title.uppercase(),
+            color = Colors.Gray9CA3AF,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = (-0.2).sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            text = value,
+            color = Colors.White,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(top = 2.dp),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+private fun DetailBookingDancersSection(detail: IBookingDetail) {
+    val names = detail.dancersDisplayList
+    val avatars = detail.dancerAvatarsDisplay
+    val styles = detail.dancerStyleLines
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.booking_selected_performers).uppercase(),
+                color = Colors.Primary,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 2.sp
+            )
+            Text(
+                text = stringResource(R.string.booking_detail_reserved_format, names.size),
+                color = Colors.Gray64748B,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        if (names.isEmpty()) {
+            Text(
+                text = stringResource(R.string.booking_detail_no_dancers),
+                color = Colors.Gray64748B,
+                fontSize = 13.sp
+            )
+        } else {
+            val rows = names.mapIndexed { index, name ->
+                Triple(name, avatars.getOrNull(index).orEmpty(), styles.getOrNull(index).orEmpty())
+            }.chunked(2)
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                rows.forEach { row ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        // Case ID and Status
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = stringResource(R.string.case_id_s, detail!!.id),
-                                fontSize = 14.sp
-                            )
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(8.dp)
-                                        .clip(CircleShape)
-                                        .background(detail!!.colorStatus)
-                                )
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text(
-                                    text = detail!!.statusDisplay,
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 14.sp
-                                )
-                            }
-                        }
-
-                        SpaceVertical(10.dp)
-
-                        HorizontalDivider(
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = 1.dp,
-                            color = Colors.Gray238
-                        )
-
-                        SpaceVertical(10.dp)
-
-                        Text(
-                            text = stringResource(R.string.all_address),
-                            fontSize = 12.sp,
-                            color = Colors.Blue95
-                        )
-
-                        Text(
-                            text = detail!!.address,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp
-                        )
-
-                        SpaceVertical(12.dp)
-
-                        Text(
-                            text = stringResource(R.string.find_consultation_language),
-                            fontSize = 12.sp,
-                            color = Colors.Blue95
-                        )
-
-                        Text(
-                            text = detail!!.language,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp
-                        )
-
-                        SpaceVertical(12.dp)
-
-                        Text(
-                            text = stringResource(R.string.all_created_on),
-                            fontSize = 12.sp,
-                            color = Colors.Blue95
-                        )
-
-                        Text(
-                            text = detail!!.datetime,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp
-                        )
-
-                        if (detail!!.hasCancel && !detail?.reason.isNullOrEmpty()) {
-                            SpaceVertical(12.dp)
-
-                            Text(
-                                text = stringResource(R.string.all_cancel_reason),
-                                fontSize = 12.sp,
-                                color = Colors.Blue95
-                            )
-
-                            Text(
-                                text = detail!!.reason,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 14.sp
+                        row.forEach { (name, url, style) ->
+                            DetailDancerTile(
+                                name = name,
+                                avatarUrl = url,
+                                subtitle = style,
+                                modifier = Modifier.weight(1f)
                             )
                         }
-
-                        SpaceVertical(12.dp)
-
-                        HorizontalDivider(
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = 1.dp,
-                            color = Colors.Gray238
-                        )
-
-                        SpaceVertical(12.dp)
-
-                        // Description Title
-                        Text(
-                            stringResource(R.string.find_issue_des),
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        // Description Box
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(Colors.Blue247, RoundedCornerShape(8.dp))
-                                .padding(12.dp)
-                        ) {
-                            Text(text = detail!!.description, fontSize = 14.sp)
-                        }
-
-                        SpaceVertical(14.dp)
-
-                        // Personal Info
-                        Text(
-                            stringResource(R.string.all_personal_info),
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 16.sp,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        SpaceVertical(12.dp)
-
-                        val user = detail!!.user
-                        Text(
-                            text = stringResource(R.string.all_full_name),
-                            fontSize = 12.sp,
-                            color = Colors.Blue95
-                        )
-
-                        Text(
-                            text = user?.fullName.safe(),
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp
-                        )
-
-                        SpaceVertical(12.dp)
-
-                        Text(
-                            text = stringResource(R.string.all_phone_number),
-                            fontSize = 12.sp,
-                            color = Colors.Blue95
-                        )
-
-                        Text(
-                            text = user?.phoneDisplay.safe(),
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp
-                        )
-
-                        SpaceVertical(12.dp)
-
-                        Text(
-                            text = stringResource(R.string.all_email),
-                            fontSize = 12.sp,
-                            color = Colors.Blue95
-                        )
-
-                        Text(
-                            text = user?.email.safe(),
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp
-                        )
-
-                        SpaceVertical(12.dp)
-
-                        HorizontalDivider(
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = 1.dp,
-                            color = Colors.Gray238
-                        )
-
-                        SpaceVertical(12.dp)
-
-                        if (!detail!!.hasCancel) {
-                            // Lawyer Info
-                            Text(
-                                stringResource(R.string.all_lawyer_infomation),
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 16.sp,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-
-                            SpaceVertical(12.dp)
-
-                            if (detail!!.lawyer == null)
-                                Text(
-                                    stringResource(R.string.all_finding_lawyer),
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 14.sp,
-                                    textAlign = TextAlign.Center,
-                                    color = Colors.Blue185,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            else LawyerInfo(it = detail!!.lawyer!!,
-                                hasShowButton = detail!!.hasComplete,
-                                hasShowReview = !detail!!.hasReview,
-                                onDetail = {
-                                    appNavigator.navigateDetailLawyer(
-                                        dataJson = detail!!.owner.toJson()
-                                    )
-                                },
-                                onReview = {appNavigator.navigateCreateReview(detail!!.owner)})
-                        }
-
-                        // Cancel Button
-                        if (detail!!.hasShowButtonCancel) {
-                            Spacer(modifier = Modifier.height(16.dp))
-                            AppButton(
-                                nameRes = R.string.all_cancel_request,
-                                backgroundColor = Colors.Red247,
-                                onClick = { hasShowCancel = true }
-                            )
-                        }
-
-                        if (detail!!.hasCancel) {
-                            Spacer(modifier = Modifier.height(16.dp))
-                            AppButton(
-                                nameRes = R.string.all_request_again,
-                                onClick = { hasShowRequest = true }
-                            )
-                        }
-
-                        if (hasShowRequest) {
-                            AppConfirmDialog(
-                                message = stringResource(R.string.msg_request_again),
-                                textConfirm = stringResource(R.string.all_send_request),
-                                onConfirm = {
-                                    hasShowRequest = false
-                                    viewModel.submitRequestAgain()
-                                }, onDismiss = {
-                                    hasShowRequest = false
-                                }
-                            )
-                        }
-
-                        if (hasShowCancel) {
-                            CancellationReasonDialog(
-                                onConfirm = {
-                                    hasShowCancel = false
-                                    viewModel.submitCancel(it)
-                                }, onDismiss = {
-                                    hasShowCancel = false
-                                }
-                            )
+                        if (row.size == 1) {
+                            Spacer(modifier = Modifier.weight(1f))
                         }
                     }
-                } else NoDataView(htmlRes = R.string.no_data)
+                }
             }
-
         }
+    }
+}
+
+@Composable
+private fun DetailDancerTile(
+    name: String,
+    avatarUrl: String,
+    subtitle: String,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+    val sub = subtitle.ifBlank { stringResource(R.string.booking_detail_dancer_style_fallback) }
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(Colors.Pink1AF425F4)
+            .border(1.dp, Colors.Pink33F425F4, RoundedCornerShape(16.dp))
+            .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(CircleShape)
+                .border(2.dp, Colors.Pink4DF425F4, CircleShape)
+        ) {
+            if (avatarUrl.isNotBlank()) {
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(avatarUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = name,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Colors.Dark2A1323),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = name.take(1).uppercase(),
+                        color = Colors.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                }
+            }
+        }
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = name,
+                color = Colors.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = sub.uppercase(),
+                color = Colors.Gray9CA3AF,
+                fontSize = 9.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 1.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+@Composable
+private fun DetailBookingSummaryCard(detail: IBookingDetail) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .background(Colors.Pink1AF425F4)
+            .border(1.dp, Colors.Pink33F425F4, RoundedCornerShape(24.dp))
+            .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        DetailSummaryRow(
+            icon = Icons.Outlined.Groups,
+            label = stringResource(R.string.booking_guests_title),
+            value = stringResource(R.string.booking_detail_guests_format, detail.numberOfGuests)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Colors.White1AFFFFFF)
+        )
+        DetailSummaryRow(
+            icon = Icons.Outlined.MusicNote,
+            label = stringResource(R.string.booking_songs_title),
+            value = stringResource(R.string.booking_detail_songs_format, detail.numberOfSongs)
+        )
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.booking_total_amount_due).uppercase(),
+                    color = Colors.Gray64748B,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 1.5.sp
+                )
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(6.dp))
+                        .background(Colors.Amber500.copy(alpha = 0.1f))
+                        .border(1.dp, Colors.Amber500.copy(alpha = 0.3f), RoundedCornerShape(6.dp))
+                        .padding(horizontal = 8.dp, vertical = 3.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.booking_cash_only),
+                        color = Colors.Amber500,
+                        fontSize = 8.sp,
+                        fontWeight = FontWeight.Black,
+                        letterSpacing = 0.5.sp
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Text(
+                    text = detail.totalAmountDisplay,
+                    color = Colors.White,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Black
+                )
+                Text(
+                    text = stringResource(R.string.booking_detail_incl_tax),
+                    color = Colors.Gray64748B,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun DetailSummaryRow(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    value: String
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Colors.Gray64748B,
+                modifier = Modifier.size(22.dp)
+            )
+            Text(
+                text = label,
+                color = Colors.GrayCBD5E1,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        Text(
+            text = value,
+            color = Colors.White,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun DetailBookingActions(
+    onCheckInPass: () -> Unit,
+    onCancel: () -> Unit,
+    showCancel: Boolean
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        AppButton(
+            nameRes = R.string.booking_detail_checkin_pass,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .clip(RoundedCornerShape(16.dp)),
+            textColor = Colors.White,
+            iconStartVector = Icons.Outlined.QrCode2,
+            iconStartTint = Colors.White,
+            onClick = onCheckInPass
+        )
+        if (showCancel) {
+            OutlinedButton(
+                onClick = onCancel,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    contentColor = Colors.RedEF4444.copy(alpha = 0.85f)
+                ),
+                border = BorderStroke(1.dp, Colors.Red33EF4444)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Cancel,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+                Text(
+                    text = stringResource(R.string.booking_detail_cancel_booking),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun DetailBookingCancelledBlock(
+    reason: String,
+    onRequestAgain: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(Colors.White1AFFFFFF)
+            .border(1.dp, Colors.White1AFFFFFF, RoundedCornerShape(16.dp))
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.all_cancel_reason),
+            color = Colors.Primary,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = reason,
+            color = Colors.White,
+            fontSize = 14.sp
+        )
+        AppButton(
+            nameRes = R.string.all_request_again,
+            onClick = onRequestAgain,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .clip(RoundedCornerShape(14.dp)),
+            textColor = Colors.White
+        )
     }
 }
 
@@ -418,5 +842,4 @@ class FetchBookingDetailRepo(
     suspend operator fun invoke(id: String) {
         result.emit(bookingFactory.createDetails(bookingApi.details(id).awaitNullable()))
     }
-
 }

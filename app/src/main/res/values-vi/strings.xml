@@ -366,5 +366,15 @@
     <string name="booking_tab_pending">ĐANG CHỜ</string>
     <string name="booking_tab_accepted">ĐÃ NHẬN</string>
     <string name="booking_tab_completed">HOÀN THÀNH</string>
+    <string name="booking_detail_checkin_pass">XEM MÃ CHECK-IN</string>
+    <string name="booking_detail_cancel_booking">Hủy đặt chỗ</string>
+    <string name="booking_detail_guests_format">%1$d khách</string>
+    <string name="booking_detail_songs_format">%1$d bài</string>
+    <string name="booking_detail_incl_tax">Đã gồm thuế &amp; phí</string>
+    <string name="booking_detail_reserved_format">%1$d ĐÃ GIỮ</string>
+    <string name="booking_detail_vip_guest">Khách VIP</string>
+    <string name="booking_detail_room_short">Phòng</string>
+    <string name="booking_detail_dancer_style_fallback">Hạng cao</string>
+    <string name="booking_detail_no_dancers">Chưa chọn vũ công</string>
 
 </resources>

@@ -363,5 +363,15 @@ Las reservas completadas aparecerán aquí cuando finalice el servicio.
     <string name="booking_tab_pending">PENDIENTE</string>
     <string name="booking_tab_accepted">ACEPTADO</string>
     <string name="booking_tab_completed">COMPLETADO</string>
+    <string name="booking_detail_checkin_pass">VER PASE DE CHECK-IN</string>
+    <string name="booking_detail_cancel_booking">Cancelar reserva</string>
+    <string name="booking_detail_guests_format">%1$d personas</string>
+    <string name="booking_detail_songs_format">%1$d canciones</string>
+    <string name="booking_detail_incl_tax">Incl. impuestos y tasas</string>
+    <string name="booking_detail_reserved_format">%1$d RESERVADOS</string>
+    <string name="booking_detail_vip_guest">Invitado VIP</string>
+    <string name="booking_detail_room_short">Sala</string>
+    <string name="booking_detail_dancer_style_fallback">Categoría top</string>
+    <string name="booking_detail_no_dancers">Sin artistas seleccionados</string>
 
 </resources>

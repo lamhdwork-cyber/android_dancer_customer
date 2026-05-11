@@ -2,23 +2,23 @@ package com.kantek.dancer.booking.domain.factory
 
 import android.support.core.extensions.safe
 import androidx.compose.ui.graphics.Color
+import com.kantek.dancer.booking.domain.extension.Format
 import com.kantek.dancer.booking.domain.extension.Format.FORMAT_DATE_TIME
 import com.kantek.dancer.booking.domain.extension.formatWith
-import com.kantek.dancer.booking.domain.extension.toObject
 import com.kantek.dancer.booking.domain.extension.utcToDateLocal
 import com.kantek.dancer.booking.domain.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.model.response.BookingDTO
-import com.kantek.dancer.booking.domain.model.response.SpecialityDTO
-import com.kantek.dancer.booking.domain.model.response.lawyer.LawyerDTO
 import com.kantek.dancer.booking.domain.model.ui.booking.IBooking
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingDetail
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingScheduleDay
 import com.kantek.dancer.booking.domain.model.ui.user.ILawyer
-import com.kantek.dancer.booking.domain.model.ui.user.ILawyerDetail
 import com.kantek.dancer.booking.domain.model.ui.user.IUser
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 class BookingFactory(
     private val textFormatter: TextFormatter,
@@ -108,78 +108,48 @@ class BookingFactory(
         }
     }
 
-    private fun createLawyer(
-        it: LawyerDTO?,
-        typeService: List<SpecialityDTO>?
-    ): ILawyer {
-        return object : ILawyer {
-            override val owner: LawyerDTO?
-                get() = it
-            override val id: Int
-                get() = it?.id.safe()
-            override val fullName: String
-                get() = it?.name.safe()
-            override val avatarURL: String
-                get() = it?.avatar_url.safe()
-            override val exp: String
-                get() = it?.exp.toString()
-            override val cases: String
-                get() = it?.cases.toString()
-            override val specialties: List<String>
-                get() = typeService?.map { it.name }.safe()
-        }
-    }
-
     fun createDetails(it: BookingDTO?): IBookingDetail? {
         if (it == null) return null
+        val bookingDancers = if (!it.dancers.isNullOrEmpty()) {
+            it.dancers
+        } else {
+            listOfNotNull(it.dancer)
+        }
         return object : IBookingDetail, IBooking by create(it) {
+            override val statusDisplay: String
+                get() = when (it.status.safe().lowercase(Locale.getDefault())) {
+                    "confirmed" -> "Accepted"
+                    else -> it.status.safe().replaceFirstChar { c -> c.uppercase() }
+                }
             override val language: String
                 get() = it.bookingType.safe()
             override val user: IUser?
                 get() = userFactory.create(it.user)
             override val hasReview: Boolean
                 get() = it.isReview
+            override val clubNameDisplay: String
+                get() = it.club?.name.safe().ifBlank { "-" }
+            override val clubCoverImage: String
+                get() = it.club?.coverImage.safe()
+            override val bookingDateShort: String
+                get() = formatBookingDateShort(it.bookingDate)
+            override val bookingTimeFormatted: String
+                get() = formatBookingStartTime(it.startTime)
+            override val dancerStyleLines: List<String>
+                get() = bookingDancers.take(5).map { d ->
+                    d.danceStyles?.filter { s -> !s.isNullOrBlank() }
+                        ?.joinToString(", ")
+                        ?.trim()
+                        .orEmpty()
+                }
+            override val showVipGuestBadge: Boolean
+                get() {
+                    val roomName = it.room?.name.safe().lowercase(Locale.getDefault())
+                    return roomName.contains("vip") || roomName.contains("suite")
+                }
+            override val roomType: String
+                get() = it.room?.type.safe()
         }
-    }
-
-    private fun createDetail(
-        it: LawyerDTO?,
-        specialities: List<SpecialityDTO>? = null
-    ): ILawyerDetail {
-        return object : ILawyerDetail,
-            ILawyer by createLawyer(it, specialities) {
-
-            override val education: String
-                get() = it?.education.safe()
-            override val achievements: String
-                get() = it?.experience.safe()
-            override val licenseURL: String
-                get() = it?.license_url.safe()
-            override val phoneNumber: String
-                get() = it?.phone.safe()
-            override val phoneDisplay: String
-                get() = textFormatter.formatPhone(phoneNumber).safe()
-            override val email: String
-                get() = it?.email.safe()
-            override val rating: Float
-                get() = if (it?.rating_avg.safe() == 0f) 5f else it?.rating_avg.safe()
-            override val reviewCount: Int
-                get() = it?.total_reviews.safe()
-        }
-    }
-
-    fun createLawyerDetail(it: String): ILawyerDetail? {
-        return try {
-            val bookingDTO = it.toObject<BookingDTO>()
-            null
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
-
-    fun createLawyerDetail(it: LawyerDTO): ILawyerDetail {
-        return createDetail(it)
     }
 
     fun createScheduleDays(): List<IBookingScheduleDay> {
@@ -189,7 +159,8 @@ class BookingFactory(
         val valueFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return List(7) {
             val day = object : IBookingScheduleDay {
-                override val label: String = dayFormat.format(calendar.time).uppercase(Locale.getDefault())
+                override val label: String =
+                    dayFormat.format(calendar.time).uppercase(Locale.getDefault())
                 override val dayNumber: String = dateFormat.format(calendar.time)
                 override val dateValue: String = valueFormat.format(calendar.time)
             }
@@ -213,4 +184,34 @@ class BookingFactory(
         }
         return list
     }
+
+    private fun formatBookingDateShort(bookingDate: String?): String {
+        val raw = bookingDate?.trim().orEmpty()
+        if (raw.isEmpty()) return ""
+        return try {
+            val parsed = SimpleDateFormat(Format.FORMAT_DATE_API, Locale.getDefault()).parse(raw)
+                ?: return ""
+            SimpleDateFormat("MMM d", Locale.getDefault()).format(parsed)
+        } catch (_: ParseException) {
+            ""
+        }
+    }
+
+    private fun formatBookingStartTime(startTime: String?): String {
+        val raw = startTime?.trim().orEmpty()
+        if (raw.isEmpty()) return ""
+        val patterns = listOf("HH:mm:ss", "HH:mm", "hh:mm a")
+        for (pattern in patterns) {
+            try {
+                val fmt = SimpleDateFormat(pattern, Locale.getDefault())
+                fmt.timeZone = TimeZone.getDefault()
+                val parsed: Date = fmt.parse(raw) ?: continue
+                return SimpleDateFormat(Format.FORMAT_TIME, Locale.getDefault()).format(parsed)
+            } catch (_: ParseException) {
+                continue
+            }
+        }
+        return raw
+    }
+
 }
