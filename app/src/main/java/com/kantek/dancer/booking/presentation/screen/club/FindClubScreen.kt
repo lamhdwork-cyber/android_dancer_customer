@@ -76,7 +76,7 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CurrentLocationCard()
+            CurrentLocationCard { hasShowComingSoon.value = true }
             NearbyHeader { hasShowComingSoon.value = true }
         }
         AppLazyColumn(
@@ -105,13 +105,14 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
 }
 
 @Composable
-private fun CurrentLocationCard() {
+private fun CurrentLocationCard(onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(18.dp))
             .background(Colors.Dark120812)
             .border(1.dp, Colors.White1AFFFFFF, RoundedCornerShape(18.dp))
+            .clickable(onClick = onClick)
             .padding(14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
