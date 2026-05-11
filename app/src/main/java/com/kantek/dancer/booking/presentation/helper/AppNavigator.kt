@@ -158,6 +158,16 @@ class AppNavigator : Updatable {
         navHost?.navigate("${Screen.DetailCase.name}?$BOOKING_ID=${bookingID}")
     }
 
+    fun navigateDetailCaseAfterBooking(bookingID: String) {
+        navHost?.navigate("${Screen.DetailCase.name}?$BOOKING_ID=${bookingID}") {
+            popUpTo(Screen.Home.name) {
+                inclusive = false
+                saveState = false
+            }
+            launchSingleTop = true
+        }
+    }
+
     fun navigateDetailLawyer(
         lawyerID: Int = -1,
         dataJson: String = "",

@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
+import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.BookingApi
 import com.kantek.dancer.booking.domain.model.form.BookingForm
 import com.kantek.dancer.booking.domain.model.support.Scopes
@@ -76,6 +77,7 @@ fun BookingConfirmScreen(
 ) = ScopeProvider(Scopes.BookingConfirm) {
     val appNavigator = use<AppNavigator>()
     val showSuccessDialog = remember { mutableStateOf(false) }
+    val createdBookingId = remember { mutableStateOf("") }
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(
@@ -150,7 +152,10 @@ fun BookingConfirmScreen(
                 iconStartVector = Icons.Outlined.Verified,
                 iconStartTint = Colors.White,
                 onClick = {
-                    viewModel.submit { showSuccessDialog.value = true }
+                    viewModel.submit { bookingId ->
+                        createdBookingId.value = bookingId
+                        showSuccessDialog.value = true
+                    }
                 }
             )
         }
@@ -160,10 +165,14 @@ fun BookingConfirmScreen(
         BookingSuccessDialog(
             title = stringResource(R.string.booking_request_submitted),
             message = stringResource(R.string.booking_success),
-            textConfirm = stringResource(R.string.all_view_my_booking),
+            textConfirm = stringResource(R.string.all_view_detail),
             onConfirm = {
                 showSuccessDialog.value = false
-                appNavigator.navigateHomeMyBookings()
+                if (createdBookingId.value.isNotBlank()) {
+                    appNavigator.navigateDetailCaseAfterBooking(createdBookingId.value)
+                } else {
+                    appNavigator.navigateHomeMyBookings()
+                }
             },
             onDismiss = {
                 showSuccessDialog.value = false
@@ -482,7 +491,8 @@ data class BookingConfirmDancerUi(
 )
 
 class BookingConfirmVM(
-    private val bookingConfirmRepo: BookingConfirmRepo
+    private val bookingConfirmRepo: BookingConfirmRepo,
+    private val appEvent: AppEvent
 ) : AppViewModel() {
     private val _state = MutableStateFlow(
         BookingConfirmUi(
@@ -549,10 +559,10 @@ class BookingConfirmVM(
         )
     }
 
-    fun submit(onSuccess: suspend () -> Unit) = launch(loading, error) {
+    fun submit(onSuccess: suspend (bookingId: String) -> Unit) = launch(loading, error) {
         val current = _state.value
         if (current.dancerIds.isEmpty() || current.roomId.isBlank()) return@launch
-        bookingConfirmRepo(
+        val bookingId = bookingConfirmRepo(
             dancerIds = current.dancerIds,
             roomId = current.roomId,
             songs = current.songs,
@@ -561,7 +571,8 @@ class BookingConfirmVM(
             bookingTime = current.timeText,
             hasNow = current.hasNow
         )
-        onSuccess()
+        appEvent.onRefreshMyBooking.emit(true)
+        onSuccess(bookingId)
     }
 }
 
@@ -576,21 +587,20 @@ class BookingConfirmRepo(
         bookingDate: String,
         bookingTime: String,
         hasNow: Boolean
-    ) {
+    ): String {
         if (hasNow) {
-            bookingApi.bookNow(
+            return bookingApi.bookNow(
                 BookingForm(
                     dancerIds = dancerIds,
                     roomId = roomId,
                     numberOfSongs = songs,
                     numberOfGuests = guests
                 )
-            ).await()
-            return
+            ).await().firstOrNull()?.id.orEmpty()
         }
 
         val startTime = toApiTime(bookingTime)
-        bookingApi.reserve(
+        return bookingApi.reserve(
             BookingForm(
                 dancerIds = dancerIds,
                 roomId = roomId,
@@ -600,7 +610,7 @@ class BookingConfirmRepo(
                 numberOfSongs = songs,
                 numberOfGuests = guests
             )
-        ).await()
+        ).await().firstOrNull()?.id.orEmpty()
     }
 
     private fun toApiTime(displayTime: String): String {

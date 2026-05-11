@@ -76,9 +76,9 @@ import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import com.kantek.dancer.booking.presentation.widget.AvatarImage
 import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
 import com.kantek.dancer.booking.presentation.widget.NoDataView
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 
@@ -537,7 +537,6 @@ private fun DetailDancerTile(
     subtitle: String,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
     val sub = subtitle.ifBlank { stringResource(R.string.booking_detail_dancer_style_fallback) }
     Row(
         modifier = modifier
@@ -554,33 +553,7 @@ private fun DetailDancerTile(
                 .clip(CircleShape)
                 .border(2.dp, Colors.Pink4DF425F4, CircleShape)
         ) {
-            if (avatarUrl.isNotBlank()) {
-                AsyncImage(
-                    model = ImageRequest.Builder(context)
-                        .data(avatarUrl)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = name,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Colors.Dark2A1323),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = name.take(1).uppercase(),
-                        color = Colors.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
-                    )
-                }
-            }
+            AvatarImage(url = avatarUrl, size = 44.dp)
         }
         Column(modifier = Modifier.weight(1f)) {
             Text(
