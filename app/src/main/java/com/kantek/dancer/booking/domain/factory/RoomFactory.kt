@@ -10,22 +10,25 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.kantek.dancer.booking.domain.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.model.response.room.RoomDTO
 import com.kantek.dancer.booking.domain.model.ui.booking.IRoom
+import java.util.Locale
 
 class RoomFactory(private val textFormatter: TextFormatter) {
 
-    fun createList(items: List<RoomDTO>?): List<IRoom> {
-        return items?.map(::create) ?: listOf()
-    }
-
-    private fun create(it: RoomDTO): IRoom {
-        val type = it.type.safe()
-        val icon = when (type) {
+    fun imagePlaceholderForType(rawType: String?): ImageVector {
+        return when (rawType.safe().lowercase(Locale.getDefault())) {
             "vip_room" -> Icons.Outlined.Bed
             "private_suite" -> Icons.Outlined.MeetingRoom
             "deluxe_lounge" -> Icons.Outlined.Home
             "executive_suite" -> Icons.Outlined.StarBorder
             else -> Icons.Outlined.Home
         }
+    }
+
+    fun createList(items: List<RoomDTO>?): List<IRoom> {
+        return items?.map(::create) ?: listOf()
+    }
+
+    private fun create(it: RoomDTO): IRoom {
         return object : IRoom {
             override val id: String
                 get() = it.id.safe()
@@ -40,8 +43,7 @@ class RoomFactory(private val textFormatter: TextFormatter) {
             override val imageURL: String
                 get() = it.image.safe()
             override val imagePlaceholder: ImageVector
-                get() = icon
+                get() = imagePlaceholderForType(it.type)
         }
     }
-
 }

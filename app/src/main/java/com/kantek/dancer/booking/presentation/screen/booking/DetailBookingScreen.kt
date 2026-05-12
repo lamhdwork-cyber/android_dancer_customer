@@ -21,16 +21,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
-import androidx.compose.material.icons.outlined.Bed
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Groups
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material.icons.outlined.MeetingRoom
 import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -135,7 +131,7 @@ fun DetailBookingScreen(
                         d.bookingTimeFormatted.ifBlank { "—" }
                     },
                     roomLabel = d.roomNameDisplay,
-                    roomType = d.roomType
+                    roomIcon = d.roomImagePlaceholder
                 )
                 DetailBookingDancersSection(detail = d)
                 DetailBookingSummaryCard(detail = d)
@@ -364,7 +360,7 @@ private fun DetailBookingWhenWhereRow(
     dateLabel: String,
     timeLabel: String,
     roomLabel: String,
-    roomType: String
+    roomIcon: ImageVector
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -385,18 +381,10 @@ private fun DetailBookingWhenWhereRow(
         DetailGlassMiniTile(
             title = stringResource(R.string.booking_detail_room_short),
             value = roomLabel,
-            icon = roomIconByType(roomType),
+            icon = roomIcon,
             modifier = Modifier.weight(1f)
         )
     }
-}
-
-private fun roomIconByType(type: String): ImageVector = when (type.lowercase()) {
-    "vip_room" -> Icons.Outlined.Bed
-    "private_suite" -> Icons.Outlined.MeetingRoom
-    "deluxe_lounge" -> Icons.Outlined.Home
-    "executive_suite" -> Icons.Outlined.StarBorder
-    else -> Icons.Outlined.Home
 }
 
 @Composable

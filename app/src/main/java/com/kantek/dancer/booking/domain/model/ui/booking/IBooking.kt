@@ -1,5 +1,8 @@
 package com.kantek.dancer.booking.domain.model.ui.booking
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.kantek.dancer.booking.domain.model.response.BookingDTO
 import com.kantek.dancer.booking.domain.model.ui.user.ILawyer
 import com.kantek.dancer.booking.presentation.theme.Colors
@@ -18,6 +21,8 @@ interface IBooking {
     val bookingCodeDisplay get() = ""
     val roomName get() = ""
     val roomNameDisplay get() = ""
+    val roomImageURL get() = ""
+    val roomImagePlaceholder: ImageVector get() = Icons.Outlined.Home
     val totalAmount get() = ""
     val totalAmountDisplay get() = ""
     val dancers get() = listOf<String>()

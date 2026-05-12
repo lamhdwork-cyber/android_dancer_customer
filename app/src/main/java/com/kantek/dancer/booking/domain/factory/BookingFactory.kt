@@ -10,6 +10,7 @@ import com.kantek.dancer.booking.domain.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.model.response.BookingDTO
 import com.kantek.dancer.booking.domain.model.ui.booking.IBooking
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingDetail
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingScheduleDay
 import com.kantek.dancer.booking.domain.model.ui.user.ILawyer
 import com.kantek.dancer.booking.domain.model.ui.user.IUser
@@ -22,7 +23,8 @@ import java.util.TimeZone
 
 class BookingFactory(
     private val textFormatter: TextFormatter,
-    private val userFactory: UserFactory
+    private val userFactory: UserFactory,
+    private val roomFactory: RoomFactory
 ) {
     fun createList(its: List<BookingDTO>?): List<IBooking> {
         return its?.map(::create) ?: listOf()
@@ -61,6 +63,10 @@ class BookingFactory(
                 get() = it.room?.name.safe()
             override val roomNameDisplay: String
                 get() = roomName.ifBlank { "-" }
+            override val roomImageURL: String
+                get() = it.room?.image.safe()
+            override val roomImagePlaceholder: ImageVector
+                get() = roomFactory.imagePlaceholderForType(it.room?.type)
             override val totalAmount: String
                 get() = it.totalAmount.safe()
             override val totalAmountDisplay: String

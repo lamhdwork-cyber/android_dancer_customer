@@ -304,7 +304,7 @@ val domainModule = module {
     single { UserFactory(get()) }
     single { PhotoFactory(get()) }
     single { ConfigFactory(get()) }
-    single { BookingFactory(get(), get()) }
+    single { BookingFactory(get(), get(), get()) }
     single { RoomFactory(get()) }
     single { ClubFactory() }
     single { DancerFactory() }
