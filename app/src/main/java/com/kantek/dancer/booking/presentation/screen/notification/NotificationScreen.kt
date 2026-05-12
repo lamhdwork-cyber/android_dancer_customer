@@ -85,10 +85,15 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
         LaunchedEffect(userChanged) { viewModel.onChangeUser() }
 
         Column(modifier = Modifier.background(Colors.Dark120812)) {
+            val showReadAllIcon = user != null && !isEmpty
             ActionBarMainView(
                 textRes = R.string.nav_notification,
-                iconRight = Icons.Outlined.DoneAll,
-                onClickIconRight = { showReadAllConfirm = true }
+                iconRight = if (showReadAllIcon) Icons.Outlined.DoneAll else null,
+                onClickIconRight = if (showReadAllIcon) {
+                    { showReadAllConfirm = true }
+                } else {
+                    null
+                }
             )
             if (user == null) {
                 NoLoginView(titleRes = R.string.notification_not_login) { openAuth() }
