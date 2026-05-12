@@ -117,16 +117,20 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -3610,5 +3614,38 @@ fun FAQsAnswerItem(it: ILegalAnswer) {
         HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
     }
 }
+
+fun Modifier.sheetTopSideBorder(
+    color: androidx.compose.ui.graphics.Color,
+    strokeWidth: Float = 1f,
+    cornerRadiusDp: Float = 32f,
+): Modifier = this.then(
+    Modifier.drawBehind {
+        val sw = strokeWidth * density
+        val r = cornerRadiusDp * density
+        val w = size.width
+        val h = size.height
+
+        val path = Path().apply {
+            moveTo(0f, h)
+            lineTo(0f, r)
+            arcTo(
+                rect = Rect(0f, 0f, 2 * r, 2 * r),
+                startAngleDegrees = 180f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+            lineTo(w - r, 0f)
+            arcTo(
+                rect = Rect(w - 2 * r, 0f, w, 2 * r),
+                startAngleDegrees = 270f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+            lineTo(w, h)
+        }
+        drawPath(path = path, color = color, style = Stroke(width = sw))
+    }
+)
 
 

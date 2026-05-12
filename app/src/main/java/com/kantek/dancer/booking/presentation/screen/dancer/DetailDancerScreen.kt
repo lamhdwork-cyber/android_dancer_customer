@@ -62,6 +62,7 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.NoDataView
+import com.kantek.dancer.booking.presentation.widget.sheetTopSideBorder
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 import java.util.Locale
@@ -161,10 +162,16 @@ fun DetailDancerScreen(
                 .fillMaxSize()
                 .padding(top = maxHeight * 0.46f)
                 .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-                .border(
-                    width = 1.dp,
-                    color = Colors.Pink33F425F4,
-                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+                .then(
+                    if (hasShowButtons) {
+                        Modifier.border(
+                            width = 1.dp,
+                            color = Colors.Pink33F425F4,
+                            shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+                        )
+                    } else {
+                        Modifier.sheetTopSideBorder(color = Colors.Pink33F425F4)
+                    }
                 )
                 .background(Colors.OverlayCC120812)
                 .verticalScroll(rememberScrollState())
@@ -265,17 +272,6 @@ fun DetailDancerScreen(
                 modifier = Modifier.padding(top = 8.dp)
             )
 
-        }
-
-        if (!hasShowButtons) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .padding(horizontal = 1.dp)
-                    .height(32.dp + navBarBottomDp)
-                    .background(Colors.OverlayCC120812)
-            )
         }
 
         if (hasShowButtons) {
