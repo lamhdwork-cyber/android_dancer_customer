@@ -76,4 +76,8 @@ object Colors {
     val Red99EF4444: Color = Color(0x99EF4444)
     val Emerald500: Color = Color(0xFF10B981)
     val Amber500: Color = Color(0xFFF59E0B)
+    /** Admin dancer roster — "ready" (Tailwind green-500). */
+    val DancerAdminStatusReady: Color = Color(0xFF22C55E)
+    /** Admin dancer roster — "floor" (Tailwind orange-500). */
+    val DancerAdminStatusFloor: Color = Color(0xFFF97316)
 }

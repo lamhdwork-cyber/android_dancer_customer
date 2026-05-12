@@ -30,6 +30,8 @@ class UserFactory(private val textFormatter: TextFormatter) {
                 get() = textFormatter.formatPhone(phoneNumber).safe()
             override val languageRes: Int
                 get() = languageDisplayRes
+            override val role: String?
+                get() = it.role
         }
     }
 

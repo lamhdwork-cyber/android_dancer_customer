@@ -69,6 +69,7 @@ import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import com.kantek.dancer.booking.domain.usecase.FetchClubCase
+import com.kantek.dancer.booking.domain.usecase.FetchClubDancersAdminPageCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerByClubCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
@@ -121,6 +122,7 @@ import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerVM
 import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailDancerRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewVM
+import com.kantek.dancer.booking.presentation.screen.dancer.DancerListOfAdminVM
 import com.kantek.dancer.booking.presentation.screen.dancer.DancerListVM
 import com.kantek.dancer.booking.presentation.viewmodel.AccountVM
 import com.kantek.dancer.booking.presentation.viewmodel.BrowserVM
@@ -234,6 +236,7 @@ val presentationModule = module {
     viewModel { OTPVerifyVM(get(), get()) }
     viewModel { RetPasswordVM(get(), getBy(Scopes.App)) }
     viewModel { DancerListVM(get()) }
+    viewModel { DancerListOfAdminVM(get(), get(), get(), get()) }
     viewModel { BookingVM(get(), get(), get()) }
     viewModel { BookingConfirmVM(get(), get()) }
     viewModel { ReviewVM(get()) }
@@ -301,6 +304,7 @@ val domainModule = module {
     factory { NotificationUseCase(get(), get()) }
     factory { FetchClubCase(get(), get()) }
     factory { FetchDancerByClubCase(get(), get()) }
+    factory { FetchClubDancersAdminPageCase(get(), get()) }
     factory { FetchDancerDetailCase(get(), get()) }
     factory { FetchRoomsByClubCase(get(), get()) }
     factory { GetStartDestinationCase(get()) }

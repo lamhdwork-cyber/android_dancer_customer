@@ -3,6 +3,7 @@
     <string name="top_bar_sign_up">Sign Up</string>
     <string name="top_bar_forgot_pw">Forgot Password</string>
     <string name="top_bar_my_booking">My Booking</string>
+    <string name="top_bar_booking_queue">Booking Queue</string>
     <string name="top_bar_request_consultation">Request Consultation</string>
     <string name="top_bar_detail_case">Case Detail</string>
     <string name="top_bar_change_password">Change Password</string>
@@ -12,4 +13,6 @@
     <string name="top_bar_conversation">Consultant</string>
     <string name="top_bar_select_club">Select Club</string>
     <string name="top_bar_dancer_list">Available Dancers</string>
+    <string name="top_bar_dancers">Dancers</string>
+    <string name="top_bar_status_board">Status Board</string>
 </resources>

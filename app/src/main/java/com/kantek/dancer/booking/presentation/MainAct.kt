@@ -205,8 +205,10 @@ class MainAct : AppComponentAct() {
                                 AppNavigator.Companion.ArgKey.LAWYER_ID
                             val keyDancerIdArg =
                                 AppNavigator.Companion.ArgKey.ID
+                            val keyHasShowButtonsArg =
+                                AppNavigator.Companion.ArgKey.HAS_SHOW_BUTTONS
                             composable(
-                                "${Screen.DetailDancer.name}?$keyBookingArg={$keyBookingArg}&$keyLawyerIDArg={$keyLawyerIDArg}&$keyDancerIdArg={$keyDancerIdArg}",
+                                "${Screen.DetailDancer.name}?$keyBookingArg={$keyBookingArg}&$keyLawyerIDArg={$keyLawyerIDArg}&$keyDancerIdArg={$keyDancerIdArg}&$keyHasShowButtonsArg={$keyHasShowButtonsArg}",
                                 arguments = listOf(navArgument(keyBookingArg) {
                                     type = NavType.StringType
                                     defaultValue = ""
@@ -216,11 +218,19 @@ class MainAct : AppComponentAct() {
                                 }, navArgument(keyDancerIdArg) {
                                     type = NavType.StringType
                                     defaultValue = ""
+                                }, navArgument(keyHasShowButtonsArg) {
+                                    type = NavType.BoolType
+                                    defaultValue = true
                                 })
                             ) { backStackEntry ->
                                 val dancerId =
                                     backStackEntry.arguments?.getString(keyDancerIdArg) ?: ""
-                                DetailDancerScreen(dancerId)
+                                val hasShowButtons =
+                                    backStackEntry.arguments?.getBoolean(keyHasShowButtonsArg) ?: true
+                                DetailDancerScreen(
+                                    dancerId = dancerId,
+                                    hasShowButtons = hasShowButtons
+                                )
                             }
                             val keyPhotoArg = AppNavigator.Companion.ArgKey.PHOTO_URL
                             composable(

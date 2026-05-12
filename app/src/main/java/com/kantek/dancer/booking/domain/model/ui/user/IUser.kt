@@ -18,6 +18,7 @@ interface IUser {
     val email get() = ""
     val languageRes @StringRes get() = 0
     val avatarURL get() = ""
+    val role: String? get() = null
 }
 
 interface ILawyer : IUser {

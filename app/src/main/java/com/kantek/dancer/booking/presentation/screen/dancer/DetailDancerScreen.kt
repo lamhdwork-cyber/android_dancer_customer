@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -41,9 +43,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -67,9 +69,14 @@ import java.util.Locale
 @Composable
 fun DetailDancerScreen(
     dancerId: String,
+    hasShowButtons: Boolean = true,
     viewModel: DetailDancerVM = koinViewModel()
 ) = ScopeProvider(Scopes.Dancer) {
     val context = LocalContext.current
+    val density = LocalDensity.current
+    val navBarBottomDp = with(density) {
+        WindowInsets.navigationBars.getBottom(this).toDp()
+    }
     val appNavigator = use<AppNavigator>()
     val detail by viewModel.details.collectAsState()
     val hasLoaded by viewModel.hasLoaded.collectAsState()
@@ -160,7 +167,7 @@ fun DetailDancerScreen(
                 )
                 .background(Colors.OverlayCC120812)
                 .verticalScroll(rememberScrollState())
-                .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 184.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = if (hasShowButtons) 184.dp else 32.dp)
         ) {
             Box(
                 modifier = Modifier
@@ -251,93 +258,106 @@ fun DetailDancerScreen(
 
         }
 
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .background(
-                    Brush.verticalGradient(
-                        listOf(
-                            Colors.Overlay99120812,
-                            Colors.Overlay99120812,
-                            Colors.OverlayCC120812
+        if (!hasShowButtons) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(horizontal = 1.dp)
+                    .height(32.dp + navBarBottomDp)
+                    .background(Colors.OverlayCC120812)
+            )
+        }
+
+        if (hasShowButtons) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Colors.Overlay99120812,
+                                Colors.Overlay99120812,
+                                Colors.OverlayCC120812
+                            )
                         )
                     )
-                )
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            Button(
-                onClick = {
-                    appNavigator.navigateBooking(
-                        dancerId = dancer.id,
-                        hasNow = true,
-                        clubId = dancer.clubId
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Colors.Primary,
-                    contentColor = Colors.White
-                ),
-                shape = RoundedCornerShape(16.dp)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                Button(
+                    onClick = {
+                        appNavigator.navigateBooking(
+                            dancerId = dancer.id,
+                            hasNow = true,
+                            clubId = dancer.clubId
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(54.dp),
+                    contentPadding = PaddingValues(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Colors.Primary,
+                        contentColor = Colors.White
+                    ),
+                    shape = RoundedCornerShape(16.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.EventAvailable,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 20.dp)
-                            .size(24.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.dancer_detail_book_now),
-                        fontWeight = FontWeight.Bold
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.EventAvailable,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = 20.dp)
+                                .size(24.dp)
+                        )
+                        Text(
+                            text = stringResource(R.string.dancer_detail_book_now),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
-            }
-            Button(
-                onClick = {
-                    appNavigator.navigateBooking(
-                        dancerId = dancer.id,
-                        hasNow = false,
-                        clubId = dancer.clubId
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Colors.Dark120812,
-                    contentColor = Colors.Primary
-                ),
-                border = androidx.compose.foundation.BorderStroke(1.5.dp, Colors.Pink66F425F4),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                Button(
+                    onClick = {
+                        appNavigator.navigateBooking(
+                            dancerId = dancer.id,
+                            hasNow = false,
+                            clubId = dancer.clubId
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(54.dp),
+                    contentPadding = PaddingValues(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Colors.Dark120812,
+                        contentColor = Colors.Primary
+                    ),
+                    border = androidx.compose.foundation.BorderStroke(1.5.dp, Colors.Pink66F425F4),
+                    shape = RoundedCornerShape(16.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Schedule,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 20.dp)
-                            .size(24.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.dancer_detail_book_late),
-                        fontWeight = FontWeight.Bold
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Schedule,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = 20.dp)
+                                .size(24.dp)
+                        )
+                        Text(
+                            text = stringResource(R.string.dancer_detail_book_late),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }

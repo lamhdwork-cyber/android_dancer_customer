@@ -15,22 +15,32 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.kantek.dancer.booking.data.repo.LanguageRepo
+import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.domain.model.support.BottomNavigationScreen
 import com.kantek.dancer.booking.domain.model.support.Scopes
+import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.screen.account.AccountScreen
 import com.kantek.dancer.booking.presentation.screen.booking.MyBookingScreen
-import com.kantek.dancer.booking.presentation.screen.notification.NotificationScreen
 import com.kantek.dancer.booking.presentation.screen.club.FindClubScreen
+import com.kantek.dancer.booking.presentation.screen.dancer.DancerListOfAdminScreen
+import com.kantek.dancer.booking.presentation.screen.notification.NotificationScreen
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppNavigateBottomBar
 import com.kantek.dancer.booking.presentation.widget.SetSystemBarsColor
+import org.koin.compose.koinInject
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
-    val languageRepo by inject<LanguageRepo>()
+    val roleProvider = koinInject<CurrentUserRoleProvider>()
+    val firstTab = if (AppConfig.UserRole.isClubManager(roleProvider.getRole())) {
+        BottomNavigationScreen.Dancers
+    } else {
+        BottomNavigationScreen.Search
+    }
+    val firstTabRoute = firstTab.route
+
     SetSystemBarsColor(
         statusBarColor = Colors.Dark120812,
         navigationBarColor = Color.Black,
@@ -39,8 +49,8 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
     )
     val nav = rememberNavController()
 
-    LaunchedEffect(startTab) {
-        if (startTab.isNotBlank() && startTab != BottomNavigationScreen.Search.route) {
+    LaunchedEffect(startTab, firstTabRoute) {
+        if (startTab.isNotBlank() && startTab != firstTabRoute) {
             nav.navigate(startTab) {
                 popUpTo(nav.graph.startDestinationId) {
                     saveState = true
@@ -52,25 +62,28 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
     }
 
     val navBackStackEntry by nav.currentBackStackEntryAsState()
-    val currentRoute =
-        navBackStackEntry?.destination?.route ?: BottomNavigationScreen.Search.route
+    val currentRoute = navBackStackEntry?.destination?.route ?: firstTabRoute
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .background(Colors.DarkFF0A050A),
         bottomBar = {
-            AppNavigateBottomBar(currentRoute) { router ->
-                if (currentRoute != router) {
-                    nav.navigate(router) {
-                        popUpTo(nav.graph.startDestinationId) {
-                            saveState = true
+            AppNavigateBottomBar(
+                selectedItemRouter = currentRoute,
+                onItemRouterSelected = { router ->
+                    if (currentRoute != router) {
+                        nav.navigate(router) {
+                            popUpTo(nav.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
                     }
-                }
-            }
+                },
+                firstTab = firstTab
+            )
         }
     ) { paddingValues ->
         Box(
@@ -81,13 +94,13 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
         ) {
             NavHost(
                 navController = nav,
-                startDestination = BottomNavigationScreen.Search.route,
+                startDestination = firstTabRoute,
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Colors.Dark120812)
             ) {
-//                    composable(BottomNavigationScreen.Home.route) { FAQsScreen() }
                 composable(BottomNavigationScreen.Search.route) { FindClubScreen() }
+                composable(BottomNavigationScreen.Dancers.route) { DancerListOfAdminScreen() }
                 composable(BottomNavigationScreen.Cases.route) { MyBookingScreen() }
                 composable(BottomNavigationScreen.Notification.route) { NotificationScreen() }
                 composable(BottomNavigationScreen.Account.route) { AccountScreen() }
@@ -95,4 +108,3 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
         }
     }
 }
-

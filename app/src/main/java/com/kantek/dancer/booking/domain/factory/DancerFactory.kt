@@ -11,6 +11,19 @@ class DancerFactory {
         return items?.map(::create) ?: emptyList()
     }
 
+    /** Same dancer fields with a new [IDancer.isAvailableNow] (e.g. after manager toggles availability). */
+    fun withAvailability(item: IDancer, available: Boolean): IDancer {
+        return object : IDancer {
+            override val id: String get() = item.id
+            override val name: String get() = item.name
+            override val avatar: String get() = item.avatar
+            override val danceStyle: String get() = item.danceStyle
+            override val rating: String get() = item.rating
+            override val bio: String get() = item.bio
+            override val isAvailableNow: Boolean get() = available
+        }
+    }
+
     private fun create(item: DancerDTO): IDancer {
         return object : IDancer {
             override val id: String

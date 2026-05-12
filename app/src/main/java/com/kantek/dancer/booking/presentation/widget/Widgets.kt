@@ -1026,11 +1026,12 @@ fun LogoutDialog(
 @Composable
 fun AppNavigateBottomBar(
     selectedItemRouter: String,
-    onItemRouterSelected: (String) -> Unit
+    onItemRouterSelected: (String) -> Unit,
+    firstTab: BottomNavigationScreen = BottomNavigationScreen.Search,
 ) {
     val items = listOf(
 //        BottomNavigationScreen.Home,
-        BottomNavigationScreen.Search,
+        firstTab,
         BottomNavigationScreen.Cases,
         BottomNavigationScreen.Notification,
         BottomNavigationScreen.Account

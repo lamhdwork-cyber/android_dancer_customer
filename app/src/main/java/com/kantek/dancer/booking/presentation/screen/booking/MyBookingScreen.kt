@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Text
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
@@ -56,7 +57,10 @@ import com.kantek.dancer.booking.presentation.widget.BookingItemView
 import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.NoLoginView
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -126,8 +130,10 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
         }
     }
 
+    val topBarTitleRes by viewModel.topBarTitleRes.collectAsState()
+
     Column(modifier = Modifier.background(Colors.Dark120812)) {
-        ActionBarMainView(R.string.top_bar_my_booking)
+        ActionBarMainView(topBarTitleRes)
         if (user == null) {
             NoLoginView(titleRes = R.string.my_cases_not_login) { openAuth() }
         } else {
@@ -299,6 +305,18 @@ class MyBookingVM(
     private val bookingAcceptRepo: BookingAcceptRepo,
     private val bookingCompleteRepo: BookingCompleteRepo,
 ) : AppViewModel() {
+
+    val topBarTitleRes: StateFlow<Int> = userLive.map { user ->
+        if (user != null && AppConfig.UserRole.isClubManager(user.role)) {
+            R.string.top_bar_booking_queue
+        } else {
+            R.string.top_bar_my_booking
+        }
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        R.string.top_bar_my_booking
+    )
 
     var requestID: String = ""
     private val _pendingState = MutableStateFlow(TabBookingState())

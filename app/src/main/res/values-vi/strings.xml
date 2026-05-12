@@ -11,9 +11,15 @@
     <string name="error_login_role_not_allowed">Tài khoản không có quyền đăng nhập vào ứng dụng</string>
     <string name="nav_home">Trang chủ</string>
     <string name="nav_explore">Tìm kiếm</string>
+    <string name="nav_dancers">Vũ công</string>
     <string name="nav_my_booking">Lịch</string>
     <string name="nav_account">Tài Khoản</string>
     <string name="nav_notification">Thông Báo</string>
+    <string name="dancer_admin_ready">Sẵn sàng</string>
+    <string name="dancer_admin_floor">Trên sàn</string>
+    <string name="dancer_admin_active_roster">Danh sách hoạt động</string>
+    <string name="dancer_admin_total_format">%1$d vũ công</string>
+    <string name="dancer_admin_no_club">Tài khoản chưa được gán club. Vui lòng liên hệ hỗ trợ để được cấu hình.</string>
     <string name="all_phone_or_email">Số điện thoại hoặc Email</string>
     <string name="auth_guest_screen_title">Đăng nhập khách</string>
     <string name="auth_guest_brand_subtitle">Trải nghiệm nightlife cao cấp</string>

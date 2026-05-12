@@ -11,9 +11,15 @@
     <string name="error_login_role_not_allowed">This account is not authorized to sign in to the app.</string>
     <string name="nav_home">Home</string>
     <string name="nav_explore">Explore</string>
+    <string name="nav_dancers">Dancers</string>
     <string name="nav_my_booking">Bookings</string>
     <string name="nav_account">Account</string>
     <string name="nav_notification">Notification</string>
+    <string name="dancer_admin_ready">Ready</string>
+    <string name="dancer_admin_floor">Floor</string>
+    <string name="dancer_admin_active_roster">Active roster</string>
+    <string name="dancer_admin_total_format">%1$d dancers</string>
+    <string name="dancer_admin_no_club">No club is linked to this account. Contact support to assign your club.</string>
     <string name="all_phone_or_email">Phone or Email</string>
     <string name="auth_guest_screen_title">Guest Login</string>
     <string name="auth_guest_brand_title" translatable="false">VELVET</string>

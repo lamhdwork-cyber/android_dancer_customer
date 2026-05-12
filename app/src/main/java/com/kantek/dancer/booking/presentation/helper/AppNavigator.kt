@@ -21,6 +21,7 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgK
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.EXCLUDE_DANCER_IDS
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.GUESTS
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.HAS_NOW
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.HAS_SHOW_BUTTONS
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.HOME_TAB
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.IS_IN_APP
@@ -76,6 +77,7 @@ class AppNavigator : Updatable {
             const val PICK_FOR_BOOKING = "pick_for_booking"
             const val EXCLUDE_DANCER_IDS = "exclude_dancer_ids"
             const val PICKED_DANCER_ID = "picked_dancer_id"
+            const val HAS_SHOW_BUTTONS = "has_show_buttons"
         }
     }
 
@@ -173,11 +175,13 @@ class AppNavigator : Updatable {
         dataJson: String = "",
         dancerId: String = ""
     ) {
-        navHost?.navigate("${Screen.DetailDancer.name}?$BOOKING_DTO=$dataJson&$LAWYER_ID=$lawyerID&$ID=$dancerId")
+        navHost?.navigate("${Screen.DetailDancer.name}?$BOOKING_DTO=$dataJson&$LAWYER_ID=$lawyerID&$ID=$dancerId&$HAS_SHOW_BUTTONS=true")
     }
 
-    fun navigateDetailDancer(dancerId: String) {
-        navHost?.navigate("${Screen.DetailDancer.name}?$ID=$dancerId")
+    fun navigateDetailDancer(dancerId: String, hasShowButtons: Boolean = true) {
+        navHost?.navigate(
+            "${Screen.DetailDancer.name}?$BOOKING_DTO=&$LAWYER_ID=-1&$ID=${Uri.encode(dancerId)}&$HAS_SHOW_BUTTONS=$hasShowButtons"
+        )
     }
 
     fun navigateBooking(

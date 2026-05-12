@@ -21,4 +21,9 @@ interface DancerApi {
     fun fetchDetail(
         @Path("id") dancerId: String
     ): ApiAsync<DancerDTO>
+
+    @GET("dancers/{id}/availability")
+    fun toggleAvailability(
+        @Path("id") dancerId: String
+    ): ApiAsync<Any>
 }

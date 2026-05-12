@@ -11,9 +11,15 @@
     <string name="error_login_role_not_allowed">Esta cuenta no tiene permiso para iniciar sesión en la aplicación.</string>
     <string name="nav_home">Inicio</string>
     <string name="nav_explore">Buscar Abogado</string>
+    <string name="nav_dancers">Artistas</string>
     <string name="nav_my_booking">Caso</string>
     <string name="nav_account">Cuenta</string>
     <string name="nav_notification">Notificaciones</string>
+    <string name="dancer_admin_ready">Listo</string>
+    <string name="dancer_admin_floor">En pista</string>
+    <string name="dancer_admin_active_roster">Plantilla activa</string>
+    <string name="dancer_admin_total_format">%1$d artistas</string>
+    <string name="dancer_admin_no_club">No hay un club vinculado a esta cuenta. Contacta a soporte para asignar tu club.</string>
     <string name="all_phone_or_email">Teléfono o correo electrónico</string>
     <string name="auth_guest_screen_title">Acceso de invitado</string>
     <string name="auth_guest_brand_subtitle">Acceso premium a la vida nocturna</string>
