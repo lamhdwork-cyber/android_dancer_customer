@@ -7,14 +7,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -287,7 +290,6 @@ private fun DetailBookingHero(
         )
         Row(
             modifier = Modifier
-                .statusBarsPadding()
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -444,26 +446,35 @@ private fun DetailBookingWhenWhereRow(
     roomIcon: ImageVector
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.Top
     ) {
         DetailGlassMiniTile(
             title = stringResource(R.string.booking_date),
             value = dateLabel,
             icon = Icons.Outlined.CalendarToday,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
         )
         DetailGlassMiniTile(
             title = stringResource(R.string.booking_time),
             value = timeLabel,
             icon = Icons.Outlined.Schedule,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
         )
         DetailGlassMiniTile(
             title = stringResource(R.string.booking_detail_room_short),
             value = roomLabel,
             icon = roomIcon,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
         )
     }
 }
@@ -477,6 +488,7 @@ private fun DetailGlassMiniTile(
 ) {
     Column(
         modifier = modifier
+            .fillMaxHeight()
             .clip(RoundedCornerShape(16.dp))
             .background(Colors.Pink1AF425F4)
             .border(1.dp, Colors.Pink33F425F4, RoundedCornerShape(16.dp))
@@ -512,6 +524,7 @@ private fun DetailGlassMiniTile(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun DetailBookingDancersSection(detail: IBookingDetail) {
     val names = detail.dancersDisplayList
@@ -547,27 +560,18 @@ private fun DetailBookingDancersSection(detail: IBookingDetail) {
                 fontSize = 13.sp
             )
         } else {
-            val rows = names.mapIndexed { index, name ->
-                Triple(name, avatars.getOrNull(index).orEmpty(), styles.getOrNull(index).orEmpty())
-            }.chunked(2)
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                rows.forEach { row ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        row.forEach { (name, url, style) ->
-                            DetailDancerTile(
-                                name = name,
-                                avatarUrl = url,
-                                subtitle = style,
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
-                        if (row.size == 1) {
-                            Spacer(modifier = Modifier.weight(1f))
-                        }
-                    }
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                names.forEachIndexed { index, name ->
+                    DetailDancerTile(
+                        name = name,
+                        avatarUrl = avatars.getOrNull(index).orEmpty(),
+                        subtitle = styles.getOrNull(index).orEmpty(),
+                        modifier = Modifier
+                    )
                 }
             }
         }
@@ -599,14 +603,12 @@ private fun DetailDancerTile(
         ) {
             AvatarImage(url = avatarUrl, size = 44.dp)
         }
-        Column(modifier = Modifier.weight(1f)) {
+        Column {
             Text(
                 text = name,
                 color = Colors.White,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                fontWeight = FontWeight.Bold
             )
             Text(
                 text = sub.uppercase(),
@@ -712,6 +714,9 @@ private fun DetailSummaryRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -725,14 +730,19 @@ private fun DetailSummaryRow(
                 text = label,
                 color = Colors.GrayCBD5E1,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
             )
         }
         Text(
             text = value,
             color = Colors.White,
             fontSize = 14.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            textAlign = TextAlign.End
         )
     }
 }

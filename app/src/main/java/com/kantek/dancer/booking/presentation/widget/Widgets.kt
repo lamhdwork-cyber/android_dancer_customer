@@ -1994,6 +1994,7 @@ fun BookingSuccessDialog(
         })
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun BookingItemView(
     it: IBooking,
@@ -2017,17 +2018,19 @@ fun BookingItemView(
                 .background(Colors.Dark190C19)
                 .padding(16.dp)
         ) {
-            Row(
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.Top
                 ) {
                     Row(
+                        modifier = Modifier.weight(1f),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.Top
                     ) {
                         Text(
                             text = it.bookingCodeDisplay,
@@ -2041,13 +2044,39 @@ fun BookingItemView(
                             fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f)
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                     Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        if (it.isNow) {
+                            Box(
+                                modifier = Modifier
+                                    .size(6.dp)
+                                    .clip(CircleShape)
+                                    .background(it.colorStatus)
+                            )
+                        }
+                        Text(
+                            text = it.timeDisplay,
+                            color = if (it.isNow) Colors.Primary else Colors.Gray6B7280,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    FlowRow(
+                        modifier = Modifier.weight(1f),
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -2075,7 +2104,9 @@ fun BookingItemView(
                             Text(
                                 text = it.roomNameDisplay,
                                 color = Colors.Gray9CA3AF,
-                                fontSize = 11.sp
+                                fontSize = 11.sp,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
                         Row(
@@ -2111,28 +2142,7 @@ fun BookingItemView(
                             )
                         }
                     }
-                }
-                SpaceHorizontal(8.dp)
-                Column(horizontalAlignment = Alignment.End) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        if (it.isNow) {
-                            Box(
-                                modifier = Modifier
-                                    .size(6.dp)
-                                    .clip(CircleShape)
-                                    .background(it.colorStatus)
-                            )
-                        }
-                        Text(
-                            text = it.timeDisplay,
-                            color = if (it.isNow) Colors.Primary else Colors.Gray6B7280,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
+
                     Text(
                         text = it.totalAmountDisplay,
                         color = Colors.Green103,

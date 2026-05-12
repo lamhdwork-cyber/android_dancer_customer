@@ -46,6 +46,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -167,7 +168,12 @@ fun DetailDancerScreen(
                 )
                 .background(Colors.OverlayCC120812)
                 .verticalScroll(rememberScrollState())
-                .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = if (hasShowButtons) 184.dp else 32.dp)
+                .padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 20.dp,
+                    bottom = if (hasShowButtons) 184.dp else 32.dp + navBarBottomDp
+                )
         ) {
             Box(
                 modifier = Modifier
@@ -182,18 +188,21 @@ fun DetailDancerScreen(
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.Top
             ) {
-                Column {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = dancer.name,
                         color = Colors.White,
                         fontSize = 34.sp,
-                        fontWeight = FontWeight.Bold
+                        lineHeight = 42.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Row(
-                        modifier = Modifier.padding(top = 2.dp),
+                        modifier = Modifier.padding(top = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
