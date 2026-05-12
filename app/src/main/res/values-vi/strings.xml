@@ -8,6 +8,7 @@
     <string name="error_no_internet">Vui lòng kiểm tra kết nối mạng và thử lại!</string>
     <string name="error_server">Đã xảy ra lỗi máy chủ. Vui lòng thử lại sau!</string>
     <string name="error_internal_server">Rất tiếc! Chúng tôi gặp phải sự cố kỹ thuật. Đội ngũ của chúng tôi đang xử lý. Vui lòng thử lại sau. Xin lỗi vì sự bất tiện.</string>
+    <string name="error_login_role_not_allowed">Tài khoản không có quyền đăng nhập vào ứng dụng</string>
     <string name="nav_home">Trang chủ</string>
     <string name="nav_explore">Tìm kiếm</string>
     <string name="nav_my_booking">Lịch</string>
@@ -41,7 +42,7 @@
     <string name="auth_first_time_here">Bạn là người dùng mới ?</string>
     <string name="all_sign_up">Đăng ký</string>
     <string name="all_confirm">Xác nhận</string>
-    <string name="all_cancel">Hủy</string>
+    <string name="all_cancel">HỦY</string>
     <string name="msg_exit_app">Bạn có chắc chắn muốn thoát ứng dụng không?</string>
     <string name="all_exit">Thoát</string>
     <string name="language_en">English(Tiếng Anh)</string>
@@ -366,8 +367,15 @@
     <string name="booking_tab_pending">ĐANG CHỜ</string>
     <string name="booking_tab_accepted">ĐÃ NHẬN</string>
     <string name="booking_tab_completed">HOÀN THÀNH</string>
+    <string name="booking_action_accept">CHẤP NHẬN</string>
+    <string name="booking_action_reject">TỪ CHỐI</string>
+    <string name="booking_action_complete">HOÀN THÀNH</string>
+    <string name="booking_confirm_accept_title">Chấp nhận đặt chỗ này?</string>
+    <string name="booking_confirm_accept_message">Khách sẽ thấy đặt chỗ đã được chấp nhận. Khi kết thúc buổi, bạn có thể nhấn Hoàn thành.</string>
+    <string name="booking_confirm_complete_title">Đánh dấu hoàn thành?</string>
+    <string name="booking_confirm_complete_message">Dùng khi dịch vụ đã xong. Đặt chỗ sẽ được ghi nhận là đã hoàn thành.</string>
     <string name="booking_detail_checkin_pass">XEM MÃ CHECK-IN</string>
-    <string name="booking_detail_cancel_booking">Hủy đặt chỗ</string>
+    <string name="booking_detail_cancel_booking">HỦY ĐẶT CHỖ</string>
     <string name="booking_detail_guests_format">%1$d khách</string>
     <string name="booking_detail_songs_format">%1$d bài</string>
     <string name="booking_detail_incl_tax">Đã gồm thuế &amp; phí</string>

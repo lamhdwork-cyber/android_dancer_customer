@@ -29,20 +29,13 @@ class TextFormatter {
         return createdAt?.utcToDateLocal().formatWith(FORMAT_DATE_TIME)
     }
 
-    fun getColorWithStatus(status: Int): Color {
-        return when (status) {
-            AppConfig.Booking.Status.NEW -> Colors.Orange251
-            AppConfig.Booking.Status.PENDING -> Colors.Blue75
-            AppConfig.Booking.Status.COMPLETE -> Colors.Blue148
-            else -> Colors.Red247
-        }
-    }
-
     fun getColorWithStatus(status: String): Color {
-        return when (status.lowercase()) {
-            "pending", "scheduled" -> Colors.Orange251
-            "accepted" -> Colors.Blue75
-            "completed" -> Colors.Blue148
+        return when {
+            status.equals(AppConfig.Booking.Status.PENDING, true) ||
+                status.equals(AppConfig.Booking.Status.SCHEDULED, true) -> Colors.Orange251
+            status.equals(AppConfig.Booking.Status.CONFIRMED, true) ||
+                status.equals(AppConfig.Booking.Status.ACCEPTED, true) -> Colors.Blue75
+            status.equals(AppConfig.Booking.Status.COMPLETED, true) -> Colors.Blue148
             else -> Colors.Red247
         }
     }

@@ -178,6 +178,7 @@ import com.kantek.dancer.booking.domain.model.support.BottomNavigationScreen
 import com.kantek.dancer.booking.domain.model.ui.Command
 import com.kantek.dancer.booking.domain.model.ui.IImage
 import com.kantek.dancer.booking.domain.model.ui.ILabel
+import com.kantek.dancer.booking.domain.model.ui.booking.BookingActionsBar
 import com.kantek.dancer.booking.domain.model.ui.booking.IBooking
 import com.kantek.dancer.booking.domain.model.ui.faqs.ILegalAnswer
 import com.kantek.dancer.booking.domain.model.ui.faqs.ILegalCategory
@@ -1997,7 +1998,9 @@ fun BookingItemView(
     it: IBooking,
     onItemClick: () -> Unit,
     onRequestClick: () -> Unit,
-    onCancelClick: () -> Unit
+    onCancelClick: () -> Unit,
+    onAcceptClick: () -> Unit = {},
+    onCompleteClick: () -> Unit = {},
 ) {
     Card(
         onClick = onItemClick,
@@ -2203,34 +2206,112 @@ fun BookingItemView(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            OutlinedButton(
-                onClick = onCancelClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp),
-                shape = RoundedCornerShape(28.dp),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = Colors.RedEF4444.copy(alpha = 0.85f)
-                ),
-                border = androidx.compose.foundation.BorderStroke(1.dp, Colors.Red33EF4444)
-            ) {
-                Text(
-                    text = stringResource(R.string.all_cancel),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.sp
-                )
-            }
+            when (it.bookingActionsBar) {
+                BookingActionsBar.USER_STANDARD -> {
+                    if (it.hasShowButtonCancel) {
+                        OutlinedButton(
+                            onClick = onCancelClick,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp),
+                            shape = RoundedCornerShape(28.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Colors.RedEF4444.copy(alpha = 0.85f)
+                            ),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, Colors.Red33EF4444)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.all_cancel),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 13.sp
+                            )
+                        }
+                    }
+                    if (it.hasCancel) {
+                        if (it.hasShowButtonCancel) {
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+                        AppButton(
+                            nameRes = R.string.all_request_again,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp)
+                                .clip(RoundedCornerShape(28.dp)),
+                            onClick = onRequestClick
+                        )
+                    }
+                }
 
-            if (it.hasCancel) {
-                Spacer(modifier = Modifier.height(16.dp))
-                AppButton(
-                    nameRes = R.string.all_request_again,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp)
-                        .clip(RoundedCornerShape(28.dp)),
-                    onClick = onRequestClick
-                )
+                BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT,
+                BookingActionsBar.CLUB_MANAGER_COMPLETE_CANCEL -> {
+                    val primaryLabel = when (it.bookingActionsBar) {
+                        BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT ->
+                            R.string.booking_action_accept
+                        else ->
+                            R.string.booking_action_complete
+                    }
+                    val onPrimary = when (it.bookingActionsBar) {
+                        BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT -> onAcceptClick
+                        else -> onCompleteClick
+                    }
+                    val secondaryLabel = when (it.bookingActionsBar) {
+                        BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT ->
+                            R.string.booking_action_reject
+                        else ->
+                            R.string.all_cancel
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Button(
+                            onClick = onPrimary,
+                            modifier = Modifier
+                                .weight(2f)
+                                .height(40.dp),
+                            shape = RoundedCornerShape(28.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Colors.Primary,
+                                contentColor = Color.White
+                            ),
+                            elevation = ButtonDefaults.buttonElevation(
+                                defaultElevation = 4.dp,
+                                pressedElevation = 8.dp
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(primaryLabel),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp,
+                                letterSpacing = 1.2.sp
+                            )
+                        }
+                        OutlinedButton(
+                            onClick = onCancelClick,
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(40.dp),
+                            shape = RoundedCornerShape(28.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Colors.Gray9CA3AF
+                            ),
+                            border = androidx.compose.foundation.BorderStroke(
+                                1.dp,
+                                Colors.White1AFFFFFF
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(secondaryLabel),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp,
+                                letterSpacing = 1.2.sp
+                            )
+                        }
+                    }
+                }
+
+                BookingActionsBar.NONE -> Unit
             }
         }
     }

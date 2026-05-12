@@ -15,6 +15,7 @@ import com.kantek.dancer.booking.data.helper.network.interceptor.TokenIntercepto
 import com.kantek.dancer.booking.data.local.FilterLocalSource
 import com.kantek.dancer.booking.data.local.LanguageLocalSource
 import com.kantek.dancer.booking.data.local.UserLocalSource
+import com.kantek.dancer.booking.data.local.UserRoleProvider
 import com.kantek.dancer.booking.data.remote.api.BookingApi
 import com.kantek.dancer.booking.data.remote.api.ClubApi
 import com.kantek.dancer.booking.data.remote.api.ConfigApi
@@ -65,6 +66,7 @@ import com.kantek.dancer.booking.domain.factory.UserFactory
 import com.kantek.dancer.booking.domain.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.formatter.TimeFormatter
 import com.kantek.dancer.booking.domain.model.support.Scopes
+import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import com.kantek.dancer.booking.domain.usecase.FetchClubCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerByClubCase
@@ -92,8 +94,10 @@ import com.kantek.dancer.booking.presentation.screen.auth.forgot.ResetPasswordRe
 import com.kantek.dancer.booking.presentation.screen.auth.forgot.RetPasswordVM
 import com.kantek.dancer.booking.presentation.screen.auth.otp.OTPVerifyVM
 import com.kantek.dancer.booking.presentation.screen.auth.otp.VerifyOTPRepo
+import com.kantek.dancer.booking.presentation.screen.booking.BookingAcceptRepo
 import com.kantek.dancer.booking.presentation.screen.booking.BookingCancelRepo
 import com.kantek.dancer.booking.presentation.screen.booking.BookingRequestAgainRepo
+import com.kantek.dancer.booking.presentation.screen.booking.BookingCompleteRepo
 import com.kantek.dancer.booking.presentation.screen.booking.DetailBookingVM
 import com.kantek.dancer.booking.presentation.screen.booking.FetchBookingDetailRepo
 import com.kantek.dancer.booking.presentation.screen.booking.FetchMyBookingByPageRepo
@@ -220,8 +224,8 @@ val presentationModule = module {
     viewModel { ForgotPasswordVM(get(), get(), get()) }
     viewModel { IntroduceVM(get()) }
     viewModel { HomeVM(get(), get()) }
-    viewModel { MyBookingVM(get(), get(), get()) }
-    viewModel { DetailBookingVM(get(), get(), get(), get()) }
+    viewModel { MyBookingVM(get(), get(), get(), get(), get()) }
+    viewModel { DetailBookingVM(get(), get(), get(), get(), get(), get()) }
     viewModel { DetailDancerVM(get()) }
     viewModel { ChangePasswordVM(get(), getBy(Scopes.App)) }
     viewModel { MyProfileVM(get(), get(), getBy(Scopes.App)) }
@@ -244,6 +248,7 @@ val dataModule = module {
     single { AppNotifications(get()) }
     single { SaveStateHandler() }
     single { UserLocalSource(get(), get(), get()) }
+    single<CurrentUserRoleProvider> { UserRoleProvider(get()) }
     single { TokenInterceptor(get()) }
     single { LanguageInterceptor(get()) }
     single { ShareIOScope() }
@@ -257,8 +262,8 @@ val dataModule = module {
     factory { FetchUserRepo(get(), get(), get()) }
     factory { SignOutRepo(get(), get()) }
     factory { GetAccountRepo(get()) }
-    factory { SignInRepo(get(), get()) }
-    factory { SignUpRepo(get(), get()) }
+    factory { SignInRepo(get<Application>().applicationContext, get(), get()) }
+    factory { SignUpRepo(get<Application>().applicationContext, get(), get()) }
     factory { ForgotPasswordRepo(get()) }
     factory { FetchIntroduceRepo(get()) }
     factory { FetchAllBannerRepo(get(), get()) }
@@ -267,6 +272,8 @@ val dataModule = module {
     factory { FetchMyBookingByPageRepo(get(), get()) }
     factory { BookingRequestAgainRepo(get()) }
     factory { BookingCancelRepo(get()) }
+    factory { BookingAcceptRepo(get()) }
+    factory { BookingCompleteRepo(get()) }
     factory { FetchBookingDetailRepo(get(), get()) }
     factory { ChangePasswordRepo(get()) }
     factory { DeleteAccountRepo(get(), get()) }
@@ -304,7 +311,7 @@ val domainModule = module {
     single { UserFactory(get()) }
     single { PhotoFactory(get()) }
     single { ConfigFactory(get()) }
-    single { BookingFactory(get(), get(), get()) }
+    single { BookingFactory(get(), get(), get(), get()) }
     single { RoomFactory(get()) }
     single { ClubFactory() }
     single { DancerFactory() }

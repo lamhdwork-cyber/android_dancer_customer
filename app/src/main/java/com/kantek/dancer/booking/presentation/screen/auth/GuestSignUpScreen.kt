@@ -1,6 +1,7 @@
 package com.kantek.dancer.booking.presentation.screen.auth
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,7 +30,6 @@ import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Smartphone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -68,7 +68,6 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.domain.extension.resourceError
-import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.user.SignUpForm
 import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
@@ -77,7 +76,6 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppKeyboard
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.LegalDisclaimerDialog
@@ -518,6 +516,7 @@ class SignUpVM(
 }
 
 class SignUpRepo(
+    private val appContext: Context,
     private val userLocalSource: UserLocalSource,
     private val userApi: UserApi
 ) {
@@ -527,6 +526,7 @@ class SignUpRepo(
             lastName = form.lastName.trim(),
             deviceToken = userLocalSource.getTokenPush()
         )
-        userLocalSource.saveUserResponse(userApi.signUp(body).await())
+        val rs = userApi.signUp(body).await()
+        userLocalSource.saveUserResponse(rs)
     }
 }

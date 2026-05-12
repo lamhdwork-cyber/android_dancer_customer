@@ -2,18 +2,21 @@ package com.kantek.dancer.booking.domain.factory
 
 import android.support.core.extensions.safe
 import androidx.compose.ui.graphics.Color
+import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.domain.extension.Format
 import com.kantek.dancer.booking.domain.extension.Format.FORMAT_DATE_TIME
 import com.kantek.dancer.booking.domain.extension.formatWith
 import com.kantek.dancer.booking.domain.extension.utcToDateLocal
 import com.kantek.dancer.booking.domain.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.model.response.BookingDTO
+import com.kantek.dancer.booking.domain.model.ui.booking.BookingActionsBar
 import com.kantek.dancer.booking.domain.model.ui.booking.IBooking
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingDetail
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.kantek.dancer.booking.domain.model.ui.booking.IBookingScheduleDay
 import com.kantek.dancer.booking.domain.model.ui.user.ILawyer
 import com.kantek.dancer.booking.domain.model.ui.user.IUser
+import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -24,7 +27,8 @@ import java.util.TimeZone
 class BookingFactory(
     private val textFormatter: TextFormatter,
     private val userFactory: UserFactory,
-    private val roomFactory: RoomFactory
+    private val roomFactory: RoomFactory,
+    private val currentUserRoleProvider: CurrentUserRoleProvider
 ) {
     fun createList(its: List<BookingDTO>?): List<IBooking> {
         return its?.map(::create) ?: listOf()
@@ -100,13 +104,21 @@ class BookingFactory(
             override val timeDisplay: String
                 get() = if (isNow) "NOW" else datetime
             override val hasShowButtonCancel: Boolean
-                get() = status.equals("pending", true) || status.equals("scheduled", true)
+                get() {
+                    if (AppConfig.UserRole.isClubManager(currentUserRoleProvider.getRole())) return false
+                    return status.equals(AppConfig.Booking.Status.PENDING, true) ||
+                        status.equals(AppConfig.Booking.Status.SCHEDULED, true) ||
+                        status.equals(AppConfig.Booking.Status.CONFIRMED, true) ||
+                        status.equals(AppConfig.Booking.Status.ACCEPTED, true)
+                }
+            override val bookingActionsBar: BookingActionsBar
+                get() = resolveBookingActionsBar(it.status.safe())
             override val hasCancel: Boolean
-                get() = status.equals("cancelled", true)
+                get() = status.equals(AppConfig.Booking.Status.CANCELLED, true)
             override val hasComplete: Boolean
-                get() = status.equals("completed", true)
+                get() = status.equals(AppConfig.Booking.Status.COMPLETED, true)
             override val hasNew: Boolean
-                get() = status.equals("pending", true)
+                get() = status.equals(AppConfig.Booking.Status.PENDING, true)
             override val lawyer: ILawyer?
                 get() = null
             override val owner: BookingDTO
@@ -124,7 +136,7 @@ class BookingFactory(
         return object : IBookingDetail, IBooking by create(it) {
             override val statusDisplay: String
                 get() = when (it.status.safe().lowercase(Locale.getDefault())) {
-                    "confirmed" -> "Accepted"
+                    AppConfig.Booking.Status.CONFIRMED -> "Accepted"
                     else -> it.status.safe().replaceFirstChar { c -> c.uppercase() }
                 }
             override val language: String
@@ -218,6 +230,19 @@ class BookingFactory(
             }
         }
         return raw
+    }
+
+    private fun resolveBookingActionsBar(statusRaw: String): BookingActionsBar {
+        val role = currentUserRoleProvider.getRole()
+        if (!AppConfig.UserRole.isClubManager(role)) return BookingActionsBar.USER_STANDARD
+        val s = statusRaw.lowercase(Locale.getDefault()).trim()
+        return when {
+            s == AppConfig.Booking.Status.PENDING || s == AppConfig.Booking.Status.SCHEDULED ->
+                BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT
+            s == AppConfig.Booking.Status.CONFIRMED || s == AppConfig.Booking.Status.ACCEPTED ->
+                BookingActionsBar.CLUB_MANAGER_COMPLETE_CANCEL
+            else -> BookingActionsBar.NONE
+        }
     }
 
 }

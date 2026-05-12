@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Pickboxx</string>
+    <string name="app_name" translatable="false">Dancer</string>
     <string name="all_password">Password</string>
     <string name="all_sign_in">Sign in</string>
     <string name="all_loading">Loading…</string>
@@ -8,6 +8,7 @@
     <string name="error_no_internet">Please check your network connection and try again!</string>
     <string name="error_server">Server error occurred. Please try again later!</string>
     <string name="error_internal_server">Oops! We\'re having a technical issue. Our team is on it. Please try again later. Sorry for the inconvenience.</string>
+    <string name="error_login_role_not_allowed">This account is not authorized to sign in to the app.</string>
     <string name="nav_home">Home</string>
     <string name="nav_explore">Explore</string>
     <string name="nav_my_booking">Bookings</string>
@@ -48,7 +49,7 @@
     <string name="auth_first_time_here">First time here?</string>
     <string name="all_sign_up">Sign up</string>
     <string name="all_confirm">Confirm</string>
-    <string name="all_cancel">Cancel</string>
+    <string name="all_cancel">CANCEL</string>
     <string name="msg_exit_app">Are you sure you want to exit the application?</string>
     <string name="all_exit">Exit</string>
     <string name="language_en">English</string>
@@ -373,8 +374,15 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="booking_tab_pending">PENDING</string>
     <string name="booking_tab_accepted">ACCEPTED</string>
     <string name="booking_tab_completed">COMPLETED</string>
+    <string name="booking_action_accept">ACCEPT</string>
+    <string name="booking_action_reject">REJECT</string>
+    <string name="booking_action_complete">COMPLETE</string>
+    <string name="booking_confirm_accept_title">Accept this booking?</string>
+    <string name="booking_confirm_accept_message">The guest will see this booking as accepted. You can mark it complete when the visit ends.</string>
+    <string name="booking_confirm_complete_title">Mark as complete?</string>
+    <string name="booking_confirm_complete_message">Use this when the service is finished. The booking will be marked completed.</string>
     <string name="booking_detail_checkin_pass">VIEW CHECK-IN PASS</string>
-    <string name="booking_detail_cancel_booking">Cancel booking</string>
+    <string name="booking_detail_cancel_booking">CANCEL BOOKING</string>
     <string name="booking_detail_guests_format">%1$d people</string>
     <string name="booking_detail_songs_format">%1$d songs</string>
     <string name="booking_detail_incl_tax">Incl. Tax &amp; Fees</string>

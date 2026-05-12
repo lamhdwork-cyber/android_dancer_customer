@@ -41,6 +41,7 @@ interface IBooking {
     val hasCancel get() = false
     val hasNew get() = false
     val hasComplete get() = false
+    val bookingActionsBar: BookingActionsBar get() = BookingActionsBar.USER_STANDARD
     val lawyer: ILawyer? get() = null
     val owner: BookingDTO? get() = null
 }

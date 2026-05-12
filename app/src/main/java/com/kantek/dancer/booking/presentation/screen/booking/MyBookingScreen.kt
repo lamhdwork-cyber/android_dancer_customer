@@ -61,9 +61,14 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 enum class MyBookingTab(val apiStatus: String) {
-    PENDING("pending"),
-    ACCEPTED("confirmed"),
-    COMPLETED("completed")
+    PENDING(AppConfig.Booking.Status.PENDING),
+    ACCEPTED(AppConfig.Booking.Status.CONFIRMED),
+    COMPLETED(AppConfig.Booking.Status.COMPLETED)
+}
+
+private sealed interface ManagerBookingConfirm {
+    data class Accept(val tab: MyBookingTab) : ManagerBookingConfirm
+    data class Complete(val tab: MyBookingTab) : ManagerBookingConfirm
 }
 
 data class TabBookingState(
@@ -87,6 +92,7 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
     var hasShowComingSoon by remember { mutableStateOf(false) }
     var hasShowRequest by remember { mutableStateOf(false) }
     var hasShowCancel by remember { mutableStateOf(false) }
+    var managerBookingConfirm by remember { mutableStateOf<ManagerBookingConfirm?>(null) }
     val languageChanged by remember { mutableStateOf(viewModel.getCurrentLanguage()) }
     val userChanged by remember { mutableStateOf(viewModel.getCurrentUser()) }
     val pagerState = rememberPagerState(pageCount = { MyBookingTab.entries.size })
@@ -160,7 +166,16 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                             onCancelClick = {
                                 hasShowCancel = true
                                 viewModel.requestID = item.id
-                            })
+                            },
+                            onAcceptClick = {
+                                viewModel.requestID = item.id
+                                managerBookingConfirm = ManagerBookingConfirm.Accept(tab)
+                            },
+                            onCompleteClick = {
+                                viewModel.requestID = item.id
+                                managerBookingConfirm = ManagerBookingConfirm.Complete(tab)
+                            }
+                        )
                     }
                     if (!tabState.isLoading && !tabState.isRefreshing && tabState.items.isEmpty()) {
                         val noDataRes = when (tab) {
@@ -202,6 +217,31 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                     hasShowCancel = false
                 }
             )
+        }
+        when (val confirm = managerBookingConfirm) {
+            is ManagerBookingConfirm.Accept -> AppConfirmDialog(
+                title = stringResource(R.string.booking_confirm_accept_title),
+                message = stringResource(R.string.booking_confirm_accept_message),
+                textConfirm = stringResource(R.string.all_confirm),
+                onConfirm = {
+                    managerBookingConfirm = null
+                    viewModel.submitAccept(confirm.tab)
+                },
+                onDismiss = { managerBookingConfirm = null }
+            )
+
+            is ManagerBookingConfirm.Complete -> AppConfirmDialog(
+                title = stringResource(R.string.booking_confirm_complete_title),
+                message = stringResource(R.string.booking_confirm_complete_message),
+                textConfirm = stringResource(R.string.all_confirm),
+                onConfirm = {
+                    managerBookingConfirm = null
+                    viewModel.submitComplete(confirm.tab)
+                },
+                onDismiss = { managerBookingConfirm = null }
+            )
+
+            null -> Unit
         }
     }
 }
@@ -256,6 +296,8 @@ class MyBookingVM(
     private val fetchMyBookingByPageRepo: FetchMyBookingByPageRepo,
     private val bookingRequestAgainRepo: BookingRequestAgainRepo,
     private val bookingCancelRepo: BookingCancelRepo,
+    private val bookingAcceptRepo: BookingAcceptRepo,
+    private val bookingCompleteRepo: BookingCompleteRepo,
 ) : AppViewModel() {
 
     var requestID: String = ""
@@ -344,6 +386,16 @@ class MyBookingVM(
         bookingCancelRepo(requestID, reason)
         onRefresh(tab)
     }
+
+    fun submitAccept(tab: MyBookingTab) = launch(loading, error) {
+        bookingAcceptRepo(requestID)
+        onRefresh(tab)
+    }
+
+    fun submitComplete(tab: MyBookingTab) = launch(loading, error) {
+        bookingCompleteRepo(requestID)
+        onRefresh(tab)
+    }
 }
 
 
@@ -353,6 +405,20 @@ class BookingCancelRepo(private val bookingApi: BookingApi) {
         bookingApi.cancel(requestID, reason).awaitNullable()
     }
 
+}
+
+class BookingAcceptRepo(private val bookingApi: BookingApi) {
+
+    suspend operator fun invoke(requestID: String) {
+        bookingApi.accept(requestID).awaitNullable()
+    }
+}
+
+class BookingCompleteRepo(private val bookingApi: BookingApi) {
+
+    suspend operator fun invoke(requestID: String) {
+        bookingApi.complete(requestID).awaitNullable()
+    }
 }
 
 class BookingRequestAgainRepo(private val bookingApi: BookingApi) {

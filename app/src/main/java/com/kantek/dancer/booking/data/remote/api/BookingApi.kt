@@ -34,11 +34,9 @@ interface BookingApi {
         @Field("reason") reason: String
     ): ApiAsync<Any>
 
-    @FormUrlEncoded
     @PATCH("bookings/{id}/confirm")
     fun accept(@Path("id") id: String): ApiAsync<Any>
 
-    @FormUrlEncoded
     @PATCH("bookings/{id}/complete")
     fun complete(@Path("id") id: String): ApiAsync<Any>
 

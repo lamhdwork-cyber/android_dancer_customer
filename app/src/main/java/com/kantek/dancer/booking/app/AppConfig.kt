@@ -30,11 +30,33 @@ object AppConfig {
     }
 
     object Booking {
+        /** API / DTO string values for [com.kantek.dancer.booking.domain.model.response.BookingDTO.status]. */
         object Status {
-            const val NEW = 1//FB923C
-            const val PENDING = 2//4B93E5
-            const val COMPLETE = 3//94A3B8
-            const val CANCELED = 5//F75D5D
+            const val PENDING = "pending"
+            const val SCHEDULED = "scheduled"
+            const val CONFIRMED = "confirmed"
+            const val ACCEPTED = "accepted"
+            const val COMPLETED = "completed"
+            const val CANCELLED = "cancelled"
+        }
+    }
+
+    /**
+     * Values from [com.kantek.dancer.booking.domain.model.response.UserDTO.role] after login.
+     */
+    object UserRole {
+        const val USER = "user"
+        const val CLUB_MANAGER = "club_manager"
+
+        fun isClubManager(role: String?): Boolean =
+            role?.trim()?.equals(CLUB_MANAGER, ignoreCase = true) == true
+
+        /** Only [USER] or [CLUB_MANAGER] may use this customer app after login. */
+        fun isAppLoginAllowed(role: String?): Boolean {
+            val r = role?.trim().orEmpty()
+            if (r.isEmpty()) return false
+            return r.equals(USER, ignoreCase = true) ||
+                r.equals(CLUB_MANAGER, ignoreCase = true)
         }
     }
 

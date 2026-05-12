@@ -8,6 +8,7 @@
     <string name="error_no_internet">¡Por favor, verifica tu conexión a internet e inténtalo de nuevo!</string>
     <string name="error_server">Ocurrió un error del servidor. ¡Por favor, inténtalo más tarde!</string>
     <string name="error_internal_server">¡Lo sentimos! Hemos tenido un problema técnico. Nuestro equipo ya está trabajando en ello. Intenta nuevamente más tarde. Disculpa por los inconvenientes.</string>
+    <string name="error_login_role_not_allowed">Esta cuenta no tiene permiso para iniciar sesión en la aplicación.</string>
     <string name="nav_home">Inicio</string>
     <string name="nav_explore">Buscar Abogado</string>
     <string name="nav_my_booking">Caso</string>
@@ -41,7 +42,7 @@
     <string name="auth_first_time_here">¿Eres nuevo aquí?</string>
     <string name="all_sign_up">Registrarse</string>
     <string name="all_confirm">Confirmar</string>
-    <string name="all_cancel">Cancelar</string>
+    <string name="all_cancel">CANCELAR</string>
     <string name="msg_exit_app">¿Estás seguro de que deseas salir de la aplicación?</string>
     <string name="all_exit">Salir</string>
     <string name="language_en">English(Inglés)</string>
@@ -363,8 +364,15 @@ Las reservas completadas aparecerán aquí cuando finalice el servicio.
     <string name="booking_tab_pending">PENDIENTE</string>
     <string name="booking_tab_accepted">ACEPTADO</string>
     <string name="booking_tab_completed">COMPLETADO</string>
+    <string name="booking_action_accept">ACEPTAR</string>
+    <string name="booking_action_reject">RECHAZAR</string>
+    <string name="booking_action_complete">COMPLETAR</string>
+    <string name="booking_confirm_accept_title">¿Aceptar esta reserva?</string>
+    <string name="booking_confirm_accept_message">El invitado verá la reserva como aceptada. Puedes marcarla como completada al finalizar la visita.</string>
+    <string name="booking_confirm_complete_title">¿Marcar como completada?</string>
+    <string name="booking_confirm_complete_message">Úsalo cuando el servicio haya terminado. La reserva quedará registrada como completada.</string>
     <string name="booking_detail_checkin_pass">VER PASE DE CHECK-IN</string>
-    <string name="booking_detail_cancel_booking">Cancelar reserva</string>
+    <string name="booking_detail_cancel_booking">CANCELAR RESERVA</string>
     <string name="booking_detail_guests_format">%1$d personas</string>
     <string name="booking_detail_songs_format">%1$d canciones</string>
     <string name="booking_detail_incl_tax">Incl. impuestos y tasas</string>
