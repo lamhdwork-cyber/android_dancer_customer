@@ -144,7 +144,7 @@ fun GuestSignInScreen(
                     onAccountChange = { viewModel.updateAccount(it) },
                     onPasswordChange = { viewModel.updatePassword(it) },
                     onSignInClick = { viewModel.signIn() },
-                    onForgotPasswordClick = { appNavigator.navigateForgotPassword() }
+                    onForgotPasswordClick = { hasShowComingSoon.value = true }
                 )
             }
 

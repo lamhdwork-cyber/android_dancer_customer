@@ -32,31 +32,31 @@ class FirebaseMessageService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         try {
             Log.e(TAG, remoteMessage.data.toJson())
-            val params = remoteMessage.data
-            val obj = JSONObject(params as Map<*, *>)
-            val cloudMessage = obj.toString().toObject<FireBaseCloudMessage>()
-            when (cloudMessage.type) {
-                AppConfig.NotificationType.Push.CONTACT_REQUEST_COMPLETED -> {
-                    Log.e(TAG, "CONTACT_REQUEST_COMPLETED")
-                    appNotification.bookingNotify(cloudMessage)
-                    appEvent.apply {
-                        onPushBookingCompleted.value = cloudMessage
-                        onRefreshMyBooking.value = true
-                        onRefreshNotification.value = true
-                    }
-                }
-                AppConfig.NotificationType.Push.CHAT -> {
-                    Log.e(TAG, "CHAT")
-                    if (chatRepo.getChatRoomCurrent() != cloudMessage.contact_request_id) {
-                        appNotification.chatNotify(cloudMessage)
-                    }
-                }
-
-                else -> {
-                    Log.e(TAG, "DEFAULT")
-                    appNotification.defaultNotify(cloudMessage)
-                }
-            }
+//            val params = remoteMessage.data
+//            val obj = JSONObject(params as Map<*, *>)
+//            val cloudMessage = obj.toString().toObject<FireBaseCloudMessage>()
+//            when (cloudMessage.type) {
+//                AppConfig.NotificationType.Push.CONTACT_REQUEST_COMPLETED -> {
+//                    Log.e(TAG, "CONTACT_REQUEST_COMPLETED")
+//                    appNotification.bookingNotify(cloudMessage)
+//                    appEvent.apply {
+//                        onPushBookingCompleted.value = cloudMessage
+//                        onRefreshMyBooking.value = true
+//                        onRefreshNotification.value = true
+//                    }
+//                }
+//                AppConfig.NotificationType.Push.CHAT -> {
+//                    Log.e(TAG, "CHAT")
+//                    if (chatRepo.getChatRoomCurrent() != cloudMessage.contact_request_id) {
+//                        appNotification.chatNotify(cloudMessage)
+//                    }
+//                }
+//
+//                else -> {
+//                    Log.e(TAG, "DEFAULT")
+//                    appNotification.defaultNotify(cloudMessage)
+//                }
+//            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

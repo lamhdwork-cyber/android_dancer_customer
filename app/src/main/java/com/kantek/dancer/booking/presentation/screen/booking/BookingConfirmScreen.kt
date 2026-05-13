@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -116,6 +117,7 @@ fun BookingConfirmScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Colors.Dark120812)
+            .navigationBarsPadding()
     ) {
         ActionBarBackAndTitleView(R.string.booking_confirm_title) { appNavigator.back() }
 
@@ -141,6 +143,7 @@ fun BookingConfirmScreen(
                 .fillMaxWidth()
                 .background(Colors.OverlayCC120812)
                 .padding(16.dp)
+                .navigationBarsPadding()
         ) {
             AppButton(
                 nameRes = R.string.booking_confirm_uppercase,
@@ -160,6 +163,7 @@ fun BookingConfirmScreen(
             )
         }
     }
+
 
     if (showSuccessDialog.value) {
         BookingSuccessDialog(
