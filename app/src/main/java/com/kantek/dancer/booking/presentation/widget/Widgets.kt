@@ -52,6 +52,10 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
@@ -75,6 +79,7 @@ import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material.icons.outlined.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.ripple.rememberRipple
@@ -3647,5 +3652,213 @@ fun Modifier.sheetTopSideBorder(
         drawPath(path = path, color = color, style = Stroke(width = sw))
     }
 )
+
+@Composable
+fun DetailBookingClubBlock(clubName: String, address: String) {
+    Column {
+        Text(
+            text = clubName,
+            color = Colors.White,
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = (-0.5).sp
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.LocationOn,
+                contentDescription = null,
+                tint = Colors.Primary,
+                modifier = Modifier.size(16.dp)
+            )
+            Text(
+                text = address,
+                color = Colors.Gray9CA3AF,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+/**
+ * Top bar for [com.kantek.dancer.booking.presentation.screen.dancer.DancerListOfAdminScreen].
+ * Intrinsic height only — no fixed [Modifier.height].
+ */
+@Composable
+fun ActionBarDancerAdmin(
+    clubId: String,
+    clubName: String,
+    clubAddress: String,
+    fallbackTitleRes: Int = R.string.top_bar_status_board,
+) {
+    val configuration = LocalConfiguration.current
+    val addressTextMaxWidth = remember(configuration.screenWidthDp) {
+        val raw = configuration.screenWidthDp.dp - 32.dp - 18.dp - 4.dp
+        if (raw < 48.dp) 48.dp else raw
+    }
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = Colors.Dark120812,
+        shadowElevation = 8.dp,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            if (clubId.isNotBlank() && clubName.isNotBlank()) {
+                Text(
+                    text = clubName,
+                    color = Colors.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.Top,
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.Top,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.LocationOn,
+                            contentDescription = null,
+                            tint = Colors.Primary,
+                            modifier = Modifier
+                                .padding(top = 2.dp)
+                                .size(18.dp),
+                        )
+                        Text(
+                            text = clubAddress,
+                            color = Colors.Gray9CA3AF,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.widthIn(max = addressTextMaxWidth),
+                        )
+                    }
+                }
+            } else {
+                Text(
+                    text = stringResource(fallbackTitleRes),
+                    color = Colors.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun <T> AppLazyVerticalGrid(
+    items: List<T>,
+    keyItem: ((T) -> Any)? = null,
+    columns: GridCells = GridCells.Fixed(2),
+    contentPadding: PaddingValues = PaddingValues(),
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(0.dp),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(0.dp),
+    isLoading: Boolean = false,
+    isRefreshing: Boolean = false,
+    isIndicatorRefreshing: Boolean = isRefreshing,
+    onLoadMore: (() -> Unit)? = null,
+    onRefresh: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = Colors.DarkFF0A050A,
+    pullRefreshContentColor: Color = Colors.Primary,
+    pullRefreshContainerColor: Color = Colors.White,
+    itemContent: @Composable (T, Int, Boolean) -> Unit
+) {
+    val gridState = rememberLazyGridState()
+    val pullToRefreshState = rememberPullToRefreshState()
+    var isProgrammaticRefresh by remember { mutableStateOf(false) }
+
+    LaunchedEffect(gridState, items, isLoading, isRefreshing) {
+        snapshotFlow { gridState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
+            .map { it ?: -1 }
+            .distinctUntilChanged()
+            .collect { lastVisibleIndex ->
+                if (
+                    items.isNotEmpty() &&
+                    lastVisibleIndex >= 0 &&
+                    lastVisibleIndex >= items.lastIndex &&
+                    !isLoading &&
+                    !isRefreshing
+                ) {
+                    onLoadMore?.invoke()
+                }
+            }
+    }
+
+    LaunchedEffect(pullToRefreshState.isRefreshing) {
+        if (pullToRefreshState.isRefreshing && !isProgrammaticRefresh) {
+            onRefresh?.invoke()
+        }
+    }
+
+    LaunchedEffect(isIndicatorRefreshing) {
+        if (isIndicatorRefreshing && !pullToRefreshState.isRefreshing) {
+            isProgrammaticRefresh = true
+            pullToRefreshState.startRefresh()
+        }
+    }
+
+    LaunchedEffect(pullToRefreshState.isRefreshing, isIndicatorRefreshing) {
+        if (pullToRefreshState.isRefreshing && !isIndicatorRefreshing) {
+            pullToRefreshState.endRefresh()
+            isProgrammaticRefresh = false
+        }
+    }
+
+    Surface(
+        modifier = modifier,
+        color = backgroundColor
+    ) {
+        Box(
+            modifier = if (onRefresh != null) Modifier
+                .fillMaxSize()
+                .nestedScroll(pullToRefreshState.nestedScrollConnection)
+            else Modifier
+        ) {
+            LazyVerticalGrid(
+                columns = columns,
+                state = gridState,
+                contentPadding = contentPadding,
+                verticalArrangement = verticalArrangement,
+                horizontalArrangement = horizontalArrangement
+            ) {
+                itemsIndexed(
+                    items,
+                    key = { _, item -> keyItem?.invoke(item) ?: item.hashCode() }
+                ) { index, item ->
+                    itemContent(item, index, index == items.lastIndex)
+                }
+            }
+            if (onRefresh != null) {
+                PullToRefreshContainer(
+                    state = pullToRefreshState,
+                    contentColor = pullRefreshContentColor,
+                    containerColor = pullRefreshContainerColor,
+                    modifier = Modifier.align(Alignment.TopCenter)
+                )
+            }
+        }
+    }
+}
 
 

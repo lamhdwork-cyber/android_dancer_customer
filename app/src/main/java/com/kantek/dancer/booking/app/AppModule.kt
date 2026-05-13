@@ -236,7 +236,7 @@ val presentationModule = module {
     viewModel { OTPVerifyVM(get(), get()) }
     viewModel { RetPasswordVM(get(), getBy(Scopes.App)) }
     viewModel { DancerListVM(get()) }
-    viewModel { DancerListOfAdminVM(get(), get(), get(), get()) }
+    viewModel { DancerListOfAdminVM(get(), get(), get(), get(), get(), get<Application>().applicationContext) }
     viewModel { BookingVM(get(), get(), get()) }
     viewModel { BookingConfirmVM(get(), get()) }
     viewModel { ReviewVM(get()) }

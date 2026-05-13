@@ -1,5 +1,6 @@
 package com.kantek.dancer.booking.presentation.screen.dancer
 
+import android.content.Context
 import android.support.core.event.LoadingEvent
 import android.support.core.event.LoadingFlow
 import androidx.compose.foundation.background
@@ -38,6 +39,7 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.local.UserLocalSource
+import com.kantek.dancer.booking.data.repo.ClubRepo
 import com.kantek.dancer.booking.data.repo.DancerRepo
 import com.kantek.dancer.booking.domain.factory.DancerFactory
 import com.kantek.dancer.booking.domain.model.support.Scopes
@@ -48,9 +50,9 @@ import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
+import com.kantek.dancer.booking.presentation.widget.ActionBarDancerAdmin
 import com.kantek.dancer.booking.presentation.widget.NoDataView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -66,6 +68,8 @@ fun DancerListOfAdminScreen(viewModel: DancerListOfAdminVM = koinViewModel()) =
         val isLoading by viewModel.customLoading.isLoading().collectAsState()
         val isRefreshing by viewModel.isRefreshLoading.isLoading().collectAsState()
         val togglingIds by viewModel.togglingIds.collectAsState()
+        val clubDisplayName by viewModel.clubDisplayName.collectAsState()
+        val clubDisplayAddress by viewModel.clubDisplayAddress.collectAsState()
 
         val readyCount = items.count { it.isAvailableNow }
         val floorCount = items.size - readyCount
@@ -81,7 +85,11 @@ fun DancerListOfAdminScreen(viewModel: DancerListOfAdminVM = koinViewModel()) =
                 .fillMaxSize()
                 .background(Colors.DarkFF0A050A)
         ) {
-            ActionBarMainView(R.string.top_bar_status_board)
+            ActionBarDancerAdmin(
+                clubId = clubId,
+                clubName = clubDisplayName,
+                clubAddress = clubDisplayAddress,
+            )
             if (clubId.isBlank()) {
                 Box(
                     modifier = Modifier
@@ -155,7 +163,12 @@ fun DancerListOfAdminScreen(viewModel: DancerListOfAdminVM = koinViewModel()) =
                         AdminDancerRow(
                             dancer = dancer,
                             isToggling = togglingIds.contains(dancer.id),
-                            onOpenDetail = { appNavigator.navigateDetailDancer(dancer.id, hasShowButtons = false) },
+                            onOpenDetail = {
+                                appNavigator.navigateDetailDancer(
+                                    dancer.id,
+                                    hasShowButtons = false
+                                )
+                            },
                             onToggleAvailability = { viewModel.toggleDancerAvailability(dancer.id) }
                         )
                     }
@@ -291,6 +304,8 @@ class DancerListOfAdminVM(
     private val userLocalSource: UserLocalSource,
     private val dancerRepo: DancerRepo,
     private val dancerFactory: DancerFactory,
+    private val clubRepo: ClubRepo,
+    private val appContext: Context,
 ) : AppViewModel() {
     val customLoading: LoadingEvent = LoadingFlow()
     val isRefreshLoading: LoadingEvent = LoadingFlow()
@@ -309,6 +324,33 @@ class DancerListOfAdminVM(
 
     private val _togglingIds = MutableStateFlow<Set<String>>(emptySet())
     val togglingIds: StateFlow<Set<String>> = _togglingIds
+
+    private val _clubDisplayName = MutableStateFlow("")
+    val clubDisplayName: StateFlow<String> = _clubDisplayName
+
+    private val _clubDisplayAddress = MutableStateFlow("")
+    val clubDisplayAddress: StateFlow<String> = _clubDisplayAddress
+
+    private fun clearClubDisplay() {
+        _clubDisplayName.value = ""
+        _clubDisplayAddress.value = ""
+    }
+
+    private fun loadClubDetail(clubId: String) {
+        if (clubId.isBlank()) return
+        launch(loading, error) {
+            val dto = clubRepo.detail(clubId)
+            val placeholder = appContext.getString(R.string.club_current_location_placeholder)
+            if (dto != null) {
+                _clubDisplayName.value = dto.name?.trim().orEmpty().ifBlank { clubId }
+                val addr = dto.address?.trim().orEmpty()
+                _clubDisplayAddress.value = addr.ifBlank { placeholder }
+            } else {
+                _clubDisplayName.value = clubId
+                _clubDisplayAddress.value = placeholder
+            }
+        }
+    }
 
     fun toggleDancerAvailability(dancerId: String) {
         if (_togglingIds.value.contains(dancerId)) return
@@ -335,11 +377,16 @@ class DancerListOfAdminVM(
             _clubId.value = ""
             _items.value = emptyList()
             _totalItems.value = null
+            clearClubDisplay()
             return
         }
-        if (_clubId.value == id && _items.value.isNotEmpty()) return
+        if (_clubId.value == id && _items.value.isNotEmpty()) {
+            if (_clubDisplayName.value.isBlank()) loadClubDetail(id)
+            return
+        }
         if (_clubId.value != id) {
             _clubId.value = id
+            clearClubDisplay()
             onRefresh()
             return
         }
@@ -353,6 +400,7 @@ class DancerListOfAdminVM(
         hasMoreData = true
         _items.value = emptyList()
         _totalItems.value = null
+        if (_clubId.value.isNotBlank()) loadClubDetail(_clubId.value)
         onFetch()
     }
 

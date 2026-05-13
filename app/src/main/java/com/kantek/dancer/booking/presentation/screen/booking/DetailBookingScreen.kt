@@ -26,7 +26,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.CalendarToday
 import androidx.compose.material.icons.outlined.Groups
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Schedule
@@ -78,6 +77,7 @@ import com.kantek.dancer.booking.presentation.screen.booking.BookingCompleteRepo
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import com.kantek.dancer.booking.presentation.widget.DetailBookingClubBlock
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
 import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
 import com.kantek.dancer.booking.presentation.widget.NoDataView
@@ -402,39 +402,6 @@ private fun DetailVipChip() {
             fontWeight = FontWeight.Black,
             letterSpacing = 1.2.sp
         )
-    }
-}
-
-@Composable
-private fun DetailBookingClubBlock(clubName: String, address: String) {
-    Column {
-        Text(
-            text = clubName,
-            color = Colors.White,
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = (-0.5).sp
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.LocationOn,
-                contentDescription = null,
-                tint = Colors.Primary,
-                modifier = Modifier.size(16.dp)
-            )
-            Text(
-                text = address,
-                color = Colors.Gray9CA3AF,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
     }
 }
 
