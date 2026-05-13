@@ -2,7 +2,6 @@ package com.kantek.dancer.booking.presentation.widget
 
 import android.app.Activity
 import android.media.MediaPlayer
-import android.os.Build
 import android.support.core.extensions.safe
 import android.util.Log
 import android.view.Gravity
@@ -40,6 +39,8 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,9 +49,11 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -174,7 +177,6 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
@@ -263,47 +265,54 @@ fun ActionBarBackAndTitleView(
     onCommand: (Command) -> Unit = {}
 ) {
     Box(
-        modifier = Modifier
-            .height(56.dp)
+        Modifier
             .fillMaxWidth()
+            .windowInsetsPadding(
+                WindowInsets.statusBars.union(WindowInsets.displayCutout)
+            )
             .background(backgroundColor)
-            .statusBarsPadding()
     ) {
         Box(
             modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(start = 4.dp, top = 4.dp, bottom = 4.dp)
-                .size(48.dp)
-                .clip(CircleShape)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = rememberRipple(
-                        bounded = true,
-                        color = Colors.Pink66F425F4
-                    )
-                ) { onCommand(Command.ActionBarBack) },
-            contentAlignment = Alignment.Center
+                .height(56.dp)
+                .fillMaxWidth()
         ) {
-            Image(
-                painter = painterResource(R.drawable.baseline_arrow_back_24),
-                colorFilter = ColorFilter.tint(Color.White),
-                contentDescription = "",
-                modifier = Modifier.size(24.dp)
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = 4.dp, top = 4.dp, bottom = 4.dp)
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(
+                            bounded = true,
+                            color = Colors.Pink66F425F4
+                        )
+                    ) { onCommand(Command.ActionBarBack) },
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.baseline_arrow_back_24),
+                    colorFilter = ColorFilter.tint(Color.White),
+                    contentDescription = "",
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
+            Text(
+                text = text,
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(start = 56.dp, end = 56.dp)
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
             )
         }
-
-        Text(
-            text = text,
-            color = Color.White,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(start = 56.dp, end = 56.dp)
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally)
-        )
     }
 }
 
@@ -314,7 +323,11 @@ fun ActionBarMainView(
     onClickIconRight: (() -> Unit)? = null
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(
+                WindowInsets.statusBars.union(WindowInsets.displayCutout)
+            ),
         color = Colors.Dark120812, shadowElevation = 8.dp
     ) {
         Box(
@@ -322,7 +335,6 @@ fun ActionBarMainView(
                 .height(56.dp)
                 .background(Colors.Dark120812)
                 .fillMaxWidth()
-                .statusBarsPadding()
         ) {
             Text(
                 text = stringResource(textRes),
@@ -3668,14 +3680,17 @@ fun ActionBarDancerAdmin(
         if (raw < 48.dp) 48.dp else raw
     }
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(
+                WindowInsets.statusBars.union(WindowInsets.displayCutout)
+            ),
         color = Colors.Dark120812,
         shadowElevation = 8.dp,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .statusBarsPadding()
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
