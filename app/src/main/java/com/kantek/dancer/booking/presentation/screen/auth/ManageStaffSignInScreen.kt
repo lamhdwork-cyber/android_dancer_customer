@@ -58,7 +58,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
@@ -66,7 +65,6 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.ManageStaffSignInVM
 import com.kantek.dancer.booking.presentation.widget.AppInputText
-import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import org.koin.androidx.compose.koinViewModel
 
@@ -75,7 +73,6 @@ fun ManageStaffSignInScreen(
     hasInApp: Boolean,
     viewModel: ManageStaffSignInVM = koinViewModel()
 ) = ScopeProvider {
-    ApplyDarkEdgeToEdgeStatusBars()
 
     val context = LocalContext.current
     val formState by viewModel.formState.collectAsState()

@@ -1,5 +1,6 @@
 package com.kantek.dancer.booking.presentation.provider
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -18,6 +19,7 @@ import com.kantek.dancer.booking.presentation.helper.AppPopup
 import com.kantek.dancer.booking.presentation.theme.Colors
 import org.koin.core.scope.Scope
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Scope.PopupProvider(content: @Composable () -> Unit) {
     val popup = use<AppPopup>()
@@ -44,11 +46,10 @@ fun Scope.PopupProvider(content: @Composable () -> Unit) {
                 }
             )
         }
-    ) { paddingValues ->
+    ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
+                .fillMaxSize(),
         ) {
             content()
         }

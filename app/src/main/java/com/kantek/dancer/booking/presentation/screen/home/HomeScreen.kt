@@ -1,16 +1,18 @@
 package com.kantek.dancer.booking.presentation.screen.home
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -27,10 +29,8 @@ import com.kantek.dancer.booking.presentation.screen.dancer.DancerListOfAdminScr
 import com.kantek.dancer.booking.presentation.screen.notification.NotificationScreen
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppNavigateBottomBar
-import com.kantek.dancer.booking.presentation.widget.SetSystemBarsColor
 import org.koin.compose.koinInject
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
     val roleProvider = koinInject<CurrentUserRoleProvider>()
@@ -40,13 +40,6 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
         BottomNavigationScreen.Search
     }
     val firstTabRoute = firstTab.route
-
-    SetSystemBarsColor(
-        statusBarColor = Colors.Dark120812,
-        navigationBarColor = Color.Black,
-        statusBarDarkIcons = false,
-        navigationBarDarkIcons = false
-    )
     val nav = rememberNavController()
 
     LaunchedEffect(startTab, firstTabRoute) {
@@ -64,11 +57,31 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
     val navBackStackEntry by nav.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route ?: firstTabRoute
 
-    Scaffold(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.DarkFF0A050A),
-        bottomBar = {
+            .background(Colors.Dark120812)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Colors.DarkFF0A050A)
+        ) {
+            NavHost(
+                navController = nav,
+                startDestination = firstTabRoute,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .background(Colors.Dark120812)
+            ) {
+                composable(BottomNavigationScreen.Search.route) { FindClubScreen() }
+                composable(BottomNavigationScreen.Dancers.route) { DancerListOfAdminScreen() }
+                composable(BottomNavigationScreen.Cases.route) { MyBookingScreen() }
+                composable(BottomNavigationScreen.Notification.route) { NotificationScreen() }
+                composable(BottomNavigationScreen.Account.route) { AccountScreen() }
+            }
+
             AppNavigateBottomBar(
                 selectedItemRouter = currentRoute,
                 onItemRouterSelected = { router ->
@@ -84,27 +97,6 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
                 },
                 firstTab = firstTab
             )
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Colors.DarkFF0A050A)
-                .padding(bottom = paddingValues.calculateBottomPadding())
-        ) {
-            NavHost(
-                navController = nav,
-                startDestination = firstTabRoute,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Colors.Dark120812)
-            ) {
-                composable(BottomNavigationScreen.Search.route) { FindClubScreen() }
-                composable(BottomNavigationScreen.Dancers.route) { DancerListOfAdminScreen() }
-                composable(BottomNavigationScreen.Cases.route) { MyBookingScreen() }
-                composable(BottomNavigationScreen.Notification.route) { NotificationScreen() }
-                composable(BottomNavigationScreen.Account.route) { AccountScreen() }
-            }
         }
     }
 }

@@ -83,7 +83,7 @@ fun DancerListOfAdminScreen(viewModel: DancerListOfAdminVM = koinViewModel()) =
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Colors.DarkFF0A050A)
+                .background(Colors.Dark120812)
         ) {
             ActionBarDancerAdmin(
                 clubId = clubId,

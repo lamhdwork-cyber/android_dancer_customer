@@ -24,11 +24,11 @@ import com.kantek.dancer.booking.data.extensions.updateLocale
 import com.kantek.dancer.booking.data.local.LanguageLocalSource
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.presentation.AuthAct
+import com.kantek.dancer.booking.presentation.extensions.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.theme.AppTheme
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.LoadingView
-import com.kantek.dancer.booking.presentation.widget.SetSystemBarsColor
 import org.koin.android.ext.android.inject
 import org.koin.compose.KoinContext
 import java.util.Locale
@@ -127,9 +127,9 @@ abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErro
                 )
         }
 
+        ConfigureSystemBars()
         ObserveWindowStatus()
 
-        ConfigureSystemBars()
         KoinContext {
             AppTheme {
                 Surface(
@@ -162,7 +162,7 @@ abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErro
 
     @Composable
     protected open fun ConfigureSystemBars() {
-        SetSystemBarsColor()
+        ApplyDarkEdgeToEdgeStatusBars()
     }
 
     object WindowStatusProvider {

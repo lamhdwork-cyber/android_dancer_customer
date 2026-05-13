@@ -77,7 +77,6 @@ import com.kantek.dancer.booking.presentation.helper.AppKeyboard
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppInputText
-import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.LegalDisclaimerDialog
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -88,7 +87,6 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
-    ApplyDarkEdgeToEdgeStatusBars()
 
     val context = LocalContext.current
     val appNavigator = use<AppNavigator>()

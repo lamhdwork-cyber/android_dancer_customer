@@ -35,7 +35,8 @@ class SplashScreenAct : AppComponentAct() {
             } else {
                 if (userLocalSource.isLogin())
                     openMain()
-                else openAuth()
+//                else openAuth()
+                else openMain()
                 hasKeep = false
             }
         }

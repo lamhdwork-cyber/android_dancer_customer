@@ -60,7 +60,6 @@ import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
-import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import org.koin.androidx.compose.koinViewModel
@@ -70,7 +69,6 @@ fun GuestSignInScreen(
     hasInApp: Boolean,
     viewModel: SignInVM = koinViewModel()
 ) = ScopeProvider {
-    ApplyDarkEdgeToEdgeStatusBars()
 
     val context = LocalContext.current
     val formState by viewModel.formState.collectAsState()

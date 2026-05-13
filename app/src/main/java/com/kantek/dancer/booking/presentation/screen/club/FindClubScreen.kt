@@ -69,7 +69,7 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
 
     Column(
         modifier = Modifier
-            .background(Colors.DarkFF0A050A)
+            .background(Colors.Dark120812)
     ) {
         ActionBarMainView(R.string.top_bar_select_club)
         Column(

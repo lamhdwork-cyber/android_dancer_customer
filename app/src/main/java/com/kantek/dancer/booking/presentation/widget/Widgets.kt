@@ -2,6 +2,7 @@ package com.kantek.dancer.booking.presentation.widget
 
 import android.app.Activity
 import android.media.MediaPlayer
+import android.os.Build
 import android.support.core.extensions.safe
 import android.util.Log
 import android.view.Gravity
@@ -47,6 +48,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -100,8 +102,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -265,6 +267,7 @@ fun ActionBarBackAndTitleView(
             .height(56.dp)
             .fillMaxWidth()
             .background(backgroundColor)
+            .statusBarsPadding()
     ) {
         Box(
             modifier = Modifier
@@ -319,6 +322,7 @@ fun ActionBarMainView(
                 .height(56.dp)
                 .background(Colors.Dark120812)
                 .fillMaxWidth()
+                .statusBarsPadding()
         ) {
             Text(
                 text = stringResource(textRes),
@@ -1039,7 +1043,6 @@ fun AppNavigateBottomBar(
     firstTab: BottomNavigationScreen = BottomNavigationScreen.Search,
 ) {
     val items = listOf(
-//        BottomNavigationScreen.Home,
         firstTab,
         BottomNavigationScreen.Cases,
         BottomNavigationScreen.Notification,
@@ -1049,7 +1052,8 @@ fun AppNavigateBottomBar(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Colors.DarkCC0A050A)
+            .background(Colors.Dark120812)
+            .navigationBarsPadding()
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(), color = Color.Transparent, shadowElevation = 4.dp
@@ -1064,7 +1068,7 @@ fun AppNavigateBottomBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Colors.DarkCC0A050A)
+                .background(Colors.Dark120812)
                 .padding(horizontal = 8.dp, vertical = 6.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
@@ -1125,50 +1129,6 @@ fun bottomBarFontSize(): TextUnit {
     }
 }
 
-@Composable
-fun SetSystemBarsColor(
-    statusBarColor: Color = Color.White,
-    navigationBarColor: Color = Color.Black,
-    statusBarDarkIcons: Boolean = true,
-    navigationBarDarkIcons: Boolean = false
-) {
-    val systemUiController = rememberSystemUiController()
-    LaunchedEffect(
-        statusBarColor,
-        navigationBarColor,
-        statusBarDarkIcons,
-        navigationBarDarkIcons
-    ) {
-        systemUiController.setStatusBarColor(statusBarColor, darkIcons = statusBarDarkIcons)
-        systemUiController.setNavigationBarColor(
-            navigationBarColor,
-            darkIcons = navigationBarDarkIcons
-        )
-    }
-}
-
-/** Auth flows with light backgrounds (sign up, forgot password): restore light status bar after dark screens. */
-@Composable
-fun ApplyLightStatusBarsForAuthScreens() {
-    SetSystemBarsColor(
-        statusBarColor = Color.White,
-        navigationBarColor = Color.Black,
-        statusBarDarkIcons = true,
-        navigationBarDarkIcons = false
-    )
-}
-
-/** Dark auth UI (e.g. guest sign-in): transparent status bar + light status icons for edge-to-edge. */
-@Composable
-fun ApplyDarkEdgeToEdgeStatusBars() {
-    SetSystemBarsColor(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Black,
-        statusBarDarkIcons = false,
-        navigationBarDarkIcons = false
-    )
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> AppLazyColumn(
@@ -1180,7 +1140,7 @@ fun <T> AppLazyColumn(
     onLoadMore: (() -> Unit)? = null,
     isRefreshing: Boolean = false,
     onRefresh: (() -> Unit)? = null,
-    backgroundColor: Color = Colors.DarkFF0A050A,
+    backgroundColor: Color = Colors.Dark120812,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .wrapContentHeight(),
@@ -2238,7 +2198,10 @@ fun BookingItemView(
                             colors = ButtonDefaults.outlinedButtonColors(
                                 contentColor = Colors.RedEF4444.copy(alpha = 0.85f)
                             ),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, Colors.Red33EF4444)
+                            border = androidx.compose.foundation.BorderStroke(
+                                1.dp,
+                                Colors.Red33EF4444
+                            )
                         ) {
                             Text(
                                 text = stringResource(R.string.all_cancel),
@@ -2267,6 +2230,7 @@ fun BookingItemView(
                     val primaryLabel = when (it.bookingActionsBar) {
                         BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT ->
                             R.string.booking_action_accept
+
                         else ->
                             R.string.booking_action_complete
                     }
@@ -2277,6 +2241,7 @@ fun BookingItemView(
                     val secondaryLabel = when (it.bookingActionsBar) {
                         BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT ->
                             R.string.booking_action_reject
+
                         else ->
                             R.string.all_cancel
                     }

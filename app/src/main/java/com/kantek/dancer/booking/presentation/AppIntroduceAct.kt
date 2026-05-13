@@ -8,16 +8,10 @@ import androidx.compose.runtime.remember
 import com.kantek.dancer.booking.app.AppComponentAct
 import com.kantek.dancer.booking.data.local.LanguageLocalSource
 import com.kantek.dancer.booking.presentation.screen.introduce.IntroduceScreen
-import com.kantek.dancer.booking.presentation.widget.ApplyDarkEdgeToEdgeStatusBars
 import org.koin.android.ext.android.inject
 
 class AppIntroduceAct : AppComponentAct() {
     private val languageLocalSource: LanguageLocalSource by inject()
-
-    @Composable
-    override fun ConfigureSystemBars() {
-        ApplyDarkEdgeToEdgeStatusBars()
-    }
 
     @Composable
     override fun ProvideContent() {
