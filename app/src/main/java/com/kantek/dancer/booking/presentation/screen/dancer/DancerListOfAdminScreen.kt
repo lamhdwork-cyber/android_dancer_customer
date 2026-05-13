@@ -50,9 +50,9 @@ import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
+import com.kantek.dancer.booking.presentation.widget.ActionBarDancerAdmin
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
-import com.kantek.dancer.booking.presentation.widget.ActionBarDancerAdmin
 import com.kantek.dancer.booking.presentation.widget.NoDataView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -74,7 +74,7 @@ fun DancerListOfAdminScreen(viewModel: DancerListOfAdminVM = koinViewModel()) =
         val readyCount = items.count { it.isAvailableNow }
         val floorCount = items.size - readyCount
         val rosterTotal = totalItems ?: items.size
-        val showNoData = clubId.isNotBlank() && items.isEmpty() && !isLoading && !isRefreshing
+        val showNoData = clubId.isNotBlank() && items.isEmpty()
 
         LaunchedEffect(Unit) {
             viewModel.ensureClubIdAndLoad()

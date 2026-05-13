@@ -1,7 +1,5 @@
 package com.kantek.dancer.booking.presentation.screen.booking
 
-import android.support.core.event.LoadingEvent
-import android.support.core.event.LoadingFlow
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,12 +9,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,16 +30,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
-import androidx.compose.material3.Text
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.BookingApi
-import com.kantek.dancer.booking.domain.extension.toJson
 import com.kantek.dancer.booking.domain.factory.BookingFactory
 import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.ui.booking.IBooking
@@ -52,8 +50,8 @@ import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
-import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
 import com.kantek.dancer.booking.presentation.widget.BookingItemView
+import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
 import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.NoLoginView
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -134,7 +132,11 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
 
     val topBarTitleRes by viewModel.topBarTitleRes.collectAsState()
 
-    Column(modifier = Modifier.background(Colors.Dark120812)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Colors.Dark120812)
+    ) {
         ActionBarMainView(topBarTitleRes)
         if (user == null) {
             NoLoginView(titleRes = R.string.my_cases_not_login) { openAuth() }
@@ -149,11 +151,18 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
             )
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.background(Colors.Dark190C19)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(Colors.Dark190C19)
             ) { page ->
                 val tab = MyBookingTab.entries[page]
                 val tabState by viewModel.stateOf(tab).collectAsState()
-                Box(modifier = Modifier.background(Colors.Dark190C19)) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Colors.Dark190C19)
+                ) {
                     AppLazyColumn(
                         items = tabState.items,
                         keyItem = { it.id },
@@ -162,7 +171,8 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                         isLoading = tabState.isLoading,
                         isRefreshing = tabState.isRefreshing,
                         onRefresh = { viewModel.onRefresh(tab) },
-                        onLoadMore = { viewModel.onFetch(tab) }
+                        onLoadMore = { viewModel.onFetch(tab) },
+                        modifier = Modifier.fillMaxSize()
                     ) { item, _, _ ->
                         BookingItemView(
                             item,
@@ -185,7 +195,7 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                             }
                         )
                     }
-                    if (!tabState.isLoading && !tabState.isRefreshing && tabState.items.isEmpty()) {
+                    if (tabState.items.isEmpty()) {
                         val noDataRes = when (tab) {
                             MyBookingTab.PENDING -> R.string.no_data_my_booking
                             MyBookingTab.ACCEPTED -> R.string.no_data_my_booking_accepted

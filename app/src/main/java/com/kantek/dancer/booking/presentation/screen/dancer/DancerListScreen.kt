@@ -72,7 +72,7 @@ fun DancerListScreen(
     val visibleDancers = remember(dancers, excludeDancerIds) {
         dancers.filter { it.id !in excludeDancerIds }
     }
-    val showNoData = visibleDancers.isEmpty() && !isLoading && !isRefreshing
+    val showNoData = visibleDancers.isEmpty()
 
     LaunchedEffect(clubId) {
         viewModel.updateClubId(clubId)

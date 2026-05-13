@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -60,7 +61,6 @@ import org.koin.androidx.compose.koinViewModel
 fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scopes.Search) {
     val appNavigator = use<AppNavigator>()
     val clubs by viewModel.items.collectAsState()
-    val isEmpty by viewModel.isEmpty.collectAsState()
     val isLoading by viewModel.customLoading.isLoading().collectAsState()
     val isRefreshing by viewModel.isRefreshLoading.isLoading().collectAsState()
     val hasShowComingSoon = remember { mutableStateOf(false) }
@@ -69,6 +69,7 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .background(Colors.Dark120812)
     ) {
         ActionBarMainView(R.string.top_bar_select_club)
@@ -79,22 +80,31 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
             CurrentLocationCard { hasShowComingSoon.value = true }
             NearbyHeader { hasShowComingSoon.value = true }
         }
-        AppLazyColumn(
-            items = clubs,
-            keyItem = { it.id },
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            isLoading = isLoading,
-            isRefreshing = isRefreshing,
-            onRefresh = { viewModel.onRefresh() },
-            onLoadMore = { viewModel.onFetch() }
-        ) { club, _, _ ->
-            ClubItemCard(
-                club = club,
-                onSelectClub = { appNavigator.navigateDancerList(club.id) }
-            )
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+        ) {
+            AppLazyColumn(
+                items = clubs,
+                keyItem = { it.id },
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                isLoading = isLoading,
+                isRefreshing = isRefreshing,
+                onRefresh = { viewModel.onRefresh() },
+                onLoadMore = { viewModel.onFetch() },
+                modifier = Modifier.fillMaxSize()
+            ) { club, _, _ ->
+                ClubItemCard(
+                    club = club,
+                    onSelectClub = { appNavigator.navigateDancerList(club.id) }
+                )
+            }
+            if (clubs.isEmpty()) {
+                NoDataView(htmlRes = R.string.no_data_notifications)
+            }
         }
-        if (isEmpty) NoDataView(htmlRes = R.string.no_data_notifications)
 
         if (hasShowComingSoon.value) {
             AppNotificationDialog(stringResource(R.string.all_coming_soon)) {

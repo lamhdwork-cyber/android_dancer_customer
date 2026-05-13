@@ -31,7 +31,6 @@ import androidx.compose.material.icons.outlined.EventAvailable
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -88,20 +87,15 @@ fun DetailDancerScreen(
         viewModel.setData(dancerId)
     }
 
-    if (!hasLoaded) {
+    if (!hasLoaded || detail == null) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Colors.Dark120812),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator(color = Colors.Primary)
+            NoDataView(htmlRes = R.string.no_data)
         }
-        return@ScopeProvider
-    }
-
-    if (detail == null) {
-        NoDataView(htmlRes = R.string.no_data)
         return@ScopeProvider
     }
 

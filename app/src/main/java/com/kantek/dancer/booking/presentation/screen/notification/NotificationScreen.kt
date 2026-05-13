@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -61,7 +62,6 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
         val appNavigator = use<AppNavigator>()
         val notifications by viewModel.items.collectAsState()
         val user by viewModel.userLive.collectAsState(null)
-        val isEmpty by viewModel.isEmpty.collectAsState()
         val isLoading by viewModel.customLoading.isLoading().collectAsState()
         val isRefreshing by viewModel.isRefreshLoading.isLoading().collectAsState()
         val hasShowComingSoon = remember { mutableStateOf(false) }
@@ -84,8 +84,12 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
 
         LaunchedEffect(userChanged) { viewModel.onChangeUser() }
 
-        Column(modifier = Modifier.background(Colors.Dark120812)) {
-            val showReadAllIcon = user != null && !isEmpty
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Colors.Dark120812)
+        ) {
+            val showReadAllIcon = user != null && notifications.isNotEmpty()
             ActionBarMainView(
                 textRes = R.string.nav_notification,
                 iconRight = if (showReadAllIcon) Icons.Outlined.DoneAll else null,
@@ -97,26 +101,33 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
             )
             if (user == null) {
                 NoLoginView(titleRes = R.string.notification_not_login) { openAuth() }
-            }
-            Box {
-                AppLazyColumn(
-                    items = notifications,
-                    keyItem = { it.id },
-                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 14.dp),
-                    verticalArrangement = Arrangement.spacedBy(14.dp),
-                    isLoading = isLoading,
-                    isRefreshing = isRefreshing,
-                    onRefresh = { viewModel.onRefresh() },
-                    onLoadMore = { viewModel.onFetch() }
-                ) { item, _, _ ->
-                    NotificationItemView(item = item) {
-                        viewModel.onNotificationItemClick(item) { bookingId ->
-                            appNavigator.navigateDetailCase(bookingId)
+            } else {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                ) {
+                    AppLazyColumn(
+                        items = notifications,
+                        keyItem = { it.id },
+                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 14.dp),
+                        verticalArrangement = Arrangement.spacedBy(14.dp),
+                        isLoading = isLoading,
+                        isRefreshing = isRefreshing,
+                        onRefresh = { viewModel.onRefresh() },
+                        onLoadMore = { viewModel.onFetch() },
+                        modifier = Modifier.fillMaxSize()
+                    ) { item, _, _ ->
+                        NotificationItemView(item = item) {
+                            viewModel.onNotificationItemClick(item) { bookingId ->
+                                appNavigator.navigateDetailCase(bookingId)
+                            }
                         }
                     }
+                    if (notifications.isEmpty()) {
+                        NoDataView(htmlRes = R.string.no_data_notifications)
+                    }
                 }
-                if (isEmpty)
-                    NoDataView(htmlRes = R.string.no_data_notifications)
             }
             if (hasShowComingSoon.value) {
                 AppNotificationDialog(stringResource(R.string.all_coming_soon)) {
