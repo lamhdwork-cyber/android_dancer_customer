@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppNotifications
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.local.UserLocalSource
@@ -32,9 +31,15 @@ class FirebaseMessageService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         try {
             Log.e(TAG, remoteMessage.data.toJson())
-//            val params = remoteMessage.data
-//            val obj = JSONObject(params as Map<*, *>)
-//            val cloudMessage = obj.toString().toObject<FireBaseCloudMessage>()
+            val params = remoteMessage.data
+            val obj = JSONObject(params as Map<*, *>)
+            val cloudMessage = obj.toString().toObject<FireBaseCloudMessage>()
+            appNotification.bookingNotify(cloudMessage)
+            appEvent.apply {
+//                onPushBookingCompleted.value = cloudMessage
+                onRefreshMyBooking.value = true
+                onRefreshNotification.value = true
+            }
 //            when (cloudMessage.type) {
 //                AppConfig.NotificationType.Push.CONTACT_REQUEST_COMPLETED -> {
 //                    Log.e(TAG, "CONTACT_REQUEST_COMPLETED")
