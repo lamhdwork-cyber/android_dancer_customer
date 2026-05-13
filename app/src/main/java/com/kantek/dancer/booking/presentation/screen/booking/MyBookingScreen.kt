@@ -109,7 +109,9 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
     LaunchedEffect(isRefreshingByEvent) {
         if (isRefreshingByEvent) {
             viewModel.refreshAll()
-            viewModel.ensureLoaded(MyBookingTab.entries[pagerState.currentPage])
+            MyBookingTab.entries.forEach { tab ->
+                viewModel.ensureLoaded(tab)
+            }
             appEvent.onRefreshMyBooking.emit(false)
         }
     }
@@ -413,6 +415,9 @@ class MyBookingVM(
     fun submitComplete(tab: MyBookingTab) = launch(loading, error) {
         bookingCompleteRepo(requestID)
         onRefresh(tab)
+        if (tab != MyBookingTab.COMPLETED) {
+            onRefresh(MyBookingTab.COMPLETED)
+        }
     }
 }
 
