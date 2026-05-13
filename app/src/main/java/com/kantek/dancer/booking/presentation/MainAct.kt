@@ -66,18 +66,6 @@ class MainAct : AppComponentAct() {
     private val roomID by redirectToChat
     private val bookingID by redirectToBookingDetail
 
-    /*Apply color of status bar for Android 15*/
-    override fun onResume() {
-        super.onResume()
-        if (Build.VERSION.SDK_INT >= 35 && intent?.getBooleanExtra("hasRecreated", false) != true) {
-            intent?.putExtra("hasRecreated", true)
-            window.decorView.post {
-                recreate()
-            }
-            return
-        }
-    }
-
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleIntent(intent)
