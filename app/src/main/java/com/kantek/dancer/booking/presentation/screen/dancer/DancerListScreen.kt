@@ -82,7 +82,7 @@ fun DancerListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.DarkFF0A050A)
+            .background(Colors.Dark120812)
     ) {
         ActionBarBackAndTitleView(
             if (pickForBooking) R.string.booking_pick_performer_title else R.string.top_bar_dancer_list
@@ -90,7 +90,7 @@ fun DancerListScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Colors.DarkFF0A050A)
+                .background(Colors.Dark120812)
         ) {
             AppLazyVerticalGrid(
                 items = visibleDancers,
@@ -105,7 +105,7 @@ fun DancerListScreen(
                 onRefresh = { viewModel.onRefresh() },
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Colors.DarkFF0A050A)
+                    .background(Colors.Dark120812)
             ) { item, _, _ ->
                 DancerCard(item) {
                     if (pickForBooking) {

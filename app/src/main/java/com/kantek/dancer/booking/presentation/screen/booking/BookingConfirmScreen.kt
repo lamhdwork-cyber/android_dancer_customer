@@ -115,7 +115,7 @@ fun BookingConfirmScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Colors.DarkFF0A050A)
+            .background(Colors.Dark120812)
     ) {
         ActionBarBackAndTitleView(R.string.booking_confirm_title) { appNavigator.back() }
 
