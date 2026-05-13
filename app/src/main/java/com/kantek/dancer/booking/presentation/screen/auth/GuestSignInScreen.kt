@@ -113,8 +113,11 @@ fun GuestSignInScreen(
                 .fillMaxSize()
                 .statusBarsPadding()
                 .windowInsetsPadding(
-                    WindowInsets.statusBars.union(WindowInsets.displayCutout)
+                    WindowInsets
+                        .statusBars
+                        .union(WindowInsets.displayCutout)
                 )
+                .navigationBarsPadding()
         ) {
             ActionBarBackAndTitleView(
                 R.string.auth_guest_screen_title,

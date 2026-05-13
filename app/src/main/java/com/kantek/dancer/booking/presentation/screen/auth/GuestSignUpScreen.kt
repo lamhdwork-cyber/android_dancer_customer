@@ -127,8 +127,10 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                 .fillMaxSize()
                 .statusBarsPadding()
                 .windowInsetsPadding(
-                    WindowInsets.statusBars.union(WindowInsets.displayCutout)
+                    WindowInsets
+                        .statusBars.union(WindowInsets.displayCutout)
                 )
+                .navigationBarsPadding()
         ) {
             GuestSignUpTopBar(onBack = { appNavigator.back() })
 

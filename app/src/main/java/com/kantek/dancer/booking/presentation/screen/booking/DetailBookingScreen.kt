@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -127,7 +128,8 @@ fun DetailBookingScreen(
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp)
-                .padding(top = 8.dp, bottom = 32.dp),
+                .padding(top = 8.dp, bottom = 32.dp)
+                .navigationBarsPadding(),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             if (detail != null) {
