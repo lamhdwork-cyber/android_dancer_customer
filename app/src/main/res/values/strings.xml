@@ -37,10 +37,10 @@
     <string name="auth_guest_sign_up_create_account">Create Account</string>
     <string name="auth_guest_sign_up_hint_first" translatable="false">John</string>
     <string name="auth_guest_sign_up_hint_last" translatable="false">Doe</string>
-    <string name="auth_guest_sign_up_terms_prefix">I agree to the </string>
-    <string name="auth_guest_sign_up_terms_link">Terms &amp; Conditions</string>
-    <string name="auth_guest_sign_up_terms_and"> and </string>
-    <string name="auth_guest_sign_up_privacy_link">Privacy Policy</string>
+    <string name="auth_guest_sign_up_terms_prefix">I agree to the</string>
+    <string name="auth_guest_sign_up_terms_link"> Terms &amp; Conditions </string>
+    <string name="auth_guest_sign_up_terms_and">and </string>
+    <string name="auth_guest_sign_up_privacy_link"> Privacy Policy</string>
     <string name="auth_manage_staff_portal_line" translatable="false">Nightlife Portal</string>
     <string name="auth_manage_staff_title">Manager Access</string>
     <string name="auth_manage_staff_subtitle">Secure terminal for authorized staff only</string>
@@ -262,7 +262,7 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="msg_update_profile_success">Your profile updated successfully!</string>
     <string name="conversation_loading">Connecting…</string>
     <string name="reg_legal_disclaimer">Legal Disclaimer</string>
-    <string name="reg_legal_disclaimer_content">This app is not a law firm and does not provide legal advice, legal representation, or guarantees of legal outcomes. The intentional purpose of this app is to help break language barriers and assist users in recognizing urgent legal needs so they may connect with appropriately licensed and diligent attorneys.\n\nUse of this app does not create an attorney-client relationship. All attorneys and clients using this app do so voluntarily. Any engagement between a client and an attorney occurs outside the scope of this app and is solely between those parties. Users and attorneys enter and exit such engagements at their own discretion and risk.\n\nWhile we aim to provide a useful tool for connection, we do not supervise, endorse, or take responsibility for any legal advice, actions, or outcomes that may result from these connections. No guarantees of legal vindication or success are made or implied.\n\nBy using this app, you acknowledge and agree that any disputes or claims arising out of or relating to your use of the app shall be governed by the laws of the State of Delaware, without regard to its conflict of law provisions.</string>
+    <string name="reg_legal_disclaimer_content">This app is a technology platform that helps you discover dancers and clubs and submit booking requests. It is not an employer, booking agency, or talent representative for performers, and it does not guarantee availability, pricing, scheduling, or the quality of any performance or service.\n\nBookings and any performances or services are arranged between you and the relevant dancer, club, or provider. Those arrangements are voluntary and are made at each party\'s own discretion and risk. The app facilitates connection and communication only; it does not supervise, endorse, or assume responsibility for conduct, cancellations, payments, or disputes between users and providers.\n\nProfile, listing, and message information is supplied by users or providers and may change. We do not warrant that it is complete, accurate, or up to date.\n\nBy using this app, you acknowledge and agree that any disputes or claims arising out of or relating to your use of the app shall be governed by the laws of the State of Delaware, without regard to its conflict of law provisions.</string>
     <string name="reg_legal_disclaimer_confirm">I have read and agree to the terms</string>
     <string name="reg_legal_disclaimer_agree">I Agree</string>
     <string name="error_valid_legal_disclaimer">Please read and agree to the terms of the "Legal Disclaimer"</string>

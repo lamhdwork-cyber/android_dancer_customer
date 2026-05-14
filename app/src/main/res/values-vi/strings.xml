@@ -32,10 +32,10 @@
     <string name="auth_guest_sign_up_subtitle">Trải nghiệm nightlife độc quyền nhất thành phố. Đăng ký hồ sơ khách bên dưới.</string>
     <string name="auth_guest_sign_up_full_name_label">Họ và tên</string>
     <string name="auth_guest_sign_up_create_account">Tạo tài khoản</string>
-    <string name="auth_guest_sign_up_terms_prefix">Tôi đồng ý với </string>
-    <string name="auth_guest_sign_up_terms_link">Điều khoản &amp; Điều kiện</string>
-    <string name="auth_guest_sign_up_terms_and"> và </string>
-    <string name="auth_guest_sign_up_privacy_link">Chính sách bảo mật</string>
+    <string name="auth_guest_sign_up_terms_prefix">Tôi đồng ý với</string>
+    <string name="auth_guest_sign_up_terms_link"> Điều khoản &amp; Điều kiện </string>
+    <string name="auth_guest_sign_up_terms_and">và </string>
+    <string name="auth_guest_sign_up_privacy_link"> Chính sách bảo mật</string>
     <string name="auth_manage_staff_portal_line">Cổng Nightlife</string>
     <string name="auth_manage_staff_title">Truy cập quản lý</string>
     <string name="auth_manage_staff_subtitle">Terminal bảo mật chỉ dành cho nhân sự được ủy quyền</string>
@@ -252,11 +252,7 @@
     <string name="msg_update_profile_success">Hồ sơ của bạn đã cập thành công!</string>
     <string name="conversation_loading">Đang kết nối…</string>
     <string name="reg_legal_disclaimer">Miễn trừ trách nhiệm pháp lý</string>
-    <string name="reg_legal_disclaimer_content">
-    Ứng dụng này không phải là một công ty luật và không cung cấp tư vấn pháp lý, đại diện pháp lý hoặc đảm bảo kết quả pháp lý. Mục đích chính của ứng dụng là giúp phá vỡ rào cản ngôn ngữ và hỗ trợ người dùng nhận biết các nhu cầu pháp lý khẩn cấp để họ có thể kết nối với các luật sư được cấp phép và tận tâm.\n\n
-    Việc sử dụng ứng dụng này không tạo ra mối quan hệ luật sư – khách hàng. Tất cả luật sư và khách hàng sử dụng ứng dụng này đều làm vậy một cách tự nguyện. Mọi sự hợp tác giữa khách hàng và luật sư đều nằm ngoài phạm vi của ứng dụng và chỉ thuộc về hai bên liên quan. Người dùng và luật sư tự chịu trách nhiệm khi tham gia hoặc kết thúc mối quan hệ đó.\n\n
-    Mặc dù chúng tôi cố gắng cung cấp một công cụ kết nối hữu ích, chúng tôi không giám sát, xác nhận hay chịu trách nhiệm cho bất kỳ lời khuyên pháp lý, hành động hay kết quả nào có thể phát sinh từ các kết nối đó. Không có bất kỳ sự đảm bảo nào về việc được minh oan pháp lý hoặc thành công pháp lý được đưa ra hay ngụ ý.\n\n
-    Bằng việc sử dụng ứng dụng này, bạn xác nhận và đồng ý rằng mọi tranh chấp hoặc khiếu nại phát sinh từ hoặc liên quan đến việc bạn sử dụng ứng dụng sẽ được điều chỉnh bởi luật pháp của Bang Delaware, không xét đến các quy định về xung đột pháp luật của bang này.</string>
+    <string name="reg_legal_disclaimer_content">Ứng dụng này là nền tảng công nghệ giúp bạn khám phá vũ công, câu lạc bộ và gửi yêu cầu đặt chỗ. Ứng dụng không phải nhà tuyển dụng, đại lý đặt chỗ hay đại diện tài năng cho nghệ sĩ, và không đảm bảo còn lịch, giá cả, thời gian biểu diễn hay chất lượng bất kỳ buổi biểu diễn hay dịch vụ nào.\n\nViệc đặt chỗ và mọi buổi biểu diễn hay dịch vụ được thỏa thuận giữa bạn và vũ công, câu lạc bộ hoặc bên cung cấp liên quan. Các thỏa thuận đó là tự nguyện và được thực hiện theo quyết định và rủi ro của từng bên. Ứng dụng chỉ hỗ trợ kết nối và trao đổi; không giám sát, xác nhận hay chịu trách nhiệm về hành vi, hủy lịch, thanh toán hay tranh chấp giữa người dùng và bên cung cấp.\n\nThông tin hiển thị ở hồ sơ, danh sách và tin nhắn do người dùng hoặc bên cung cấp đưa lên và có thể thay đổi. Chúng tôi không đảm bảo thông tin đầy đủ, chính xác hay luôn cập nhật.\n\nBằng việc sử dụng ứng dụng, bạn xác nhận và đồng ý rằng mọi tranh chấp hoặc khiếu nại phát sinh từ hoặc liên quan đến việc sử dụng ứng dụng sẽ được điều chỉnh bởi luật pháp của Bang Delaware, không xét đến các quy định về xung đột pháp luật của bang này.</string>
     <string name="reg_legal_disclaimer_confirm">Tôi đã đọc và đồng ý với điều khoản</string>
     <string name="reg_legal_disclaimer_agree">Tôi đồng ý</string>
     <string name="error_valid_legal_disclaimer">Vui lòng đọc và đồng ý với điều khoản của \"Miễn trừ trách nhiệm pháp lý\"</string>

@@ -354,7 +354,7 @@ private fun GuestSignUpTermsRow(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.Top
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
             checked = checked,
@@ -363,8 +363,7 @@ private fun GuestSignUpTermsRow(
                 checkedColor = Colors.Primary,
                 uncheckedColor = Colors.Gray6B7280,
                 checkmarkColor = Color.White
-            ),
-            modifier = Modifier.padding(top = 2.dp)
+            )
         )
         FlowRow(
             modifier = Modifier.weight(1f),

@@ -32,10 +32,10 @@
     <string name="auth_guest_sign_up_subtitle">Vive la vida nocturna más exclusiva de la ciudad. Registra tu perfil de invitado a continuación.</string>
     <string name="auth_guest_sign_up_full_name_label">Nombre completo</string>
     <string name="auth_guest_sign_up_create_account">Crear cuenta</string>
-    <string name="auth_guest_sign_up_terms_prefix">Acepto los </string>
-    <string name="auth_guest_sign_up_terms_link">Términos y condiciones</string>
-    <string name="auth_guest_sign_up_terms_and"> y la </string>
-    <string name="auth_guest_sign_up_privacy_link">Política de privacidad</string>
+    <string name="auth_guest_sign_up_terms_prefix">Acepto los</string>
+    <string name="auth_guest_sign_up_terms_link"> Términos y condiciones </string>
+    <string name="auth_guest_sign_up_terms_and">y la </string>
+    <string name="auth_guest_sign_up_privacy_link"> Política de privacidad</string>
     <string name="auth_manage_staff_portal_line">Portal Nightlife</string>
     <string name="auth_manage_staff_title">Acceso de gestor</string>
     <string name="auth_manage_staff_subtitle">Terminal seguro solo para personal autorizado</string>
@@ -249,11 +249,7 @@ Las reservas completadas aparecerán aquí cuando finalice el servicio.
     <string name="msg_update_profile_success">¡Tu perfil se actualizó con éxito!</string>
     <string name="conversation_loading">Conectando…</string>
     <string name="reg_legal_disclaimer">Aviso legal</string>
-    <string name="reg_legal_disclaimer_content">
-    Esta aplicación no es un bufete de abogados y no proporciona asesoría legal, representación legal ni garantías de resultados legales. El propósito intencional de esta aplicación es ayudar a superar las barreras del idioma y asistir a los usuarios en reconocer necesidades legales urgentes para que puedan conectarse con abogados debidamente licenciados y diligentes.\n\n
-    El uso de esta aplicación no crea una relación abogado-cliente. Todos los abogados y clientes que utilizan esta aplicación lo hacen de manera voluntaria. Cualquier compromiso entre un cliente y un abogado ocurre fuera del alcance de esta aplicación y es exclusivamente entre dichas partes. Los usuarios y abogados participan y finalizan tales relaciones bajo su propio criterio y riesgo.\n\n
-    Aunque nuestro objetivo es proporcionar una herramienta útil de conexión, no supervisamos, respaldamos ni asumimos responsabilidad por ningún consejo legal, acción o resultado que pueda surgir de estas conexiones. No se hacen ni se implican garantías de éxito o reivindicación legal.\n\n
-    Al utilizar esta aplicación, usted reconoce y acepta que cualquier disputa o reclamo que surja de o esté relacionado con su uso de la aplicación se regirá por las leyes del Estado de Delaware, sin tener en cuenta sus disposiciones sobre conflicto de leyes.</string>
+    <string name="reg_legal_disclaimer_content">Esta aplicación es una plataforma tecnológica que le ayuda a descubrir bailarines, clubes y enviar solicitudes de reserva. No es un empleador, agencia de reservas ni representante de talentos de los artistas, y no garantiza disponibilidad, precios, programación ni la calidad de ningún espectáculo o servicio.\n\nLas reservas y cualquier espectáculo o servicio se acuerdan entre usted y el bailarín, club o proveedor correspondiente. Esos acuerdos son voluntarios y se realizan bajo el criterio y riesgo de cada parte. La aplicación solo facilita la conexión y la comunicación; no supervisa, respalda ni asume responsabilidad por conductas, cancelaciones, pagos o disputas entre usuarios y proveedores.\n\nLa información mostrada en perfiles, listados y mensajes la suministran usuarios o proveedores y puede cambiar. No garantizamos que sea completa, precisa o esté actualizada.\n\nAl utilizar esta aplicación, usted reconoce y acepta que cualquier disputa o reclamo que surja de o esté relacionado con su uso se regirá por las leyes del Estado de Delaware, sin tener en cuenta sus disposiciones sobre conflicto de leyes.</string>
     <string name="reg_legal_disclaimer_confirm">He leído y acepto los términos</string>
     <string name="reg_legal_disclaimer_agree">Acepto</string>
     <string name="error_valid_legal_disclaimer">Por favor, lea y acepte los términos del "Aviso legal"</string>
