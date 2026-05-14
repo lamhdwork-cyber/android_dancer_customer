@@ -13,6 +13,7 @@ import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.ZoomableAsyncImage
 
@@ -23,7 +24,7 @@ fun PhotoViewerScreen(photoURL: String) = ScopeProvider {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(Colors.Dark120812),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ActionBarBackAndTitleView(R.string.top_bar_photo_viewer) { appNavigator.back() }
