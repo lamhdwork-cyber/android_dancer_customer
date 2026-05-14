@@ -33,9 +33,9 @@
     <string name="auth_guest_sign_up_full_name_label">Nombre completo</string>
     <string name="auth_guest_sign_up_create_account">Crear cuenta</string>
     <string name="auth_guest_sign_up_terms_prefix">Acepto los</string>
-    <string name="auth_guest_sign_up_terms_link"> Términos y condiciones </string>
-    <string name="auth_guest_sign_up_terms_and">y la </string>
-    <string name="auth_guest_sign_up_privacy_link"> Política de privacidad</string>
+    <string name="auth_guest_sign_up_terms_link">Términos y condiciones</string>
+    <string name="auth_guest_sign_up_terms_and">y la</string>
+    <string name="auth_guest_sign_up_privacy_link">Política de privacidad</string>
     <string name="auth_manage_staff_portal_line">Portal Nightlife</string>
     <string name="auth_manage_staff_title">Acceso de gestor</string>
     <string name="auth_manage_staff_subtitle">Terminal seguro solo para personal autorizado</string>

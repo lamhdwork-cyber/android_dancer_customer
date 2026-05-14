@@ -38,9 +38,9 @@
     <string name="auth_guest_sign_up_hint_first" translatable="false">John</string>
     <string name="auth_guest_sign_up_hint_last" translatable="false">Doe</string>
     <string name="auth_guest_sign_up_terms_prefix">I agree to the</string>
-    <string name="auth_guest_sign_up_terms_link"> Terms &amp; Conditions </string>
-    <string name="auth_guest_sign_up_terms_and">and </string>
-    <string name="auth_guest_sign_up_privacy_link"> Privacy Policy</string>
+    <string name="auth_guest_sign_up_terms_link">Terms &amp; Conditions</string>
+    <string name="auth_guest_sign_up_terms_and">and</string>
+    <string name="auth_guest_sign_up_privacy_link">Privacy Policy</string>
     <string name="auth_manage_staff_portal_line" translatable="false">Nightlife Portal</string>
     <string name="auth_manage_staff_title">Manager Access</string>
     <string name="auth_manage_staff_subtitle">Secure terminal for authorized staff only</string>

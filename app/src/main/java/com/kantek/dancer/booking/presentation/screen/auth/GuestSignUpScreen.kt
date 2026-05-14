@@ -367,7 +367,7 @@ private fun GuestSignUpTermsRow(
         )
         FlowRow(
             modifier = Modifier.weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(0.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             Text(
