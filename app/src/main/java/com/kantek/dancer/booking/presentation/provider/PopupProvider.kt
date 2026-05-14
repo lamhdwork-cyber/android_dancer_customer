@@ -38,7 +38,7 @@ fun Scope.PopupProvider(content: @Composable () -> Unit) {
                 modifier = Modifier.imePadding(),
                 snackbar = { snackbarData ->
                     Snackbar(
-                        containerColor = Colors.Pink99F425F4,
+                        containerColor = Colors.Primary,
                         contentColor = Color.White,
                         actionColor = Color.White,
                         snackbarData = snackbarData

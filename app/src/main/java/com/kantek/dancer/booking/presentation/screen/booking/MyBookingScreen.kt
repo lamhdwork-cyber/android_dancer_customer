@@ -385,23 +385,34 @@ class MyBookingVM(
 
         val isFirstPage = state.page == 1
         launch(null, error) {
-            flow.value = if (isFirstPage) {
+            val busy = if (isFirstPage) {
                 state.copy(isRefreshing = true)
             } else {
                 state.copy(isLoading = true)
             }
-
-            val rs = fetchMyBookingByPageRepo(page = state.page, status = tab.apiStatus)
-            val hasMore = rs.size >= AppConfig.PER_PAGE
-            val merged = (state.items + rs).distinctBy { it.id }
-            flow.value = state.copy(
-                items = merged,
-                page = if (rs.isEmpty()) state.page else state.page + 1,
-                hasMoreData = hasMore,
-                isLoading = false,
-                isRefreshing = false,
-                initialized = true
-            )
+            flow.value = busy
+            try {
+                val rs = fetchMyBookingByPageRepo(page = busy.page, status = tab.apiStatus)
+                val hasMore = rs.size >= AppConfig.PER_PAGE
+                val merged = (busy.items + rs).distinctBy { it.id }
+                flow.value = busy.copy(
+                    items = merged,
+                    page = if (rs.isEmpty()) busy.page else busy.page + 1,
+                    hasMoreData = hasMore,
+                    isLoading = false,
+                    isRefreshing = false,
+                    initialized = true
+                )
+            } finally {
+                val cur = flow.value
+                if (cur.isLoading || cur.isRefreshing) {
+                    flow.value = cur.copy(
+                        isLoading = false,
+                        isRefreshing = false,
+                        initialized = true
+                    )
+                }
+            }
         }
     }
 
