@@ -56,7 +56,6 @@ import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AppNextButton
 import com.kantek.dancer.booking.presentation.widget.FQAsLoading
 import com.kantek.dancer.booking.presentation.widget.HomeBannerLoading
-import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -83,6 +82,7 @@ fun FAQsScreen(viewModel: HomeVM = koinViewModel()) = ScopeProvider {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
                 .background(Color.White)
         ) {
             if (!isLoadingBanner && banner != null) Box(
@@ -157,7 +157,15 @@ fun FAQsView(viewModel: HomeVM) {
 
     when {
         isLoading -> FQAsLoading()
-        isEmpty -> NoDataView(htmlRes = R.string.no_data_faqs)
+        isEmpty -> {
+            AppLazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                items = emptyList<IFAQs>(),
+                backgroundColor = Color.White,
+                emptyHtmlRes = R.string.no_data_faqs,
+                isEmpty = true,
+            ) { _, _, _ -> }
+        }
         faqsList.isNotEmpty() -> {
             Column(
                 modifier = Modifier
@@ -180,7 +188,10 @@ fun FAQsView(viewModel: HomeVM) {
                     items = faqsList,
                     keyItem = { it.id },
                     isLoading = isMoreLoading,
-                    onLoadMore = { viewModel.fetchFAQs() }) { item, index, _ ->
+                    onLoadMore = { viewModel.fetchFAQs() },
+                    emptyHtmlRes = R.string.no_data_faqs,
+                    isEmpty = isEmpty,
+                ) { item, index, _ ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()

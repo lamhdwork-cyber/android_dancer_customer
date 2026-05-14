@@ -54,7 +54,6 @@ import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
-import com.kantek.dancer.booking.presentation.widget.NoDataView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -94,15 +93,14 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
                 isRefreshing = isRefreshing,
                 onRefresh = { viewModel.onRefresh() },
                 onLoadMore = { viewModel.onFetch() },
+                emptyHtmlRes = R.string.no_data_notifications,
+                isEmpty = clubs.isEmpty(),
                 modifier = Modifier.fillMaxSize()
             ) { club, _, _ ->
                 ClubItemCard(
                     club = club,
                     onSelectClub = { appNavigator.navigateDancerList(club.id) }
                 )
-            }
-            if (clubs.isEmpty()) {
-                NoDataView(htmlRes = R.string.no_data_notifications)
             }
         }
 

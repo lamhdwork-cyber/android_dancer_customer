@@ -552,7 +552,7 @@ class MainAct : AppComponentAct() {
                             booking.body.safe(),
                             textConfirm = stringResource(R.string.all_view_detail),
                             onConfirm = {
-                                appNavigator.navigateDetailCase(booking.bookingId.toString())
+                                appNavigator.navigateDetailCase(booking.bookingId)
                                 showCompletedDialog.value = null
                             },
                             onDismiss = { showCompletedDialog.value = null }

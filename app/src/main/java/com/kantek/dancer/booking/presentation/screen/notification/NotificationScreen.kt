@@ -49,7 +49,6 @@ import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
-import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.NoLoginView
 import org.koin.androidx.compose.koinViewModel
 
@@ -116,6 +115,8 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
                         isRefreshing = isRefreshing,
                         onRefresh = { viewModel.onRefresh() },
                         onLoadMore = { viewModel.onFetch() },
+                        emptyHtmlRes = R.string.no_data_notifications,
+                        isEmpty = notifications.isEmpty(),
                         modifier = Modifier.fillMaxSize()
                     ) { item, _, _ ->
                         NotificationItemView(item = item) {
@@ -123,9 +124,6 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
                                 appNavigator.navigateDetailCase(bookingId)
                             }
                         }
-                    }
-                    if (notifications.isEmpty()) {
-                        NoDataView(htmlRes = R.string.no_data_notifications)
                     }
                 }
             }

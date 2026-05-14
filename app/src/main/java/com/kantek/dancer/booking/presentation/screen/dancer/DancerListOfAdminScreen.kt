@@ -158,6 +158,8 @@ fun DancerListOfAdminScreen(viewModel: DancerListOfAdminVM = koinViewModel()) =
                         isRefreshing = isRefreshing,
                         onRefresh = { viewModel.onRefresh() },
                         onLoadMore = { viewModel.onFetch() },
+                        emptyHtmlRes = R.string.no_data_dancer,
+                        isEmpty = showNoData,
                         modifier = Modifier.fillMaxSize()
                     ) { dancer, _, _ ->
                         AdminDancerRow(
@@ -171,9 +173,6 @@ fun DancerListOfAdminScreen(viewModel: DancerListOfAdminVM = koinViewModel()) =
                             },
                             onToggleAvailability = { viewModel.toggleDancerAvailability(dancer.id) }
                         )
-                    }
-                    if (showNoData) {
-                        NoDataView(htmlRes = R.string.no_data_dancer)
                     }
                 }
             }

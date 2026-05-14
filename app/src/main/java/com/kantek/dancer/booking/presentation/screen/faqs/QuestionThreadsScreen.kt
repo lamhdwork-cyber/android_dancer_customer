@@ -38,7 +38,6 @@ import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.FAQThreadsQuestionItem
 import com.kantek.dancer.booking.presentation.widget.FAQsAnswerBottomSheet
 import com.kantek.dancer.booking.presentation.widget.FQAsLoading
-import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.QuestionSentDialog
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import com.kantek.dancer.booking.presentation.widget.SubmitAnswerDialog
@@ -95,11 +94,20 @@ fun QuestionThreadsScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
                 .background(Color.White)
         ) {
             when {
                 isLoading -> FQAsLoading()
-                isEmpty -> NoDataView(htmlRes = R.string.no_data_faqs)
+                isEmpty -> {
+                    AppLazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        items = emptyList<ILegalQuestion>(),
+                        backgroundColor = Color.White,
+                        emptyHtmlRes = R.string.no_data_faqs,
+                        isEmpty = true,
+                    ) { _, _, _ -> }
+                }
                 faqsList.isNotEmpty() -> {
                     Column(
                         modifier = Modifier
@@ -121,10 +129,14 @@ fun QuestionThreadsScreen(
 
                         SpaceVertical(20.dp)
 
-                        AppLazyColumn(items = faqsList,
+                        AppLazyColumn(
+                            items = faqsList,
                             keyItem = { it.id },
                             isLoading = isMoreLoading,
-                            onLoadMore = { viewModel.fetchFAQs(categoryID) }) { item, _, _ ->
+                            onLoadMore = { viewModel.fetchFAQs(categoryID) },
+                            emptyHtmlRes = R.string.no_data_faqs,
+                            isEmpty = isEmpty,
+                        ) { item, _, _ ->
                             FAQThreadsQuestionItem(item) {
                                 questionName = it.name
                                 showSheet = true

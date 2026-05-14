@@ -52,7 +52,6 @@ import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.BookingItemView
 import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
-import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.NoLoginView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -163,6 +162,11 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                         .fillMaxSize()
                         .background(Colors.Dark190C19)
                 ) {
+                    val noDataRes = when (tab) {
+                        MyBookingTab.PENDING -> R.string.no_data_my_booking
+                        MyBookingTab.ACCEPTED -> R.string.no_data_my_booking_accepted
+                        MyBookingTab.COMPLETED -> R.string.no_data_my_booking_completed
+                    }
                     AppLazyColumn(
                         items = tabState.items,
                         keyItem = { it.id },
@@ -172,6 +176,8 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                         isRefreshing = tabState.isRefreshing,
                         onRefresh = { viewModel.onRefresh(tab) },
                         onLoadMore = { viewModel.onFetch(tab) },
+                        emptyHtmlRes = noDataRes,
+                        isEmpty = tabState.items.isEmpty(),
                         modifier = Modifier.fillMaxSize()
                     ) { item, _, _ ->
                         BookingItemView(
@@ -194,14 +200,6 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                                 managerBookingConfirm = ManagerBookingConfirm.Complete(tab)
                             }
                         )
-                    }
-                    if (tabState.items.isEmpty()) {
-                        val noDataRes = when (tab) {
-                            MyBookingTab.PENDING -> R.string.no_data_my_booking
-                            MyBookingTab.ACCEPTED -> R.string.no_data_my_booking_accepted
-                            MyBookingTab.COMPLETED -> R.string.no_data_my_booking_completed
-                        }
-                        NoDataView(htmlRes = noDataRes)
                     }
                 }
             }

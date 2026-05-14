@@ -31,7 +31,6 @@ import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.FAQThreadsCategoryItem
 import com.kantek.dancer.booking.presentation.widget.FQAsLoading
-import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -51,6 +50,7 @@ fun FAQsThreadsScreen(viewModel: FAQsThreadsVM = koinViewModel()) =
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .weight(1f)
                     .background(Color.White)
             ) {
                 FAQsView(appNavigator, viewModel)
@@ -67,7 +67,15 @@ fun FAQsView(appNavigator: AppNavigator, viewModel: FAQsThreadsVM) {
 
     when {
         isLoading -> FQAsLoading()
-        isEmpty -> NoDataView(htmlRes = R.string.no_data_faqs)
+        isEmpty -> {
+            AppLazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                items = emptyList<ILegalCategory>(),
+                backgroundColor = Color.White,
+                emptyHtmlRes = R.string.no_data_faqs,
+                isEmpty = true,
+            ) { _, _, _ -> }
+        }
         faqsList.isNotEmpty() -> {
             Column(
                 modifier = Modifier
@@ -89,7 +97,10 @@ fun FAQsView(appNavigator: AppNavigator, viewModel: FAQsThreadsVM) {
                     items = faqsList,
                     keyItem = { it.id },
                     isLoading = isMoreLoading,
-                    onLoadMore = { viewModel.fetchFAQs() }) { item, _, _ ->
+                    onLoadMore = { viewModel.fetchFAQs() },
+                    emptyHtmlRes = R.string.no_data_faqs,
+                    isEmpty = isEmpty,
+                ) { item, _, _ ->
                     FAQThreadsCategoryItem(item) {
                         appNavigator.navigateQuestion(
                             item.id,

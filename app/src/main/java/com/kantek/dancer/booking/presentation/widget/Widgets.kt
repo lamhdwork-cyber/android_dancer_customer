@@ -1141,7 +1141,7 @@ fun bottomBarFontSize(): TextUnit {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun <T> AppLazyColumn(
     items: List<T>,
@@ -1153,17 +1153,26 @@ fun <T> AppLazyColumn(
     isRefreshing: Boolean = false,
     onRefresh: (() -> Unit)? = null,
     backgroundColor: Color = Colors.Dark120812,
+    @StringRes emptyHtmlRes: Int? = null,
+    isEmpty: Boolean = false,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .wrapContentHeight(),
     itemContent: @Composable (T, Int, Boolean) -> Unit
 ) {
     val listState = rememberLazyListState()
+    val showEmptyPlaceholder =
+        emptyHtmlRes != null && isEmpty && items.isEmpty()
 
-    LaunchedEffect(listState) {
+    LaunchedEffect(listState, items.size, isLoading, showEmptyPlaceholder) {
         snapshotFlow { listState.layoutInfo.visibleItemsInfo }.map { it.lastOrNull()?.index }
             .distinctUntilChanged().collect { lastVisibleItemIndex ->
-                if (lastVisibleItemIndex != null && lastVisibleItemIndex >= items.lastIndex && !isLoading) {
+                if (!showEmptyPlaceholder
+                    && items.isNotEmpty()
+                    && lastVisibleItemIndex != null
+                    && lastVisibleItemIndex >= items.lastIndex
+                    && !isLoading
+                ) {
                     onLoadMore?.invoke()
                 }
             }
@@ -1181,15 +1190,33 @@ fun <T> AppLazyColumn(
                 .nestedScroll(pullToRefreshState.nestedScrollConnection)
             else Modifier
         ) {
+            val lazyColumnModifier =
+                if (onRefresh != null || showEmptyPlaceholder) Modifier.fillMaxSize()
+                else Modifier
+
             LazyColumn(
+                modifier = lazyColumnModifier,
                 state = listState,
                 contentPadding = contentPadding,
                 verticalArrangement = verticalArrangement
             ) {
-                itemsIndexed(
-                    items,
-                    key = { _, item -> keyItem?.invoke(item) ?: item.hashCode() }) { index, item ->
-                    itemContent(item, index, index == items.lastIndex)
+                if (showEmptyPlaceholder) {
+                    item(key = "app_lazy_column_empty") {
+                        Box(
+                            modifier = Modifier
+                                .fillParentMaxSize()
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            NoDataView(htmlRes = emptyHtmlRes!!)
+                        }
+                    }
+                } else {
+                    itemsIndexed(
+                        items,
+                        key = { _, item -> keyItem?.invoke(item) ?: item.hashCode() }) { index, item ->
+                        itemContent(item, index, index == items.lastIndex)
+                    }
                 }
 
                 if (isLoading) {

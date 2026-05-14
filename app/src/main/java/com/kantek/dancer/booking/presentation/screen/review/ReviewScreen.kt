@@ -39,7 +39,6 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.viewmodel.ReviewVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
-import com.kantek.dancer.booking.presentation.widget.NoDataView
 import com.kantek.dancer.booking.presentation.widget.ReviewItem
 import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
 import org.koin.androidx.compose.koinViewModel
@@ -74,13 +73,14 @@ fun ReviewScreen(
             Card(
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .weight(1f),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White)
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxSize()
                         .background(Color.White),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -111,8 +111,13 @@ fun ReviewScreen(
                             fontWeight = FontWeight.Medium
                         )
                     }
-                    Box(modifier = Modifier.padding(top = 2.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 2.dp)
+                    ) {
                         AppLazyColumn(
+                            modifier = Modifier.fillMaxSize(),
                             items = reviews,
                             keyItem = { it.id },
                             contentPadding = PaddingValues(
@@ -124,12 +129,12 @@ fun ReviewScreen(
                             isLoading = isLoading,
                             isRefreshing = isRefreshing,
                             onRefresh = { viewModel.onRefresh() },
-                            onLoadMore = { viewModel.onFetch() }
+                            onLoadMore = { viewModel.onFetch() },
+                            emptyHtmlRes = R.string.no_data_reviews,
+                            isEmpty = isEmpty,
                         ) { item, _, _ ->
                             ReviewItem(item)
                         }
-                        if (isEmpty)
-                            NoDataView(htmlRes = R.string.no_data_reviews)
                     }
                 }
             }
