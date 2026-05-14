@@ -112,7 +112,12 @@ class DefaultApiErrorHandler : ApiCallErrorHandler {
             errorCode == 401 -> ExpiredTokenException()
             errorCode == 429 -> ParameterInvalidException("The server is busy. Please try again!")
             errorCode in 400..499 -> ApiRequestException(errorBody)
-            errorCode >= 500 -> InternalServerException()
+            errorCode >= 500 -> {
+                if (errorBody.contains("token"))
+                    ExpiredTokenException()
+                else InternalServerException()
+            }
+
             else -> ParameterInvalidException(response.message())
         }
     }

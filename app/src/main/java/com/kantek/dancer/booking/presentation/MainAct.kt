@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -61,8 +60,8 @@ import com.kantek.dancer.booking.presentation.screen.review.ReviewScreen
 import com.kantek.dancer.booking.presentation.widget.BookingSuccessDialog
 
 class MainAct : AppComponentAct() {
-    private var redirectToBookingDetail = mutableIntStateOf(-1)
-    private var redirectToChat = mutableIntStateOf(-1)
+    private var redirectToBookingDetail = mutableStateOf("")
+    private var redirectToChat = mutableStateOf("")
     private val roomID by redirectToChat
     private val bookingID by redirectToBookingDetail
 
@@ -78,10 +77,10 @@ class MainAct : AppComponentAct() {
 
     private fun handleIntent(intent: Intent) {
         val bundleData = intent.getBundleExtra("data") ?: return
-        redirectToBookingDetail.intValue =
-            bundleData.getInt(AppNavigator.Companion.ArgKey.BOOKING_ID, -1)
-        redirectToChat.intValue =
-            bundleData.getInt(AppNavigator.Companion.ArgKey.CONTACT_REQUEST_ID, -1)
+        redirectToBookingDetail.value =
+            bundleData.getString(AppNavigator.Companion.ArgKey.BOOKING_ID, "")
+        redirectToChat.value =
+            bundleData.getString(AppNavigator.Companion.ArgKey.CONTACT_REQUEST_ID, "")
     }
 
     @Composable
@@ -522,16 +521,16 @@ class MainAct : AppComponentAct() {
                     }
 
                     val appNavigator = use<AppNavigator>()
-                    LaunchedEffect(roomID) {
-                        if (roomID > 0) {
-                            appNavigator.navigateConversation(roomID)
-                            redirectToChat.intValue = -1
-                        }
-                    }
+//                    LaunchedEffect(roomID) {
+//                        if (roomID.isNotEmpty()) {
+//                            appNavigator.navigateConversation(roomID)
+//                            redirectToChat.intValue = -1
+//                        }
+//                    }
                     LaunchedEffect(bookingID) {
-                        if (bookingID > 0) {
-                            appNavigator.navigateDetailCase(bookingID.toString())
-                            redirectToBookingDetail.intValue = -1
+                        if (bookingID.isNotEmpty()) {
+                            appNavigator.navigateDetailCase(bookingID)
+                            redirectToBookingDetail.value = ""
                         }
                     }
                     val showCompletedDialog =
@@ -553,7 +552,7 @@ class MainAct : AppComponentAct() {
                             booking.body.safe(),
                             textConfirm = stringResource(R.string.all_view_detail),
                             onConfirm = {
-                                appNavigator.navigateDetailCase(booking.contact_request_id.toString())
+                                appNavigator.navigateDetailCase(booking.bookingId.toString())
                                 showCompletedDialog.value = null
                             },
                             onDismiss = { showCompletedDialog.value = null }

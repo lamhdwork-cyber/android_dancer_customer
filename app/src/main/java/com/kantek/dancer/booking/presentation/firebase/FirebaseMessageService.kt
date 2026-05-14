@@ -25,7 +25,6 @@ class FirebaseMessageService : FirebaseMessagingService() {
     private val appEvent: AppEvent by inject()
     private val userLocalSource: UserLocalSource by inject()
     private val appNotification: AppNotifications by inject()
-    private val chatRepo: ChatRepo by inject()
 
     @SuppressLint("LongLogTag", "SuspiciousIndentation")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -34,11 +33,15 @@ class FirebaseMessageService : FirebaseMessagingService() {
             val params = remoteMessage.data
             val obj = JSONObject(params as Map<*, *>)
             val cloudMessage = obj.toString().toObject<FireBaseCloudMessage>()
-            appNotification.bookingNotify(cloudMessage)
-            appEvent.apply {
-//                onPushBookingCompleted.value = cloudMessage
-                onRefreshMyBooking.value = true
-                onRefreshNotification.value = true
+            if (cloudMessage.bookingId.isNotEmpty()) {
+                appNotification.bookingNotify(cloudMessage)
+                appEvent.apply {
+                    onRefreshMyBooking.value = true
+                    onRefreshNotification.value = true
+                }
+            } else {
+                appNotification.defaultNotify(cloudMessage)
+                appEvent.onRefreshNotification.value = true
             }
 //            when (cloudMessage.type) {
 //                AppConfig.NotificationType.Push.CONTACT_REQUEST_COMPLETED -> {

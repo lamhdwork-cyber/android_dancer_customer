@@ -105,16 +105,16 @@ class AppNotifications(private val mContext: Context) {
 
     fun bookingNotify(it: FireBaseCloudMessage) {
         val pendingIntent = getPendingIntent(it, getIntent(Bundle().apply {
-            putInt(AppNavigator.Companion.ArgKey.BOOKING_ID, it.contact_request_id.safe())
+            putString(AppNavigator.Companion.ArgKey.BOOKING_ID, it.bookingId.safe())
         }))
-        pushNotification(it, pendingIntent, CHANNEL_ID_BOOKING, it.contact_request_id)
+        pushNotification(it, pendingIntent, CHANNEL_ID_BOOKING, it.bookingId.hashCode())
     }
 
     fun chatNotify(cloudMessage: FireBaseCloudMessage) {
         val data = Bundle().apply {
-            putInt(
+            putString(
                 AppNavigator.Companion.ArgKey.CONTACT_REQUEST_ID,
-                cloudMessage.contact_request_id
+                cloudMessage.bookingId
             )
         }
         val pendingIntent = getPendingIntent(cloudMessage, getIntent(data))

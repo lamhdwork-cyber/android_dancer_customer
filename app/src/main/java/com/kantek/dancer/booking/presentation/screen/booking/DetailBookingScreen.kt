@@ -73,9 +73,6 @@ import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.screen.booking.BookingAcceptRepo
-import com.kantek.dancer.booking.presentation.screen.booking.BookingCancelRepo
-import com.kantek.dancer.booking.presentation.screen.booking.BookingCompleteRepo
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
@@ -105,7 +102,7 @@ fun DetailBookingScreen(
     var detailManagerConfirm by remember { mutableStateOf<DetailManagerConfirm?>(null) }
 
     LaunchedEffect(bookingID) {
-        viewModel.requestID = bookingID
+        viewModel.bookingID = bookingID
         if (bookingID.isNotBlank()) {
             viewModel.fetchDetails()
         }
@@ -830,29 +827,29 @@ class DetailBookingVM(
     private val appNotifications: AppNotifications
 ) : AppViewModel() {
     val details = fetchBookingDetailRepo.result
-    var requestID: String = ""
+    var bookingID: String = ""
 
     fun fetchDetails() = launch(loading, error) {
-        fetchBookingDetailRepo(requestID)
-        appNotifications.cancelNotification(requestID.toIntOrNull() ?: 0)
+        fetchBookingDetailRepo(bookingID)
+        appNotifications.cancelNotification(bookingID.hashCode())
     }
 
     fun submitCancel(reason: String) = launch(loading, error) {
-        bookingCancelRepo(requestID, reason)
+        bookingCancelRepo(bookingID, reason)
         fetchDetails()
         appEvent.onRefreshMyBooking.emit(true)
         appEvent.onRefreshNotification.emit(true)
     }
 
     fun submitAccept() = launch(loading, error) {
-        bookingAcceptRepo(requestID)
+        bookingAcceptRepo(bookingID)
         fetchDetails()
         appEvent.onRefreshMyBooking.emit(true)
         appEvent.onRefreshNotification.emit(true)
     }
 
     fun submitComplete() = launch(loading, error) {
-        bookingCompleteRepo(requestID)
+        bookingCompleteRepo(bookingID)
         fetchDetails()
         appEvent.onRefreshMyBooking.emit(true)
         appEvent.onRefreshNotification.emit(true)

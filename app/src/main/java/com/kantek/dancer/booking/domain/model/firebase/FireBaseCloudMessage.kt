@@ -6,9 +6,11 @@ data class
 FireBaseCloudMessage(
     val body: String?,
     val user_id: Long?,
-    val bookingId: Int,
+    val bookingId: String,
     @SerializedName("data_id")
     val data_id: Int,
+    val image: String?,
     val title: String?,
-    val type: Int = AppConfig.NotificationType.Push.NONE
+    val type: Int = AppConfig.NotificationType.Push.NONE,
+    val room_id: Int
 )
