@@ -27,7 +27,6 @@ import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Login
-import androidx.compose.material.icons.outlined.Nightlight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -230,10 +229,9 @@ private fun ManageStaffSignInHero() {
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Outlined.Nightlight,
+                painterResource(id = R.drawable.ic_logo_small),
                 contentDescription = null,
-                modifier = Modifier.size(40.dp),
-                tint = Color.White
+                modifier = Modifier.size(40.dp)
             )
         }
         SpaceVertical(24.dp)
@@ -270,7 +268,7 @@ private fun ManageStaffSignInFormSection(
     ) {
         AppInputText(
             value = account,
-            placeHolderRes = R.string.auth_manage_staff_label_work_email,
+            placeHolderRes = R.string.all_email_address,
             hintRes = R.string.auth_manage_staff_hint_work_email,
             leadingIcon = Icons.Outlined.Email,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -278,7 +276,7 @@ private fun ManageStaffSignInFormSection(
         )
         AppInputText(
             value = password,
-            placeHolderRes = R.string.auth_manage_staff_label_security_key,
+            placeHolderRes = R.string.all_password,
             hintRes = R.string.auth_guest_hint_password,
             leadingIcon = Icons.Outlined.Lock,
             isPassword = true,
@@ -319,9 +317,9 @@ private fun ManageStaffSignInFormSection(
             )
         }
 
-        ManageStaffSignInEncryptedBadge(
-            modifier = Modifier.fillMaxWidth()
-        )
+//        ManageStaffSignInEncryptedBadge(
+//            modifier = Modifier.fillMaxWidth()
+//        )
     }
 }
 

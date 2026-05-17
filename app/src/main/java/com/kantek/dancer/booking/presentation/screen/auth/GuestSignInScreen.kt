@@ -30,7 +30,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Nightlife
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,6 +47,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -197,20 +197,18 @@ private fun GuestSignInBrandHeader() {
             modifier = Modifier
                 .size(96.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(Colors.Pink33F425F4)
                 .border(1.dp, Colors.Pink4DF425F4, RoundedCornerShape(16.dp)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Outlined.Nightlife,
+                painter = painterResource(id = R.drawable.ic_logo_small),
                 contentDescription = null,
-                modifier = Modifier.size(48.dp),
-                tint = Colors.Primary
+                modifier = Modifier.size(48.dp)
             )
         }
         SpaceVertical(24.dp)
         Text(
-            text = stringResource(R.string.auth_guest_brand_title),
+            text = stringResource(R.string.app_name),
             color = Colors.GrayF1F5F9,
             fontSize = 36.sp,
             fontWeight = FontWeight.Bold,
@@ -258,7 +256,7 @@ private fun GuestSignInFormSection(
         ) {
             AppInputText(
                 value = account,
-                placeHolderRes = R.string.auth_guest_label_email,
+                placeHolderRes = R.string.all_email_address,
                 hintRes = R.string.auth_guest_hint_email,
                 leadingIcon = Icons.Outlined.Email,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),

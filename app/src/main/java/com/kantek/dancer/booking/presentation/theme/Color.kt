@@ -41,6 +41,7 @@ object Colors {
 
     val Dark120812 = Color(0xFF120812)
     val Dark190C19 = Color(0xFF190C19)
+    val Dark020413 = Color(0xFF020413)
     val Dark0D070D = Color(0xFF0D070D)
     val OverlayCC120812 = Color(0xCC120812)
     val Overlay99120812 = Color(0x99120812)

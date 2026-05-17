@@ -23,7 +23,7 @@
     <string name="all_phone_or_email">Teléfono o correo electrónico</string>
     <string name="auth_guest_screen_title">Acceso de invitado</string>
     <string name="auth_guest_brand_subtitle">Acceso premium a la vida nocturna</string>
-    <string name="auth_guest_label_email">Correo electrónico</string>
+    <string name="all_email_address">Correo electrónico</string>
     <string name="auth_guest_hint_email" translatable="false">your@email.com</string>
     <string name="auth_guest_hint_password" translatable="false">••••••••</string>
     <string name="auth_guest_footer_no_account">¿No tienes una cuenta?</string>

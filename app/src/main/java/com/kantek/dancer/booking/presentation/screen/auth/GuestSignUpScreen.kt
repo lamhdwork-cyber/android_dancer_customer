@@ -189,7 +189,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                 AppInputText(
                     value = formState.email,
                     lightBackground = false,
-                    placeHolderRes = R.string.auth_guest_label_email,
+                    placeHolderRes = R.string.all_email_address,
                     hintRes = R.string.auth_guest_hint_email,
                     leadingIcon = Icons.Outlined.Email,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),

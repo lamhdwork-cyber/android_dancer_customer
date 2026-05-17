@@ -23,7 +23,7 @@
     <string name="all_phone_or_email">Số điện thoại hoặc Email</string>
     <string name="auth_guest_screen_title">Đăng nhập khách</string>
     <string name="auth_guest_brand_subtitle">Trải nghiệm nightlife cao cấp</string>
-    <string name="auth_guest_label_email">Địa chỉ email</string>
+    <string name="all_email_address">Địa chỉ email</string>
     <string name="auth_guest_hint_email" translatable="false">your@email.com</string>
     <string name="auth_guest_hint_password" translatable="false">••••••••</string>
     <string name="auth_guest_footer_no_account">Chưa có tài khoản?</string>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Dancer</string>
+    <string name="app_name" translatable="false">NightEase</string>
     <string name="all_password">Password</string>
     <string name="all_sign_in">Sign in</string>
     <string name="all_loading">Loading…</string>
@@ -24,7 +24,7 @@
     <string name="auth_guest_screen_title">Guest Login</string>
     <string name="auth_guest_brand_title" translatable="false">VELVET</string>
     <string name="auth_guest_brand_subtitle">Premium Nightlife Access</string>
-    <string name="auth_guest_label_email">Email address</string>
+    <string name="all_email_address">Email address</string>
     <string name="auth_guest_hint_email" translatable="false">your@email.com</string>
     <string name="auth_guest_hint_password" translatable="false">••••••••</string>
     <string name="auth_guest_footer_no_account">Don\'t have an account?</string>

@@ -1214,7 +1214,9 @@ fun <T> AppLazyColumn(
                 } else {
                     itemsIndexed(
                         items,
-                        key = { _, item -> keyItem?.invoke(item) ?: item.hashCode() }) { index, item ->
+                        key = { _, item ->
+                            keyItem?.invoke(item) ?: item.hashCode()
+                        }) { index, item ->
                         itemContent(item, index, index == items.lastIndex)
                     }
                 }
@@ -1382,8 +1384,8 @@ fun AvatarImage(
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current)
             .data(url ?: "")
-            .placeholder(R.drawable.img_logo_app)
-            .error(R.drawable.img_logo_app)
+            .placeholder(R.mipmap.ic_launcher)
+            .error(R.mipmap.ic_launcher)
             .crossfade(true)
             .allowHardware(false)
             .build()
@@ -1419,8 +1421,8 @@ fun AvatarImage(
 @Composable
 fun AppImage(
     url: String?,
-    placeholderRes: Int = R.drawable.img_logo_app,
-    errorRes: Int = R.drawable.img_logo_app,
+    placeholderRes: Int = R.mipmap.ic_launcher,
+    errorRes: Int = R.mipmap.ic_launcher,
     modifier: Modifier = Modifier,
     isShowLoading: Boolean = true,
     contentScale: ContentScale = ContentScale.Crop
