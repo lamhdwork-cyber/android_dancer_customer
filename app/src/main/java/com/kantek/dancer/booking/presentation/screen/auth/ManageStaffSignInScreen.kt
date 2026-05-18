@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,9 +27,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Login
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -63,6 +60,8 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.ManageStaffSignInVM
+import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
+import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import org.koin.androidx.compose.koinViewModel
@@ -109,7 +108,11 @@ fun ManageStaffSignInScreen(
                 .statusBarsPadding()
                 .navigationBarsPadding()
         ) {
-            ManageStaffSignInTopBar(onBack = { appNavigator.back() })
+            ActionBarBackAndTitleView(
+                R.string.auth_manage_staff_title,
+                Color.Transparent
+            ) { appNavigator.back() }
+//            ManageStaffSignInTopBar(onBack = { appNavigator.back() })
 
             Column(
                 modifier = Modifier
@@ -128,11 +131,11 @@ fun ManageStaffSignInScreen(
                     onSignInClick = { viewModel.signIn() }
                 )
                 SpaceVertical(16.dp)
-                ManageStaffSignInFooterVisual(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp, bottom = 24.dp)
-                )
+//                ManageStaffSignInFooterVisual(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(top = 24.dp, bottom = 24.dp)
+//                )
             }
         }
     }
@@ -189,8 +192,8 @@ private fun ManageStaffSignInTopBar(onBack: () -> Unit) {
             )
         }
         Text(
-            text = stringResource(R.string.auth_manage_staff_portal_line),
-            color = Colors.Primary.copy(alpha = 0.85f),
+            text = stringResource(R.string.auth_manage_staff_title),
+            color = Colors.White,
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             letterSpacing = 2.sp,
@@ -213,43 +216,34 @@ private fun ManageStaffSignInHero() {
     ) {
         Box(
             modifier = Modifier
-                .size(80.dp)
-                .shadow(
-                    elevation = 16.dp,
-                    shape = RoundedCornerShape(16.dp),
-                    spotColor = Colors.Pink33F425F4,
-                    ambientColor = Colors.Pink0DF425F4
-                )
+                .size(96.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(Colors.Primary, Colors.Purple9333EA)
-                    )
-                ),
+                .border(1.dp, Colors.Pink4DF425F4, RoundedCornerShape(16.dp)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painterResource(id = R.drawable.ic_logo_small),
+                painter = painterResource(id = R.drawable.ic_logo_small),
                 contentDescription = null,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(40.dp),
+                tint = Color.Unspecified
             )
         }
         SpaceVertical(24.dp)
         Text(
-            text = stringResource(R.string.auth_manage_staff_title),
+            text = stringResource(R.string.app_name),
             color = Colors.GrayF1F5F9,
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             letterSpacing = (-0.5).sp,
             textAlign = TextAlign.Center
         )
-        SpaceVertical(8.dp)
+        SpaceVertical(3.dp)
         Text(
-            text = stringResource(R.string.auth_manage_staff_subtitle),
+            text = stringResource(R.string.auth_guest_brand_subtitle).uppercase(),
             color = Colors.Blue148,
-            fontSize = 14.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            fontSize = 10.sp,
+            letterSpacing = 3.sp,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -284,38 +278,39 @@ private fun ManageStaffSignInFormSection(
             onValueChange = onPasswordChange
         )
         SpaceVertical(4.dp)
-        Button(
-            onClick = onSignInClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .shadow(
-                    elevation = 16.dp,
-                    shape = RoundedCornerShape(28.dp),
-                    spotColor = Colors.Pink33F425F4,
-                    ambientColor = Colors.Pink0DF425F4
-                ),
-            shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Colors.Primary,
-                contentColor = Color.White
-            ),
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 0.dp,
-                pressedElevation = 4.dp
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.auth_manage_staff_login_cta),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Icon(
-                imageVector = Icons.Outlined.Login,
-                contentDescription = null,
-                modifier = Modifier.padding(start = 8.dp)
-            )
-        }
+        AppButton(R.string.all_sign_in, onClick = onSignInClick)
+//        Button(
+//            onClick = onSignInClick,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(56.dp)
+//                .shadow(
+//                    elevation = 16.dp,
+//                    shape = RoundedCornerShape(28.dp),
+//                    spotColor = Colors.Pink33F425F4,
+//                    ambientColor = Colors.Pink0DF425F4
+//                ),
+//            shape = RoundedCornerShape(12.dp),
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor = Colors.Primary,
+//                contentColor = Color.White
+//            ),
+//            elevation = ButtonDefaults.buttonElevation(
+//                defaultElevation = 0.dp,
+//                pressedElevation = 4.dp
+//            )
+//        ) {
+//            Text(
+//                text = stringResource(R.string.all_sign_in),
+//                fontSize = 16.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+//            Icon(
+//                imageVector = Icons.Outlined.Login,
+//                contentDescription = null,
+//                modifier = Modifier.padding(start = 8.dp)
+//            )
+//        }
 
 //        ManageStaffSignInEncryptedBadge(
 //            modifier = Modifier.fillMaxWidth()

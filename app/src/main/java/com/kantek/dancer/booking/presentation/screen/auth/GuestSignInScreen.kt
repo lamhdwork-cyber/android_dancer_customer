@@ -203,7 +203,8 @@ private fun GuestSignInBrandHeader() {
             Icon(
                 painter = painterResource(id = R.drawable.ic_logo_small),
                 contentDescription = null,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(48.dp),
+                tint = Color.Unspecified
             )
         }
         SpaceVertical(24.dp)
@@ -215,11 +216,11 @@ private fun GuestSignInBrandHeader() {
             textAlign = TextAlign.Center,
             letterSpacing = (-0.5).sp
         )
-        SpaceVertical(8.dp)
+        SpaceVertical(3.dp)
         Text(
-            text = stringResource(R.string.auth_guest_brand_subtitle),
+            text = stringResource(R.string.auth_guest_brand_subtitle).uppercase(),
             color = Colors.Blue148,
-            fontSize = 14.sp,
+            fontSize = 10.sp,
             fontWeight = FontWeight.Medium,
             letterSpacing = 3.sp,
             textAlign = TextAlign.Center
