@@ -22,6 +22,6 @@ data class NotificationDTO(
 )
 
 data class NotificationDataDTO(
-    @SerializedName(value = "bookingId", alternate = ["booking_id"])
+    @SerializedName(value = "bookingId", alternate = ["booking_id","bookingID"])
     val bookingId: String?
 )
