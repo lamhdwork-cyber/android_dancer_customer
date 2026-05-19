@@ -68,9 +68,6 @@ android {
         compose = true
         buildConfig = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
     packaging.resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
 
     applicationVariants.all {
@@ -100,6 +97,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.material.icons.extended)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.webkit)
 
@@ -140,7 +138,6 @@ dependencies {
     // Others
     implementation(libs.coroutinesCore)
     implementation(libs.google.accompanist.systemuicontroller)
-    implementation(libs.material.icons.extended)
 
     // Load image
     implementation(libs.io.coil)

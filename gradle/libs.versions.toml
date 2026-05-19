@@ -2,7 +2,7 @@
 agp = "8.8.0"
 kotlin = "2.0.0"
 java = "17"
-minSdk = "21"
+minSdk = "23"
 compileSdk = "36"
 targetSdk = "35"
 
@@ -12,11 +12,10 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.0"
-composeBom = "2024.04.01"
+composeBom = "2026.05.00"
 koinCompose = "3.5.6"
 navigationCompose = "2.7.7"
 gson = "2.10.1"
-materialIconExtend = "1.5.4"
 coreSplashscreen = "1.0.1"
 retrofit = "2.9.0"
 okhttp3 = "4.9.0"
@@ -59,7 +58,7 @@ okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp3" }
 okhttp3LoggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp3" }
 coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "croutineCore" }
 google-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "gooogleSystemuicontroller" }
-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconExtend" }
+material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 io-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }

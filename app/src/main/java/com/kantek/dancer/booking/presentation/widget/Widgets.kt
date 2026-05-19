@@ -87,7 +87,6 @@ import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -113,8 +112,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -145,7 +146,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -285,7 +285,7 @@ fun ActionBarBackAndTitleView(
                     .clip(CircleShape)
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(
+                        indication = ripple(
                             bounded = true,
                             color = Colors.Pink66F425F4
                         )
@@ -926,7 +926,7 @@ fun AppButton(
         contentPadding = contentPadding,
         modifier = modifier.indication(
             interactionSource = interactionSource,
-            indication = rememberRipple(
+            indication = ripple(
                 bounded = true,
                 color = textColor.copy(alpha = 0.45f)
             )
@@ -1092,7 +1092,7 @@ fun AppNavigateBottomBar(
                         .weight(1f)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(bounded = false),
+                            indication = ripple(bounded = false),
                             onClick = { onItemRouterSelected(it.route) })
                         .padding(vertical = 4.dp, horizontal = 6.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -1184,16 +1184,11 @@ fun <T> AppLazyColumn(
         modifier = modifier,
         color = backgroundColor
     ) {
-        Box(
-            modifier = if (onRefresh != null) Modifier
-                .fillMaxSize()
-                .nestedScroll(pullToRefreshState.nestedScrollConnection)
+        val lazyColumnModifier =
+            if (onRefresh != null || showEmptyPlaceholder) Modifier.fillMaxSize()
             else Modifier
-        ) {
-            val lazyColumnModifier =
-                if (onRefresh != null || showEmptyPlaceholder) Modifier.fillMaxSize()
-                else Modifier
 
+        val lazyColumnContent: @Composable () -> Unit = {
             LazyColumn(
                 modifier = lazyColumnModifier,
                 state = listState,
@@ -1234,33 +1229,28 @@ fun <T> AppLazyColumn(
                     }
                 }
             }
+        }
 
-            LaunchedEffect(pullToRefreshState.isRefreshing) {
-                if (pullToRefreshState.isRefreshing) {
-                    onRefresh?.invoke()
-                }
+        if (onRefresh != null) {
+            PullToRefreshBox(
+                modifier = Modifier.fillMaxSize(),
+                isRefreshing = isRefreshing,
+                onRefresh = onRefresh,
+                state = pullToRefreshState,
+                indicator = {
+                    PullToRefreshDefaults.Indicator(
+                        modifier = Modifier.align(Alignment.TopCenter),
+                        state = pullToRefreshState,
+                        isRefreshing = isRefreshing,
+                        color = Colors.Primary,
+                        containerColor = Color.White,
+                    )
+                },
+            ) {
+                lazyColumnContent()
             }
-
-            LaunchedEffect(isRefreshing) {
-                if (isRefreshing && !pullToRefreshState.isRefreshing) {
-                    pullToRefreshState.startRefresh()
-                }
-            }
-
-            LaunchedEffect(pullToRefreshState.isRefreshing, isRefreshing) {
-                if (pullToRefreshState.isRefreshing && !isRefreshing) {
-                    pullToRefreshState.endRefresh()
-                }
-            }
-
-            if (onRefresh != null)
-                PullToRefreshContainer(
-                    state = pullToRefreshState,
-                    contentColor = Colors.Primary,
-                    containerColor = Color.White,
-                    modifier = Modifier
-                        .align(Alignment.TopCenter),
-                )
+        } else {
+            lazyColumnContent()
         }
     }
 }
@@ -3796,7 +3786,6 @@ fun <T> AppLazyVerticalGrid(
 ) {
     val gridState = rememberLazyGridState()
     val pullToRefreshState = rememberPullToRefreshState()
-    var isProgrammaticRefresh by remember { mutableStateOf(false) }
 
     LaunchedEffect(gridState, items, isLoading, isRefreshing) {
         snapshotFlow { gridState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
@@ -3815,37 +3804,13 @@ fun <T> AppLazyVerticalGrid(
             }
     }
 
-    LaunchedEffect(pullToRefreshState.isRefreshing) {
-        if (pullToRefreshState.isRefreshing && !isProgrammaticRefresh) {
-            onRefresh?.invoke()
-        }
-    }
-
-    LaunchedEffect(isIndicatorRefreshing) {
-        if (isIndicatorRefreshing && !pullToRefreshState.isRefreshing) {
-            isProgrammaticRefresh = true
-            pullToRefreshState.startRefresh()
-        }
-    }
-
-    LaunchedEffect(pullToRefreshState.isRefreshing, isIndicatorRefreshing) {
-        if (pullToRefreshState.isRefreshing && !isIndicatorRefreshing) {
-            pullToRefreshState.endRefresh()
-            isProgrammaticRefresh = false
-        }
-    }
-
     Surface(
         modifier = modifier,
         color = backgroundColor
     ) {
-        Box(
-            modifier = if (onRefresh != null) Modifier
-                .fillMaxSize()
-                .nestedScroll(pullToRefreshState.nestedScrollConnection)
-            else Modifier
-        ) {
+        val gridContent: @Composable () -> Unit = {
             LazyVerticalGrid(
+                modifier = Modifier.fillMaxSize(),
                 columns = columns,
                 state = gridState,
                 contentPadding = contentPadding,
@@ -3859,14 +3824,28 @@ fun <T> AppLazyVerticalGrid(
                     itemContent(item, index, index == items.lastIndex)
                 }
             }
-            if (onRefresh != null) {
-                PullToRefreshContainer(
-                    state = pullToRefreshState,
-                    contentColor = pullRefreshContentColor,
-                    containerColor = pullRefreshContainerColor,
-                    modifier = Modifier.align(Alignment.TopCenter)
-                )
+        }
+
+        if (onRefresh != null) {
+            PullToRefreshBox(
+                modifier = Modifier.fillMaxSize(),
+                isRefreshing = isIndicatorRefreshing,
+                onRefresh = onRefresh,
+                state = pullToRefreshState,
+                indicator = {
+                    PullToRefreshDefaults.Indicator(
+                        modifier = Modifier.align(Alignment.TopCenter),
+                        state = pullToRefreshState,
+                        isRefreshing = isIndicatorRefreshing,
+                        color = pullRefreshContentColor,
+                        containerColor = pullRefreshContainerColor,
+                    )
+                },
+            ) {
+                gridContent()
             }
+        } else {
+            gridContent()
         }
     }
 }

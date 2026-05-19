@@ -1,5 +1,6 @@
 package com.kantek.dancer.booking.presentation.screen.conversation
 
+import android.annotation.SuppressLint
 import android.view.Gravity
 import android.widget.TextView
 import androidx.compose.animation.core.animateFloatAsState
@@ -34,7 +35,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -42,6 +42,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -96,8 +97,10 @@ fun ActionBarConversationView(
                 contentDescription = "",
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .clickable(indication = rememberRipple(bounded = true, radius = 24.dp),
-                        interactionSource = remember { MutableInteractionSource() }) {
+                    .clickable(
+                        indication = ripple(bounded = true, radius = 24.dp),
+                        interactionSource = remember { MutableInteractionSource() },
+                    ) {
                         onCommand(
                             Command.ActionBarBack
                         )
@@ -226,6 +229,7 @@ fun ChatInputBox(
     }
 }
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun NoDataConversationView() {
     val context = LocalContext.current
