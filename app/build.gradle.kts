@@ -5,7 +5,6 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.service)
     alias(libs.plugins.firebase.crashlytics)
@@ -104,8 +103,8 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
-    implementation(libs.firebase.crashlytics.ktx)
-    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.messaging)
 
     // Login with Google
     implementation(libs.google.auth)
@@ -143,7 +142,6 @@ dependencies {
     implementation(libs.io.coil)
 
     implementation(libs.glide)
-    implementation(libs.glide.compiler)
     // Resize image
     implementation(libs.compressor)
 
