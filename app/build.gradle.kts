@@ -17,12 +17,12 @@ val keystoreProperties = Properties().apply {
 
 android {
     namespace = "com.kantek.dancer.booking"
-    compileSdk = 35
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.kantek.dancer.booking"
-        minSdk = 21
-        targetSdk = 35
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0.0"
 
@@ -59,12 +59,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        val javaVersion = JavaVersion.toVersion(libs.versions.java.get())
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+
     buildFeatures {
         compose = true
         buildConfig = true
@@ -85,6 +84,10 @@ android {
     lint {
         checkReleaseBuilds = false
     }
+}
+
+kotlin {
+    jvmToolchain(libs.versions.java.get().toInt())
 }
 
 dependencies {

@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "android.support.persistent"
-    compileSdk = 35
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 21
+        minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -23,13 +23,16 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        val javaVersion = JavaVersion.toVersion(libs.versions.java.get())
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+}
+
+kotlin {
+    jvmToolchain(libs.versions.java.get().toInt())
 }
 
 dependencies {
