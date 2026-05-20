@@ -141,7 +141,8 @@ import kotlinx.coroutines.CoroutineScope
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -212,34 +213,34 @@ val presentationModule = module {
         scoped { AppPopup() }
         scoped<CoroutineScope> { ScopedCoroutineScope() }
     }
-    viewModel { NotificationVM(get()) }
-    viewModel { FindClubVM(get()) }
-    viewModel { LanguageVM(get()) }
-    viewModel { MainVM(get()) }
-    viewModel { AccountVM(get(), get(), get()) }
-    viewModel { SignInVM(get(), get(), get(), get()) }
-    viewModel { ManageStaffSignInVM(get(), get()) }
-    viewModel { SignUpVM(get(), get()) }
-    viewModel { ForgotPasswordVM(get(), get(), get()) }
-    viewModel { IntroduceVM(get()) }
-    viewModel { HomeVM(get(), get()) }
-    viewModel { MyBookingVM(get(), get(), get(), get(), get()) }
-    viewModel { DetailBookingVM(get(), get(), get(), get(), get(), get()) }
-    viewModel { DetailDancerVM(get()) }
+    viewModelOf(::NotificationVM)
+    viewModelOf(::FindClubVM)
+    viewModelOf(::LanguageVM)
+    viewModelOf(::MainVM)
+    viewModelOf(::AccountVM)
+    viewModelOf(::SignInVM)
+    viewModelOf(::ManageStaffSignInVM)
+    viewModelOf(::SignUpVM)
+    viewModelOf(::ForgotPasswordVM)
+    viewModelOf(::IntroduceVM)
+    viewModelOf(::HomeVM)
+    viewModelOf(::MyBookingVM)
+    viewModelOf(::DetailBookingVM)
+    viewModelOf(::DetailDancerVM)
     viewModel { ChangePasswordVM(get(), getBy(Scopes.App)) }
     viewModel { MyProfileVM(get(), get(), getBy(Scopes.App)) }
     viewModel { ContactUsVM(get(), get(), getBy(Scopes.App)) }
-    viewModel { BrowserVM(get(), get()) }
-    viewModel { OTPVerifyVM(get(), get()) }
+    viewModelOf(::BrowserVM)
+    viewModelOf(::OTPVerifyVM)
     viewModel { RetPasswordVM(get(), getBy(Scopes.App)) }
-    viewModel { DancerListVM(get()) }
-    viewModel { DancerListOfAdminVM(get(), get(), get(), get(), get(), get<Application>().applicationContext) }
-    viewModel { BookingVM(get(), get(), get()) }
-    viewModel { BookingConfirmVM(get(), get()) }
-    viewModel { ReviewVM(get()) }
-    viewModel { CreateReviewVM(get(), get()) }
-    viewModel { FAQsThreadsVM(get()) }
-    viewModel { QuestionThreadsVM(get(), get(), get(),get()) }
+    viewModelOf(::DancerListVM)
+    viewModelOf(::DancerListOfAdminVM)
+    viewModelOf(::BookingVM)
+    viewModelOf(::BookingConfirmVM)
+    viewModelOf(::ReviewVM)
+    viewModelOf(::CreateReviewVM)
+    viewModelOf(::FAQsThreadsVM)
+    viewModelOf(::QuestionThreadsVM)
 }
 
 val dataModule = module {
@@ -330,6 +331,6 @@ val conversation = module {
     factory { ChatRepo(get()) }
     factory { FetchMessageByPageRepo(get(), get()) }
     factory { UploadPhotosRepo(get(), get()) }
-    viewModel { ConversationVM(get(), get(), get(), get(), get()) }
+    viewModelOf(::ConversationVM)
     single { provideApi<ConversationApi>(get()) }
 }
