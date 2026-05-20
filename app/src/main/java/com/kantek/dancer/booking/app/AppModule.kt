@@ -9,7 +9,6 @@ import com.kantek.dancer.booking.data.helper.SaveStateHandler
 import com.kantek.dancer.booking.data.helper.ShareIOScope
 import com.kantek.dancer.booking.data.helper.network.ApiAsyncAdapterFactory
 import com.kantek.dancer.booking.data.helper.network.DefaultApiErrorHandler
-import com.kantek.dancer.booking.data.helper.network.fatory.TLSSocketFactory
 import com.kantek.dancer.booking.data.helper.network.interceptor.LanguageInterceptor
 import com.kantek.dancer.booking.data.helper.network.interceptor.TokenInterceptor
 import com.kantek.dancer.booking.data.local.FilterLocalSource
@@ -165,9 +164,7 @@ val networkModule = module {
         val application: Application = get()
         val cacheDir = File(application.cacheDir, UUID.randomUUID().toString())
         val cache = Cache(cacheDir, 10485760L) // 10mb
-        val tlsSocketFactory = TLSSocketFactory()
         OkHttpClient.Builder()
-            .sslSocketFactory(tlsSocketFactory, tlsSocketFactory.systemDefaultTrustManager())
             .cache(cache)
             .addInterceptor(get<TokenInterceptor>())
             .addInterceptor(get<LanguageInterceptor>())

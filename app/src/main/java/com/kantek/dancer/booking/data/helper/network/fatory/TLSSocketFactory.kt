@@ -12,7 +12,7 @@ import java.security.cert.X509Certificate
 import java.util.*
 import javax.net.ssl.*
 
-class TLSSocketFactory(protocol: String = PROTOCOL_SSL, systemTrust: Boolean = false) :
+class TLSSocketFactory(protocol: String = PROTOCOL_TLS, systemTrust: Boolean = true) :
     SSLSocketFactory() {
     private var delegate: SSLSocketFactory
 
@@ -82,8 +82,13 @@ class TLSSocketFactory(protocol: String = PROTOCOL_SSL, systemTrust: Boolean = f
     }
 
     private fun enableTLSOnSocket(socket: Socket?): Socket? {
-        if (socket != null && socket is SSLSocket) {
-            socket.enabledProtocols = arrayOf("TLSv1.1", "TLSv1.2")
+        if (socket is SSLSocket) {
+            val enabledProtocols = socket.supportedProtocols
+                .filter { it == "TLSv1.2" || it == "TLSv1.3" }
+                .toTypedArray()
+            if (enabledProtocols.isNotEmpty()) {
+                socket.enabledProtocols = enabledProtocols
+            }
         }
         return socket
     }
@@ -97,9 +102,7 @@ class TLSSocketFactory(protocol: String = PROTOCOL_SSL, systemTrust: Boolean = f
             val trustManagers = trustManagerFactory.trustManagers
             if (trustManagers.size != 1 || trustManagers[0] !is X509TrustManager) {
                 throw IllegalStateException(
-                    "Unexpected default trust managers:" + Arrays.toString(
-                        trustManagers
-                    )
+                    "Unexpected default trust managers:" + trustManagers.contentToString()
                 )
             }
             return trustManagers[0] as X509TrustManager
