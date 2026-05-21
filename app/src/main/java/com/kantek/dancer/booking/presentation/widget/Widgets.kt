@@ -128,6 +128,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
@@ -2563,14 +2564,21 @@ fun CallPhoneDialog(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ZoomablePager(imageUrls: List<String>) {
+fun ZoomablePager(
+    imageUrls: List<String>,
+    modifier: Modifier = Modifier,
+) {
     val pagerState = rememberPagerState { imageUrls.size }
     var currentScale by remember { mutableStateOf(1f) }
+
+    LaunchedEffect(pagerState.currentPage) {
+        currentScale = 1f
+    }
 
     HorizontalPager(
         state = pagerState,
         flingBehavior = PagerDefaults.flingBehavior(pagerState),
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         userScrollEnabled = currentScale <= 1f
     ) { page ->
         ZoomableAsyncImage(
@@ -2588,8 +2596,8 @@ fun ZoomableAsyncImage(
     modifier: Modifier = Modifier,
     onScaleChanged: ((Float) -> Unit)? = null
 ) {
-    var scale by remember { mutableStateOf(1f) }
-    var offset by remember { mutableStateOf(Offset.Zero) }
+    var scale by remember(imageUrl) { mutableStateOf(1f) }
+    var offset by remember(imageUrl) { mutableStateOf(Offset.Zero) }
 
     val minScale = 1f
     val maxScale = 5f
@@ -2597,6 +2605,7 @@ fun ZoomableAsyncImage(
     Box(
         modifier = modifier
             .fillMaxSize()
+            .clipToBounds()
             .background(Color.Black)
             .pointerInput(Unit) {
                 awaitEachGesture {
@@ -2643,7 +2652,8 @@ fun ZoomableAsyncImage(
                 scaleX = scale,
                 scaleY = scale,
                 translationX = offset.x,
-                translationY = offset.y
+                translationY = offset.y,
+                clip = true,
             )
     ) {
         AppImage(
