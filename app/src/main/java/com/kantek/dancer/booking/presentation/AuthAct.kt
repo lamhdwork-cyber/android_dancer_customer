@@ -6,8 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.kantek.dancer.booking.app.AppComponentAct
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.support.Screen
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.presentation.model.support.Screen
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.provider.NavigationProvider
 import com.kantek.dancer.booking.presentation.screen.auth.AuthScreen

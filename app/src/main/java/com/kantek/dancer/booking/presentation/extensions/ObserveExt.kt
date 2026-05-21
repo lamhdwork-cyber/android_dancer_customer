@@ -8,17 +8,17 @@ import androidx.compose.runtime.neverEqualPolicy
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import com.kantek.dancer.booking.domain.model.support.HasIsValid
-import com.kantek.dancer.booking.domain.model.support.HasValidable
-import com.kantek.dancer.booking.domain.model.support.NoValidable
-import com.kantek.dancer.booking.domain.model.support.Signal
-import com.kantek.dancer.booking.domain.model.support.Subscriber
-import com.kantek.dancer.booking.domain.model.support.Updatable
-import com.kantek.dancer.booking.domain.model.support.Validable
-import com.kantek.dancer.booking.domain.model.support.ValidableDelegate
-import com.kantek.dancer.booking.domain.model.support.signal
-import com.kantek.dancer.booking.domain.model.ui.IChars
-import com.kantek.dancer.booking.domain.model.ui.ILoading
+import com.kantek.dancer.booking.presentation.model.support.HasIsValid
+import com.kantek.dancer.booking.presentation.model.support.HasValidable
+import com.kantek.dancer.booking.presentation.model.support.NoValidable
+import com.kantek.dancer.booking.presentation.model.support.Signal
+import com.kantek.dancer.booking.presentation.model.support.Subscriber
+import com.kantek.dancer.booking.presentation.model.support.Updatable
+import com.kantek.dancer.booking.presentation.model.support.Validable
+import com.kantek.dancer.booking.presentation.model.support.ValidableDelegate
+import com.kantek.dancer.booking.presentation.model.support.signal
+import com.kantek.dancer.booking.domain.model.IChars
+import com.kantek.dancer.booking.domain.model.ILoading
 
 @Composable
 fun <T> T.observe(): T {

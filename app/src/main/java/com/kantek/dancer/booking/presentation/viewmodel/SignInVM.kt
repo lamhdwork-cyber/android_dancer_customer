@@ -11,7 +11,7 @@ import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.repo.GetAccountRepo
 import com.kantek.dancer.booking.data.repo.SignInRepo
-import com.kantek.dancer.booking.domain.model.ui.user.SignInForm
+import com.kantek.dancer.booking.domain.model.user.SignInForm
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.helper.AppKeyboard
 import kotlinx.coroutines.flow.MutableStateFlow

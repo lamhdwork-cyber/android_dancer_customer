@@ -5,7 +5,7 @@ import android.app.Service
 import android.content.Context
 import com.google.gson.JsonSyntaxException
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.domain.extension.ResourceException
+import com.kantek.dancer.booking.data.extension.ResourceException
 import java.net.ConnectException
 import java.net.SocketException
 import java.net.UnknownHostException

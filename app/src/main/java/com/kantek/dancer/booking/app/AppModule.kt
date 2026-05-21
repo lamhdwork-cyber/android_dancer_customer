@@ -28,51 +28,52 @@ import com.kantek.dancer.booking.data.remote.api.RoomApi
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.remote.socket.ChatSocketClient
 import com.kantek.dancer.booking.data.remote.socket.SocketClient
+import com.kantek.dancer.booking.data.repo.ClubRepoImpl
+import com.kantek.dancer.booking.data.repo.DancerRepoImpl
 import com.kantek.dancer.booking.data.repo.FetchAllBannerRepo
-import com.kantek.dancer.booking.data.repo.FetchClubByPageRepoImpl
-import com.kantek.dancer.booking.data.repo.FetchDancerByPageRepoImpl
-import com.kantek.dancer.booking.data.repo.FetchNotificationByPageRepoImpl
+import com.kantek.dancer.booking.data.repo.RoomRepoImpl
+import com.kantek.dancer.booking.data.repo.DestinationRepoImpl
+import com.kantek.dancer.booking.domain.repo.ClubRepo
+import com.kantek.dancer.booking.domain.repo.DancerRepo
+import com.kantek.dancer.booking.domain.repo.RoomRepo
+import com.kantek.dancer.booking.domain.repo.DestinationRepo
 import com.kantek.dancer.booking.data.repo.GetAccountRepo
 import com.kantek.dancer.booking.data.repo.GetLinkAboutUsRepo
 import com.kantek.dancer.booking.data.repo.GetLinkTermsRepo
-import com.kantek.dancer.booking.data.repo.GetStartDestinationMainRepo
 import com.kantek.dancer.booking.data.repo.LanguageRepo
-import com.kantek.dancer.booking.data.repo.ClubRepo
-import com.kantek.dancer.booking.data.repo.DancerRepo
-import com.kantek.dancer.booking.data.repo.NotificationRepo
-import com.kantek.dancer.booking.data.repo.RoomRepo
-import com.kantek.dancer.booking.data.repo.FetchRoomByClubRepoImpl
+import com.kantek.dancer.booking.domain.repo.NotificationRepo
+import com.kantek.dancer.booking.data.repo.NotificationRepoImpl
 import com.kantek.dancer.booking.data.repo.SignInRepo
 import com.kantek.dancer.booking.data.repo.conversation.ChatRepo
 import com.kantek.dancer.booking.data.repo.conversation.ChatSocketRepo
 import com.kantek.dancer.booking.data.repo.conversation.FetchMessageByPageRepo
 import com.kantek.dancer.booking.data.repo.conversation.UploadPhotosRepo
-import com.kantek.dancer.booking.domain.extension.getBy
-import com.kantek.dancer.booking.domain.factory.BookingFactory
-import com.kantek.dancer.booking.domain.factory.RoomFactory
-import com.kantek.dancer.booking.domain.factory.ClubFactory
-import com.kantek.dancer.booking.domain.factory.ConfigFactory
-import com.kantek.dancer.booking.domain.factory.ConversationFactory
-import com.kantek.dancer.booking.domain.factory.DancerFactory
-import com.kantek.dancer.booking.domain.factory.FAQsThreadsFactory
-import com.kantek.dancer.booking.domain.factory.FilterFactory
-import com.kantek.dancer.booking.domain.factory.IntroduceFactory
-import com.kantek.dancer.booking.domain.factory.LanguageFactory
-import com.kantek.dancer.booking.domain.factory.LawyerFactory
-import com.kantek.dancer.booking.domain.factory.NotificationFactory
-import com.kantek.dancer.booking.domain.factory.PhotoFactory
-import com.kantek.dancer.booking.domain.factory.UserFactory
-import com.kantek.dancer.booking.domain.formatter.TextFormatter
-import com.kantek.dancer.booking.domain.formatter.TimeFormatter
-import com.kantek.dancer.booking.domain.model.support.Scopes
+import com.kantek.dancer.booking.data.extension.getBy
+import com.kantek.dancer.booking.data.factory.BookingFactory
+import com.kantek.dancer.booking.data.factory.ClubFactory
+import com.kantek.dancer.booking.data.factory.ConfigFactory
+import com.kantek.dancer.booking.data.factory.ConversationFactory
+import com.kantek.dancer.booking.data.factory.DancerFactory
+import com.kantek.dancer.booking.data.factory.FAQsThreadsFactory
+import com.kantek.dancer.booking.data.factory.FilterFactory
+import com.kantek.dancer.booking.data.factory.IntroduceFactory
+import com.kantek.dancer.booking.data.factory.LanguageFactory
+import com.kantek.dancer.booking.data.factory.LawyerFactory
+import com.kantek.dancer.booking.data.factory.NotificationFactory
+import com.kantek.dancer.booking.data.factory.PhotoFactory
+import com.kantek.dancer.booking.data.factory.RoomFactory
+import com.kantek.dancer.booking.data.factory.UserFactory
+import com.kantek.dancer.booking.data.formatter.TextFormatter
+import com.kantek.dancer.booking.data.formatter.TimeFormatter
+import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
-import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import com.kantek.dancer.booking.domain.usecase.FetchClubCase
 import com.kantek.dancer.booking.domain.usecase.FetchClubDancersAdminPageCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerByClubCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
 import com.kantek.dancer.booking.domain.usecase.GetStartDestinationCase
+import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import com.kantek.dancer.booking.presentation.helper.ActivityRetriever
 import com.kantek.dancer.booking.presentation.helper.AppKeyboard
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
@@ -96,13 +97,19 @@ import com.kantek.dancer.booking.presentation.screen.auth.otp.OTPVerifyVM
 import com.kantek.dancer.booking.presentation.screen.auth.otp.VerifyOTPRepo
 import com.kantek.dancer.booking.presentation.screen.booking.BookingAcceptRepo
 import com.kantek.dancer.booking.presentation.screen.booking.BookingCancelRepo
-import com.kantek.dancer.booking.presentation.screen.booking.BookingRequestAgainRepo
 import com.kantek.dancer.booking.presentation.screen.booking.BookingCompleteRepo
+import com.kantek.dancer.booking.presentation.screen.booking.BookingConfirmRepo
+import com.kantek.dancer.booking.presentation.screen.booking.BookingConfirmVM
+import com.kantek.dancer.booking.presentation.screen.booking.BookingRequestAgainRepo
+import com.kantek.dancer.booking.presentation.screen.booking.BookingVM
 import com.kantek.dancer.booking.presentation.screen.booking.DetailBookingVM
 import com.kantek.dancer.booking.presentation.screen.booking.FetchBookingDetailRepo
 import com.kantek.dancer.booking.presentation.screen.booking.FetchMyBookingByPageRepo
 import com.kantek.dancer.booking.presentation.screen.booking.MyBookingVM
 import com.kantek.dancer.booking.presentation.screen.conversation.ConversationVM
+import com.kantek.dancer.booking.presentation.screen.dancer.DancerListOfAdminVM
+import com.kantek.dancer.booking.presentation.screen.dancer.DancerListVM
+import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerVM
 import com.kantek.dancer.booking.presentation.screen.faqs.FAQsThreadsVM
 import com.kantek.dancer.booking.presentation.screen.faqs.FetchAnswerThreadsByPage
 import com.kantek.dancer.booking.presentation.screen.faqs.FetchFAQsThreadsPagingRepo
@@ -114,27 +121,20 @@ import com.kantek.dancer.booking.presentation.screen.home.FetchFAQsPagingRepo
 import com.kantek.dancer.booking.presentation.screen.home.HomeVM
 import com.kantek.dancer.booking.presentation.screen.introduce.FetchIntroduceRepo
 import com.kantek.dancer.booking.presentation.screen.introduce.IntroduceVM
-import com.kantek.dancer.booking.presentation.screen.booking.BookingVM
-import com.kantek.dancer.booking.presentation.screen.booking.BookingConfirmRepo
-import com.kantek.dancer.booking.presentation.screen.booking.BookingConfirmVM
-import com.kantek.dancer.booking.presentation.screen.dancer.DetailDancerVM
-import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailDancerRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewRepo
 import com.kantek.dancer.booking.presentation.screen.review.CreateReviewVM
-import com.kantek.dancer.booking.presentation.screen.dancer.DancerListOfAdminVM
-import com.kantek.dancer.booking.presentation.screen.dancer.DancerListVM
 import com.kantek.dancer.booking.presentation.viewmodel.AccountVM
 import com.kantek.dancer.booking.presentation.viewmodel.BrowserVM
 import com.kantek.dancer.booking.presentation.viewmodel.DeleteAccountRepo
 import com.kantek.dancer.booking.presentation.viewmodel.FetchReviewByPageRepo
 import com.kantek.dancer.booking.presentation.viewmodel.FetchUserRepo
+import com.kantek.dancer.booking.presentation.viewmodel.FindClubVM
 import com.kantek.dancer.booking.presentation.viewmodel.LanguageVM
 import com.kantek.dancer.booking.presentation.viewmodel.MainVM
-import com.kantek.dancer.booking.presentation.viewmodel.FindClubVM
+import com.kantek.dancer.booking.presentation.viewmodel.ManageStaffSignInVM
 import com.kantek.dancer.booking.presentation.viewmodel.NotificationVM
 import com.kantek.dancer.booking.presentation.viewmodel.ReviewVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignInGoogleRepo
-import com.kantek.dancer.booking.presentation.viewmodel.ManageStaffSignInVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignInVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignOutRepo
 import kotlinx.coroutines.CoroutineScope
@@ -253,13 +253,13 @@ val dataModule = module {
     single { TokenInterceptor(get()) }
     single { LanguageInterceptor(get()) }
     single { ShareIOScope() }
-    single<NotificationRepo> { FetchNotificationByPageRepoImpl(get()) }
-    single<ClubRepo> { FetchClubByPageRepoImpl(get()) }
-    single<DancerRepo> { FetchDancerByPageRepoImpl(get()) }
-    single<RoomRepo> { FetchRoomByClubRepoImpl(get()) }
+    single<NotificationRepo> { NotificationRepoImpl(get(), get()) }
+    single<ClubRepo> { ClubRepoImpl(get(), get()) }
+    single<DancerRepo> { DancerRepoImpl(get(), get()) }
+    single<RoomRepo> { RoomRepoImpl(get(), get()) }
+    single<DestinationRepo> { DestinationRepoImpl(get(), get()) }
     factory { LanguageRepo(get(), get(), get(), get()) }
     single { LanguageLocalSource(get()) }
-    factory { GetStartDestinationMainRepo(get(), get()) }
     factory { FetchUserRepo(get(), get(), get()) }
     factory { SignOutRepo(get(), get()) }
     factory { GetAccountRepo(get()) }
@@ -287,7 +287,6 @@ val dataModule = module {
     factory { RequestOTPRepo(get()) }
     factory { VerifyOTPRepo(get(), get()) }
     factory { ResetPasswordRepo(get()) }
-    factory { FetchDetailDancerRepo(get()) }
     factory { FetchReviewByPageRepo(get(), get()) }
     single { FilterLocalSource(get()) }
     factory { CreateReviewRepo(get()) }
@@ -299,12 +298,12 @@ val dataModule = module {
 }
 
 val domainModule = module {
-    factory { NotificationUseCase(get(), get()) }
-    factory { FetchClubCase(get(), get()) }
-    factory { FetchDancerByClubCase(get(), get()) }
-    factory { FetchClubDancersAdminPageCase(get(), get()) }
-    factory { FetchDancerDetailCase(get(), get()) }
-    factory { FetchRoomsByClubCase(get(), get()) }
+    factory { NotificationUseCase(get()) }
+    factory { FetchClubCase(get()) }
+    factory { FetchDancerByClubCase(get()) }
+    factory { FetchClubDancersAdminPageCase(get()) }
+    factory { FetchDancerDetailCase(get()) }
+    factory { FetchRoomsByClubCase(get()) }
     factory { GetStartDestinationCase(get()) }
     single { TextFormatter() }
     single { NotificationFactory(get()) }

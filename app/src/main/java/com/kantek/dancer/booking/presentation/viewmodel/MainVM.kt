@@ -1,7 +1,7 @@
 package com.kantek.dancer.booking.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.kantek.dancer.booking.domain.model.support.Screen
+import com.kantek.dancer.booking.presentation.model.support.Screen
 import com.kantek.dancer.booking.domain.usecase.GetStartDestinationCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

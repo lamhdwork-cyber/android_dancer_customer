@@ -6,8 +6,8 @@ import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.ParameterInvalidException
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
-import com.kantek.dancer.booking.domain.model.response.UserDTO
-import com.kantek.dancer.booking.domain.model.ui.user.SignInForm
+import com.kantek.dancer.booking.data.model.response.UserDTO
+import com.kantek.dancer.booking.domain.model.user.SignInForm
 
 class SignInRepo(
     private val appContext: Context,

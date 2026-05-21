@@ -72,8 +72,8 @@ import androidx.core.text.HtmlCompat
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.domain.model.ui.Command
-import com.kantek.dancer.booking.domain.model.ui.conversation.Message
+import com.kantek.dancer.booking.domain.model.Command
+import com.kantek.dancer.booking.domain.model.conversation.Message
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical

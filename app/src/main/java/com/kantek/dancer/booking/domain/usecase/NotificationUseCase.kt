@@ -1,16 +1,14 @@
 package com.kantek.dancer.booking.domain.usecase
 
 import android.support.core.extensions.withIO
-import com.kantek.dancer.booking.data.repo.NotificationRepo
-import com.kantek.dancer.booking.domain.factory.NotificationFactory
-import com.kantek.dancer.booking.domain.model.ui.user.INotification
+import com.kantek.dancer.booking.domain.repo.NotificationRepo
+import com.kantek.dancer.booking.domain.model.notification.INotification
 
 class NotificationUseCase(
-    private val notificationRepo: NotificationRepo,
-    private val notificationFactory: NotificationFactory
+    private val notificationRepo: NotificationRepo
 ) {
     suspend operator fun invoke(page: Int): List<INotification> {
-        return withIO { notificationFactory.createList(notificationRepo.fetchByPage(page)) }
+        return withIO { notificationRepo.fetchByPage(page) }
     }
 
     suspend fun readAll(): Any {

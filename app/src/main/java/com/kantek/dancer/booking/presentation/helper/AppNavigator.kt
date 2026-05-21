@@ -2,11 +2,11 @@ package com.kantek.dancer.booking.presentation.helper
 
 import android.net.Uri
 import androidx.navigation.NavHostController
-import com.kantek.dancer.booking.domain.extension.toJson
-import com.kantek.dancer.booking.domain.model.response.BookingDTO
-import com.kantek.dancer.booking.domain.model.support.BottomNavigationScreen
-import com.kantek.dancer.booking.domain.model.support.Screen
-import com.kantek.dancer.booking.domain.model.support.Updatable
+import com.kantek.dancer.booking.data.extension.toJson
+import com.kantek.dancer.booking.data.model.response.BookingDTO
+import com.kantek.dancer.booking.presentation.model.support.BottomNavigationScreen
+import com.kantek.dancer.booking.presentation.model.support.Screen
+import com.kantek.dancer.booking.presentation.model.support.Updatable
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_DATE
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_DTO
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_ID
@@ -25,7 +25,6 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgK
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.HOME_TAB
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.IS_IN_APP
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.LAWYER_DTO
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.LAWYER_ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.NAME
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PHOTOS_URL

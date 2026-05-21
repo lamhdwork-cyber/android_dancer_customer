@@ -42,8 +42,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.search.IDancer
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.search.IDancer
 import com.kantek.dancer.booking.domain.usecase.FetchDancerByClubCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch

@@ -1,9 +1,9 @@
 package com.kantek.dancer.booking.data.repo.conversation
 
 import com.kantek.dancer.booking.data.remote.api.ConversationApi
-import com.kantek.dancer.booking.domain.factory.ConversationFactory
-import com.kantek.dancer.booking.domain.model.response.conversation.MessageDTO
-import com.kantek.dancer.booking.domain.model.ui.conversation.Message
+import com.kantek.dancer.booking.data.factory.ConversationFactory
+import com.kantek.dancer.booking.data.model.response.conversation.MessageDTO
+import com.kantek.dancer.booking.domain.model.conversation.Message
 
 class FetchMessageByPageRepo(
     private val conversationApi: ConversationApi,

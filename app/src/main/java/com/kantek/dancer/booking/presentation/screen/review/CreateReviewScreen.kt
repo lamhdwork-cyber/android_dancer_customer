@@ -27,11 +27,11 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.LawyerApi
-import com.kantek.dancer.booking.domain.extension.toObject
-import com.kantek.dancer.booking.domain.model.form.ReviewForm
-import com.kantek.dancer.booking.domain.model.response.BookingDTO
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.user.ILawyerDetail
+import com.kantek.dancer.booking.data.extension.toObject
+import com.kantek.dancer.booking.data.model.form.ReviewForm
+import com.kantek.dancer.booking.data.model.response.BookingDTO
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.user.ILawyerDetail
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use

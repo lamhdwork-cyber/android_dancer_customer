@@ -54,12 +54,12 @@ import androidx.navigation.NavBackStackEntry
 import coil.compose.AsyncImage
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.domain.factory.BookingFactory
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.booking.IBookingPerformer
-import com.kantek.dancer.booking.domain.model.ui.booking.IBookingScheduleDay
-import com.kantek.dancer.booking.domain.model.ui.booking.IRoom
-import com.kantek.dancer.booking.domain.model.ui.search.IDancerDetail
+import com.kantek.dancer.booking.data.factory.BookingFactory
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.booking.IBookingPerformer
+import com.kantek.dancer.booking.domain.model.booking.IBookingScheduleDay
+import com.kantek.dancer.booking.domain.model.booking.IRoom
+import com.kantek.dancer.booking.domain.model.search.IDancerDetail
 import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
@@ -67,7 +67,7 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
 import com.kantek.dancer.booking.presentation.helper.AppPopup
-import com.kantek.dancer.booking.presentation.screen.dancer.FetchDetailDancerRepo
+import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
@@ -701,7 +701,7 @@ data class BookingState(
 )
 
 class BookingVM(
-    private val fetchDetailDancerRepo: FetchDetailDancerRepo,
+    private val fetchDancerDetailCase: FetchDancerDetailCase,
     private val fetchRoomsByClubCase: FetchRoomsByClubCase,
     private val bookingFactory: BookingFactory
 ) : AppViewModel() {
@@ -717,7 +717,7 @@ class BookingVM(
                     current.scheduleDays.isNotEmpty()
         if (hasLoadedSameInput) return@launch
 
-        val initialDetail = if (dancerId.isNotBlank()) fetchDetailDancerRepo(dancerId) else null
+        val initialDetail = if (dancerId.isNotBlank()) fetchDancerDetailCase(dancerId) else null
         val initialPerformers = initialDetail?.toBookingPerformer()?.let { listOf(it) } ?: emptyList()
 
         val rooms = if (clubId.isNotBlank()) {
@@ -746,7 +746,7 @@ class BookingVM(
         val cur = _state.value
         if (cur.performers.size >= MAX_PERFORMERS) return R.string.booking_max_performers_message
         if (cur.performers.any { it.id == dancerId }) return null
-        val detail = fetchDetailDancerRepo(dancerId) ?: return null
+        val detail = fetchDancerDetailCase(dancerId) ?: return null
         _state.value = cur.copy(
             performers = cur.performers + detail.toBookingPerformer(),
             clubName = cur.clubName.ifBlank { detail.clubName },

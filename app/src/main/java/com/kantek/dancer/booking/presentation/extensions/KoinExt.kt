@@ -7,7 +7,7 @@ import androidx.compose.runtime.RememberObserver
 import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
-import com.kantek.dancer.booking.domain.extension.getBy
+import com.kantek.dancer.booking.data.extension.getBy
 import org.koin.compose.getKoin
 import org.koin.core.scope.Scope
 

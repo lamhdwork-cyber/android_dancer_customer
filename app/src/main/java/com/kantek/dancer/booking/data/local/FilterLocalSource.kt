@@ -2,8 +2,8 @@ package com.kantek.dancer.booking.data.local
 
 import android.content.Context
 import android.support.persistent.cache.GsonCaching
-import com.kantek.dancer.booking.domain.model.entity.FilterEntity
-import com.kantek.dancer.booking.domain.model.form.LawyerFilterForm
+import com.kantek.dancer.booking.data.model.entity.FilterEntity
+import com.kantek.dancer.booking.data.model.form.LawyerFilterForm
 
 class FilterLocalSource(context: Context) {
 

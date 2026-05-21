@@ -4,8 +4,8 @@ import android.content.Context
 import com.kantek.dancer.booking.data.local.LanguageLocalSource
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
-import com.kantek.dancer.booking.domain.factory.LanguageFactory
-import com.kantek.dancer.booking.domain.model.ui.user.ILanguage
+import com.kantek.dancer.booking.data.factory.LanguageFactory
+import com.kantek.dancer.booking.domain.model.user.ILanguage
 
 class LanguageRepo(
     private val userApi: UserApi,

@@ -30,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use

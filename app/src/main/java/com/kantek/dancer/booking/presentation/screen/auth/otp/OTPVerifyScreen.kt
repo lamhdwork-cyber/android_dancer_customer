@@ -32,7 +32,6 @@ import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.extensions.getDeviceID
 import com.kantek.dancer.booking.data.remote.api.UserApi
-import com.kantek.dancer.booking.domain.model.support.Scopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use

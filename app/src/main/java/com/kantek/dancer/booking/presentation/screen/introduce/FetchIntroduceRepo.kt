@@ -1,9 +1,9 @@
 package com.kantek.dancer.booking.presentation.screen.introduce
 
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.domain.factory.IntroduceFactory
-import com.kantek.dancer.booking.domain.model.response.introduce.IntroduceDTO
-import com.kantek.dancer.booking.domain.model.ui.introduce.IIntroduce
+import com.kantek.dancer.booking.data.factory.IntroduceFactory
+import com.kantek.dancer.booking.data.model.response.introduce.IntroduceDTO
+import com.kantek.dancer.booking.domain.model.introduce.IIntroduce
 
 class FetchIntroduceRepo(
     private val introduceFactory: IntroduceFactory

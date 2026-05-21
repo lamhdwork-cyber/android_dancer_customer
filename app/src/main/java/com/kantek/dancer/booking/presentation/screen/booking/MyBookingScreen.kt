@@ -38,9 +38,9 @@ import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.BookingApi
-import com.kantek.dancer.booking.domain.factory.BookingFactory
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.booking.IBooking
+import com.kantek.dancer.booking.data.factory.BookingFactory
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.booking.IBooking
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use

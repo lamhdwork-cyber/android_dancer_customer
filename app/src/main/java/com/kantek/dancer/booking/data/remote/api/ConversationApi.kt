@@ -3,7 +3,7 @@ package com.kantek.dancer.booking.data.remote.api
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.data.helper.network.ApiAsync
 import com.kantek.dancer.booking.data.helper.network.model.ApiResponsePaging
-import com.kantek.dancer.booking.domain.model.response.conversation.MessageDTO
+import com.kantek.dancer.booking.data.model.response.conversation.MessageDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Retrofit

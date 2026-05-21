@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.domain.extension.toObjects
-import com.kantek.dancer.booking.domain.model.support.Scopes
+import com.kantek.dancer.booking.data.extension.toObjects
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator

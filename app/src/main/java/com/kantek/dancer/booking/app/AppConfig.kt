@@ -30,7 +30,7 @@ object AppConfig {
     }
 
     object Booking {
-        /** API / DTO string values for [com.kantek.dancer.booking.domain.model.response.BookingDTO.status]. */
+        /** API / DTO string values for [com.kantek.dancer.booking.data.model.response.BookingDTO.status]. */
         object Status {
             const val PENDING = "pending"
             const val SCHEDULED = "scheduled"
@@ -42,7 +42,7 @@ object AppConfig {
     }
 
     /**
-     * Values from [com.kantek.dancer.booking.domain.model.response.UserDTO.role] after login.
+     * Values from [com.kantek.dancer.booking.data.model.response.UserDTO.role] after login.
      */
     object UserRole {
         const val USER = "user"

@@ -1,8 +1,8 @@
 package com.kantek.dancer.booking.data.repo
 
 import com.kantek.dancer.booking.data.remote.api.ConfigApi
-import com.kantek.dancer.booking.domain.factory.ConfigFactory
-import com.kantek.dancer.booking.domain.model.ui.config.IBanner
+import com.kantek.dancer.booking.data.factory.ConfigFactory
+import com.kantek.dancer.booking.domain.model.config.IBanner
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class FetchAllBannerRepo(

@@ -3,9 +3,9 @@ package com.kantek.dancer.booking.data.repo.conversation
 import android.support.core.extensions.safe
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.socket.ChatSocketClient
-import com.kantek.dancer.booking.domain.extension.toObject
-import com.kantek.dancer.booking.domain.model.response.conversation.MessageDTO
-import com.kantek.dancer.booking.domain.model.response.conversation.TypingDTO
+import com.kantek.dancer.booking.data.extension.toObject
+import com.kantek.dancer.booking.data.model.response.conversation.MessageDTO
+import com.kantek.dancer.booking.data.model.response.conversation.TypingDTO
 import com.kantek.dancer.booking.presentation.extensions.loge
 import kotlinx.coroutines.flow.MutableSharedFlow
 import java.util.UUID
