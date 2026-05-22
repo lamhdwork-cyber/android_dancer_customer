@@ -48,12 +48,21 @@ abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErro
         super.attachBaseContext(localeUpdatedContext)
     }
 
+    /** Splash uses theme windowBackground only — no edge-to-edge Compose overlay. */
+    protected open fun shouldEnableEdgeToEdge(): Boolean = true
+
+    protected open fun shouldSetComposeContent(): Boolean = true
+
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        if (shouldEnableEdgeToEdge()) {
+            enableEdgeToEdge()
+        }
 //        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        setContent { Content() }
+        if (shouldSetComposeContent()) {
+            setContent { Content() }
+        }
     }
 
     fun showNotification(message: String) {
