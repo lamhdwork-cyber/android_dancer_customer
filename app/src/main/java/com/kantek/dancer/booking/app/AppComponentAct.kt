@@ -30,7 +30,6 @@ import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.LoadingView
 import org.koin.android.ext.android.inject
-import org.koin.compose.KoinContext
 import java.util.Locale
 
 abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErrorHandlerImpl() {
@@ -139,16 +138,14 @@ abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErro
         ConfigureSystemBars()
         ObserveWindowStatus()
 
-        KoinContext {
-            AppTheme {
-                Surface(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.White),
-                    color = Color.White,
-                ) {
-                    ProvideContent()
-                }
+        AppTheme {
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White),
+                color = Color.White,
+            ) {
+                ProvideContent()
             }
         }
     }
