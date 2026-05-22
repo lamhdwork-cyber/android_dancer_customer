@@ -4,11 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
 import androidx.compose.runtime.Composable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.kantek.dancer.booking.app.AppComponentAct
 import com.kantek.dancer.booking.data.local.LanguageLocalSource
@@ -24,16 +21,10 @@ class SplashScreenAct : AppComponentAct() {
     private val userLocalSource: UserLocalSource by inject()
     private var hasKeep = true
 
-    override fun shouldEnableEdgeToEdge(): Boolean = false
-
-    override fun shouldSetComposeContent(): Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val splashScreen = installSplashScreen()
             splashScreen.setKeepOnScreenCondition { hasKeep }
-        } else {
-            applyLegacyFullscreen()
         }
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
@@ -50,26 +41,6 @@ class SplashScreenAct : AppComponentAct() {
                 hasKeep = false
             }
         }
-    }
-
-    /** Full-screen splash on API 30 and below (theme windowBackground, no Compose overlay). */
-    private fun applyLegacyFullscreen() {
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.attributes = window.attributes.apply {
-                layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-            }
-        }
-        @Suppress("DEPRECATION")
-        window.decorView.systemUiVisibility = (
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            )
     }
 
     private fun openAuth() {
