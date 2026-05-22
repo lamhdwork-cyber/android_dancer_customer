@@ -26,6 +26,7 @@ import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.presentation.AuthAct
 import com.kantek.dancer.booking.presentation.extensions.ApplyDarkEdgeToEdgeStatusBars
 import com.kantek.dancer.booking.presentation.theme.AppTheme
+import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.LoadingView
@@ -133,8 +134,8 @@ abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErro
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White),
-                color = Color.White,
+                    .background(Colors.Dark120812),
+                color = Colors.Dark120812,
             ) {
                 ProvideContent()
             }
