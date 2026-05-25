@@ -1,7 +1,7 @@
 package com.kantek.dancer.booking.presentation.extensions
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -13,12 +13,7 @@ private fun SetSystemBarsColor(
     navigationBarDarkIcons: Boolean = false
 ) {
     val systemUiController = rememberSystemUiController()
-    LaunchedEffect(
-        statusBarColor,
-        navigationBarColor,
-        statusBarDarkIcons,
-        navigationBarDarkIcons
-    ) {
+    SideEffect {
         systemUiController.setStatusBarColor(statusBarColor, darkIcons = statusBarDarkIcons)
         systemUiController.setNavigationBarColor(
             navigationBarColor,
