@@ -1,6 +1,6 @@
 package com.kantek.dancer.booking.data.event
 
-import com.kantek.dancer.booking.domain.model.firebase.FireBaseCloudMessage
+import com.kantek.dancer.booking.data.model.firebase.FireBaseCloudMessage
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class AppEvent {

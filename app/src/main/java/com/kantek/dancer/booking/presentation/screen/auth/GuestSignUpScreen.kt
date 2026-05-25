@@ -72,8 +72,8 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
-import com.kantek.dancer.booking.domain.extension.resourceError
-import com.kantek.dancer.booking.domain.model.ui.user.SignUpForm
+import com.kantek.dancer.booking.data.extension.resourceError
+import com.kantek.dancer.booking.domain.model.user.SignUpForm
 import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch

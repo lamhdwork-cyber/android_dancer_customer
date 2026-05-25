@@ -1,7 +1,7 @@
 package com.kantek.dancer.booking.presentation.screen.introduce
 
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.domain.model.ui.introduce.IIntroduce
+import com.kantek.dancer.booking.domain.model.introduce.IIntroduce
 import com.kantek.dancer.booking.presentation.extensions.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

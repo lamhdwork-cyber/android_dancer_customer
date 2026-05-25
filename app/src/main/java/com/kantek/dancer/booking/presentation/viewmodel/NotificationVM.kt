@@ -4,7 +4,7 @@ import android.support.core.event.LoadingEvent
 import android.support.core.event.LoadingFlow
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.domain.model.ui.user.INotification
+import com.kantek.dancer.booking.domain.model.notification.INotification
 import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import com.kantek.dancer.booking.presentation.extensions.launch
 import kotlinx.coroutines.flow.MutableStateFlow

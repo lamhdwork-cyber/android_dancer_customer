@@ -3,14 +3,13 @@ package com.kantek.dancer.booking.data.remote.api
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.data.helper.network.ApiAsync
 import com.kantek.dancer.booking.data.helper.network.interceptor.NoTokenRequired
-import com.kantek.dancer.booking.domain.model.response.UserDTO
-import com.kantek.dancer.booking.domain.model.response.UserResponse
-import com.kantek.dancer.booking.domain.model.ui.config.ContactForm
-import com.kantek.dancer.booking.domain.model.ui.user.ChangePasswordForm
-import com.kantek.dancer.booking.domain.model.ui.user.DeleteAccountForm
-import com.kantek.dancer.booking.domain.model.ui.user.ResetPasswordForm
-import com.kantek.dancer.booking.domain.model.ui.user.SignInForm
-import com.kantek.dancer.booking.domain.model.ui.user.SignUpForm
+import com.kantek.dancer.booking.data.model.response.UserDTO
+import com.kantek.dancer.booking.data.model.response.UserResponse
+import com.kantek.dancer.booking.domain.model.config.ContactForm
+import com.kantek.dancer.booking.domain.model.user.ChangePasswordForm
+import com.kantek.dancer.booking.domain.model.user.ResetPasswordForm
+import com.kantek.dancer.booking.domain.model.user.SignInForm
+import com.kantek.dancer.booking.domain.model.user.SignUpForm
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -22,7 +21,6 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.PartMap
-import retrofit2.http.Path
 
 interface UserApi {
 

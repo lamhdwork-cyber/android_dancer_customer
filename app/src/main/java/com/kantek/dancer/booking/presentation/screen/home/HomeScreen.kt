@@ -3,12 +3,8 @@ package com.kantek.dancer.booking.presentation.screen.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,8 +14,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.domain.model.support.BottomNavigationScreen
-import com.kantek.dancer.booking.domain.model.support.Scopes
+import com.kantek.dancer.booking.presentation.model.support.BottomNavigationScreen
+import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.screen.account.AccountScreen

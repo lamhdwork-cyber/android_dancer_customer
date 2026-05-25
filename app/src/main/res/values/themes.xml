@@ -2,11 +2,14 @@
 <resources>
     <style name="Theme.MyApp" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/colorBackground</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <!--For Android 11 and below-->
+    <!-- API 30 and below: splash windowBackground; API 31+ uses installSplashScreen() -->
     <style name="Theme.MyApp.SplashScreen" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 

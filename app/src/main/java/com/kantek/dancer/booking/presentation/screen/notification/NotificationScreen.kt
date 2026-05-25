@@ -38,11 +38,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.data.event.AppEvent
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.user.INotification
+import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.domain.model.notification.INotification
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.NotificationVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView

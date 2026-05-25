@@ -1,7 +1,7 @@
 package com.kantek.dancer.booking.presentation.helper
 
 import androidx.compose.material3.SnackbarHostState
-import com.kantek.dancer.booking.domain.model.support.Updatable
+import com.kantek.dancer.booking.presentation.model.support.Updatable
 
 class AppPopup : Updatable {
 

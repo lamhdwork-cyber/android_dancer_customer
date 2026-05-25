@@ -3,9 +3,9 @@ package com.kantek.dancer.booking.data.remote.api
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.data.helper.network.ApiAsync
 import com.kantek.dancer.booking.data.helper.network.model.ApiResponsePaging
-import com.kantek.dancer.booking.domain.model.form.ReviewForm
-import com.kantek.dancer.booking.domain.model.response.lawyer.LawyerDTO
-import com.kantek.dancer.booking.domain.model.response.lawyer.ReviewDTO
+import com.kantek.dancer.booking.data.model.form.ReviewForm
+import com.kantek.dancer.booking.data.model.response.lawyer.LawyerDTO
+import com.kantek.dancer.booking.data.model.response.lawyer.ReviewDTO
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

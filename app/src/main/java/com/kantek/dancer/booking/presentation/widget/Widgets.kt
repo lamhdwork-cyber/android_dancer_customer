@@ -128,6 +128,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
@@ -186,23 +187,23 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.domain.formatter.USPhoneNumberTransformation
-import com.kantek.dancer.booking.domain.model.support.BottomNavigationScreen
-import com.kantek.dancer.booking.domain.model.ui.Command
-import com.kantek.dancer.booking.domain.model.ui.IImage
-import com.kantek.dancer.booking.domain.model.ui.ILabel
-import com.kantek.dancer.booking.domain.model.ui.booking.BookingActionsBar
-import com.kantek.dancer.booking.domain.model.ui.booking.IBooking
-import com.kantek.dancer.booking.domain.model.ui.faqs.ILegalAnswer
-import com.kantek.dancer.booking.domain.model.ui.faqs.ILegalCategory
-import com.kantek.dancer.booking.domain.model.ui.faqs.ILegalQuestion
-import com.kantek.dancer.booking.domain.model.ui.review.IReview
-import com.kantek.dancer.booking.domain.model.ui.search.ICity
-import com.kantek.dancer.booking.domain.model.ui.search.ISpeciality
-import com.kantek.dancer.booking.domain.model.ui.user.ILanguage
-import com.kantek.dancer.booking.domain.model.ui.user.ILawyer
-import com.kantek.dancer.booking.domain.model.ui.user.ILoginAgent
-import com.kantek.dancer.booking.domain.model.ui.user.IUser
+import com.kantek.dancer.booking.data.formatter.USPhoneNumberTransformation
+import com.kantek.dancer.booking.presentation.model.support.BottomNavigationScreen
+import com.kantek.dancer.booking.domain.model.Command
+import com.kantek.dancer.booking.domain.model.IImage
+import com.kantek.dancer.booking.domain.model.ILabel
+import com.kantek.dancer.booking.domain.model.booking.BookingActionsBar
+import com.kantek.dancer.booking.domain.model.booking.IBooking
+import com.kantek.dancer.booking.domain.model.faqs.ILegalAnswer
+import com.kantek.dancer.booking.domain.model.faqs.ILegalCategory
+import com.kantek.dancer.booking.domain.model.faqs.ILegalQuestion
+import com.kantek.dancer.booking.domain.model.review.IReview
+import com.kantek.dancer.booking.domain.model.search.ICity
+import com.kantek.dancer.booking.domain.model.search.ISpeciality
+import com.kantek.dancer.booking.domain.model.user.ILanguage
+import com.kantek.dancer.booking.domain.model.user.ILawyer
+import com.kantek.dancer.booking.domain.model.user.ILoginAgent
+import com.kantek.dancer.booking.domain.model.user.IUser
 import com.kantek.dancer.booking.presentation.extensions.loadUrlData
 import com.kantek.dancer.booking.presentation.extensions.observe
 import com.kantek.dancer.booking.presentation.theme.Colors
@@ -2563,14 +2564,21 @@ fun CallPhoneDialog(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ZoomablePager(imageUrls: List<String>) {
+fun ZoomablePager(
+    imageUrls: List<String>,
+    modifier: Modifier = Modifier,
+) {
     val pagerState = rememberPagerState { imageUrls.size }
     var currentScale by remember { mutableStateOf(1f) }
+
+    LaunchedEffect(pagerState.currentPage) {
+        currentScale = 1f
+    }
 
     HorizontalPager(
         state = pagerState,
         flingBehavior = PagerDefaults.flingBehavior(pagerState),
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         userScrollEnabled = currentScale <= 1f
     ) { page ->
         ZoomableAsyncImage(
@@ -2588,8 +2596,8 @@ fun ZoomableAsyncImage(
     modifier: Modifier = Modifier,
     onScaleChanged: ((Float) -> Unit)? = null
 ) {
-    var scale by remember { mutableStateOf(1f) }
-    var offset by remember { mutableStateOf(Offset.Zero) }
+    var scale by remember(imageUrl) { mutableStateOf(1f) }
+    var offset by remember(imageUrl) { mutableStateOf(Offset.Zero) }
 
     val minScale = 1f
     val maxScale = 5f
@@ -2597,6 +2605,7 @@ fun ZoomableAsyncImage(
     Box(
         modifier = modifier
             .fillMaxSize()
+            .clipToBounds()
             .background(Color.Black)
             .pointerInput(Unit) {
                 awaitEachGesture {
@@ -2643,7 +2652,8 @@ fun ZoomableAsyncImage(
                 scaleX = scale,
                 scaleY = scale,
                 translationX = offset.x,
-                translationY = offset.y
+                translationY = offset.y,
+                clip = true,
             )
     ) {
         AppImage(

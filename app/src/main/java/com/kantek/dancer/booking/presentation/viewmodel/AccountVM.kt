@@ -5,8 +5,8 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.repo.LanguageRepo
-import com.kantek.dancer.booking.domain.factory.UserFactory
-import com.kantek.dancer.booking.domain.model.ui.user.IUser
+import com.kantek.dancer.booking.data.factory.UserFactory
+import com.kantek.dancer.booking.domain.model.user.IUser
 import com.kantek.dancer.booking.presentation.extensions.launch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

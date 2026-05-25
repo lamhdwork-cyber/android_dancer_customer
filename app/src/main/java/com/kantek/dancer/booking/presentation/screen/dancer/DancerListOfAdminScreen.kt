@@ -39,11 +39,11 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.local.UserLocalSource
-import com.kantek.dancer.booking.data.repo.ClubRepo
-import com.kantek.dancer.booking.data.repo.DancerRepo
-import com.kantek.dancer.booking.domain.factory.DancerFactory
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.search.IDancer
+import com.kantek.dancer.booking.domain.repo.ClubRepo
+import com.kantek.dancer.booking.domain.repo.DancerRepo
+import com.kantek.dancer.booking.data.factory.DancerFactory
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.search.IDancer
 import com.kantek.dancer.booking.domain.usecase.FetchClubDancersAdminPageCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
@@ -338,11 +338,11 @@ class DancerListOfAdminVM(
     private fun loadClubDetail(clubId: String) {
         if (clubId.isBlank()) return
         launch(loading, error) {
-            val dto = clubRepo.detail(clubId)
+            val summary = clubRepo.fetchLocationSummary(clubId)
             val placeholder = appContext.getString(R.string.club_current_location_placeholder)
-            if (dto != null) {
-                _clubDisplayName.value = dto.name?.trim().orEmpty().ifBlank { clubId }
-                val addr = dto.address?.trim().orEmpty()
+            if (summary != null) {
+                _clubDisplayName.value = summary.name.trim().ifBlank { clubId }
+                val addr = summary.address.trim()
                 _clubDisplayAddress.value = addr.ifBlank { placeholder }
             } else {
                 _clubDisplayName.value = clubId

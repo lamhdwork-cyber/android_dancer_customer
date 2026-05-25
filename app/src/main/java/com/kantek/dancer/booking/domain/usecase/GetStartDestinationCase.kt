@@ -1,9 +1,11 @@
 package com.kantek.dancer.booking.domain.usecase
 
-import com.kantek.dancer.booking.data.repo.GetStartDestinationMainRepo
+import com.kantek.dancer.booking.domain.repo.DestinationRepo
 
-class GetStartDestinationCase(private val getStartDestinationMainRepo: GetStartDestinationMainRepo) {
+class GetStartDestinationCase(
+    private val destinationRepo: DestinationRepo,
+) {
     operator fun invoke(): String {
-        return getStartDestinationMainRepo()
+        return destinationRepo.getStartDestination()
     }
 }

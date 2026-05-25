@@ -2,7 +2,7 @@ package com.kantek.dancer.booking.presentation.viewmodel
 
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.repo.SignInRepo
-import com.kantek.dancer.booking.domain.model.ui.user.SignInForm
+import com.kantek.dancer.booking.domain.model.user.SignInForm
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.helper.AppKeyboard
 import kotlinx.coroutines.flow.MutableStateFlow

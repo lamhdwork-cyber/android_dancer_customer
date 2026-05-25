@@ -3,10 +3,10 @@ package com.kantek.dancer.booking.data.remote.api
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.data.helper.network.ApiAsync
 import com.kantek.dancer.booking.data.helper.network.model.ApiResponsePaging
-import com.kantek.dancer.booking.domain.model.response.config.BannerDTO
-import com.kantek.dancer.booking.domain.model.response.config.FAQsDTO
-import com.kantek.dancer.booking.domain.model.response.config.LinkDTO
-import com.kantek.dancer.booking.domain.model.response.config.SettingDTO
+import com.kantek.dancer.booking.data.model.response.config.BannerDTO
+import com.kantek.dancer.booking.data.model.response.config.FAQsDTO
+import com.kantek.dancer.booking.data.model.response.config.LinkDTO
+import com.kantek.dancer.booking.data.model.response.config.SettingDTO
 import retrofit2.http.GET
 import retrofit2.http.Query
 

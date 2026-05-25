@@ -57,10 +57,10 @@ import com.kantek.dancer.booking.data.extensions.toImagePart
 import com.kantek.dancer.booking.data.helper.network.RequestBodyBuilder
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
-import com.kantek.dancer.booking.domain.factory.PhotoFactory
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.user.IUser
-import com.kantek.dancer.booking.domain.model.ui.user.ProfileForm
+import com.kantek.dancer.booking.data.factory.PhotoFactory
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.user.IUser
+import com.kantek.dancer.booking.domain.model.user.ProfileForm
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use

@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.remote.api.FAQsThreadsApi
-import com.kantek.dancer.booking.domain.factory.FAQsThreadsFactory
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.faqs.ILegalCategory
+import com.kantek.dancer.booking.data.factory.FAQsThreadsFactory
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.faqs.ILegalCategory
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use

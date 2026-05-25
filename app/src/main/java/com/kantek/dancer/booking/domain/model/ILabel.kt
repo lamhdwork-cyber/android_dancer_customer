@@ -1,0 +1,3 @@
+package com.kantek.dancer.booking.domain.model
+
+interface ILabel : CharSequence

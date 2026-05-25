@@ -24,9 +24,9 @@ import androidx.navigation.navArgument
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppComponentAct
 import com.kantek.dancer.booking.data.event.AppEvent
-import com.kantek.dancer.booking.domain.model.firebase.FireBaseCloudMessage
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.support.Screen
+import com.kantek.dancer.booking.data.model.firebase.FireBaseCloudMessage
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.presentation.model.support.Screen
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator

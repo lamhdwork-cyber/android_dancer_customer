@@ -54,8 +54,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.search.IDancerDetail
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.search.IDancerDetail
 import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
@@ -404,7 +404,7 @@ private fun DetailTag(title: String, value: String, modifier: Modifier = Modifie
 }
 
 class DetailDancerVM(
-    private val fetchDetailDancerRepo: FetchDetailDancerRepo
+    private val fetchDancerDetailCase: FetchDancerDetailCase,
 ) : AppViewModel() {
     val details = MutableStateFlow<IDancerDetail?>(null)
     val hasLoaded = MutableStateFlow(false)
@@ -416,15 +416,8 @@ class DetailDancerVM(
             hasLoaded.emit(true)
             return@launch
         }
-        details.emit(fetchDetailDancerRepo(dancerId))
+        details.emit(fetchDancerDetailCase(dancerId))
         hasLoaded.emit(true)
     }
 }
 
-class FetchDetailDancerRepo(
-    private val fetchDancerDetailCase: FetchDancerDetailCase
-) {
-    suspend operator fun invoke(id: String): IDancerDetail? {
-        return fetchDancerDetailCase(id)
-    }
-}

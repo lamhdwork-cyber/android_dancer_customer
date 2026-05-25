@@ -45,9 +45,9 @@ import com.kantek.dancer.booking.data.repo.conversation.ChatRepo
 import com.kantek.dancer.booking.data.repo.conversation.ChatSocketRepo
 import com.kantek.dancer.booking.data.repo.conversation.FetchMessageByPageRepo
 import com.kantek.dancer.booking.data.repo.conversation.UploadPhotosRepo
-import com.kantek.dancer.booking.domain.factory.ConversationFactory
-import com.kantek.dancer.booking.domain.model.support.Scopes
-import com.kantek.dancer.booking.domain.model.ui.conversation.Message
+import com.kantek.dancer.booking.data.factory.ConversationFactory
+import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.domain.model.conversation.Message
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.loge

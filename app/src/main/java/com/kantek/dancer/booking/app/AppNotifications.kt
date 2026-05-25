@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppNotifications.Companion.Id.CHANNEL_ID_BOOKING
 import com.kantek.dancer.booking.app.AppNotifications.Companion.Id.CHANNEL_ID_CHAT
-import com.kantek.dancer.booking.domain.model.firebase.FireBaseCloudMessage
+import com.kantek.dancer.booking.data.model.firebase.FireBaseCloudMessage
 import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import java.util.concurrent.atomic.AtomicInteger
