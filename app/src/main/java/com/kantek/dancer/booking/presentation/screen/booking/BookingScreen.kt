@@ -357,44 +357,44 @@ private fun ScheduleSection(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
-        LazyRow(
-            modifier = Modifier
-                .graphicsLayer(clip = false),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(days.size) { index ->
-                val day = days[index]
-                val selected = index == selectedDay
-                Column(
-                    modifier = Modifier
-                        .widthIn(min = 58.dp)
-                        .clip(RoundedCornerShape(14.dp))
-                        .background(if (selected) Colors.Primary else Colors.White1AFFFFFF)
-                        .border(
-                            1.dp,
-                            if (selected) Colors.Primary else Colors.White1AFFFFFF,
-                            RoundedCornerShape(14.dp)
-                        )
-                        .clickable { onSelectDay(index) }
-                        .padding(vertical = 10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        day.label,
-                        color = if (selected) Colors.White else Colors.GrayCBD5E1,
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        day.dayNumber,
-                        color = Colors.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
-                }
-            }
-        }
+//        LazyRow(
+//            modifier = Modifier
+//                .graphicsLayer(clip = false),
+//            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp),
+//            horizontalArrangement = Arrangement.spacedBy(8.dp)
+//        ) {
+//            items(days.size) { index ->
+//                val day = days[index]
+//                val selected = index == selectedDay
+//                Column(
+//                    modifier = Modifier
+//                        .widthIn(min = 58.dp)
+//                        .clip(RoundedCornerShape(14.dp))
+//                        .background(if (selected) Colors.Primary else Colors.White1AFFFFFF)
+//                        .border(
+//                            1.dp,
+//                            if (selected) Colors.Primary else Colors.White1AFFFFFF,
+//                            RoundedCornerShape(14.dp)
+//                        )
+//                        .clickable { onSelectDay(index) }
+//                        .padding(vertical = 10.dp),
+//                    horizontalAlignment = Alignment.CenterHorizontally
+//                ) {
+//                    Text(
+//                        day.label,
+//                        color = if (selected) Colors.White else Colors.GrayCBD5E1,
+//                        fontSize = 10.sp,
+//                        fontWeight = FontWeight.Bold
+//                    )
+//                    Text(
+//                        day.dayNumber,
+//                        color = Colors.White,
+//                        fontWeight = FontWeight.Bold,
+//                        fontSize = 20.sp
+//                    )
+//                }
+//            }
+//        }
         LazyRow(
             modifier = Modifier
                 .graphicsLayer(clip = false),

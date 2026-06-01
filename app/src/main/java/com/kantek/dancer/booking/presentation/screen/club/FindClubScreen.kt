@@ -72,13 +72,13 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
             .background(Colors.Dark120812)
     ) {
         ActionBarMainView(R.string.top_bar_select_club)
-        Column(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            CurrentLocationCard { hasShowComingSoon.value = true }
-            NearbyHeader { hasShowComingSoon.value = true }
-        }
+//        Column(
+//            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+//            verticalArrangement = Arrangement.spacedBy(16.dp)
+//        ) {
+//            CurrentLocationCard { hasShowComingSoon.value = true }
+//            NearbyHeader { hasShowComingSoon.value = true }
+//        }
         Box(
             modifier = Modifier
                 .weight(1f)

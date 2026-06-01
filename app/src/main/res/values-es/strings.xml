@@ -37,7 +37,7 @@
     <string name="auth_guest_sign_up_terms_and">y la</string>
     <string name="auth_guest_sign_up_privacy_link">Política de privacidad</string>
     <string name="auth_manage_staff_portal_line">Portal Nightlife</string>
-    <string name="auth_manage_staff_title">Acceso de gestor</string>
+    <string name="auth_manage_staff_title">Acceso de Bailarín</string>
     <string name="auth_manage_staff_subtitle">Terminal seguro solo para personal autorizado</string>
     <string name="auth_manage_staff_label_work_email">Correo laboral</string>
     <string name="auth_manage_staff_label_security_key">Clave de seguridad</string>
@@ -232,8 +232,8 @@ Las reservas completadas aparecerán aquí cuando finalice el servicio.
     <string name="role_guest_description">Reserva mesas VIP, únete a listas exclusivas y descubre los mejores lugares de la ciudad.</string>
     <string name="role_guest_action">Continuar</string>
     <string name="role_manager_badge">Para profesionales</string>
-    <string name="role_manager_title">SOY GERENTE</string>
-    <string name="role_manager_description">Supervisa operaciones, gestiona el rendimiento del personal y optimiza reservas en tiempo real.</string>
+    <string name="role_manager_title">SOY BAILARÍN/A</string>
+    <string name="role_manager_description">Crea tu perfil, recibe solicitudes de reserva, gestiona tu agenda y aumenta tu audiencia.</string>
     <string name="role_manager_action">Acceder al portal</string>
     <string name="role_footer_terms">Términos del servicio &amp; Política de privacidad</string>
     <string name="forgot_pw_des">Por favor ingresa tu correo electrónico y te enviaremos un código OTP en el siguiente paso para restablecer tu contraseña</string>

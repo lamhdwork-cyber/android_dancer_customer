@@ -37,7 +37,7 @@
     <string name="auth_guest_sign_up_terms_and">và</string>
     <string name="auth_guest_sign_up_privacy_link">Chính sách bảo mật</string>
     <string name="auth_manage_staff_portal_line">Cổng Nightlife</string>
-    <string name="auth_manage_staff_title">Truy cập quản lý</string>
+    <string name="auth_manage_staff_title">Truy cập dành cho vũ công</string>
     <string name="auth_manage_staff_subtitle">Terminal bảo mật chỉ dành cho nhân sự được ủy quyền</string>
     <string name="auth_manage_staff_label_work_email">Email công việc</string>
     <string name="auth_manage_staff_label_security_key">Mã bảo mật</string>
@@ -230,8 +230,8 @@
     <string name="role_guest_description">Đặt bàn VIP, tham gia guestlist độc quyền và khám phá những địa điểm tốt nhất trong thành phố.</string>
     <string name="role_guest_action">Tiếp tục</string>
     <string name="role_manager_badge">Dành cho quản lý</string>
-    <string name="role_manager_title">TÔI LÀ QUẢN LÝ</string>
-    <string name="role_manager_description">Giám sát vận hành, quản lý hiệu suất nhân sự và tối ưu đặt bàn theo thời gian thực.</string>
+    <string name="role_manager_title">TÔI LÀ VŨ CÔNG</string>
+    <string name="role_manager_description">Tạo hồ sơ cá nhân, nhận yêu cầu đặt lịch, quản lý lịch làm việc và phát triển lượng người theo dõi của bạn.</string>
     <string name="role_manager_action">Vào cổng quản trị</string>
     <string name="role_footer_terms">Điều khoản dịch vụ &amp; Chính sách riêng tư</string>
     <string name="forgot_pw_des">Vui lòng nhập email của bạn, chúng tôi sẽ gửi mã OTP ở bước tiếp theo để đặt lại mật khẩu.</string>

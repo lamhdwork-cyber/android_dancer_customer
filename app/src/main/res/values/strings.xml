@@ -42,10 +42,10 @@
     <string name="auth_guest_sign_up_terms_and">and</string>
     <string name="auth_guest_sign_up_privacy_link">Privacy Policy</string>
     <string name="auth_manage_staff_portal_line" translatable="false">Nightlife Portal</string>
-    <string name="auth_manage_staff_title">Manager Access</string>
+    <string name="auth_manage_staff_title">Dancer Access</string>
     <string name="auth_manage_staff_subtitle">Secure terminal for authorized staff only</string>
     <string name="auth_manage_staff_label_work_email">Work Email</string>
-    <string name="auth_manage_staff_hint_work_email" translatable="false">manager@club.com</string>
+    <string name="auth_manage_staff_hint_work_email" translatable="false">dancer@club.com</string>
     <string name="auth_manage_staff_label_security_key">Security Key</string>
     <string name="auth_manage_staff_login_cta">Login as Staff</string>
     <string name="auth_manage_staff_encrypted_line">Encrypted Connection Active</string>
@@ -240,8 +240,8 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="role_guest_description">Book VIP tables, join exclusive guestlists, and discover the city\'s finest venues.</string>
     <string name="role_guest_action">Continue</string>
     <string name="role_manager_badge">For Professionals</string>
-    <string name="role_manager_title">I AM A MANAGER</string>
-    <string name="role_manager_description">Oversee operations, manage staff performance, and optimize table bookings in real-time.</string>
+    <string name="role_manager_title">I AM A DANCER</string>
+    <string name="role_manager_description">Create your profile, receive booking requests, manage schedules, and grow your audience.</string>
     <string name="role_manager_action">Access Portal</string>
     <string name="role_footer_terms">Terms of Service &amp; Privacy Policy</string>
     <string name="forgot_pw_des">Please enter your email and we will send an OTP code in the next step to reset your password</string>

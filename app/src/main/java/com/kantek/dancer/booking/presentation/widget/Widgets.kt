@@ -1053,9 +1053,9 @@ fun LogoutDialog(
 fun AppNavigateBottomBar(
     selectedItemRouter: String,
     onItemRouterSelected: (String) -> Unit,
-    firstTab: BottomNavigationScreen = BottomNavigationScreen.Search,
+    firstTab: BottomNavigationScreen? = BottomNavigationScreen.Search
 ) {
-    val items = listOf(
+    val items = listOfNotNull(
         firstTab,
         BottomNavigationScreen.Cases,
         BottomNavigationScreen.Notification,

@@ -78,7 +78,7 @@ fun IntroduceScreen(
             IntroducePageItem(item, page)
         }
 
-        if (!viewModel.isLastPage()) {
+//        if (!viewModel.isLastPage()) {
             Text(
                 text = stringResource(R.string.all_skip),
                 color = Colors.White.copy(alpha = 0.7f),
@@ -88,7 +88,7 @@ fun IntroduceScreen(
                     .padding(top = 40.dp, end = 22.dp)
                     .clickable { onGetStarted() }
             )
-        }
+//        }
 
         Column(
             modifier = Modifier

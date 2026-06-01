@@ -46,7 +46,7 @@ object AppConfig {
      */
     object UserRole {
         const val USER = "user"
-        const val CLUB_MANAGER = "club_manager"
+        const val CLUB_MANAGER = "dancer"
 
         fun isClubManager(role: String?): Boolean =
             role?.trim()?.equals(CLUB_MANAGER, ignoreCase = true) == true

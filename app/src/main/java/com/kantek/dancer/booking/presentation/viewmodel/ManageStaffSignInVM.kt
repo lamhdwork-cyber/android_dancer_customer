@@ -16,6 +16,13 @@ class ManageStaffSignInVM(
     val formState: StateFlow<SignInForm> = _form
     val loginSuccess = MutableStateFlow(false)
 
+    init {
+        _form.value.apply {
+            account = "maria@dancer.local"
+            password = "Dancer@123"
+        }
+    }
+
     fun updateAccount(value: String) {
         if (_form.value.account != value)
             _form.value = _form.value.copy(account = value)

@@ -31,11 +31,11 @@ import org.koin.compose.koinInject
 fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
     val roleProvider = koinInject<CurrentUserRoleProvider>()
     val firstTab = if (AppConfig.UserRole.isClubManager(roleProvider.getRole())) {
-        BottomNavigationScreen.Dancers
+        null
     } else {
         BottomNavigationScreen.Search
     }
-    val firstTabRoute = firstTab.route
+    val firstTabRoute = firstTab?.route ?: BottomNavigationScreen.Cases.route
     val nav = rememberNavController()
 
     LaunchedEffect(startTab, firstTabRoute) {
