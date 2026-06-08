@@ -84,8 +84,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 
 private enum class DetailManagerConfirm {
-    Accept,
-    Complete
+    Await,
+    Ready
 }
 
 @Composable
@@ -167,37 +167,37 @@ fun DetailBookingScreen(
                         }
                     }
 
-                    BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT -> {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            DetailBookingWidePrimaryButton(
-                                labelRes = R.string.booking_action_await,
-                                onClick = { detailManagerConfirm = DetailManagerConfirm.Accept }
-                            )
-                            DetailBookingWideOutlinedButton(
-                                labelRes = R.string.booking_action_reject,
-                                onClick = { hasShowCancel = true },
-                                useCancelVisualStyle = false
-                            )
-                        }
-                    }
-
-                    BookingActionsBar.CLUB_MANAGER_COMPLETE_CANCEL -> {
+                    BookingActionsBar.CLUB_MANAGER_READY_WAIT -> {
                         Column(
                             modifier = Modifier.fillMaxWidth(),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             DetailBookingWidePrimaryButton(
                                 labelRes = R.string.booking_action_ready,
-                                onClick = { detailManagerConfirm = DetailManagerConfirm.Complete }
+                                onClick = { detailManagerConfirm = DetailManagerConfirm.Ready }
                             )
                             DetailBookingWideOutlinedButton(
-                                labelRes = R.string.all_cancel,
-                                onClick = { hasShowCancel = true },
-                                useCancelVisualStyle = true
+                                labelRes = R.string.booking_action_await,
+                                onClick = { detailManagerConfirm = DetailManagerConfirm.Await },
+                                useCancelVisualStyle = false
                             )
+                        }
+                    }
+
+                    BookingActionsBar.CLUB_MANAGER_READY -> {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            DetailBookingWidePrimaryButton(
+                                labelRes = R.string.booking_action_ready,
+                                onClick = { detailManagerConfirm = DetailManagerConfirm.Ready }
+                            )
+//                            DetailBookingWideOutlinedButton(
+//                                labelRes = R.string.all_cancel,
+//                                onClick = { hasShowCancel = true },
+//                                useCancelVisualStyle = true
+//                            )
                         }
                     }
 
@@ -226,24 +226,24 @@ fun DetailBookingScreen(
     }
 
     when (detailManagerConfirm) {
-        DetailManagerConfirm.Accept -> AppConfirmDialog(
+        DetailManagerConfirm.Await -> AppConfirmDialog(
             title = stringResource(R.string.booking_confirm_await_title),
             message = stringResource(R.string.booking_confirm_await_message),
             textConfirm = stringResource(R.string.all_confirm),
             onConfirm = {
                 detailManagerConfirm = null
-                viewModel.submitAccept()
+                viewModel.submitAwait()
             },
             onDismiss = { detailManagerConfirm = null }
         )
 
-        DetailManagerConfirm.Complete -> AppConfirmDialog(
+        DetailManagerConfirm.Ready -> AppConfirmDialog(
             title = stringResource(R.string.booking_confirm_ready_title),
             message = stringResource(R.string.booking_confirm_ready_message),
             textConfirm = stringResource(R.string.all_confirm),
             onConfirm = {
                 detailManagerConfirm = null
-                viewModel.submitComplete()
+                viewModel.submitReady()
             },
             onDismiss = { detailManagerConfirm = null }
         )
@@ -842,14 +842,14 @@ class DetailBookingVM(
         appEvent.onRefreshNotification.emit(true)
     }
 
-    fun submitAccept() = launch(loading, error) {
+    fun submitAwait() = launch(loading, error) {
         bookingWaitRepo(bookingID)
         fetchDetails()
         appEvent.onRefreshMyBooking.emit(true)
         appEvent.onRefreshNotification.emit(true)
     }
 
-    fun submitComplete() = launch(loading, error) {
+    fun submitReady() = launch(loading, error) {
         bookingReadyRepo(bookingID)
         fetchDetails()
         appEvent.onRefreshMyBooking.emit(true)

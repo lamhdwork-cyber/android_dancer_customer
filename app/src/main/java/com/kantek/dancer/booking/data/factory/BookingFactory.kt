@@ -282,9 +282,8 @@ class BookingFactory(
         val s = statusRaw.lowercase(Locale.getDefault()).trim()
         return when {
             s == AppConfig.Booking.Status.PENDING || s == AppConfig.Booking.Status.SCHEDULED ->
-                BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT
-            s == AppConfig.Booking.Status.WAITING || s == AppConfig.Booking.Status.ACCEPTED ->
-                BookingActionsBar.CLUB_MANAGER_COMPLETE_CANCEL
+                BookingActionsBar.CLUB_MANAGER_READY_WAIT
+            s == AppConfig.Booking.Status.WAITING -> BookingActionsBar.CLUB_MANAGER_READY
             else -> BookingActionsBar.NONE
         }
     }

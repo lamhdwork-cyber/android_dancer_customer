@@ -68,8 +68,8 @@ enum class MyBookingTab(val apiStatus: String) {
 }
 
 private sealed interface ManagerBookingConfirm {
-    data class Accept(val tab: MyBookingTab) : ManagerBookingConfirm
-    data class Complete(val tab: MyBookingTab) : ManagerBookingConfirm
+    data class Await(val tab: MyBookingTab) : ManagerBookingConfirm
+    data class Ready(val tab: MyBookingTab) : ManagerBookingConfirm
 }
 
 data class TabBookingState(
@@ -193,11 +193,11 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                             },
                             onAwaitClick = {
                                 viewModel.requestID = item.id
-                                managerBookingConfirm = ManagerBookingConfirm.Accept(tab)
+                                managerBookingConfirm = ManagerBookingConfirm.Await(tab)
                             },
                             onReadyClick = {
                                 viewModel.requestID = item.id
-                                managerBookingConfirm = ManagerBookingConfirm.Complete(tab)
+                                managerBookingConfirm = ManagerBookingConfirm.Ready(tab)
                             }
                         )
                     }
@@ -235,7 +235,7 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
             )
         }
         when (val confirm = managerBookingConfirm) {
-            is ManagerBookingConfirm.Accept -> AppConfirmDialog(
+            is ManagerBookingConfirm.Await -> AppConfirmDialog(
                 title = stringResource(R.string.booking_confirm_await_title),
                 message = stringResource(R.string.booking_confirm_await_message),
                 textConfirm = stringResource(R.string.all_confirm),
@@ -246,7 +246,7 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                 onDismiss = { managerBookingConfirm = null }
             )
 
-            is ManagerBookingConfirm.Complete -> AppConfirmDialog(
+            is ManagerBookingConfirm.Ready -> AppConfirmDialog(
                 title = stringResource(R.string.booking_confirm_ready_title),
                 message = stringResource(R.string.booking_confirm_ready_message),
                 textConfirm = stringResource(R.string.all_confirm),
@@ -459,7 +459,7 @@ class BookingWaitRepo(private val bookingApi: BookingApi) {
 class BookingReadyRepo(private val bookingApi: BookingApi) {
 
     suspend operator fun invoke(requestID: String) {
-        bookingApi.complete(requestID).awaitNullable()
+        bookingApi.ready(requestID).awaitNullable()
     }
 }
 

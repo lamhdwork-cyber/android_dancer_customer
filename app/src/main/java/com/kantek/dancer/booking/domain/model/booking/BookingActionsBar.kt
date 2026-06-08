@@ -7,11 +7,11 @@ enum class BookingActionsBar {
     /** Guest: cancel when allowed; request again when booking is cancelled. */
     USER_STANDARD,
 
-    /** Club manager on pending booking: Accept + Reject. */
-    CLUB_MANAGER_ACCEPT_REJECT,
+    /** Club manager on pending booking: ready + wait. */
+    CLUB_MANAGER_READY_WAIT,
 
-    /** Club manager on confirmed booking: Complete + Cancel. */
-    CLUB_MANAGER_COMPLETE_CANCEL,
+    /** Club manager on wait booking: Ready. */
+    CLUB_MANAGER_READY,
 
     /** No primary actions (e.g. manager on completed, or other terminal states). */
     NONE,

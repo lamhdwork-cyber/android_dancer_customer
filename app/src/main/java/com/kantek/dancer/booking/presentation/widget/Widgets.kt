@@ -187,7 +187,6 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.data.formatter.USPhoneNumberTransformation
-import com.kantek.dancer.booking.presentation.model.support.BottomNavigationScreen
 import com.kantek.dancer.booking.domain.model.Command
 import com.kantek.dancer.booking.domain.model.IImage
 import com.kantek.dancer.booking.domain.model.ILabel
@@ -205,6 +204,7 @@ import com.kantek.dancer.booking.domain.model.user.ILoginAgent
 import com.kantek.dancer.booking.domain.model.user.IUser
 import com.kantek.dancer.booking.presentation.extensions.loadUrlData
 import com.kantek.dancer.booking.presentation.extensions.observe
+import com.kantek.dancer.booking.presentation.model.support.BottomNavigationScreen
 import com.kantek.dancer.booking.presentation.theme.Colors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -2257,21 +2257,45 @@ fun BookingItemView(
                     }
                 }
 
-                BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT,
-                BookingActionsBar.CLUB_MANAGER_COMPLETE_CANCEL -> {
+                BookingActionsBar.CLUB_MANAGER_READY -> {
+                    Button(
+                        onClick =  onReadyClick,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(40.dp),
+                        shape = RoundedCornerShape(28.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Colors.Primary,
+                            contentColor = Color.White
+                        ),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 4.dp,
+                            pressedElevation = 8.dp
+                        )
+                    ) {
+                        Text(
+                            text = stringResource( R.string.booking_action_ready),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 11.sp,
+                            letterSpacing = 1.2.sp
+                        )
+                    }
+                }
+
+                BookingActionsBar.CLUB_MANAGER_READY_WAIT -> {
                     val primaryLabel = when (it.bookingActionsBar) {
-                        BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT ->
+                        BookingActionsBar.CLUB_MANAGER_READY_WAIT ->
                             R.string.booking_action_ready
 
                         else ->
                             R.string.booking_action_await
                     }
                     val onPrimary = when (it.bookingActionsBar) {
-                        BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT -> onReadyClick
+                        BookingActionsBar.CLUB_MANAGER_READY_WAIT -> onReadyClick
                         else -> onAwaitClick
                     }
                     val secondaryLabel = when (it.bookingActionsBar) {
-                        BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT ->
+                        BookingActionsBar.CLUB_MANAGER_READY_WAIT ->
                             R.string.booking_action_await
 
                         else ->

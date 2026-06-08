@@ -8,6 +8,7 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.data.extension.ResourceException
 import java.net.ConnectException
 import java.net.SocketException
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 interface AppErrorHandler {
@@ -37,6 +38,7 @@ class AppErrorHandlerImpl : AppErrorHandler {
             is UnknownHostException -> activity.showNotification(R.string.error_no_internet)
             is ConnectException,
             is SocketException,
+            is SocketTimeoutException,
             is JsonSyntaxException -> activity.showNotification(R.string.error_server)
 
             is ExpiredTokenException ->  activity.showExpiredTokenDialog(true)
