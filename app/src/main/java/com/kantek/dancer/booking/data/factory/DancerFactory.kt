@@ -66,6 +66,10 @@ class DancerFactory {
                 get() = item.hourlyRate.safe()
             override val totalReviews: Int
                 get() = item.totalReviews ?: 0
+            override val clubOpenTime: String
+                get() = item.club?.openTime.safe()
+            override val clubCloseTime: String
+                get() = item.club?.closeTime.safe()
         }
     }
 }

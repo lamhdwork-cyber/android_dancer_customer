@@ -34,9 +34,9 @@ object AppConfig {
         object Status {
             const val PENDING = "pending"
             const val SCHEDULED = "scheduled"
-            const val CONFIRMED = "confirmed"
+            const val WAITING = "waiting"
             const val ACCEPTED = "accepted"
-            const val COMPLETED = "completed"
+            const val READY = "ready"
             const val CANCELLED = "cancelled"
         }
     }

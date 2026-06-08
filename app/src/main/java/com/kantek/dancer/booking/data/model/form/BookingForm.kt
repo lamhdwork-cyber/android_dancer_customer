@@ -7,16 +7,18 @@ data class BookingForm(
     val dancerIds: List<String>,
     @SerializedName("roomId")
     val roomId: String,
-    @SerializedName("numberOfSongs")
-    val numberOfSongs: Int,
-    @SerializedName("numberOfGuests")
-    val numberOfGuests: Int,
-    @SerializedName("bookingDate")
-    val bookingDate: String? = null,
+    @SerializedName("tableNumber")
+    val tableNumber: String="A5",
+//    @SerializedName("numberOfSongs")
+//    val numberOfSongs: Int,
+//    @SerializedName("numberOfGuests")
+//    val numberOfGuests: Int,
+//    @SerializedName("bookingDate")
+//    val bookingDate: String? = null,
     @SerializedName("startTime")
     val startTime: String? = null,
-    @SerializedName("endTime")
-    val endTime: String? = null,
+//    @SerializedName("endTime")
+//    val endTime: String? = null,
     @SerializedName("notes")
     val notes: String? = null
 )

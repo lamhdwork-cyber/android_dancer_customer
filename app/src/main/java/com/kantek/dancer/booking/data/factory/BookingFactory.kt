@@ -108,7 +108,7 @@ class BookingFactory(
                     if (AppConfig.UserRole.isClubManager(currentUserRoleProvider.getRole())) return false
                     return status.equals(AppConfig.Booking.Status.PENDING, true) ||
                         status.equals(AppConfig.Booking.Status.SCHEDULED, true) ||
-                        status.equals(AppConfig.Booking.Status.CONFIRMED, true) ||
+                        status.equals(AppConfig.Booking.Status.WAITING, true) ||
                         status.equals(AppConfig.Booking.Status.ACCEPTED, true)
                 }
             override val bookingActionsBar: BookingActionsBar
@@ -116,7 +116,7 @@ class BookingFactory(
             override val hasCancel: Boolean
                 get() = status.equals(AppConfig.Booking.Status.CANCELLED, true)
             override val hasComplete: Boolean
-                get() = status.equals(AppConfig.Booking.Status.COMPLETED, true)
+                get() = status.equals(AppConfig.Booking.Status.READY, true)
             override val hasNew: Boolean
                 get() = status.equals(AppConfig.Booking.Status.PENDING, true)
             override val lawyer: ILawyer?
@@ -136,7 +136,7 @@ class BookingFactory(
         return object : IBookingDetail, IBooking by create(it) {
             override val statusDisplay: String
                 get() = when (it.status.safe().lowercase(Locale.getDefault())) {
-                    AppConfig.Booking.Status.CONFIRMED -> "Accepted"
+                    AppConfig.Booking.Status.WAITING -> "Accepted"
                     else -> it.status.safe().replaceFirstChar { c -> c.uppercase() }
                 }
             override val language: String
@@ -203,6 +203,50 @@ class BookingFactory(
         return list
     }
 
+    fun createScheduleTimes(
+        openTime: String?,
+        closeTime: String?
+    ): List<String> {
+
+        if (openTime.isNullOrBlank() || closeTime.isNullOrBlank()) {
+            return emptyList()
+        }
+
+        return try {
+            val result = mutableListOf<String>()
+            val displayFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+            val startParts = openTime.split(":")
+            val endParts = closeTime.split(":")
+
+            val startCal = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, startParts[0].toInt())
+                set(Calendar.MINUTE, startParts[1].toInt())
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+
+            val endCal = startCal.clone() as Calendar
+            endCal.set(Calendar.HOUR_OF_DAY, endParts[0].toInt())
+            endCal.set(Calendar.MINUTE, endParts[1].toInt())
+
+            if (!endCal.after(startCal)) {
+                endCal.add(Calendar.DAY_OF_MONTH, 1)
+            }
+
+            val current = startCal.clone() as Calendar
+
+            while (!current.after(endCal)) {
+                result.add(displayFormat.format(current.time))
+                current.add(Calendar.MINUTE, 30)
+            }
+
+            result
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
     private fun formatBookingDateShort(bookingDate: String?): String {
         val raw = bookingDate?.trim().orEmpty()
         if (raw.isEmpty()) return ""
@@ -239,7 +283,7 @@ class BookingFactory(
         return when {
             s == AppConfig.Booking.Status.PENDING || s == AppConfig.Booking.Status.SCHEDULED ->
                 BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT
-            s == AppConfig.Booking.Status.CONFIRMED || s == AppConfig.Booking.Status.ACCEPTED ->
+            s == AppConfig.Booking.Status.WAITING || s == AppConfig.Booking.Status.ACCEPTED ->
                 BookingActionsBar.CLUB_MANAGER_COMPLETE_CANCEL
             else -> BookingActionsBar.NONE
         }

@@ -8,4 +8,6 @@ interface IDancer {
     val rating: String
     val bio: String
     val isAvailableNow: Boolean
+    val clubOpenTime: String get() = ""
+    val clubCloseTime: String get() = ""
 }

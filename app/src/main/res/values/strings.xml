@@ -139,16 +139,16 @@
     After you create a booking request, it will appear here.
     ]]>
     </string>
-    <string name="no_data_my_booking_accepted">
+    <string name="no_data_my_booking_waiting">
     <![CDATA[
-    <big><b>No accepted bookings yet!</b></big><br/><br/>
-    Once a booking is accepted, it will appear here.
+    <big><b>No waiting bookings yet!</b></big><br/><br/>
+    Once a booking is waiting, it will appear here.
     ]]>
     </string>
-    <string name="no_data_my_booking_completed">
+    <string name="no_data_my_booking_ready">
     <![CDATA[
-    <big><b>No completed bookings yet!</b></big><br/><br/>
-    Completed bookings will appear here after service is finished.
+    <big><b>No ready bookings yet!</b></big><br/><br/>
+    Ready bookings will appear here.
     ]]>
     </string>
     <string name="find_consultation_info">Consultation Information</string>
@@ -378,8 +378,8 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="booking_confirm_mock_time">11:30 PM</string>
     <string name="booking_confirm_mock_total">$295.00</string>
     <string name="booking_tab_pending">PENDING</string>
-    <string name="booking_tab_accepted">ACCEPTED</string>
-    <string name="booking_tab_completed">COMPLETED</string>
+    <string name="booking_tab_waiting">WAITING</string>
+    <string name="booking_tab_ready">READY</string>
     <string name="booking_action_accept">ACCEPT</string>
     <string name="booking_action_reject">REJECT</string>
     <string name="booking_action_complete">COMPLETE</string>

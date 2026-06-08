@@ -294,7 +294,9 @@ fun DetailDancerScreen(
                         appNavigator.navigateBooking(
                             dancerId = dancer.id,
                             hasNow = true,
-                            clubId = dancer.clubId
+                            clubId = dancer.clubId,
+                            openTime = dancer.clubOpenTime,
+                            closeTime = dancer.clubCloseTime
                         )
                     },
                     modifier = Modifier
@@ -330,7 +332,9 @@ fun DetailDancerScreen(
                         appNavigator.navigateBooking(
                             dancerId = dancer.id,
                             hasNow = false,
-                            clubId = dancer.clubId
+                            clubId = dancer.clubId,
+                            openTime = dancer.clubOpenTime,
+                            closeTime = dancer.clubCloseTime
                         )
                     },
                     modifier = Modifier

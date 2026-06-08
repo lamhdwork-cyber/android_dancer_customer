@@ -11,6 +11,7 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgK
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_DTO
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_TIME
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLOSE_TIME
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLUB_ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLUB_IMAGE
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLUB_NAME
@@ -27,6 +28,7 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgK
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.IS_IN_APP
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.LAWYER_ID
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.NAME
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.OPEN_TIME
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PHOTOS_URL
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PHOTO_URL
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
@@ -77,6 +79,8 @@ class AppNavigator : Updatable {
             const val EXCLUDE_DANCER_IDS = "exclude_dancer_ids"
             const val PICKED_DANCER_ID = "picked_dancer_id"
             const val HAS_SHOW_BUTTONS = "has_show_buttons"
+            const val OPEN_TIME = "open_time"
+            const val CLOSE_TIME = "close_time"
         }
     }
 
@@ -186,11 +190,13 @@ class AppNavigator : Updatable {
     fun navigateBooking(
         dancerId: String = "",
         hasNow: Boolean = true,
-        clubId: String = ""
+        clubId: String = "",
+        openTime: String = "",
+        closeTime: String = ""
     ) {
         val clubArg = if (clubId.isBlank()) "" else Uri.encode(clubId)
         val dancerArg = Uri.encode(dancerId)
-        navHost?.navigate("${Screen.Booking.name}?$ID=$dancerArg&$HAS_NOW=$hasNow&$CLUB_ID=$clubArg")
+        navHost?.navigate("${Screen.Booking.name}?$ID=$dancerArg&$HAS_NOW=$hasNow&$CLUB_ID=$clubArg&$OPEN_TIME=$openTime&$CLOSE_TIME=$closeTime")
     }
 
     fun navigateBookingConfirm(

@@ -150,13 +150,17 @@ fun DetailBookingScreen(
                     roomIcon = d.roomImagePlaceholder
                 )
                 DetailBookingDancersSection(detail = d)
-                DetailBookingSummaryCard(detail = d)
+                if (d.hasCancel) {
+                    DetailBookingCancelledBlock(reason = d.reason)
+                }
+                Column(modifier = Modifier.weight(1f)) {}
+//                DetailBookingSummaryCard(detail = d)
                 when (d.bookingActionsBar) {
                     BookingActionsBar.USER_STANDARD -> {
                         val canCancel =
                             d.status.equals(AppConfig.Booking.Status.PENDING, true) ||
                                 d.status.equals(AppConfig.Booking.Status.SCHEDULED, true) ||
-                                d.status.equals(AppConfig.Booking.Status.CONFIRMED, true) ||
+                                d.status.equals(AppConfig.Booking.Status.WAITING, true) ||
                                 d.status.equals(AppConfig.Booking.Status.ACCEPTED, true)
                         if (canCancel) {
                             DetailBookingActions(onCancel = { hasShowCancel = true })
@@ -198,9 +202,6 @@ fun DetailBookingScreen(
                     }
 
                     BookingActionsBar.NONE -> Unit
-                }
-                if (d.hasCancel) {
-                    DetailBookingCancelledBlock(reason = d.reason)
                 }
             } else {
                 NoDataView(htmlRes = R.string.no_data)
@@ -315,8 +316,8 @@ private fun DetailBookingHero(
                 DetailStatusChip(
                     label = detail.statusDisplay.uppercase(),
                     isAcceptedLike = detail.status.equals(AppConfig.Booking.Status.ACCEPTED, true) ||
-                        detail.status.equals(AppConfig.Booking.Status.CONFIRMED, true) ||
-                        detail.status.equals(AppConfig.Booking.Status.COMPLETED, true)
+                        detail.status.equals(AppConfig.Booking.Status.WAITING, true) ||
+                        detail.status.equals(AppConfig.Booking.Status.READY, true)
                 )
                 if (detail.showVipGuestBadge) {
                     DetailVipChip()

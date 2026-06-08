@@ -33,9 +33,9 @@ class TextFormatter {
         return when {
             status.equals(AppConfig.Booking.Status.PENDING, true) ||
                 status.equals(AppConfig.Booking.Status.SCHEDULED, true) -> Colors.Orange251
-            status.equals(AppConfig.Booking.Status.CONFIRMED, true) ||
+            status.equals(AppConfig.Booking.Status.WAITING, true) ||
                 status.equals(AppConfig.Booking.Status.ACCEPTED, true) -> Colors.Blue75
-            status.equals(AppConfig.Booking.Status.COMPLETED, true) -> Colors.Blue148
+            status.equals(AppConfig.Booking.Status.READY, true) -> Colors.Blue148
             else -> Colors.Red247
         }
     }

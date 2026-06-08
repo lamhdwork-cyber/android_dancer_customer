@@ -1,5 +1,6 @@
 package com.kantek.dancer.booking.presentation.screen.booking
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,8 +26,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.MusicNote
-import androidx.compose.material.icons.outlined.PersonAdd
 import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material.icons.outlined.Verified
 import androidx.compose.material3.Icon
@@ -55,11 +54,11 @@ import coil.compose.AsyncImage
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.factory.BookingFactory
-import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.booking.IBookingPerformer
 import com.kantek.dancer.booking.domain.model.booking.IBookingScheduleDay
 import com.kantek.dancer.booking.domain.model.booking.IRoom
 import com.kantek.dancer.booking.domain.model.search.IDancerDetail
+import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
@@ -67,21 +66,22 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
 import com.kantek.dancer.booking.presentation.helper.AppPopup
-import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
+import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.text.NumberFormat
-import java.util.Locale
 import org.koin.androidx.compose.koinViewModel
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun BookingScreen(
     dancerId: String = "",
     clubId: String = "",
+    openTime: String = "",
+    closeTime: String = "",
     hasNow: Boolean = true,
     navBackStackEntry: NavBackStackEntry,
     viewModel: BookingVM = koinViewModel()
@@ -98,7 +98,10 @@ fun BookingScreen(
     val pickedDancerId by pickedFlow.collectAsState()
 
     LaunchedEffect(dancerId, clubId, hasNow) {
-        viewModel.loadMockData(dancerId = dancerId, clubId = clubId, hasNow = hasNow)
+        viewModel.loadMockData(
+            dancerId = dancerId, clubId = clubId, hasNow = hasNow, openTime = openTime,
+            closeTime = closeTime
+        )
     }
 
     LaunchedEffect(pickedDancerId) {
@@ -169,48 +172,48 @@ fun BookingScreen(
                 )
             }
 
-            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                StepperCard(
-                    title = stringResource(R.string.booking_songs_title),
-                    subtitle = stringResource(R.string.booking_songs_subtitle),
-                    value = state.songs,
-                    icon = Icons.Outlined.MusicNote,
-                    onIncrease = { viewModel.increaseSongs() },
-                    onDecrease = { viewModel.decreaseSongs() }
-                )
-            }
-            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                StepperCard(
-                    title = stringResource(R.string.booking_guests_title),
-                    subtitle = stringResource(R.string.booking_guests_subtitle),
-                    value = state.guests,
-                    icon = Icons.Outlined.PersonAdd,
-                    onIncrease = { viewModel.increaseGuests() },
-                    onDecrease = { viewModel.decreaseGuests() }
-                )
-            }
-
-            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                val collectRaw = remember(state.performers.size, state.selectedRoomId, state.rooms) {
-                    val performerCount = state.performers.size
-                    val selectedRoomPrice = state.rooms
-                        .firstOrNull { it.id == state.selectedRoomId }
-                        ?.price
-                        ?.toDoubleOrNull()
-                        ?: 0.0
-
-                    val collectAmount = performerCount * selectedRoomPrice
-                    val format = NumberFormat.getNumberInstance(Locale.US).apply {
-                        minimumFractionDigits = 0
-                        maximumFractionDigits = 2
-                    }
-                    format.format(collectAmount)
-                }
-
-                val collectText = stringResource(R.string.booking_collect_format, collectRaw)
-
-                SummarySection(collectText = collectText)
-            }
+//            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+//                StepperCard(
+//                    title = stringResource(R.string.booking_songs_title),
+//                    subtitle = stringResource(R.string.booking_songs_subtitle),
+//                    value = state.songs,
+//                    icon = Icons.Outlined.MusicNote,
+//                    onIncrease = { viewModel.increaseSongs() },
+//                    onDecrease = { viewModel.decreaseSongs() }
+//                )
+//            }
+//            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+//                StepperCard(
+//                    title = stringResource(R.string.booking_guests_title),
+//                    subtitle = stringResource(R.string.booking_guests_subtitle),
+//                    value = state.guests,
+//                    icon = Icons.Outlined.PersonAdd,
+//                    onIncrease = { viewModel.increaseGuests() },
+//                    onDecrease = { viewModel.decreaseGuests() }
+//                )
+//            }
+//
+//            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+//                val collectRaw = remember(state.performers.size, state.selectedRoomId, state.rooms) {
+//                    val performerCount = state.performers.size
+//                    val selectedRoomPrice = state.rooms
+//                        .firstOrNull { it.id == state.selectedRoomId }
+//                        ?.price
+//                        ?.toDoubleOrNull()
+//                        ?: 0.0
+//
+//                    val collectAmount = performerCount * selectedRoomPrice
+//                    val format = NumberFormat.getNumberInstance(Locale.US).apply {
+//                        minimumFractionDigits = 0
+//                        maximumFractionDigits = 2
+//                    }
+//                    format.format(collectAmount)
+//                }
+//
+//                val collectText = stringResource(R.string.booking_collect_format, collectRaw)
+//
+//                SummarySection(collectText = collectText)
+//            }
             Spacer(modifier = Modifier.height(100.dp))
         }
 
@@ -708,7 +711,11 @@ class BookingVM(
     private val _state = MutableStateFlow(BookingState())
     val state: StateFlow<BookingState> = _state
 
-    fun loadMockData(dancerId: String, clubId: String, hasNow: Boolean) = launch(loading, error) {
+    fun loadMockData(
+        dancerId: String, clubId: String, hasNow: Boolean,
+        openTime: String = "",
+        closeTime: String = "",
+    ) = launch(loading, error) {
         val current = _state.value
         val hasLoadedSameInput =
             current.dancerId == dancerId &&
@@ -718,14 +725,15 @@ class BookingVM(
         if (hasLoadedSameInput) return@launch
 
         val initialDetail = if (dancerId.isNotBlank()) fetchDancerDetailCase(dancerId) else null
-        val initialPerformers = initialDetail?.toBookingPerformer()?.let { listOf(it) } ?: emptyList()
+        val initialPerformers =
+            initialDetail?.toBookingPerformer()?.let { listOf(it) } ?: emptyList()
 
         val rooms = if (clubId.isNotBlank()) {
             fetchRoomsByClubCase(clubId = clubId)
         } else emptyList()
 
         val scheduleDays = bookingFactory.createScheduleDays()
-        val scheduleTimes = bookingFactory.createScheduleTimes()
+        val scheduleTimes = bookingFactory.createScheduleTimes(openTime, closeTime)
 
         _state.value = BookingState(
             performers = initialPerformers,

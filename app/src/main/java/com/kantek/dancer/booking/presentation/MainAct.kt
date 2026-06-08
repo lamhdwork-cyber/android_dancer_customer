@@ -256,8 +256,10 @@ class MainAct : AppComponentAct() {
                             val keyRoomIDArg =
                                 AppNavigator.Companion.ArgKey.ROOM_ID
                             val keyBookingClubIdArg = AppNavigator.Companion.ArgKey.CLUB_ID
+                            val keyOpenTimeArg = AppNavigator.Companion.ArgKey.OPEN_TIME
+                            val keyCloseTimeArg = AppNavigator.Companion.ArgKey.CLOSE_TIME
                             composable(
-                                "${Screen.Booking.name}?${AppNavigator.Companion.ArgKey.ID}={${AppNavigator.Companion.ArgKey.ID}}&$keyHasNowArg={$keyHasNowArg}&$keyBookingClubIdArg={$keyBookingClubIdArg}",
+                                "${Screen.Booking.name}?${AppNavigator.Companion.ArgKey.ID}={${AppNavigator.Companion.ArgKey.ID}}&$keyHasNowArg={$keyHasNowArg}&$keyBookingClubIdArg={$keyBookingClubIdArg}&$keyOpenTimeArg={$keyOpenTimeArg}&$keyCloseTimeArg={$keyCloseTimeArg}",
                                 arguments = listOf(
                                     navArgument(AppNavigator.Companion.ArgKey.ID) {
                                         type = NavType.StringType
@@ -268,6 +270,14 @@ class MainAct : AppComponentAct() {
                                         defaultValue = true
                                     },
                                     navArgument(keyBookingClubIdArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    },
+                                    navArgument(keyOpenTimeArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    },
+                                    navArgument(keyCloseTimeArg) {
                                         type = NavType.StringType
                                         defaultValue = ""
                                     }
@@ -281,9 +291,17 @@ class MainAct : AppComponentAct() {
                                 val clubIdArg =
                                     backStackEntry.arguments?.getString(keyBookingClubIdArg)
                                         .orEmpty()
+                                val closeTime =
+                                    backStackEntry.arguments?.getString(keyCloseTimeArg)
+                                        .orEmpty()
+                                val openTime =
+                                    backStackEntry.arguments?.getString(keyOpenTimeArg)
+                                        .orEmpty()
                                 BookingScreen(
                                     dancerId = dancerIdArg,
                                     clubId = clubIdArg,
+                                    openTime = openTime,
+                                    closeTime = closeTime,
                                     hasNow = hasNowArg,
                                     navBackStackEntry = backStackEntry
                                 )

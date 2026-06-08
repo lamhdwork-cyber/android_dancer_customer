@@ -2110,46 +2110,46 @@ fun BookingItemView(
                                 overflow = TextOverflow.Ellipsis
                             )
                         }
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Groups,
-                                contentDescription = null,
-                                tint = Colors.Pink66F425F4,
-                                modifier = Modifier.size(14.dp)
-                            )
-                            Text(
-                                text = it.numberOfGuestsDisplay,
-                                color = Colors.Gray9CA3AF,
-                                fontSize = 11.sp
-                            )
-                        }
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.MusicNote,
-                                contentDescription = null,
-                                tint = Colors.Pink66F425F4,
-                                modifier = Modifier.size(14.dp)
-                            )
-                            Text(
-                                text = it.numberOfSongsDisplay,
-                                color = Colors.Gray9CA3AF,
-                                fontSize = 11.sp
-                            )
-                        }
+//                        Row(
+//                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+//                            verticalAlignment = Alignment.CenterVertically
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Filled.Groups,
+//                                contentDescription = null,
+//                                tint = Colors.Pink66F425F4,
+//                                modifier = Modifier.size(14.dp)
+//                            )
+//                            Text(
+//                                text = it.numberOfGuestsDisplay,
+//                                color = Colors.Gray9CA3AF,
+//                                fontSize = 11.sp
+//                            )
+//                        }
+//                        Row(
+//                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+//                            verticalAlignment = Alignment.CenterVertically
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Filled.MusicNote,
+//                                contentDescription = null,
+//                                tint = Colors.Pink66F425F4,
+//                                modifier = Modifier.size(14.dp)
+//                            )
+//                            Text(
+//                                text = it.numberOfSongsDisplay,
+//                                color = Colors.Gray9CA3AF,
+//                                fontSize = 11.sp
+//                            )
+//                        }
                     }
 
-                    Text(
-                        text = it.totalAmountDisplay,
-                        color = Colors.Green103,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp
-                    )
+//                    Text(
+//                        text = it.totalAmountDisplay,
+//                        color = Colors.Green103,
+//                        fontWeight = FontWeight.Bold,
+//                        fontSize = 14.sp
+//                    )
                 }
             }
 

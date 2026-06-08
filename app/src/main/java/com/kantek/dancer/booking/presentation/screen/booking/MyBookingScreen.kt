@@ -63,8 +63,8 @@ import org.koin.androidx.compose.koinViewModel
 
 enum class MyBookingTab(val apiStatus: String) {
     PENDING(AppConfig.Booking.Status.PENDING),
-    ACCEPTED(AppConfig.Booking.Status.CONFIRMED),
-    COMPLETED(AppConfig.Booking.Status.COMPLETED)
+    WAITING(AppConfig.Booking.Status.WAITING),
+    READY(AppConfig.Booking.Status.READY)
 }
 
 private sealed interface ManagerBookingConfirm {
@@ -164,8 +164,8 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                 ) {
                     val noDataRes = when (tab) {
                         MyBookingTab.PENDING -> R.string.no_data_my_booking
-                        MyBookingTab.ACCEPTED -> R.string.no_data_my_booking_accepted
-                        MyBookingTab.COMPLETED -> R.string.no_data_my_booking_completed
+                        MyBookingTab.WAITING -> R.string.no_data_my_booking_waiting
+                        MyBookingTab.READY -> R.string.no_data_my_booking_ready
                     }
                     AppLazyColumn(
                         items = tabState.items,
@@ -274,8 +274,8 @@ private fun MyBookingTabs(
     ) {
         val tabs = listOf(
             MyBookingTab.PENDING to stringResource(R.string.booking_tab_pending),
-            MyBookingTab.ACCEPTED to stringResource(R.string.booking_tab_accepted),
-            MyBookingTab.COMPLETED to stringResource(R.string.booking_tab_completed)
+            MyBookingTab.WAITING to stringResource(R.string.booking_tab_waiting),
+            MyBookingTab.READY to stringResource(R.string.booking_tab_ready)
         )
 
         tabs.forEach { (tab, title) ->
@@ -335,14 +335,14 @@ class MyBookingVM(
 
     private fun mutableStateOf(tab: MyBookingTab): MutableStateFlow<TabBookingState> = when (tab) {
         MyBookingTab.PENDING -> _pendingState
-        MyBookingTab.ACCEPTED -> _acceptedState
-        MyBookingTab.COMPLETED -> _completedState
+        MyBookingTab.WAITING -> _acceptedState
+        MyBookingTab.READY -> _completedState
     }
 
     fun stateOf(tab: MyBookingTab): StateFlow<TabBookingState> = when (tab) {
         MyBookingTab.PENDING -> _pendingState
-        MyBookingTab.ACCEPTED -> _acceptedState
-        MyBookingTab.COMPLETED -> _completedState
+        MyBookingTab.WAITING -> _acceptedState
+        MyBookingTab.READY -> _completedState
     }
 
     fun onChangeLanguage() {
@@ -434,8 +434,8 @@ class MyBookingVM(
     fun submitComplete(tab: MyBookingTab) = launch(loading, error) {
         bookingCompleteRepo(requestID)
         onRefresh(tab)
-        if (tab != MyBookingTab.COMPLETED) {
-            onRefresh(MyBookingTab.COMPLETED)
+        if (tab != MyBookingTab.READY) {
+            onRefresh(MyBookingTab.READY)
         }
     }
 }

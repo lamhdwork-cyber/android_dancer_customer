@@ -131,13 +131,13 @@ Cuando tengamos información legal útil, la mostraremos aquí para tu fácil re
 Una vez que envíes una solicitud de reserva, aparecerá aquí.
 ]]>
 </string>
-    <string name="no_data_my_booking_accepted">
+    <string name="no_data_my_booking_waiting">
 <![CDATA[
 <big><b>¡Aún no hay reservas aceptadas!</b></big><br/><br/>
 Cuando una reserva sea aceptada, aparecerá aquí.
 ]]>
 </string>
-    <string name="no_data_my_booking_completed">
+    <string name="no_data_my_booking_ready">
 <![CDATA[
 <big><b>¡Aún no hay reservas completadas!</b></big><br/><br/>
 Las reservas completadas aparecerán aquí cuando finalice el servicio.
@@ -364,8 +364,8 @@ Las reservas completadas aparecerán aquí cuando finalice el servicio.
     <string name="booking_confirm_mock_time">11:30 PM</string>
     <string name="booking_confirm_mock_total">$295.00</string>
     <string name="booking_tab_pending">PENDIENTE</string>
-    <string name="booking_tab_accepted">ACEPTADO</string>
-    <string name="booking_tab_completed">COMPLETADO</string>
+    <string name="booking_tab_waiting">ACEPTADO</string>
+    <string name="booking_tab_ready">COMPLETADO</string>
     <string name="booking_action_accept">ACEPTAR</string>
     <string name="booking_action_reject">RECHAZAR</string>
     <string name="booking_action_complete">COMPLETAR</string>

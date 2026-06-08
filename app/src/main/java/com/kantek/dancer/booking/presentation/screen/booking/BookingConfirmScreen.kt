@@ -134,7 +134,7 @@ fun BookingConfirmScreen(
             }
             RoomCard(summary = state)
             DancersCard(summary = state)
-            AmountCard(summary = state)
+//            AmountCard(summary = state)
             Spacer(modifier = Modifier.height(100.dp))
         }
 
@@ -597,8 +597,8 @@ class BookingConfirmRepo(
                 BookingForm(
                     dancerIds = dancerIds,
                     roomId = roomId,
-                    numberOfSongs = songs,
-                    numberOfGuests = guests
+//                    numberOfSongs = songs,
+//                    numberOfGuests = guests
                 )
             ).await().firstOrNull()?.id.orEmpty()
         }
@@ -608,11 +608,11 @@ class BookingConfirmRepo(
             BookingForm(
                 dancerIds = dancerIds,
                 roomId = roomId,
-                bookingDate = bookingDate,
+//                bookingDate = bookingDate,
                 startTime = startTime,
-                endTime = addMinutes(startTime, 20),
-                numberOfSongs = songs,
-                numberOfGuests = guests
+//                endTime = addMinutes(startTime, 20),
+//                numberOfSongs = songs,
+//                numberOfGuests = guests
             )
         ).await().firstOrNull()?.id.orEmpty()
     }
