@@ -18,8 +18,8 @@ class ManageStaffSignInVM(
 
     init {
         _form.value.apply {
-            account = "maria@dancer.local"
-            password = "Dancer@123"
+            account = "amara@dancer.local"
+            password = "password123"
         }
     }
 

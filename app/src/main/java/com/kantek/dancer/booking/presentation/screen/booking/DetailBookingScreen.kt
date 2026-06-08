@@ -173,7 +173,7 @@ fun DetailBookingScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             DetailBookingWidePrimaryButton(
-                                labelRes = R.string.booking_action_accept,
+                                labelRes = R.string.booking_action_await,
                                 onClick = { detailManagerConfirm = DetailManagerConfirm.Accept }
                             )
                             DetailBookingWideOutlinedButton(
@@ -190,7 +190,7 @@ fun DetailBookingScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             DetailBookingWidePrimaryButton(
-                                labelRes = R.string.booking_action_complete,
+                                labelRes = R.string.booking_action_ready,
                                 onClick = { detailManagerConfirm = DetailManagerConfirm.Complete }
                             )
                             DetailBookingWideOutlinedButton(
@@ -227,8 +227,8 @@ fun DetailBookingScreen(
 
     when (detailManagerConfirm) {
         DetailManagerConfirm.Accept -> AppConfirmDialog(
-            title = stringResource(R.string.booking_confirm_accept_title),
-            message = stringResource(R.string.booking_confirm_accept_message),
+            title = stringResource(R.string.booking_confirm_await_title),
+            message = stringResource(R.string.booking_confirm_await_message),
             textConfirm = stringResource(R.string.all_confirm),
             onConfirm = {
                 detailManagerConfirm = null
@@ -238,8 +238,8 @@ fun DetailBookingScreen(
         )
 
         DetailManagerConfirm.Complete -> AppConfirmDialog(
-            title = stringResource(R.string.booking_confirm_complete_title),
-            message = stringResource(R.string.booking_confirm_complete_message),
+            title = stringResource(R.string.booking_confirm_ready_title),
+            message = stringResource(R.string.booking_confirm_ready_message),
             textConfirm = stringResource(R.string.all_confirm),
             onConfirm = {
                 detailManagerConfirm = null
@@ -823,8 +823,8 @@ class DetailBookingVM(
     private val appEvent: AppEvent,
     private val fetchBookingDetailRepo: FetchBookingDetailRepo,
     private val bookingCancelRepo: BookingCancelRepo,
-    private val bookingAcceptRepo: BookingAcceptRepo,
-    private val bookingCompleteRepo: BookingCompleteRepo,
+    private val bookingWaitRepo: BookingWaitRepo,
+    private val bookingReadyRepo: BookingReadyRepo,
     private val appNotifications: AppNotifications
 ) : AppViewModel() {
     val details = fetchBookingDetailRepo.result
@@ -843,14 +843,14 @@ class DetailBookingVM(
     }
 
     fun submitAccept() = launch(loading, error) {
-        bookingAcceptRepo(bookingID)
+        bookingWaitRepo(bookingID)
         fetchDetails()
         appEvent.onRefreshMyBooking.emit(true)
         appEvent.onRefreshNotification.emit(true)
     }
 
     fun submitComplete() = launch(loading, error) {
-        bookingCompleteRepo(bookingID)
+        bookingReadyRepo(bookingID)
         fetchDetails()
         appEvent.onRefreshMyBooking.emit(true)
         appEvent.onRefreshNotification.emit(true)

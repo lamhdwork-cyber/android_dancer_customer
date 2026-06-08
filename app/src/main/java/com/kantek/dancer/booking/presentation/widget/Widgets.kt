@@ -1,5 +1,6 @@
 package com.kantek.dancer.booking.presentation.widget
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.media.MediaPlayer
 import android.support.core.extensions.safe
@@ -75,8 +76,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Groups
-import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material.icons.filled.Star
@@ -1480,6 +1479,7 @@ fun ProfileHeader(it: IUser?) {
     }
 }
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun NoDataView(@StringRes htmlRes: Int) {
     val context = LocalContext.current
@@ -2002,8 +2002,8 @@ fun BookingItemView(
     onItemClick: () -> Unit,
     onRequestClick: () -> Unit,
     onCancelClick: () -> Unit,
-    onAcceptClick: () -> Unit = {},
-    onCompleteClick: () -> Unit = {},
+    onAwaitClick: () -> Unit = {},
+    onReadyClick: () -> Unit = {},
 ) {
     Card(
         onClick = onItemClick,
@@ -2261,18 +2261,18 @@ fun BookingItemView(
                 BookingActionsBar.CLUB_MANAGER_COMPLETE_CANCEL -> {
                     val primaryLabel = when (it.bookingActionsBar) {
                         BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT ->
-                            R.string.booking_action_accept
+                            R.string.booking_action_ready
 
                         else ->
-                            R.string.booking_action_complete
+                            R.string.booking_action_await
                     }
                     val onPrimary = when (it.bookingActionsBar) {
-                        BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT -> onAcceptClick
-                        else -> onCompleteClick
+                        BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT -> onReadyClick
+                        else -> onAwaitClick
                     }
                     val secondaryLabel = when (it.bookingActionsBar) {
                         BookingActionsBar.CLUB_MANAGER_ACCEPT_REJECT ->
-                            R.string.booking_action_reject
+                            R.string.booking_action_await
 
                         else ->
                             R.string.all_cancel
@@ -2305,7 +2305,7 @@ fun BookingItemView(
                             )
                         }
                         OutlinedButton(
-                            onClick = onCancelClick,
+                            onClick = onAwaitClick,
                             modifier = Modifier
                                 .weight(1f)
                                 .height(40.dp),

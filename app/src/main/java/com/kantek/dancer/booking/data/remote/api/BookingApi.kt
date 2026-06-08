@@ -40,6 +40,12 @@ interface BookingApi {
     @PATCH("bookings/{id}/complete")
     fun complete(@Path("id") id: String): ApiAsync<Any>
 
+    @PATCH("bookings/{id}/wait")
+    fun wait(@Path("id") id: String): ApiAsync<Any>
+
+    @PATCH("bookings/{id}/ready")
+    fun ready(@Path("id") id: String): ApiAsync<Any>
+
     @GET("bookings")
     fun fetchByPage(
         @Query("page") page: Int,

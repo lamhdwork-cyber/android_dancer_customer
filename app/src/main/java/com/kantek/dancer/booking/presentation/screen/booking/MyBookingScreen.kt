@@ -191,11 +191,11 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                                 hasShowCancel = true
                                 viewModel.requestID = item.id
                             },
-                            onAcceptClick = {
+                            onAwaitClick = {
                                 viewModel.requestID = item.id
                                 managerBookingConfirm = ManagerBookingConfirm.Accept(tab)
                             },
-                            onCompleteClick = {
+                            onReadyClick = {
                                 viewModel.requestID = item.id
                                 managerBookingConfirm = ManagerBookingConfirm.Complete(tab)
                             }
@@ -236,23 +236,23 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
         }
         when (val confirm = managerBookingConfirm) {
             is ManagerBookingConfirm.Accept -> AppConfirmDialog(
-                title = stringResource(R.string.booking_confirm_accept_title),
-                message = stringResource(R.string.booking_confirm_accept_message),
+                title = stringResource(R.string.booking_confirm_await_title),
+                message = stringResource(R.string.booking_confirm_await_message),
                 textConfirm = stringResource(R.string.all_confirm),
                 onConfirm = {
                     managerBookingConfirm = null
-                    viewModel.submitAccept(confirm.tab)
+                    viewModel.submitWait(confirm.tab)
                 },
                 onDismiss = { managerBookingConfirm = null }
             )
 
             is ManagerBookingConfirm.Complete -> AppConfirmDialog(
-                title = stringResource(R.string.booking_confirm_complete_title),
-                message = stringResource(R.string.booking_confirm_complete_message),
+                title = stringResource(R.string.booking_confirm_ready_title),
+                message = stringResource(R.string.booking_confirm_ready_message),
                 textConfirm = stringResource(R.string.all_confirm),
                 onConfirm = {
                     managerBookingConfirm = null
-                    viewModel.submitComplete(confirm.tab)
+                    viewModel.submitReady(confirm.tab)
                 },
                 onDismiss = { managerBookingConfirm = null }
             )
@@ -312,8 +312,8 @@ class MyBookingVM(
     private val fetchMyBookingByPageRepo: FetchMyBookingByPageRepo,
     private val bookingRequestAgainRepo: BookingRequestAgainRepo,
     private val bookingCancelRepo: BookingCancelRepo,
-    private val bookingAcceptRepo: BookingAcceptRepo,
-    private val bookingCompleteRepo: BookingCompleteRepo,
+    private val bookingWaitRepo: BookingWaitRepo,
+    private val bookingReadyRepo: BookingReadyRepo,
 ) : AppViewModel() {
 
     val topBarTitleRes: StateFlow<Int> = userLive.map { user ->
@@ -426,13 +426,13 @@ class MyBookingVM(
         onRefresh(tab)
     }
 
-    fun submitAccept(tab: MyBookingTab) = launch(loading, error) {
-        bookingAcceptRepo(requestID)
+    fun submitWait(tab: MyBookingTab) = launch(loading, error) {
+        bookingWaitRepo(requestID)
         onRefresh(tab)
     }
 
-    fun submitComplete(tab: MyBookingTab) = launch(loading, error) {
-        bookingCompleteRepo(requestID)
+    fun submitReady(tab: MyBookingTab) = launch(loading, error) {
+        bookingReadyRepo(requestID)
         onRefresh(tab)
         if (tab != MyBookingTab.READY) {
             onRefresh(MyBookingTab.READY)
@@ -449,14 +449,14 @@ class BookingCancelRepo(private val bookingApi: BookingApi) {
 
 }
 
-class BookingAcceptRepo(private val bookingApi: BookingApi) {
+class BookingWaitRepo(private val bookingApi: BookingApi) {
 
     suspend operator fun invoke(requestID: String) {
-        bookingApi.accept(requestID).awaitNullable()
+        bookingApi.wait(requestID).awaitNullable()
     }
 }
 
-class BookingCompleteRepo(private val bookingApi: BookingApi) {
+class BookingReadyRepo(private val bookingApi: BookingApi) {
 
     suspend operator fun invoke(requestID: String) {
         bookingApi.complete(requestID).awaitNullable()

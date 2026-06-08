@@ -95,9 +95,9 @@ import com.kantek.dancer.booking.presentation.screen.auth.forgot.ResetPasswordRe
 import com.kantek.dancer.booking.presentation.screen.auth.forgot.RetPasswordVM
 import com.kantek.dancer.booking.presentation.screen.auth.otp.OTPVerifyVM
 import com.kantek.dancer.booking.presentation.screen.auth.otp.VerifyOTPRepo
-import com.kantek.dancer.booking.presentation.screen.booking.BookingAcceptRepo
+import com.kantek.dancer.booking.presentation.screen.booking.BookingWaitRepo
 import com.kantek.dancer.booking.presentation.screen.booking.BookingCancelRepo
-import com.kantek.dancer.booking.presentation.screen.booking.BookingCompleteRepo
+import com.kantek.dancer.booking.presentation.screen.booking.BookingReadyRepo
 import com.kantek.dancer.booking.presentation.screen.booking.BookingConfirmRepo
 import com.kantek.dancer.booking.presentation.screen.booking.BookingConfirmVM
 import com.kantek.dancer.booking.presentation.screen.booking.BookingRequestAgainRepo
@@ -273,8 +273,8 @@ val dataModule = module {
     factory { FetchMyBookingByPageRepo(get(), get()) }
     factory { BookingRequestAgainRepo(get()) }
     factory { BookingCancelRepo(get()) }
-    factory { BookingAcceptRepo(get()) }
-    factory { BookingCompleteRepo(get()) }
+    factory { BookingWaitRepo(get()) }
+    factory { BookingReadyRepo(get()) }
     factory { FetchBookingDetailRepo(get(), get()) }
     factory { ChangePasswordRepo(get()) }
     factory { DeleteAccountRepo(get(), get()) }
