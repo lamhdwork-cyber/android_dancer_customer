@@ -135,10 +135,7 @@ class BookingFactory(
         }
         return object : IBookingDetail, IBooking by create(it) {
             override val statusDisplay: String
-                get() = when (it.status.safe().lowercase(Locale.getDefault())) {
-                    AppConfig.Booking.Status.WAITING -> "Accepted"
-                    else -> it.status.safe().replaceFirstChar { c -> c.uppercase() }
-                }
+                get() = it.status.safe().replaceFirstChar { c -> c.uppercase() }
             override val language: String
                 get() = it.bookingType.safe()
             override val user: IUser?
