@@ -137,9 +137,9 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
             .background(Colors.Dark120812)
     ) {
         ActionBarMainView(topBarTitleRes)
-        if (user == null) {
-            NoLoginView(titleRes = R.string.my_cases_not_login) { openAuth() }
-        } else {
+//        if (user == null) {
+//            NoLoginView(titleRes = R.string.my_cases_not_login) { openAuth() }
+//        } else {
             MyBookingTabs(
                 selectedTab = MyBookingTab.entries[pagerState.currentPage],
                 onTabSelected = { tab ->
@@ -203,7 +203,7 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Sc
                     }
                 }
             }
-        }
+//        }
         if (hasShowComingSoon) {
             AppNotificationDialog(stringResource(R.string.all_coming_soon)) {
                 hasShowComingSoon = false
