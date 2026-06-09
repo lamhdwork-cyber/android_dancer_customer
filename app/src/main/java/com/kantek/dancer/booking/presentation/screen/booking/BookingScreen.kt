@@ -499,12 +499,12 @@ private fun RoomSection(
                     }
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text(
-                        text = room.priceDisplay,
-                        color = if (selected) Colors.Primary else Colors.White,
-                        fontWeight = FontWeight.Black
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
+//                    Text(
+//                        text = room.priceDisplay,
+//                        color = if (selected) Colors.Primary else Colors.White,
+//                        fontWeight = FontWeight.Black
+//                    )
+//                    Spacer(modifier = Modifier.height(4.dp))
                     Box(
                         modifier = Modifier
                             .size(18.dp)

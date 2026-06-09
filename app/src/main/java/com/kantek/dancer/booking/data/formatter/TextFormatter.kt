@@ -78,7 +78,7 @@ class TextFormatter {
     }
 
     fun formatBookingPrice(raw: String): String {
-        return "$${formatCurrency(raw)}"
+        return if(raw.isEmpty()) "" else formatCurrency(raw)
     }
 
 }
