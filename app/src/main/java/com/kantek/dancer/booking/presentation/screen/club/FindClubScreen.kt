@@ -93,7 +93,7 @@ fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scop
                 isRefreshing = isRefreshing,
                 onRefresh = { viewModel.onRefresh() },
                 onLoadMore = { viewModel.onFetch() },
-                emptyHtmlRes = R.string.no_data_notifications,
+                emptyHtmlRes = R.string.no_data,
                 isEmpty = clubs.isEmpty(),
                 modifier = Modifier.fillMaxSize()
             ) { club, _, _ ->
