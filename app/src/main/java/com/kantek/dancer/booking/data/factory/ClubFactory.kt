@@ -18,6 +18,8 @@ class ClubFactory {
                 get() = it.name.safe()
             override val description: String
                 get() = it.description.safe()
+            override val address: String
+                get() = it.address.safe()
             override val fullAddress: String
                 get() = listOf(it.address.safe(), it.district.safe(), it.city.safe())
                     .filter { txt -> txt.isNotBlank() }

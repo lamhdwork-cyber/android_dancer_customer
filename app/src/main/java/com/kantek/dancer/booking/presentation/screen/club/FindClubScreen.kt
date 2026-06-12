@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -43,17 +42,18 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.search.IClub
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.FindClubVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
 import com.kantek.dancer.booking.presentation.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -246,36 +246,21 @@ private fun ClubItemCard(
             }
         }
 
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = club.name,
                 color = Colors.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
+            SpaceVertical(10.dp)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = club.distance,
+                    text = club.address,
                     color = Colors.Gray9CA3AF,
-                    fontSize = 13.sp
                 )
-                Text(text = "  •  ", color = Colors.Dark64748B, fontSize = 13.sp)
-                Icon(
-                    imageVector = Icons.Default.Star,
-                    contentDescription = null,
-                    tint = Colors.GoldFFD700,
-                    modifier = Modifier.size(16.dp)
-                )
-                Text(
-                    text = " ${club.rating}",
-                    color = Colors.White,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(text = "  •  ", color = Colors.Dark64748B, fontSize = 13.sp)
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = stringResource(
                         R.string.club_open_hours_format,
@@ -288,6 +273,7 @@ private fun ClubItemCard(
                     overflow = TextOverflow.Ellipsis
                 )
             }
+            SpaceVertical(10.dp)
             AppButton(
                 nameRes = R.string.club_select_this_club,
                 modifier = Modifier

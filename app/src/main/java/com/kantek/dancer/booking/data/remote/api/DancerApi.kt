@@ -17,6 +17,13 @@ interface DancerApi {
         @Query("limit") perPage: Int = AppConfig.PER_PAGE
     ): ApiAsync<ApiResponsePaging<DancerDTO>>
 
+    @GET("dancers/available-now")
+    fun availableNow(
+        @Query("clubId") clubId: String,
+        @Query("page") page: Int,
+        @Query("limit") perPage: Int = AppConfig.PER_PAGE
+    ): ApiAsync<ApiResponsePaging<DancerDTO>>
+
     @GET("dancers/{id}")
     fun fetchDetail(
         @Path("id") dancerId: String

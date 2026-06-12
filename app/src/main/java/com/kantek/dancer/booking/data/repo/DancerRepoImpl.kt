@@ -17,6 +17,12 @@ class DancerRepoImpl(
         )
     }
 
+    override suspend fun availableNow(clubId: String, page: Int): List<IDancer> {
+        return dancerFactory.createList(
+            dancerApi.availableNow(clubId = clubId, page = page).awaitNullable()?.data
+        )
+    }
+
     override suspend fun fetchByPageWithTotal(clubId: String, page: Int): Pair<List<IDancer>, Int?> {
         val body = dancerApi.fetchByPage(clubId = clubId, page = page).awaitNullable()
         val list = dancerFactory.createList(body?.data)

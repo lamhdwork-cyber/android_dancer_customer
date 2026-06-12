@@ -21,12 +21,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.EventAvailable
 import androidx.compose.material.icons.outlined.Schedule
@@ -54,15 +54,16 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.search.IDancerDetail
 import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.NoDataView
+import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import com.kantek.dancer.booking.presentation.widget.sheetTopSideBorder
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
@@ -156,8 +157,9 @@ fun DetailDancerScreen(
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = maxHeight * 0.46f)
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .align(Alignment.BottomCenter)
                 .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
                 .then(
                     if (hasShowButtons) {
@@ -176,8 +178,9 @@ fun DetailDancerScreen(
                     start = 20.dp,
                     end = 20.dp,
                     top = 20.dp,
-                    bottom = if (hasShowButtons) 184.dp else 32.dp + navBarBottomDp
-                ).navigationBarsPadding()
+                    bottom = if (hasShowButtons) 160.dp else 32.dp + navBarBottomDp
+                )
+                .navigationBarsPadding()
         ) {
             Box(
                 modifier = Modifier
@@ -188,86 +191,87 @@ fun DetailDancerScreen(
                     .clip(RoundedCornerShape(999.dp))
                     .background(Colors.White33FFFFFF)
             )
-            Row(
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.Top
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = dancer.name,
-                        color = Colors.White,
-                        fontSize = 34.sp,
-                        lineHeight = 42.sp,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Row(
-                        modifier = Modifier.padding(top = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Star,
-                            contentDescription = null,
-                            tint = Colors.Primary,
-                            modifier = Modifier.size(14.dp)
-                        )
-                        Text(
-                            text = stringResource(R.string.dancer_detail_premium_performer),
-                            color = Colors.Primary,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(start = 4.dp)
-                        )
-                    }
-                }
-                Text(
-                    text = ratingBadgeText,
-                    color = Colors.Primary,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(50))
-                        .background(Colors.Pink26F425F4)
-                        .padding(horizontal = 10.dp, vertical = 6.dp)
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                DetailTag(
-                    title = stringResource(R.string.dancer_detail_age),
-                    value = stringResource(R.string.dancer_detail_age_format, dancer.age),
-                    modifier = Modifier.weight(1f)
-                )
-                DetailTag(
-                    title = stringResource(R.string.dancer_detail_style),
-                    value = dancer.danceStyle.ifBlank { stringResource(R.string.dancer_style_unknown) },
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
+//            Row(
+//                modifier = Modifier
+//                    .padding(top = 16.dp)
+//                    .fillMaxWidth(),
+//                horizontalArrangement = Arrangement.spacedBy(12.dp),
+//                verticalAlignment = Alignment.Top
+//            ) {
+//                Column(modifier = Modifier.weight(1f)) {
+            SpaceVertical(20.dp)
             Text(
-                text = stringResource(R.string.dancer_detail_about),
-                color = Colors.GrayCBD5E1,
-                fontSize = 11.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(top = 20.dp)
-            )
-            Text(
-                text = dancer.bio,
+                text = dancer.name,
                 color = Colors.White,
-                fontSize = 14.sp,
-                lineHeight = 20.sp,
-                modifier = Modifier.padding(top = 8.dp)
+                fontSize = 34.sp,
+                lineHeight = 42.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
+//                    Row(
+//                        modifier = Modifier.padding(top = 6.dp),
+//                        verticalAlignment = Alignment.CenterVertically
+//                    ) {
+//                        Icon(
+//                            imageVector = Icons.Default.Star,
+//                            contentDescription = null,
+//                            tint = Colors.Primary,
+//                            modifier = Modifier.size(14.dp)
+//                        )
+//                        Text(
+//                            text = stringResource(R.string.dancer_detail_premium_performer),
+//                            color = Colors.Primary,
+//                            fontSize = 11.sp,
+//                            fontWeight = FontWeight.SemiBold,
+//                            modifier = Modifier.padding(start = 4.dp)
+//                        )
+//                    }
+//                }
+//                Text(
+//                    text = ratingBadgeText,
+//                    color = Colors.Primary,
+//                    fontSize = 12.sp,
+//                    fontWeight = FontWeight.Bold,
+//                    modifier = Modifier
+//                        .clip(RoundedCornerShape(50))
+//                        .background(Colors.Pink26F425F4)
+//                        .padding(horizontal = 10.dp, vertical = 6.dp)
+//                )
+//            }
+
+//            Row(
+//                modifier = Modifier
+//                    .padding(top = 16.dp)
+//                    .fillMaxWidth(),
+//                horizontalArrangement = Arrangement.spacedBy(8.dp)
+//            ) {
+//                DetailTag(
+//                    title = stringResource(R.string.dancer_detail_age),
+//                    value = stringResource(R.string.dancer_detail_age_format, dancer.age),
+//                    modifier = Modifier.weight(1f)
+//                )
+//                DetailTag(
+//                    title = stringResource(R.string.dancer_detail_style),
+//                    value = dancer.danceStyle.ifBlank { stringResource(R.string.dancer_style_unknown) },
+//                    modifier = Modifier.weight(1f)
+//                )
+//            }
+
+//            Text(
+//                text = stringResource(R.string.dancer_detail_about),
+//                color = Colors.GrayCBD5E1,
+//                fontSize = 11.sp,
+//                fontWeight = FontWeight.SemiBold,
+//                modifier = Modifier.padding(top = 20.dp)
+//            )
+//            Text(
+//                text = dancer.bio,
+//                color = Colors.White,
+//                fontSize = 14.sp,
+//                lineHeight = 20.sp,
+//                modifier = Modifier.padding(top = 8.dp)
+//            )
 
         }
 

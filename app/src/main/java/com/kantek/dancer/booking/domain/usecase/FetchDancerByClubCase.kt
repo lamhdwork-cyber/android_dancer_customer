@@ -10,4 +10,8 @@ class FetchDancerByClubCase(
     suspend operator fun invoke(clubId: String, page: Int): List<IDancer> {
         return withIO { dancerRepo.fetchByPage(clubId = clubId, page = page) }
     }
+
+    suspend fun availableNow(clubId: String, page: Int): List<IDancer> {
+        return withIO { dancerRepo.availableNow(clubId = clubId, page = page) }
+    }
 }

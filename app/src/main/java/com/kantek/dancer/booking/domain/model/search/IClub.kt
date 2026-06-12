@@ -4,6 +4,7 @@ interface IClub {
     val id: String
     val name: String
     val description: String
+    val address: String
     val fullAddress: String
     val coverImage: String
     val distance: String

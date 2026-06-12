@@ -258,7 +258,7 @@ class DancerListVM(
         if (clubId.isBlank()) return
         if (isRefreshLoading.isLoading().value || customLoading.isLoading().value || !hasMoreData) return
         launch(if (page == 1) isRefreshLoading else customLoading, error) {
-            val rs = fetchDancerByClubCase(clubId = clubId, page = page)
+            val rs = fetchDancerByClubCase.availableNow(clubId = clubId, page = page)
             _isEmpty.value = (page == 1 && rs.isEmpty())
             if (rs.isEmpty()) {
                 hasMoreData = false
