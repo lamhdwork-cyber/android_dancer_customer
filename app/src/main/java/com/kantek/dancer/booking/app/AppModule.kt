@@ -264,7 +264,7 @@ val dataModule = module {
     factory { SignOutRepo(get(), get()) }
     factory { GetAccountRepo(get()) }
     factory { SignInRepo(get<Application>().applicationContext, get(), get()) }
-    factory { SignUpRepo(get<Application>().applicationContext, get(), get()) }
+    factory { SignUpRepo(get(), get(), get()) }
     factory { ForgotPasswordRepo(get()) }
     factory { FetchIntroduceRepo(get()) }
     factory { FetchAllBannerRepo(get(), get()) }
@@ -278,7 +278,7 @@ val dataModule = module {
     factory { FetchBookingDetailRepo(get(), get()) }
     factory { ChangePasswordRepo(get()) }
     factory { DeleteAccountRepo(get(), get()) }
-    factory { UpdateProfileRepo(get(), get(), get()) }
+    factory { UpdateProfileRepo(get(), get(), get(),get()) }
     factory { FetchSettingRepo(get(), get()) }
     factory { ContactUsRepo(get()) }
     factory { SignInGoogleRepo(get(), get(), get()) }

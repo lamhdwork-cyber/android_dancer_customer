@@ -74,6 +74,9 @@ fun BookingConfirmScreen(
     guests: Int = 1,
     totalAmount: String = "0",
     hasNow: Boolean = true,
+    tableNumber: String = "",
+    customerName: String = "",
+    customerPhone: String = "",
     viewModel: BookingConfirmVM = koinViewModel()
 ) = ScopeProvider(Scopes.BookingConfirm) {
     val appNavigator = use<AppNavigator>()
@@ -94,7 +97,10 @@ fun BookingConfirmScreen(
         songs,
         guests,
         totalAmount,
-        hasNow
+        hasNow,
+        tableNumber,
+        customerName,
+        customerPhone
     ) {
         viewModel.bindArgs(
             dancerIds = dancerIds,
@@ -109,7 +115,10 @@ fun BookingConfirmScreen(
             songs = songs,
             guests = guests,
             totalAmount = totalAmount,
-            hasNow = hasNow
+            hasNow = hasNow,
+            tableNumber = tableNumber,
+            customerName = customerName,
+            customerPhone = customerPhone
         )
     }
 
@@ -485,7 +494,10 @@ data class BookingConfirmUi(
     val dancers: List<BookingConfirmDancerUi>,
     val roomId: String,
     val dancerIds: List<String>,
-    val hasNow: Boolean
+    val hasNow: Boolean,
+    val tableNumber: String = "",
+    val customerName: String = "",
+    val customerPhone: String = ""
 )
 
 data class BookingConfirmDancerUi(
@@ -511,7 +523,10 @@ class BookingConfirmVM(
             dancers = emptyList(),
             roomId = "",
             dancerIds = emptyList(),
-            hasNow = true
+            hasNow = true,
+            tableNumber = "",
+            customerName = "",
+            customerPhone = ""
         )
     )
     val state: StateFlow<BookingConfirmUi> = _state
@@ -529,7 +544,10 @@ class BookingConfirmVM(
         songs: Int,
         guests: Int,
         totalAmount: String,
-        hasNow: Boolean
+        hasNow: Boolean,
+        tableNumber: String = "",
+        customerName: String = "",
+        customerPhone: String = ""
     ) {
         val ids = dancerIds.split(",").map { it.trim() }.filter { it.isNotBlank() }
         val names = dancerNames.split("|,|").map { it.trim() }.filter { it.isNotBlank() }
@@ -559,7 +577,10 @@ class BookingConfirmVM(
             dancers = dancers,
             roomId = roomId,
             dancerIds = ids,
-            hasNow = hasNow
+            hasNow = hasNow,
+            tableNumber = tableNumber,
+            customerName = customerName,
+            customerPhone = customerPhone
         )
     }
 
@@ -573,7 +594,10 @@ class BookingConfirmVM(
             guests = current.guests,
             bookingDate = current.dateText,
             bookingTime = current.timeText,
-            hasNow = current.hasNow
+            hasNow = current.hasNow,
+            tableNumber = current.tableNumber,
+            customerName = current.customerName,
+            customerPhone = current.customerPhone
         )
         appEvent.onRefreshMyBooking.emit(true)
         onSuccess(bookingId)
@@ -590,13 +614,19 @@ class BookingConfirmRepo(
         guests: Int,
         bookingDate: String,
         bookingTime: String,
-        hasNow: Boolean
+        hasNow: Boolean,
+        tableNumber: String,
+        customerName: String,
+        customerPhone: String
     ): String {
         if (hasNow) {
             return bookingApi.bookNow(
                 BookingForm(
                     dancerIds = dancerIds,
                     roomId = roomId,
+                    tableNumber = tableNumber,
+                    customerName = customerName,
+                    customerPhone = customerPhone
 //                    numberOfSongs = songs,
 //                    numberOfGuests = guests
                 )
@@ -608,11 +638,14 @@ class BookingConfirmRepo(
             BookingForm(
                 dancerIds = dancerIds,
                 roomId = roomId,
+                tableNumber = tableNumber,
 //                bookingDate = bookingDate,
                 startTime = startTime,
 //                endTime = addMinutes(startTime, 20),
 //                numberOfSongs = songs,
 //                numberOfGuests = guests
+                customerName = customerName,
+                customerPhone = customerPhone
             )
         ).await().firstOrNull()?.id.orEmpty()
     }

@@ -1,6 +1,7 @@
 package com.kantek.dancer.booking.presentation.screen.booking
 
 import android.annotation.SuppressLint
+import android.support.core.extensions.safe
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,11 +23,13 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Remove
+import androidx.compose.material.icons.outlined.Smartphone
 import androidx.compose.material.icons.outlined.Verified
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -47,6 +50,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
@@ -54,6 +59,7 @@ import coil.compose.AsyncImage
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.factory.BookingFactory
+import com.kantek.dancer.booking.data.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.model.booking.IBookingPerformer
 import com.kantek.dancer.booking.domain.model.booking.IBookingScheduleDay
 import com.kantek.dancer.booking.domain.model.booking.IRoom
@@ -70,6 +76,9 @@ import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.kantek.dancer.booking.presentation.widget.AppButton
+import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
+import com.kantek.dancer.booking.presentation.widget.AppInputText
+import com.kantek.dancer.booking.presentation.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -172,6 +181,42 @@ fun BookingScreen(
                 )
             }
 
+            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                    SpaceVertical(10.dp)
+                    Text(
+                        text = "CUSTOMER INFORMATION",
+                        color = Colors.Gray9CA3AF,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    AppInputText(
+                        value = state.tableNumber,
+                        hintRes = R.string.booking_hint_table_number,
+                        placeHolderRes = R.string.booking_table_number,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        onValueChange = { viewModel.updateTableNumber(it) }
+                    )
+                    AppInputText(
+                        value = state.customerName,
+                        placeHolderRes = R.string.all_full_name,
+                        hintRes = R.string.booking_hint_customer_name,
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            keyboardType = KeyboardType.Text
+                        ),
+                        onValueChange = { viewModel.updateCustomerName(it) }
+                    )
+                    AppInputPhoneNumber(
+                        value = state.customerPhone,
+                        lightBackground = false,
+                        leadingIcon = Icons.Outlined.Smartphone,
+                        placeHolderRes = R.string.all_phone_number,
+                        onValueChange = { viewModel.updateCustomerPhone(it) }
+                    )
+                }
+            }
+
 //            Box(modifier = Modifier.padding(horizontal = 16.dp)) {
 //                StepperCard(
 //                    title = stringResource(R.string.booking_songs_title),
@@ -245,7 +290,10 @@ fun BookingScreen(
                     songs = state.songs,
                     guests = state.guests,
                     totalAmount = totalAmount.toString(),
-                    hasNow = state.hasNow
+                    hasNow = state.hasNow,
+                    tableNumber = state.tableNumber,
+                    customerName = state.customerName,
+                    customerPhone = state.customerPhone
                 )
             }
         )
@@ -700,16 +748,41 @@ data class BookingState(
     val clubId: String = "",
     val clubName: String = "",
     val clubImage: String = "",
-    val hasNow: Boolean = true
+    val hasNow: Boolean = true,
+    val tableNumber: String = "",
+    val customerName: String = "",
+    val customerPhone: String = ""
 )
 
 class BookingVM(
     private val fetchDancerDetailCase: FetchDancerDetailCase,
     private val fetchRoomsByClubCase: FetchRoomsByClubCase,
-    private val bookingFactory: BookingFactory
+    private val bookingFactory: BookingFactory,
+    private val textFormatter: TextFormatter
 ) : AppViewModel() {
     private val _state = MutableStateFlow(BookingState())
     val state: StateFlow<BookingState> = _state
+
+    init {
+        launch(null, error) {
+            userLive.collect {
+                updateCustomerName(it?.fullName.safe())
+                updateCustomerPhone(textFormatter.cleanPhoneNumber(it?.phoneNumber.safe()))
+            }
+        }
+    }
+
+    fun updateTableNumber(value: String) {
+        _state.value = _state.value.copy(tableNumber = value)
+    }
+
+    fun updateCustomerName(value: String) {
+        _state.value = _state.value.copy(customerName = value)
+    }
+
+    fun updateCustomerPhone(value: String) {
+        _state.value = _state.value.copy(customerPhone = value)
+    }
 
     fun loadMockData(
         dancerId: String, clubId: String, hasNow: Boolean,
@@ -746,7 +819,9 @@ class BookingVM(
             clubId = clubId,
             clubName = initialDetail?.clubName.orEmpty(),
             clubImage = initialDetail?.clubCoverImage.orEmpty(),
-            hasNow = hasNow
+            hasNow = hasNow,
+            customerName = current.customerName,
+            customerPhone = current.customerPhone
         )
     }
 

@@ -31,7 +31,6 @@ data class SignUpForm(
     var firstName: String = "",
     var lastName: String = "",
     var email: String = "",
-    @Transient
     var phone: String = "",
     var password: String = "",
     @SerializedName("fcmToken")
@@ -40,7 +39,7 @@ data class SignUpForm(
     fun valid() {
         if (firstName.isBlank()) resourceError(R.string.error_blank_first_name)
         if (lastName.isBlank()) resourceError(R.string.error_blank_last_name)
-//        if (phone.isBlank() || phone.length != 10) resourceError(R.string.error_blank_phone)
+        if (phone.isBlank() || phone.length != 10) resourceError(R.string.error_blank_phone)
         if (email.isBlank()) resourceError(R.string.error_blank_email)
         if (!email.isEmail()) resourceError(R.string.error_valid_email)
         if (password.isBlank()) resourceError(R.string.error_blank_password)

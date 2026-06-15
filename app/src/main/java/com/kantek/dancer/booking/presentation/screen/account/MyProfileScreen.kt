@@ -58,6 +58,7 @@ import com.kantek.dancer.booking.data.helper.network.RequestBodyBuilder
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.factory.PhotoFactory
+import com.kantek.dancer.booking.data.formatter.TextFormatter
 import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.user.IUser
 import com.kantek.dancer.booking.domain.model.user.ProfileForm
@@ -70,6 +71,7 @@ import com.kantek.dancer.booking.presentation.helper.AppPopup
 import com.kantek.dancer.booking.presentation.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
+import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.AppPhotoPickerDialog
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
@@ -211,13 +213,13 @@ fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Sc
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         onValueChange = { viewModel.updateEmail(it) }
                     )
-//                    SpaceVertical(12.dp)
-//                    AppInputPhoneNumber(
-//                        value = formState.phone,
-//                        lightBackground = false,
-//                        placeHolderRes = R.string.all_phone_number,
-//                        onValueChange = { viewModel.updatePhone(it) }
-//                    )
+                    SpaceVertical(12.dp)
+                    AppInputPhoneNumber(
+                        value = formState.phone,
+                        lightBackground = false,
+                        placeHolderRes = R.string.all_phone_number,
+                        onValueChange = { viewModel.updatePhone(it) }
+                    )
                     SpaceVertical(50.dp)
                     Button(
                         onClick = { viewModel.save(context) },
@@ -335,7 +337,8 @@ class MyProfileVM(
 class UpdateProfileRepo(
     private val userLocalSource: UserLocalSource,
     private val userApi: UserApi,
-    private val photoFactory: PhotoFactory
+    private val photoFactory: PhotoFactory,
+    private val textFormatter: TextFormatter
 ) {
     suspend operator fun invoke(form: ProfileForm) {
         var avatarPart: MultipartBody.Part? = null
@@ -347,6 +350,7 @@ class UpdateProfileRepo(
                 RequestBodyBuilder()
                     .put("firstName", form.firstName)
                     .put("lastName", form.lastname)
+                    .put("phone", textFormatter.cleanPhoneNumber(form.phone))
                     .buildMultipart(), avatarPart
             ).await()
         )

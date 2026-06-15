@@ -323,6 +323,7 @@
     <string name="all_submit_your_answer">Gửi câu trả lời của bạn</string>
     <string name="faqs_your_answer">Câu trả lời của bạn</string>
     <string name="booking_title">Tạo đặt lịch</string>
+    <string name="booking_table_number">Số bàn</string>
     <string name="booking_selected_performers">Vũ công được chọn</string>
     <string name="booking_total_format">%1$d/%2$d TỔNG</string>
     <string name="booking_add">Thêm</string>
@@ -386,5 +387,7 @@
     <string name="booking_detail_room_short">Phòng</string>
     <string name="booking_detail_dancer_style_fallback">Hạng cao</string>
     <string name="booking_detail_no_dancers">Chưa chọn vũ công</string>
+    <string name="booking_hint_table_number">Nhập số bàn (Không bắt buộc)</string>
+    <string name="booking_hint_customer_name">Nhập tên</string>
 
 </resources>

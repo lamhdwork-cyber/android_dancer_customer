@@ -6,6 +6,7 @@ data class
 FireBaseCloudMessage(
     val body: String?,
     val user_id: Long?,
+    @SerializedName(value = "bookingId", alternate = ["booking_id","bookingID"])
     val bookingId: String,
     @SerializedName("data_id")
     val data_id: Int,

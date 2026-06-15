@@ -38,6 +38,9 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgK
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.ROOM_NAME
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.SONGS
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.TOTAL_AMOUNT
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.TABLE_NUMBER
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CUSTOMER_NAME
+import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CUSTOMER_PHONE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -81,6 +84,9 @@ class AppNavigator : Updatable {
             const val HAS_SHOW_BUTTONS = "has_show_buttons"
             const val OPEN_TIME = "open_time"
             const val CLOSE_TIME = "close_time"
+            const val TABLE_NUMBER = "table_number"
+            const val CUSTOMER_NAME = "customer_name"
+            const val CUSTOMER_PHONE = "customer_phone"
         }
     }
 
@@ -212,7 +218,10 @@ class AppNavigator : Updatable {
         songs: Int,
         guests: Int,
         totalAmount: String,
-        hasNow: Boolean
+        hasNow: Boolean,
+        tableNumber: String,
+        customerName: String,
+        customerPhone: String
     ) {
         val dancerIdsArg = Uri.encode(dancerIds.joinToString(","))
         val dancerNamesArg = Uri.encode(dancerNames.joinToString("|,|"))
@@ -224,8 +233,11 @@ class AppNavigator : Updatable {
         val bookingTimeArg = Uri.encode(bookingTime)
         val roomNameArg = Uri.encode(roomName)
         val totalAmountArg = Uri.encode(totalAmount)
+        val tableNumberArg = Uri.encode(tableNumber)
+        val customerNameArg = Uri.encode(customerName)
+        val customerPhoneArg = Uri.encode(customerPhone)
         navHost?.navigate(
-            "${Screen.BookingConfirm.name}?$DANCER_IDS=$dancerIdsArg&$DANCER_NAMES=$dancerNamesArg&$DANCER_AVATARS=$dancerAvatarsArg&$ROOM_ID=$roomIdArg&$CLUB_NAME=$clubNameArg&$CLUB_IMAGE=$clubImageArg&$BOOKING_DATE=$bookingDateArg&$BOOKING_TIME=$bookingTimeArg&$ROOM_NAME=$roomNameArg&$SONGS=$songs&$GUESTS=$guests&$TOTAL_AMOUNT=$totalAmountArg&$HAS_NOW=$hasNow"
+            "${Screen.BookingConfirm.name}?$DANCER_IDS=$dancerIdsArg&$DANCER_NAMES=$dancerNamesArg&$DANCER_AVATARS=$dancerAvatarsArg&$ROOM_ID=$roomIdArg&$CLUB_NAME=$clubNameArg&$CLUB_IMAGE=$clubImageArg&$BOOKING_DATE=$bookingDateArg&$BOOKING_TIME=$bookingTimeArg&$ROOM_NAME=$roomNameArg&$SONGS=$songs&$GUESTS=$guests&$TOTAL_AMOUNT=$totalAmountArg&$HAS_NOW=$hasNow&$TABLE_NUMBER=$tableNumberArg&$CUSTOMER_NAME=$customerNameArg&$CUSTOMER_PHONE=$customerPhoneArg"
         )
     }
 

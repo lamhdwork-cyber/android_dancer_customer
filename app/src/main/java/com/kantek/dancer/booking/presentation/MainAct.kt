@@ -317,8 +317,11 @@ class MainAct : AppComponentAct() {
                             val keySongsArg = AppNavigator.Companion.ArgKey.SONGS
                             val keyGuestsArg = AppNavigator.Companion.ArgKey.GUESTS
                             val keyTotalAmountArg = AppNavigator.Companion.ArgKey.TOTAL_AMOUNT
+                            val keyTableNumberArg = AppNavigator.Companion.ArgKey.TABLE_NUMBER
+                            val keyCustomerNameArg = AppNavigator.Companion.ArgKey.CUSTOMER_NAME
+                            val keyCustomerPhoneArg = AppNavigator.Companion.ArgKey.CUSTOMER_PHONE
                             composable(
-                                "${Screen.BookingConfirm.name}?$keyDancerIdsArg={$keyDancerIdsArg}&$keyDancerNamesArg={$keyDancerNamesArg}&$keyDancerAvatarsArg={$keyDancerAvatarsArg}&$keyRoomIDArg={$keyRoomIDArg}&$keyClubNameArg={$keyClubNameArg}&$keyClubImageArg={$keyClubImageArg}&$keyBookingDateArg={$keyBookingDateArg}&$keyBookingTimeArg={$keyBookingTimeArg}&$keyRoomNameArg={$keyRoomNameArg}&$keySongsArg={$keySongsArg}&$keyGuestsArg={$keyGuestsArg}&$keyTotalAmountArg={$keyTotalAmountArg}&$keyHasNowArg={$keyHasNowArg}",
+                                "${Screen.BookingConfirm.name}?$keyDancerIdsArg={$keyDancerIdsArg}&$keyDancerNamesArg={$keyDancerNamesArg}&$keyDancerAvatarsArg={$keyDancerAvatarsArg}&$keyRoomIDArg={$keyRoomIDArg}&$keyClubNameArg={$keyClubNameArg}&$keyClubImageArg={$keyClubImageArg}&$keyBookingDateArg={$keyBookingDateArg}&$keyBookingTimeArg={$keyBookingTimeArg}&$keyRoomNameArg={$keyRoomNameArg}&$keySongsArg={$keySongsArg}&$keyGuestsArg={$keyGuestsArg}&$keyTotalAmountArg={$keyTotalAmountArg}&$keyHasNowArg={$keyHasNowArg}&$keyTableNumberArg={$keyTableNumberArg}&$keyCustomerNameArg={$keyCustomerNameArg}&$keyCustomerPhoneArg={$keyCustomerPhoneArg}",
                                 arguments = listOf(
                                     navArgument(keyDancerIdsArg) {
                                         type = NavType.StringType
@@ -371,6 +374,18 @@ class MainAct : AppComponentAct() {
                                     navArgument(keyHasNowArg) {
                                         type = NavType.BoolType
                                         defaultValue = true
+                                    },
+                                    navArgument(keyTableNumberArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    },
+                                    navArgument(keyCustomerNameArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    },
+                                    navArgument(keyCustomerPhoneArg) {
+                                        type = NavType.StringType
+                                        defaultValue = ""
                                     }
                                 )
                             ) { backStackEntry ->
@@ -401,6 +416,12 @@ class MainAct : AppComponentAct() {
                                     backStackEntry.arguments?.getString(keyTotalAmountArg).orEmpty()
                                 val hasNowArg =
                                     backStackEntry.arguments?.getBoolean(keyHasNowArg) ?: true
+                                val tableNumberArg =
+                                    backStackEntry.arguments?.getString(keyTableNumberArg).orEmpty()
+                                val customerNameArg =
+                                    backStackEntry.arguments?.getString(keyCustomerNameArg).orEmpty()
+                                val customerPhoneArg =
+                                    backStackEntry.arguments?.getString(keyCustomerPhoneArg).orEmpty()
                                 BookingConfirmScreen(
                                     dancerIds = dancerIdsArg,
                                     dancerNames = dancerNamesArg,
@@ -414,7 +435,10 @@ class MainAct : AppComponentAct() {
                                     songs = songsArg,
                                     guests = guestsArg,
                                     totalAmount = totalAmountArg,
-                                    hasNow = hasNowArg
+                                    hasNow = hasNowArg,
+                                    tableNumber = tableNumberArg,
+                                    customerName = customerNameArg,
+                                    customerPhone = customerPhoneArg
                                 )
                             }
 

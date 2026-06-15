@@ -35,6 +35,7 @@ import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Smartphone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -73,6 +74,7 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.extension.resourceError
+import com.kantek.dancer.booking.data.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.model.user.SignUpForm
 import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
@@ -81,6 +83,7 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppKeyboard
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
+import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
 import com.kantek.dancer.booking.presentation.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.LegalDisclaimerDialog
 import com.kantek.dancer.booking.presentation.widget.SpaceVertical
@@ -177,14 +180,14 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                         onValueChange = { viewModel.updateLastName(it) }
                     )
                 }
-//                SpaceVertical(20.dp)
-//                AppInputPhoneNumber(
-//                    value = formState.phone,
-//                    lightBackground = false,
-//                    leadingIcon = Icons.Outlined.Smartphone,
-//                    placeHolderRes = R.string.all_phone_number,
-//                    onValueChange = { viewModel.updatePhone(it) }
-//                )
+                SpaceVertical(20.dp)
+                AppInputPhoneNumber(
+                    value = formState.phone,
+                    lightBackground = false,
+                    leadingIcon = Icons.Outlined.Smartphone,
+                    placeHolderRes = R.string.all_phone_number,
+                    onValueChange = { viewModel.updatePhone(it) }
+                )
                 SpaceVertical(20.dp)
                 AppInputText(
                     value = formState.email,
@@ -522,7 +525,7 @@ class SignUpVM(
 }
 
 class SignUpRepo(
-    private val appContext: Context,
+    private val textFormatter: TextFormatter,
     private val userLocalSource: UserLocalSource,
     private val userApi: UserApi
 ) {
@@ -530,6 +533,7 @@ class SignUpRepo(
         val body = form.copy(
             firstName = form.firstName.trim(),
             lastName = form.lastName.trim(),
+            phone = textFormatter.cleanPhoneNumber(form.phone.trim()),
             deviceToken = userLocalSource.getTokenPush()
         )
         val rs = userApi.signUp(body).await()

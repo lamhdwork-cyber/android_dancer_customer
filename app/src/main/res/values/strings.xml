@@ -334,6 +334,7 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="all_submit_your_answer">Submit your answer</string>
     <string name="faqs_your_answer">Your Answer</string>
     <string name="booking_title">Create Booking</string>
+    <string name="booking_table_number">Table number</string>
     <string name="booking_selected_performers">Selected Dancers</string>
     <string name="booking_total_format">%1$d/%2$d TOTAL</string>
     <string name="booking_add">Add</string>
@@ -397,5 +398,7 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="booking_detail_room_short">Room</string>
     <string name="booking_detail_dancer_style_fallback">Top tier</string>
     <string name="booking_detail_no_dancers">No dancers selected</string>
+    <string name="booking_hint_table_number">Enter table number (optional)</string>
+    <string name="booking_hint_customer_name">Enter customer name</string>
 
 </resources>

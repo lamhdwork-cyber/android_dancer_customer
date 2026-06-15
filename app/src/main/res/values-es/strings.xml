@@ -320,6 +320,7 @@ Las reservas completadas aparecerán aquí cuando finalice el servicio.
     <string name="all_submit_your_answer">Enviar tu respuesta</string>
     <string name="faqs_your_answer">Tu respuesta</string>
     <string name="booking_title">Crear reserva</string>
+    <string name="booking_table_number">Número de mesa</string>
     <string name="booking_selected_performers">Bailarines seleccionados</string>
     <string name="booking_total_format">%1$d/%2$d TOTAL</string>
     <string name="booking_add">Agregar</string>
@@ -383,5 +384,7 @@ Las reservas completadas aparecerán aquí cuando finalice el servicio.
     <string name="booking_detail_room_short">Sala</string>
     <string name="booking_detail_dancer_style_fallback">Categoría top</string>
     <string name="booking_detail_no_dancers">Sin artistas seleccionados</string>
+    <string name="booking_hint_table_number">Enter table number (optional)</string>
+    <string name="booking_hint_customer_name">Enter customer name</string>
 
 </resources>

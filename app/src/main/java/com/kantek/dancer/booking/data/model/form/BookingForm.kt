@@ -8,7 +8,7 @@ data class BookingForm(
     @SerializedName("roomId")
     val roomId: String,
     @SerializedName("tableNumber")
-    val tableNumber: String="A5",
+    val tableNumber: String="",
 //    @SerializedName("numberOfSongs")
 //    val numberOfSongs: Int,
 //    @SerializedName("numberOfGuests")
@@ -19,6 +19,10 @@ data class BookingForm(
     val startTime: String? = null,
 //    @SerializedName("endTime")
 //    val endTime: String? = null,
+    @SerializedName("customerName")
+    val customerName: String? = null,
+    @SerializedName("customerPhone")
+    val customerPhone: String? = null,
     @SerializedName("notes")
     val notes: String? = null
 )
