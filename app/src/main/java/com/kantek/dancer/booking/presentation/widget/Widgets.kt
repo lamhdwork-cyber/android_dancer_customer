@@ -156,6 +156,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -2025,29 +2026,15 @@ fun BookingItemView(
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.Top
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.Top
-                    ) {
-                        Text(
-                            text = it.bookingCodeDisplay,
-                            color = Colors.Pink66F425F4,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.ExtraBold
-                        )
-                        Text(
-                            text = it.customerNameDisplay,
-                            color = Color.White,
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
+                    Text(
+                        text = it.bookingCodeDisplay,
+                        color = Colors.Pink66F425F4,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -2068,6 +2055,25 @@ fun BookingItemView(
                         )
                     }
                 }
+
+                val namePhoneAnnotated = remember(it.customerNameDisplay, it.customerPhoneDisplay) {
+                    val phone = it.customerPhoneDisplay
+                    buildAnnotatedString {
+                        pushStyle(SpanStyle(color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold))
+                        append(it.customerNameDisplay)
+                        pop()
+                        if (phone.isNotBlank()) {
+                            pushStyle(SpanStyle(color = Colors.Gray6B7280, fontSize = 10.sp, fontWeight = FontWeight.Bold))
+                            append(" · $phone")
+                            pop()
+                        }
+                    }
+                }
+                Text(
+                    text = namePhoneAnnotated,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),

@@ -31,6 +31,7 @@ import androidx.compose.material.icons.outlined.Groups
 import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material.icons.outlined.Smartphone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -135,6 +136,32 @@ fun DetailBookingScreen(
                     clubName = d.clubNameDisplay,
                     address = d.address.ifBlank { stringResource(R.string.club_current_location_placeholder) }
                 )
+                val customerDisplay = remember(d.customerNameDisplay, d.customerPhoneDisplay) {
+                    val phone = d.customerPhoneDisplay
+                    if (phone.isBlank()) d.customerNameDisplay
+                    else "${d.customerNameDisplay} · $phone"
+                }
+                if (customerDisplay.isNotBlank()) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Smartphone,
+                            contentDescription = null,
+                            tint = Colors.Primary,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Text(
+                            text = customerDisplay,
+                            color = Colors.Primary,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
                 DetailBookingWhenWhereRow(
                     dateLabel = if (d.isNow) {
                         stringResource(R.string.booking_mode_now)

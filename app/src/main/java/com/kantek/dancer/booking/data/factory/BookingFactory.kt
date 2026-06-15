@@ -58,9 +58,13 @@ class BookingFactory(
             override val datetime: String
                 get() = it.createdAt.safe().utcToDateLocal().formatWith(FORMAT_DATE_TIME)
             override val customerName: String
-                get() = it.user?.firstName.safe()
+                get() = "${it.user?.lastName.safe()} ${it.user?.firstName.safe()}".trim()
             override val customerNameDisplay: String
                 get() = customerName.ifBlank { "Guest" }.uppercase()
+            override val customerPhone: String
+                get() = it.user?.phone.safe()
+            override val customerPhoneDisplay: String
+                get() = textFormatter.formatPhone(customerPhone).orEmpty()
             override val bookingCodeDisplay: String
                 get() = "#${id.takeLast(6)}"
             override val roomName: String

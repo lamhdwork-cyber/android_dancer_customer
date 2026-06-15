@@ -18,6 +18,8 @@ interface IBooking {
     val datetime get() = ""
     val customerName get() = ""
     val customerNameDisplay get() = ""
+    val customerPhone get() = ""
+    val customerPhoneDisplay get() = ""
     val bookingCodeDisplay get() = ""
     val roomName get() = ""
     val roomNameDisplay get() = ""
