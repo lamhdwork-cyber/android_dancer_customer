@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">NightEase</string>
+    <string name="app_name" translatable="false">Risque Club</string>
     <string name="all_password">Password</string>
     <string name="all_sign_in">Sign in</string>
     <string name="all_loading">Loading…</string>

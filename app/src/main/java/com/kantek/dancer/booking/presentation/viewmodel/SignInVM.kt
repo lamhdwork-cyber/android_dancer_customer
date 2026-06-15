@@ -29,10 +29,10 @@ class SignInVM(
 
     init {
         getAccount()
-            _form.value.apply {
-                account = "luffy5@ladify.io"
-                password = "abc123456789"
-            }
+//            _form.value.apply {
+//                account = "luffy5@ladify.io"
+//                password = "abc123456789"
+//            }
     }
 
     private fun getAccount() = launch(loading, error) {
