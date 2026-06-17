@@ -16,7 +16,7 @@
         tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
 
     <!--STORAGE-->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /><!--android 13-->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />&lt;!&ndash;android 13&ndash;&gt;-->
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />

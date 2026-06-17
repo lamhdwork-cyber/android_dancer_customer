@@ -227,23 +227,23 @@ private fun ClubItemCard(
                         )
                     )
             )
-            Box(
-                modifier = Modifier
-                    .padding(start = 12.dp, top = 12.dp)
-                    .clip(CircleShape)
-                    .background(Colors.Dark5E453E)
-                    .padding(horizontal = 12.dp, vertical = 5.dp)
-            ) {
-                Text(
-                    text = stringResource(
-                        if (club.isOpen) R.string.club_open_now else R.string.club_closed
-                    ).uppercase(),
-                    color = Colors.Primary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp,
-                    letterSpacing = 0.7.sp
-                )
-            }
+//            Box(
+//                modifier = Modifier
+//                    .padding(start = 12.dp, top = 12.dp)
+//                    .clip(CircleShape)
+//                    .background(Colors.Dark5E453E)
+//                    .padding(horizontal = 12.dp, vertical = 5.dp)
+//            ) {
+//                Text(
+//                    text = stringResource(
+//                        if (club.isOpen) R.string.club_open_now else R.string.club_closed
+//                    ).uppercase(),
+//                    color = Colors.Primary,
+//                    fontWeight = FontWeight.Bold,
+//                    fontSize = 10.sp,
+//                    letterSpacing = 0.7.sp
+//                )
+//            }
         }
 
         Column(modifier = Modifier.padding(16.dp)) {

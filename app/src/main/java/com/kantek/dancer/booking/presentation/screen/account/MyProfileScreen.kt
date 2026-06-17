@@ -217,6 +217,7 @@ fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Sc
                     AppInputPhoneNumber(
                         value = formState.phone,
                         lightBackground = false,
+                        readOnly = true,
                         placeHolderRes = R.string.all_phone_number,
                         onValueChange = { viewModel.updatePhone(it) }
                     )
@@ -350,7 +351,7 @@ class UpdateProfileRepo(
                 RequestBodyBuilder()
                     .put("firstName", form.firstName)
                     .put("lastName", form.lastname)
-                    .put("phone", textFormatter.cleanPhoneNumber(form.phone))
+//                    .put("phone", textFormatter.cleanPhoneNumber(form.phone))
                     .buildMultipart(), avatarPart
             ).await()
         )
