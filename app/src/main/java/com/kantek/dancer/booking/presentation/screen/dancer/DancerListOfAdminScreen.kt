@@ -42,25 +42,25 @@ import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.domain.repo.ClubRepo
 import com.kantek.dancer.booking.domain.repo.DancerRepo
 import com.kantek.dancer.booking.data.factory.DancerFactory
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.search.IDancer
 import com.kantek.dancer.booking.domain.usecase.FetchClubDancersAdminPageCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarDancerAdmin
-import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
+import android.support.ui.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
-import com.kantek.dancer.booking.presentation.widget.NoDataView
+import android.support.ui.widget.NoDataView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun DancerListOfAdminScreen(viewModel: DancerListOfAdminVM = koinViewModel()) =
-    ScopeProvider(Scopes.Dancer) {
+    ScopeProvider(AppScopes.Dancer) {
         val appNavigator = use<AppNavigator>()
         val items by viewModel.items.collectAsState()
         val totalItems by viewModel.totalItems.collectAsState()

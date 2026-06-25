@@ -7,7 +7,7 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.remote.api.LawyerApi
 import com.kantek.dancer.booking.data.factory.LawyerFactory
 import com.kantek.dancer.booking.domain.model.review.IReview
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

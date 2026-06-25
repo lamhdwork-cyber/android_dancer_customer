@@ -1,7 +1,7 @@
 package com.kantek.dancer.booking.data.model.form
 
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.data.extension.resourceError
+import android.support.ui.exception.resourceError
 
 data class ReviewForm(
     var contact_request_id: String? = "",

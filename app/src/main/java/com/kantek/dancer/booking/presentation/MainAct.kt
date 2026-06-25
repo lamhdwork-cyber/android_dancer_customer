@@ -25,13 +25,13 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppComponentAct
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.model.firebase.FireBaseCloudMessage
-import com.kantek.dancer.booking.presentation.model.support.Scopes
-import com.kantek.dancer.booking.presentation.model.support.Screen
+import com.kantek.dancer.booking.app.AppScopes
+import com.kantek.dancer.booking.app.Screen
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.provider.NavigationProvider
-import com.kantek.dancer.booking.presentation.provider.PermissionProvider
+import android.support.ui.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.provider.PopupProvider
 import com.kantek.dancer.booking.presentation.screen.account.ContactUsScreen
 import com.kantek.dancer.booking.presentation.screen.account.MyProfileScreen
@@ -86,7 +86,7 @@ class MainAct : AppComponentAct() {
 
     @Composable
     override fun ProvideContent() {
-        ScopeProvider(Scopes.App) {
+        ScopeProvider(AppScopes.App) {
             PermissionProvider {
                 PopupProvider {
                     NavigationProvider {

@@ -14,8 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.extensions.useRemember
-import com.kantek.dancer.booking.presentation.helper.AppPopup
+import android.support.ui.extension.useRemember
+import android.support.ui.helper.AppPopup
 import com.kantek.dancer.booking.presentation.theme.Colors
 import org.koin.core.scope.Scope
 

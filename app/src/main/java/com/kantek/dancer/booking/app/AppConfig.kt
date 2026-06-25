@@ -9,7 +9,6 @@ object AppConfig {
     const val SOCKET_IO: String = "https://law-booking.kendemo.com:6016"
 
     const val PER_PAGE = 15
-    const val OTP_TIME_OUT = 60
 
     @SuppressLint("ConstantLocale")
     val deviceInfo = "${Build.MANUFACTURER.uppercase(Locale.getDefault())} ${

@@ -7,8 +7,8 @@ import com.google.firebase.messaging.RemoteMessage
 import com.kantek.dancer.booking.app.AppNotifications
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.local.UserLocalSource
-import com.kantek.dancer.booking.data.extension.toJson
-import com.kantek.dancer.booking.data.extension.toObject
+import android.support.ui.extension.toJson
+import android.support.ui.extension.toObject
 import com.kantek.dancer.booking.data.model.firebase.FireBaseCloudMessage
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers

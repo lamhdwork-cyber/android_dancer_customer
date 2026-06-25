@@ -44,14 +44,14 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.BookingApi
 import com.kantek.dancer.booking.data.model.form.BookingForm
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppButton
+import android.support.ui.widget.AppButton
 import com.kantek.dancer.booking.presentation.widget.BookingSuccessDialog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -78,7 +78,7 @@ fun BookingConfirmScreen(
     customerName: String = "",
     customerPhone: String = "",
     viewModel: BookingConfirmVM = koinViewModel()
-) = ScopeProvider(Scopes.BookingConfirm) {
+) = ScopeProvider(AppScopes.BookingConfirm) {
     val appNavigator = use<AppNavigator>()
     val showSuccessDialog = remember { mutableStateOf(false) }
     val createdBookingId = remember { mutableStateOf("") }

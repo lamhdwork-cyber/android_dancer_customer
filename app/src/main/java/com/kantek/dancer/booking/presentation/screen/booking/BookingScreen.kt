@@ -67,18 +67,18 @@ import com.kantek.dancer.booking.domain.model.search.IDancerDetail
 import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
-import com.kantek.dancer.booking.presentation.helper.AppPopup
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import android.support.ui.helper.AppPopup
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
-import com.kantek.dancer.booking.presentation.widget.AppInputText
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.AppButton
+import android.support.ui.widget.AppInputPhoneNumber
+import android.support.ui.widget.AppInputText
+import android.support.ui.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -94,9 +94,9 @@ fun BookingScreen(
     hasNow: Boolean = true,
     navBackStackEntry: NavBackStackEntry,
     viewModel: BookingVM = koinViewModel()
-) = ScopeProvider(Scopes.Booking) {
+) = ScopeProvider(AppScopes.Booking) {
     val appNavigator = use<AppNavigator>()
-    val appPopup = use<AppPopup>(Scopes.App)
+    val appPopup = use<AppPopup>(AppScopes.App)
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val state by viewModel.state.collectAsState()

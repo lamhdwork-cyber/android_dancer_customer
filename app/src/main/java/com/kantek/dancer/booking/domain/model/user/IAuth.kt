@@ -3,10 +3,9 @@ package com.kantek.dancer.booking.domain.model.user
 import android.os.Build
 import com.google.gson.annotations.SerializedName
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.data.extension.isEmail
-import com.kantek.dancer.booking.data.extension.resourceError
+import android.support.core.extensions.isEmail
+import android.support.ui.exception.resourceError
 import java.util.Locale
-import kotlin.jvm.Transient
 
 interface IAccount {
     val account: String

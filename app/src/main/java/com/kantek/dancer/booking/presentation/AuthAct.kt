@@ -6,8 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.kantek.dancer.booking.app.AppComponentAct
-import com.kantek.dancer.booking.presentation.model.support.Scopes
-import com.kantek.dancer.booking.presentation.model.support.Screen
+import com.kantek.dancer.booking.app.AppScopes
+import com.kantek.dancer.booking.app.Screen
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.provider.NavigationProvider
 import com.kantek.dancer.booking.presentation.screen.auth.AuthScreen
@@ -19,7 +19,7 @@ import com.kantek.dancer.booking.presentation.screen.auth.forgot.ForgotPasswordS
 class AuthAct : AppComponentAct() {
     @Composable
     override fun ProvideContent() {
-        ScopeProvider(Scopes.App) {
+        ScopeProvider(AppScopes.App) {
             NavigationProvider {
                 NavHost(
                     navController = it,

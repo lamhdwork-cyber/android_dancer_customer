@@ -1,11 +1,11 @@
 package com.kantek.dancer.booking.data.formatter
 
-import com.kantek.dancer.booking.data.extension.Format
-import com.kantek.dancer.booking.data.extension.formatWith
-import com.kantek.dancer.booking.data.extension.getCalendarCurrent
-import com.kantek.dancer.booking.data.extension.getTimeAgo
-import com.kantek.dancer.booking.data.extension.utcToCalendarLocal
-import com.kantek.dancer.booking.data.extension.utcToDateLocal
+import android.support.ui.extension.Format
+import android.support.ui.extension.formatWith
+import android.support.ui.extension.getCalendarCurrent
+import android.support.ui.extension.getTimeAgo
+import android.support.ui.extension.utcToCalendarLocal
+import android.support.ui.extension.utcToDateLocal
 import java.util.Calendar
 import java.util.Date
 

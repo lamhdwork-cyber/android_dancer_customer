@@ -61,9 +61,9 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.ManageStaffSignInVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppInputText
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.AppButton
+import android.support.ui.widget.AppInputText
+import android.support.ui.widget.SpaceVertical
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

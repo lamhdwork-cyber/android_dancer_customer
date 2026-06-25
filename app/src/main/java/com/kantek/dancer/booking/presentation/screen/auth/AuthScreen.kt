@@ -35,16 +35,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppNextButton
+import android.support.ui.widget.AppButton
+import android.support.ui.widget.AppNextButton
 
 @Composable
-fun AuthScreen() = ScopeProvider(Scopes.AppRole) {
+fun AuthScreen() = ScopeProvider(AppScopes.AppRole) {
 
     val appNavigator = use<AppNavigator>()
 

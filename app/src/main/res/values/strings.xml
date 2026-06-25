@@ -55,7 +55,7 @@
     <string name="auth_first_time_here">First time here?</string>
     <string name="all_sign_up">Sign up</string>
     <string name="all_confirm">Confirm</string>
-    <string name="all_cancel">CANCEL</string>
+    <string name="all_cancel">Cancel</string>
     <string name="msg_exit_app">Are you sure you want to exit the application?</string>
     <string name="all_exit">Exit</string>
     <string name="language_en">English</string>
@@ -203,7 +203,6 @@ Thank you! We confirm that your service booking request has been successfully su
     <string name="all_copy">Copy</string>
     <string name="msg_confirm_call_phone_s">Are you sure you call to %s?</string>
     <string name="all_call">Call</string>
-    <string name="all_copied">Copied!</string>
     <string name="top_bar_photo_viewer">Photo Viewer</string>
     <string name="all_current_password">Current Password</string>
     <string name="all_new_password">New Password</string>

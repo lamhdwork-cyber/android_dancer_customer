@@ -21,24 +21,24 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.remote.api.FAQsThreadsApi
 import com.kantek.dancer.booking.data.factory.FAQsThreadsFactory
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.faqs.ILegalCategory
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
+import android.support.ui.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.FAQThreadsCategoryItem
 import com.kantek.dancer.booking.presentation.widget.FQAsLoading
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FAQsThreadsScreen(viewModel: FAQsThreadsVM = koinViewModel()) =
-    ScopeProvider(Scopes.FAQsThreads) {
+    ScopeProvider(AppScopes.FAQsThreads) {
         val appNavigator = use<AppNavigator>()
 
         LaunchedEffect(Unit) {

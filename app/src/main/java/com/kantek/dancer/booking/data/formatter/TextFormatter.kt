@@ -3,9 +3,9 @@ package com.kantek.dancer.booking.data.formatter
 import androidx.compose.ui.graphics.Color
 import com.google.common.net.UrlEscapers
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.data.extension.Format.FORMAT_DATE_TIME
-import com.kantek.dancer.booking.data.extension.formatWith
-import com.kantek.dancer.booking.data.extension.utcToDateLocal
+import android.support.ui.extension.Format.FORMAT_DATE_TIME
+import android.support.ui.extension.formatWith
+import android.support.ui.extension.utcToDateLocal
 import com.kantek.dancer.booking.data.model.response.LanguageDTO
 import com.kantek.dancer.booking.presentation.theme.Colors
 import java.net.URLDecoder

@@ -39,20 +39,19 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.BookingApi
 import com.kantek.dancer.booking.data.factory.BookingFactory
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.booking.IBooking
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
-import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
-import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
-import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import android.support.ui.widget.AppConfirmDialog
+import android.support.ui.widget.AppLazyColumn
+import android.support.ui.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.BookingItemView
 import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
-import com.kantek.dancer.booking.presentation.widget.NoLoginView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -83,7 +82,7 @@ data class TabBookingState(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Scopes.MyBooking) {
+fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(AppScopes.MyBooking) {
     val context = LocalContext.current
     val appEvent = remember { get<AppEvent>() }
     val isRefreshingByEvent by appEvent.onRefreshMyBooking.collectAsState()

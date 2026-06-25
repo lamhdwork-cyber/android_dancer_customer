@@ -36,9 +36,9 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.LanguageVM
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.AppButton
+import android.support.ui.widget.AppLazyColumn
+import android.support.ui.widget.SpaceVertical
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

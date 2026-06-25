@@ -4,8 +4,8 @@ import android.net.Uri
 import androidx.annotation.StringRes
 import com.google.gson.annotations.SerializedName
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.data.extension.isEmail
-import com.kantek.dancer.booking.data.extension.resourceError
+import android.support.core.extensions.isEmail
+import android.support.ui.exception.resourceError
 import com.kantek.dancer.booking.data.model.response.lawyer.LawyerDTO
 
 interface IUser {

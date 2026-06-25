@@ -1,8 +1,8 @@
 package com.kantek.dancer.booking.domain.model.config
 
+import android.support.core.extensions.isEmail
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.data.extension.isEmail
-import com.kantek.dancer.booking.data.extension.resourceError
+import android.support.ui.exception.resourceError
 
 interface ISetting {
     val address: String get() = ""

@@ -4,16 +4,16 @@ import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.data.extensions.buildMultipart
-import com.kantek.dancer.booking.data.extensions.getDeviceID
-import com.kantek.dancer.booking.data.helper.network.RequestBodyBuilder
+import android.support.core.network.buildMultipart
+import android.support.core.extensions.getDeviceID
+import android.support.core.network.RequestBodyBuilder
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.repo.GetAccountRepo
 import com.kantek.dancer.booking.data.repo.SignInRepo
 import com.kantek.dancer.booking.domain.model.user.SignInForm
-import com.kantek.dancer.booking.presentation.extensions.launch
-import com.kantek.dancer.booking.presentation.helper.AppKeyboard
+import android.support.ui.extension.launch
+import android.support.ui.helper.AppKeyboard
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

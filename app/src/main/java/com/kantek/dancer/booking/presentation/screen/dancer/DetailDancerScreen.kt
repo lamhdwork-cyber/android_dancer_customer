@@ -57,13 +57,13 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.domain.model.search.IDancerDetail
 import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.NoDataView
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.NoDataView
+import android.support.ui.widget.SpaceVertical
 import com.kantek.dancer.booking.presentation.widget.sheetTopSideBorder
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
@@ -75,7 +75,7 @@ fun DetailDancerScreen(
     dancerId: String,
     hasShowButtons: Boolean = true,
     viewModel: DetailDancerVM = koinViewModel()
-) = ScopeProvider(Scopes.Dancer) {
+) = ScopeProvider(AppScopes.Dancer) {
     val context = LocalContext.current
     val density = LocalDensity.current
     val navBarBottomDp = with(density) {

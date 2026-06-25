@@ -1,9 +1,6 @@
 package com.kantek.dancer.booking.app
 
-import android.support.core.event.ErrorEvent
-import android.support.core.event.LoadingEvent
-import android.support.core.event.WindowStatusOwner
-import androidx.lifecycle.ViewModel
+import android.support.ui.app.BaseViewModel
 import androidx.lifecycle.viewModelScope
 import com.kantek.dancer.booking.data.repo.LanguageRepo
 import com.kantek.dancer.booking.data.model.response.UserDTO
@@ -12,9 +9,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import org.koin.java.KoinJavaComponent.inject
 
-abstract class AppViewModel : ViewModel(),
-    WindowStatusOwner {
-    private val windowStatusOwner = AppComponentAct.WindowStatusProvider.instance
+abstract class AppViewModel : BaseViewModel() {
     var currentLanguageBackup = ""
     var currentUserBackup: UserDTO? = null
 
@@ -33,13 +28,4 @@ abstract class AppViewModel : ViewModel(),
     fun getCurrentUser(): UserDTO? {
         return fetchUserRepo.currentDTO()
     }
-
-    override val loading: LoadingEvent
-        get() = windowStatusOwner.loading
-
-    override val error: ErrorEvent
-        get() = windowStatusOwner.error
-
-    override val refreshLoading: LoadingEvent
-        get() = windowStatusOwner.refreshLoading
 }

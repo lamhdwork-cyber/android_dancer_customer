@@ -13,7 +13,7 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.ZoomableAsyncImage
+import android.support.ui.widget.ZoomableAsyncImage
 
 @Composable
 fun PhotoViewerScreen(photoURL: String) = ScopeProvider {

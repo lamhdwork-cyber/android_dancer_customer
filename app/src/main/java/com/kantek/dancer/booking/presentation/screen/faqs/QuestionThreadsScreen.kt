@@ -23,23 +23,23 @@ import androidx.compose.ui.unit.dp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.remote.api.FAQsThreadsApi
-import com.kantek.dancer.booking.data.extension.resourceError
+import android.support.ui.exception.resourceError
 import com.kantek.dancer.booking.data.factory.FAQsThreadsFactory
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.faqs.ILegalAnswer
 import com.kantek.dancer.booking.domain.model.faqs.ILegalQuestion
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
+import android.support.ui.widget.AppButton
+import android.support.ui.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.FAQThreadsQuestionItem
 import com.kantek.dancer.booking.presentation.widget.FAQsAnswerBottomSheet
 import com.kantek.dancer.booking.presentation.widget.FQAsLoading
 import com.kantek.dancer.booking.presentation.widget.QuestionSentDialog
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.SpaceVertical
 import com.kantek.dancer.booking.presentation.widget.SubmitAnswerDialog
 import com.kantek.dancer.booking.presentation.widget.SubmitQuestionDialog
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,7 +50,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun QuestionThreadsScreen(
     categoryID: Int = -1, categoryName: String = "", viewModel: QuestionThreadsVM = koinViewModel()
-) = ScopeProvider(Scopes.FAQsThreads) {
+) = ScopeProvider(AppScopes.FAQsThreads) {
     val appNavigator = use<AppNavigator>()
 
     val faqsList by viewModel.categories.collectAsState()

@@ -50,32 +50,32 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.app.AppSettings
+import android.support.ui.app.AppSettings
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.data.extensions.buildMultipart
-import com.kantek.dancer.booking.data.extensions.toImagePart
-import com.kantek.dancer.booking.data.helper.network.RequestBodyBuilder
+import android.support.core.network.buildMultipart
+import android.support.core.network.toImagePart
+import android.support.core.network.RequestBodyBuilder
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.factory.PhotoFactory
 import com.kantek.dancer.booking.data.formatter.TextFormatter
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.user.IUser
 import com.kantek.dancer.booking.domain.model.user.ProfileForm
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppKeyboard
+import android.support.ui.helper.AppKeyboard
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.helper.AppPopup
-import com.kantek.dancer.booking.presentation.provider.PermissionProvider
+import android.support.ui.helper.AppPopup
+import android.support.ui.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
-import com.kantek.dancer.booking.presentation.widget.AppInputText
-import com.kantek.dancer.booking.presentation.widget.AppPhotoPickerDialog
+import android.support.ui.widget.AppInputPhoneNumber
+import android.support.ui.widget.AppInputText
+import android.support.ui.widget.AppPhotoPickerDialog
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MultipartBody
@@ -83,7 +83,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Scopes.Account) {
+fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(AppScopes.Account) {
     val context = LocalContext.current
     val appNavigator = use<AppNavigator>()
     val formState by viewModel.formState.collectAsState()

@@ -8,13 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.data.extension.toObjects
+import android.support.ui.extension.toObjects
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.ZoomablePager
+import android.support.ui.widget.ZoomablePager
 
 @Composable
 fun PhotosViewerScreen(photosURL: String) = ScopeProvider {

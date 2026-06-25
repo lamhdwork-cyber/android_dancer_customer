@@ -151,5 +151,6 @@ dependencies {
     // Modules
     implementation(project(":support-persistent"))
     implementation(project(":support-core"))
+    implementation(project(":support-ui"))
 
 }

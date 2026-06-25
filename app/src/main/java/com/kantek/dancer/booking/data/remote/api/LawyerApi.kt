@@ -1,8 +1,8 @@
 package com.kantek.dancer.booking.data.remote.api
 
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.data.helper.network.ApiAsync
-import com.kantek.dancer.booking.data.helper.network.model.ApiResponsePaging
+import android.support.core.network.ApiAsync
+import android.support.core.network.model.ApiResponsePaging
 import com.kantek.dancer.booking.data.model.form.ReviewForm
 import com.kantek.dancer.booking.data.model.response.lawyer.LawyerDTO
 import com.kantek.dancer.booking.data.model.response.lawyer.ReviewDTO

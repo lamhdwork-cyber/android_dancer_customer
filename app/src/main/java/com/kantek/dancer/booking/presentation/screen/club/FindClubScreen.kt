@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
@@ -46,18 +45,18 @@ import com.kantek.dancer.booking.domain.model.search.IClub
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.FindClubVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
-import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.AppButton
+import android.support.ui.widget.AppLazyColumn
+import android.support.ui.widget.AppNotificationDialog
+import android.support.ui.widget.SpaceVertical
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(Scopes.Search) {
+fun FindClubScreen(viewModel: FindClubVM = koinViewModel()) = ScopeProvider(AppScopes.Search) {
     val appNavigator = use<AppNavigator>()
     val clubs by viewModel.items.collectAsState()
     val isLoading by viewModel.customLoading.isLoading().collectAsState()

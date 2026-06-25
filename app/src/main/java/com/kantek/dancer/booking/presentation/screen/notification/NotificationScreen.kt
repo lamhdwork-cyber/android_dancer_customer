@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.data.event.AppEvent
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
@@ -46,15 +46,15 @@ import com.kantek.dancer.booking.domain.model.notification.INotification
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.NotificationVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
-import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
-import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
-import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import android.support.ui.widget.AppConfirmDialog
+import android.support.ui.widget.AppLazyColumn
+import android.support.ui.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.NoLoginView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
-    ScopeProvider(Scopes.Notification) {
+    ScopeProvider(AppScopes.Notification) {
         val appEvent = remember { get<AppEvent>() }
         val isRefreshingByEvent by appEvent.onRefreshNotification.collectAsState()
 

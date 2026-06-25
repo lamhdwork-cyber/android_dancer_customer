@@ -39,12 +39,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.introduce.IIntroduce
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppNextButton
+import android.support.ui.widget.AppButton
+import android.support.ui.widget.AppNextButton
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -53,7 +53,7 @@ import org.koin.androidx.compose.koinViewModel
 fun IntroduceScreen(
     viewModel: IntroduceVM = koinViewModel(),
     onGetStarted: () -> Unit = {}
-) = ScopeProvider(Scopes.Introduce) {
+) = ScopeProvider(AppScopes.Introduce) {
     val items by viewModel.items.collectAsState()
     val currentPage by viewModel.page.collectAsState()
     val pagerState = rememberPagerState(initialPage = currentPage) { items.size }

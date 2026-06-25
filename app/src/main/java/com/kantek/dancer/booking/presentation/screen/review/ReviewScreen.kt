@@ -32,15 +32,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.viewmodel.ReviewVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
+import android.support.ui.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.ReviewItem
-import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
+import android.support.ui.widget.SpaceHorizontal
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -48,7 +48,7 @@ fun ReviewScreen(
     reviewTotal: String = "",
     lawyerID: Int = -1,
     viewModel: ReviewVM = koinViewModel()
-) = ScopeProvider(Scopes.Dancer) {
+) = ScopeProvider(AppScopes.Dancer) {
     val appNavigator = use<AppNavigator>()
     val reviews by viewModel.items.collectAsState()
     val isEmpty by viewModel.isEmpty.collectAsState()

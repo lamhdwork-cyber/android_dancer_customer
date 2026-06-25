@@ -14,8 +14,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.presentation.model.support.BottomNavigationScreen
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.BottomNavigationScreen
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.screen.account.AccountScreen
@@ -28,7 +28,7 @@ import com.kantek.dancer.booking.presentation.widget.AppNavigateBottomBar
 import org.koin.compose.koinInject
 
 @Composable
-fun HomeScreen(startTab: String = "") = ScopeProvider(Scopes.Home) {
+fun HomeScreen(startTab: String = "") = ScopeProvider(AppScopes.Home) {
     val roleProvider = koinInject<CurrentUserRoleProvider>()
     val firstTab = if (AppConfig.UserRole.isClubManager(roleProvider.getRole())) {
         null

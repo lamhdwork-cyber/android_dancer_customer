@@ -2,11 +2,11 @@ package com.kantek.dancer.booking.presentation.helper
 
 import android.net.Uri
 import androidx.navigation.NavHostController
-import com.kantek.dancer.booking.data.extension.toJson
+import android.support.ui.extension.toJson
 import com.kantek.dancer.booking.data.model.response.BookingDTO
-import com.kantek.dancer.booking.presentation.model.support.BottomNavigationScreen
-import com.kantek.dancer.booking.presentation.model.support.Screen
-import com.kantek.dancer.booking.presentation.model.support.Updatable
+import com.kantek.dancer.booking.app.BottomNavigationScreen
+import com.kantek.dancer.booking.app.Screen
+import android.support.ui.helper.Updatable
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_DATE
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_DTO
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_ID
@@ -269,18 +269,6 @@ class AppNavigator : Updatable {
         }
     }
 
-    fun navigateAboutUs() {
-        navHost?.navigate(Screen.AboutUs.name)
-    }
-
-    fun navigateFAQThreads() {
-        navHost?.navigate(Screen.FaqThreads.name)
-    }
-
-    fun navigateTerms() {
-        navHost?.navigate(Screen.Terms.name)
-    }
-
     fun navigateOTPVerify(email: String) {
         navHost?.navigate("${Screen.OTP.name}?$EMAIL=${email}")
     }
@@ -318,25 +306,6 @@ class AppNavigator : Updatable {
     fun finishBookingDancerPick(dancerId: String) {
         navHost?.previousBackStackEntry?.savedStateHandle?.set(PICKED_DANCER_ID, dancerId)
         navHost?.popBackStack()
-    }
-
-    fun navigateChangeLawyer() {
-        val route =
-            "${Screen.DancerList.name}?$CLUB_ID=&$PICK_FOR_BOOKING=false&$EXCLUDE_DANCER_IDS="
-        navHost?.navigate(route) {
-            popUpTo(Screen.DancerList.name) { inclusive = false }
-            launchSingleTop = true
-        }
-    }
-
-    fun navigateReviewList(id: Int, textTotal: String) {
-        navHost?.navigate("${Screen.Reviews.name}?$REVIEW_TOTAL=$textTotal&$LAWYER_ID=$id")
-    }
-
-    fun navigateCreateReview(it: BookingDTO?) {
-        navHost?.navigate("${Screen.CreateReviews.name}?$BOOKING_DTO=${it.toJson()}") {
-            popUpTo("${Screen.DetailCase.name}?$BOOKING_ID=${it?.id}") { inclusive = true }
-        }
     }
 
     fun navigateQuestion(id: Int, name: String) {

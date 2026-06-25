@@ -3,7 +3,7 @@ package com.kantek.dancer.booking.presentation.viewmodel
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.repo.LanguageRepo
 import com.kantek.dancer.booking.domain.model.user.ILanguage
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

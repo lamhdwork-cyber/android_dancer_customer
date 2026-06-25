@@ -2,7 +2,7 @@ package com.kantek.dancer.booking.data.remote.socket
 
 import android.annotation.SuppressLint
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.presentation.extensions.loge
+import android.support.ui.extension.loge
 import io.socket.client.IO
 import io.socket.client.Socket
 import okhttp3.OkHttpClient

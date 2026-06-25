@@ -5,7 +5,7 @@ import android.support.core.event.LoadingFlow
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.repo.GetLinkAboutUsRepo
 import com.kantek.dancer.booking.data.repo.GetLinkTermsRepo
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 
 class BrowserVM(
     private val getLinkAboutUsRepo: GetLinkAboutUsRepo,

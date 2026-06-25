@@ -5,6 +5,8 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Patterns
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.util.*
 
 fun <T> block(any: T?, function: T.() -> Unit) {
@@ -112,4 +114,14 @@ inline fun <reified T : Parcelable> Bundle.parcelableArrayList(key: String): Arr
 inline fun <reified T : Parcelable> Intent.parcelableArrayList(key: String): ArrayList<T>? = when {
     Build.VERSION.SDK_INT >= 33 -> getParcelableArrayListExtra(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelableArrayListExtra(key)
+}
+
+fun String.isEmail(): Boolean {
+    return Patterns.EMAIL_ADDRESS
+        .matcher(this)
+        .matches()
+}
+
+fun String.isURL(): Boolean {
+    return this.toHttpUrlOrNull() != null
 }

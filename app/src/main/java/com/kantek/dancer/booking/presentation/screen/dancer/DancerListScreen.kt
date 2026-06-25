@@ -42,17 +42,17 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.search.IDancer
 import com.kantek.dancer.booking.domain.usecase.FetchDancerByClubCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppLazyVerticalGrid
-import com.kantek.dancer.booking.presentation.widget.NoDataView
+import android.support.ui.widget.AppLazyVerticalGrid
+import android.support.ui.widget.NoDataView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
@@ -63,7 +63,7 @@ fun DancerListScreen(
     pickForBooking: Boolean = false,
     excludeDancerIds: Set<String> = emptySet(),
     viewModel: DancerListVM = koinViewModel()
-) = ScopeProvider(Scopes.Dancer) {
+) = ScopeProvider(AppScopes.Dancer) {
     val appNavigator = use<AppNavigator>()
     val dancers by viewModel.items.collectAsState()
     val isLoading by viewModel.customLoading.isLoading().collectAsState()

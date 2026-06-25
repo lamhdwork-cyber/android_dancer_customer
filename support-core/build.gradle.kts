@@ -38,4 +38,11 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.koin.compose)
+
+    // Network (extracted, self-contained package: android.support.core.network)
+    api(libs.retrofit)
+    api(libs.okhttp3)
+    implementation(libs.retrofitConvertGson)
+    implementation(libs.okhttp3LoggingInterceptor)
+    implementation(libs.gson)
 }

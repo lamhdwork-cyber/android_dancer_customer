@@ -1,9 +1,9 @@
 package com.kantek.dancer.booking.data.repo.conversation
 
 import android.net.Uri
-import com.kantek.dancer.booking.data.extensions.buildMultipart
-import com.kantek.dancer.booking.data.extensions.toImagePart
-import com.kantek.dancer.booking.data.helper.network.RequestBodyBuilder
+import android.support.core.network.buildMultipart
+import android.support.core.network.toImagePart
+import android.support.core.network.RequestBodyBuilder
 import com.kantek.dancer.booking.data.remote.api.ConversationApi
 import com.kantek.dancer.booking.data.factory.PhotoFactory
 import okhttp3.MultipartBody

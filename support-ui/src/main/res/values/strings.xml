@@ -1,0 +1,31 @@
+<resources>
+    <string name="core_all_confirm">Confirm</string>
+    <string name="core_all_cancel">Cancel</string>
+    <string name="core_all_notification">Notification</string>
+    <string name="core_all_ok">OK</string>
+    <string name="core_all_loading">Loading…</string>
+    <string name="core_msg_exit_app">Are you sure you want to exit the application?</string>
+    <string name="core_all_exit">Exit</string>
+    <string name="core_auth_title_token_expired">Login expired</string>
+    <string name="core_auth_msg_token_expired">Login session has expired, please login again.</string>
+    <string name="core_btn_re_login">Re-login</string>
+    <string name="core_error_no_internet">Please check your network connection and try again!</string>
+    <string name="core_error_server">Server error occurred. Please try again later!</string>
+    <string name="core_error_internal_server">Oops! We\'re having a technical issue. Our team is on it. Please try again later. Sorry for the inconvenience.</string>
+    <string name="core_permission_title">Permission Request</string>
+    <string name="core_permission_des">The app requires this permission to function properly. Please grant the permission in Settings.</string>
+    <string name="core_permission_settings">Open Settings</string>
+    <string name="core_permission_cancel">Cancel</string>
+    <string name="all_copied">Copied!</string>
+    <string name="all_phone_hint_format" translatable="false">(555) 000-0000</string>
+    <string name="all_logout">Logout</string>
+    <string name="message_logout_app">Are you want to sign out of the app?</string>
+    <string name="msg_confirm_call_phone_s">Are you sure you call to %s?</string>
+    <string name="all_call">Call</string>
+    <string name="choose_avatar">Choose profile picture</string>
+    <string name="photo_from_camera">Take a photo with camera</string>
+    <string name="photo_from_gallery">Choose a photo from your gallery</string>
+    <string name="all_contiue">Continue</string>
+    <string name="auth_otp_resend">Resend verification code</string>
+    <string name="auth_otp_resend_in_remaining_s">Resend OTP code after %s seconds</string>
+</resources>

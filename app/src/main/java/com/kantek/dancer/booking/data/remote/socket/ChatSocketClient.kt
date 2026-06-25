@@ -1,8 +1,8 @@
 package com.kantek.dancer.booking.data.remote.socket
 
-import com.kantek.dancer.booking.data.extension.toJson
+import android.support.ui.extension.toJson
 import com.kantek.dancer.booking.data.factory.ConversationFactory
-import com.kantek.dancer.booking.presentation.extensions.loge
+import android.support.ui.extension.loge
 import io.socket.emitter.Emitter
 import org.json.JSONObject
 

@@ -41,7 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.user.IUser
 import com.kantek.dancer.booking.presentation.AuthAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
@@ -50,14 +50,14 @@ import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.AccountVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
-import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
-import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import android.support.ui.widget.AppConfirmDialog
+import android.support.ui.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
-import com.kantek.dancer.booking.presentation.widget.LogoutDialog
+import android.support.ui.widget.LogoutDialog
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AccountScreen(viewModel: AccountVM = koinViewModel()) = ScopeProvider(Scopes.Account) {
+fun AccountScreen(viewModel: AccountVM = koinViewModel()) = ScopeProvider(AppScopes.Account) {
     val context = LocalContext.current
     val user by viewModel.userLive.collectAsState()
     val onSignOut by viewModel.signOutSuccess.collectAsState()

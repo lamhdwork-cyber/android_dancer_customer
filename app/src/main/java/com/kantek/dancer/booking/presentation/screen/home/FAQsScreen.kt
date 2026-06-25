@@ -43,21 +43,21 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.remote.api.ConfigApi
 import com.kantek.dancer.booking.data.repo.FetchAllBannerRepo
 import com.kantek.dancer.booking.data.factory.ConfigFactory
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.config.IFAQs
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView
 import com.kantek.dancer.booking.presentation.widget.AppImage
-import com.kantek.dancer.booking.presentation.widget.AppLazyColumn
-import com.kantek.dancer.booking.presentation.widget.AppNextButton
+import android.support.ui.widget.AppLazyColumn
+import android.support.ui.widget.AppNextButton
 import com.kantek.dancer.booking.presentation.widget.FQAsLoading
 import com.kantek.dancer.booking.presentation.widget.HomeBannerLoading
-import com.kantek.dancer.booking.presentation.widget.SpaceHorizontal
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.SpaceHorizontal
+import android.support.ui.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -65,7 +65,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FAQsScreen(viewModel: HomeVM = koinViewModel()) = ScopeProvider {
-    val appNavigator = use<AppNavigator>(Scopes.Home)
+    val appNavigator = use<AppNavigator>(AppScopes.Home)
 
     val user by viewModel.userLive.collectAsState()
     val banner by viewModel.banner.collectAsState(null)

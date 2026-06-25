@@ -2,7 +2,7 @@ package com.kantek.dancer.booking.data.local
 
 import android.content.Context
 import android.support.persistent.cache.GsonCaching
-import com.kantek.dancer.booking.data.helper.ShareIOScope
+import android.support.core.helper.ShareIOScope
 import com.kantek.dancer.booking.data.model.response.UserDTO
 import com.kantek.dancer.booking.data.model.response.UserResponse
 import kotlinx.coroutines.flow.MutableStateFlow

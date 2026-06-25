@@ -1,6 +1,6 @@
 package com.kantek.dancer.booking.data.remote.api
 
-import com.kantek.dancer.booking.data.helper.network.ApiAsync
+import android.support.core.network.ApiAsync
 import com.kantek.dancer.booking.data.model.response.filter.CityDTO
 import com.kantek.dancer.booking.data.model.response.filter.SpecialityDTO
 import com.kantek.dancer.booking.data.model.response.filter.StateDTO

@@ -5,6 +5,9 @@ import android.net.Uri
 import android.support.core.event.LoadingEvent
 import android.support.core.event.LoadingFlow
 import android.support.core.extensions.safe
+import android.support.ui.app.AppSettings
+import android.support.ui.provider.PermissionProvider
+import android.support.ui.widget.LoadingView
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -39,23 +42,20 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.app.AppSettings
 import com.kantek.dancer.booking.app.AppViewModel
+import com.kantek.dancer.booking.data.factory.ConversationFactory
 import com.kantek.dancer.booking.data.repo.conversation.ChatRepo
 import com.kantek.dancer.booking.data.repo.conversation.ChatSocketRepo
 import com.kantek.dancer.booking.data.repo.conversation.FetchMessageByPageRepo
 import com.kantek.dancer.booking.data.repo.conversation.UploadPhotosRepo
-import com.kantek.dancer.booking.data.factory.ConversationFactory
-import com.kantek.dancer.booking.presentation.model.support.Scopes
 import com.kantek.dancer.booking.domain.model.conversation.Message
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
-import com.kantek.dancer.booking.presentation.extensions.loge
+import android.support.ui.extension.launch
+import android.support.ui.extension.loge
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.provider.PermissionProvider
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.LoadingView
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -69,7 +69,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ChatScreen(
     bookingID: Int,
     viewModel: ConversationVM = koinViewModel()
-) = ScopeProvider(Scopes.Conversation) {
+) = ScopeProvider(AppScopes.Conversation) {
     val context = LocalContext.current
     val isFirstLoading by viewModel.firstLoading.isLoading().collectAsState()
 

@@ -1,12 +1,12 @@
 package com.kantek.dancer.booking.data.repo
 
 import android.content.Context
+import android.support.core.network.exception.ParameterInvalidException
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.app.ParameterInvalidException
 import com.kantek.dancer.booking.data.local.UserLocalSource
-import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.model.response.UserDTO
+import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.domain.model.user.SignInForm
 
 class SignInRepo(

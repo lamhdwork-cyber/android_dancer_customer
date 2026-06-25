@@ -23,7 +23,7 @@ import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.viewmodel.BrowserVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppWebView
+import android.support.ui.widget.AppWebView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

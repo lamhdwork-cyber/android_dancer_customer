@@ -27,22 +27,22 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.LawyerApi
-import com.kantek.dancer.booking.data.extension.toObject
+import android.support.ui.extension.toObject
 import com.kantek.dancer.booking.data.model.form.ReviewForm
 import com.kantek.dancer.booking.data.model.response.BookingDTO
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.user.ILawyerDetail
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.AppButton
-import com.kantek.dancer.booking.presentation.widget.AppInputText
-import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import android.support.ui.widget.AppButton
+import android.support.ui.widget.AppInputText
+import android.support.ui.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.LawyerInfo
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
@@ -51,7 +51,7 @@ import org.koin.androidx.compose.koinViewModel
 fun CreateReviewScreen(
     dataJson: String = "",//BookingDTO::class
     viewModel: CreateReviewVM = koinViewModel()
-) = ScopeProvider(Scopes.MyBooking) {
+) = ScopeProvider(AppScopes.MyBooking) {
 
     val appNavigator = use<AppNavigator>()
     val formState by viewModel.formState.collectAsState()

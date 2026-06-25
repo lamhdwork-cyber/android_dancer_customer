@@ -30,16 +30,16 @@ import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
-import com.kantek.dancer.booking.data.extensions.getDeviceID
+import android.support.core.extensions.getDeviceID
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.screen.auth.forgot.RequestOTPRepo
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
-import com.kantek.dancer.booking.presentation.widget.OtpVerificationScreen
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.OtpVerificationScreen
+import android.support.ui.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 

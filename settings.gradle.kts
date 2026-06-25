@@ -23,3 +23,4 @@ rootProject.name = "DancerBooking"
 include(":app")
 include(":support-persistent")
 include(":support-core")
+include(":support-ui")

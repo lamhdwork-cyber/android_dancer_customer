@@ -7,7 +7,7 @@ import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.repo.LanguageRepo
 import com.kantek.dancer.booking.data.factory.UserFactory
 import com.kantek.dancer.booking.domain.model.user.IUser
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map

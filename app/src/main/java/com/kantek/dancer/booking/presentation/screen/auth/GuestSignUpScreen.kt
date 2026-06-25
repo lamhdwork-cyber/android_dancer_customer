@@ -1,7 +1,6 @@
 package com.kantek.dancer.booking.presentation.screen.auth
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -73,20 +72,20 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
-import com.kantek.dancer.booking.data.extension.resourceError
+import android.support.ui.exception.resourceError
 import com.kantek.dancer.booking.data.formatter.TextFormatter
 import com.kantek.dancer.booking.domain.model.user.SignUpForm
 import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppKeyboard
+import android.support.ui.helper.AppKeyboard
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.AppInputPhoneNumber
-import com.kantek.dancer.booking.presentation.widget.AppInputText
+import android.support.ui.widget.AppInputPhoneNumber
+import android.support.ui.widget.AppInputText
 import com.kantek.dancer.booking.presentation.widget.LegalDisclaimerDialog
-import com.kantek.dancer.booking.presentation.widget.SpaceVertical
+import android.support.ui.widget.SpaceVertical
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel

@@ -7,8 +7,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.support.core.extensions.safe
+import android.support.ui.helper.file.FileUtils
 import androidx.exifinterface.media.ExifInterface
-import com.kantek.dancer.booking.data.helper.file.FileUtils
 import com.kantek.dancer.booking.data.model.response.conversation.ImageDTO
 import com.kantek.dancer.booking.domain.model.media.IPhoto
 

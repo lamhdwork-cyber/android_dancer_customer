@@ -67,20 +67,20 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.BookingApi
 import com.kantek.dancer.booking.data.factory.BookingFactory
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.booking.BookingActionsBar
 import com.kantek.dancer.booking.domain.model.booking.IBookingDetail
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import com.kantek.dancer.booking.presentation.extensions.launch
+import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
-import com.kantek.dancer.booking.presentation.widget.AppConfirmDialog
-import com.kantek.dancer.booking.presentation.widget.AppNotificationDialog
+import android.support.ui.widget.AppConfirmDialog
+import android.support.ui.widget.AppNotificationDialog
 import com.kantek.dancer.booking.presentation.widget.DetailBookingClubBlock
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
 import com.kantek.dancer.booking.presentation.widget.CancellationReasonDialog
-import com.kantek.dancer.booking.presentation.widget.NoDataView
+import android.support.ui.widget.NoDataView
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.androidx.compose.koinViewModel
 
@@ -93,7 +93,7 @@ private enum class DetailManagerConfirm {
 fun DetailBookingScreen(
     bookingID: String = "",
     viewModel: DetailBookingVM = koinViewModel()
-) = ScopeProvider(Scopes.MyBooking) {
+) = ScopeProvider(AppScopes.MyBooking) {
 
     val appNavigator = use<AppNavigator>()
     val detail by viewModel.details.collectAsState()

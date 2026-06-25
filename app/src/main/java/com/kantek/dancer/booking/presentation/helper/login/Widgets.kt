@@ -11,7 +11,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.kantek.dancer.booking.R
-import com.kantek.dancer.booking.presentation.widget.SocialLoginButton
+import android.support.ui.widget.SocialLoginButton
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 

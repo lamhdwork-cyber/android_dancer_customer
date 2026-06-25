@@ -4,13 +4,12 @@ import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.kantek.dancer.booking.data.event.AppEvent
-import com.kantek.dancer.booking.data.extensions.provideApi
-import com.kantek.dancer.booking.data.helper.SaveStateHandler
-import com.kantek.dancer.booking.data.helper.ShareIOScope
-import com.kantek.dancer.booking.data.helper.network.ApiAsyncAdapterFactory
-import com.kantek.dancer.booking.data.helper.network.DefaultApiErrorHandler
-import com.kantek.dancer.booking.data.helper.network.interceptor.LanguageInterceptor
-import com.kantek.dancer.booking.data.helper.network.interceptor.TokenInterceptor
+import android.support.core.network.extensions.provideApi
+import android.support.core.helper.ShareIOScope
+import android.support.core.network.ApiAsyncAdapterFactory
+import android.support.core.network.DefaultApiErrorHandler
+import android.support.core.network.interceptor.LanguageInterceptor
+import android.support.core.network.interceptor.TokenInterceptor
 import com.kantek.dancer.booking.data.local.FilterLocalSource
 import com.kantek.dancer.booking.data.local.LanguageLocalSource
 import com.kantek.dancer.booking.data.local.UserLocalSource
@@ -65,7 +64,7 @@ import com.kantek.dancer.booking.data.factory.RoomFactory
 import com.kantek.dancer.booking.data.factory.UserFactory
 import com.kantek.dancer.booking.data.formatter.TextFormatter
 import com.kantek.dancer.booking.data.formatter.TimeFormatter
-import com.kantek.dancer.booking.presentation.model.support.Scopes
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.domain.usecase.FetchClubCase
 import com.kantek.dancer.booking.domain.usecase.FetchClubDancersAdminPageCase
@@ -74,11 +73,10 @@ import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
 import com.kantek.dancer.booking.domain.usecase.GetStartDestinationCase
 import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
-import com.kantek.dancer.booking.presentation.helper.ActivityRetriever
-import com.kantek.dancer.booking.presentation.helper.AppKeyboard
+import android.support.ui.helper.ActivityRetriever
+import android.support.ui.helper.AppKeyboard
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.helper.AppPopup
-import com.kantek.dancer.booking.presentation.helper.ScopedCoroutineScope
+import android.support.ui.helper.AppPopup
 import com.kantek.dancer.booking.presentation.screen.account.ContactUsRepo
 import com.kantek.dancer.booking.presentation.screen.account.ContactUsVM
 import com.kantek.dancer.booking.presentation.screen.account.FetchSettingRepo
@@ -137,7 +135,6 @@ import com.kantek.dancer.booking.presentation.viewmodel.ReviewVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignInGoogleRepo
 import com.kantek.dancer.booking.presentation.viewmodel.SignInVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignOutRepo
-import kotlinx.coroutines.CoroutineScope
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -211,7 +208,6 @@ val presentationModule = module {
     single { AppNavigator() }
     scope<Any> {
         scoped { AppPopup() }
-        scoped<CoroutineScope> { ScopedCoroutineScope() }
     }
     viewModelOf(::NotificationVM)
     viewModelOf(::FindClubVM)
@@ -227,12 +223,12 @@ val presentationModule = module {
     viewModelOf(::MyBookingVM)
     viewModelOf(::DetailBookingVM)
     viewModelOf(::DetailDancerVM)
-    viewModel { ChangePasswordVM(get(), getBy(Scopes.App)) }
-    viewModel { MyProfileVM(get(), get(), getBy(Scopes.App)) }
-    viewModel { ContactUsVM(get(), get(), getBy(Scopes.App)) }
+    viewModel { ChangePasswordVM(get(), getBy(AppScopes.App)) }
+    viewModel { MyProfileVM(get(), get(), getBy(AppScopes.App)) }
+    viewModel { ContactUsVM(get(), get(), getBy(AppScopes.App)) }
     viewModelOf(::BrowserVM)
     viewModelOf(::OTPVerifyVM)
-    viewModel { RetPasswordVM(get(), getBy(Scopes.App)) }
+    viewModel { RetPasswordVM(get(), getBy(AppScopes.App)) }
     viewModelOf(::DancerListVM)
     viewModelOf(::DancerListOfAdminVM)
     viewModelOf(::BookingVM)
@@ -247,11 +243,10 @@ val dataModule = module {
     single { get<Application>().applicationContext }
     single { AppEvent() }
     single { AppNotifications(get()) }
-    single { SaveStateHandler() }
     single { UserLocalSource(get(), get(), get()) }
     single<CurrentUserRoleProvider> { UserRoleProvider(get()) }
-    single { TokenInterceptor(get()) }
-    single { LanguageInterceptor(get()) }
+    single { TokenInterceptor { get<UserLocalSource>().apiToken } }
+    single { LanguageInterceptor { get<LanguageLocalSource>().get() } }
     single { ShareIOScope() }
     single<NotificationRepo> { NotificationRepoImpl(get(), get()) }
     single<ClubRepo> { ClubRepoImpl(get(), get()) }

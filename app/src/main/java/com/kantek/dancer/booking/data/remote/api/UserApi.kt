@@ -1,8 +1,8 @@
 package com.kantek.dancer.booking.data.remote.api
 
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.data.helper.network.ApiAsync
-import com.kantek.dancer.booking.data.helper.network.interceptor.NoTokenRequired
+import android.support.core.network.ApiAsync
+import android.support.core.network.interceptor.NoTokenRequired
 import com.kantek.dancer.booking.data.model.response.UserDTO
 import com.kantek.dancer.booking.data.model.response.UserResponse
 import com.kantek.dancer.booking.domain.model.config.ContactForm
