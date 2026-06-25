@@ -25,7 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
 import java.util.Locale
@@ -55,7 +55,7 @@ abstract class BaseComponentAct : ComponentActivity(),
 
     override fun attachBaseContext(newBase: Context) {
         val localeUpdatedContext: ContextWrapper =
-            newBase.updateLocale(Locale(currentLanguage()))
+            newBase.updateLocale(Locale.forLanguageTag(currentLanguage()))
         super.attachBaseContext(localeUpdatedContext)
     }
 

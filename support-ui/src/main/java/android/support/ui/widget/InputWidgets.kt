@@ -27,6 +27,7 @@ import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -223,7 +224,7 @@ fun <T> AppDropdown(
                         .size(20.dp),
                 )
             },
-            modifier = modifier.menuAnchor()
+            modifier = modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
         )
 
         ExposedDropdownMenu(
@@ -288,7 +289,7 @@ fun <T> AppMultiSelectDropdown(
                         .size(20.dp),
                 )
             },
-            modifier = modifier.menuAnchor()
+            modifier = modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
         )
 
         ExposedDropdownMenu(

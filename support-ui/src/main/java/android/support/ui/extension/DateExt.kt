@@ -75,8 +75,8 @@ fun String.toDateWithFormat(
     formatInput: String = DATE_PICKER,
     formatOutput: String = DATE_PICKER
 ): Int {
-    val inputFormat = SimpleDateFormat(formatInput, Locale("vi", "VN"))
-    val outputFormat = SimpleDateFormat(formatOutput, Locale("vi", "VN"))
+    val inputFormat = SimpleDateFormat(formatInput, Locale.forLanguageTag("vi-VN"))
+    val outputFormat = SimpleDateFormat(formatOutput, Locale.forLanguageTag("vi-VN"))
     return try {
         val date = inputFormat.parse(this)
         Integer.parseInt(outputFormat.format(date ?: 0))
@@ -90,9 +90,9 @@ fun String?.formatDateWithFormat(
     formatOutput: String = DATE_PICKER
 ): String {
     if (this.isNullOrEmpty()) return ""
-    val inputFormat = SimpleDateFormat(formatInput, Locale("vi", "VN"))
+    val inputFormat = SimpleDateFormat(formatInput, Locale.forLanguageTag("vi-VN"))
     inputFormat.timeZone = TimeZone.getTimeZone("Asia/Ho_Chi_Minh")
-    val outputFormat = SimpleDateFormat(formatOutput, Locale("vi", "VN"))
+    val outputFormat = SimpleDateFormat(formatOutput, Locale.forLanguageTag("vi-VN"))
     outputFormat.timeZone = TimeZone.getTimeZone("Asia/Ho_Chi_Minh")
     val date = inputFormat.parse(this)
     return outputFormat.format(date ?: 0)
@@ -118,7 +118,7 @@ fun String.formatWithVN(formatter: String = FORMAT_DATE_APP): String {
 
 fun String.toDateVN(): Date {
     dateFormat.forEach {
-        val dateFormat = SimpleDateFormat(it, Locale("vi", "VN"))
+        val dateFormat = SimpleDateFormat(it, Locale.forLanguageTag("vi-VN"))
         dateFormat.timeZone = TimeZone.getTimeZone("Asia/Ho_Chi_Minh")
         var date: Date? = null
         try {
@@ -187,7 +187,7 @@ fun String.utcToDateLocal(): Date {
 }
 
 fun Long.withFormat(format: String = FORMAT_DATE_DISPLAY): String {
-    val sdf = SimpleDateFormat(format, Locale("vi", "VN"))
+    val sdf = SimpleDateFormat(format, Locale.forLanguageTag("vi-VN"))
     sdf.timeZone = TimeZone.getTimeZone("Asia/Ho_Chi_Minh")
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = this
@@ -195,7 +195,7 @@ fun Long.withFormat(format: String = FORMAT_DATE_DISPLAY): String {
 }
 
 fun String.isFutureDateTime(format: String = FORMAT_DATE_TIME_REQUEST_FORM): Boolean {
-    val formatter = SimpleDateFormat(format, Locale("vi", "VN"))
+    val formatter = SimpleDateFormat(format, Locale.forLanguageTag("vi-VN"))
     formatter.timeZone = TimeZone.getTimeZone("Asia/Ho_Chi_Minh")
     return try {
         val inputDateTime = formatter.parse(this)

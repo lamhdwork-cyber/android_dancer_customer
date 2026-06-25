@@ -20,7 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowForwardIos
+import androidx.compose.material.icons.automirrored.outlined.ArrowForwardIos
 import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -288,7 +288,7 @@ private fun AccountMenuItem(
             Text(text = subtitle, color = Colors.Pink99F425F4, fontSize = 12.sp)
         }
         Icon(
-            imageVector = Icons.Outlined.ArrowForwardIos,
+            imageVector = Icons.AutoMirrored.Outlined.ArrowForwardIos,
             contentDescription = null,
             tint = Colors.Primary.copy(alpha = 0.45f),
             modifier = Modifier.size(12.dp)

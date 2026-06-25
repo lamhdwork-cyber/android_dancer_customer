@@ -30,7 +30,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowForward
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
@@ -436,7 +436,7 @@ private fun GuestSignUpCreateAccountButton(onClick: () -> Unit) {
                 fontWeight = FontWeight.Bold
             )
             Icon(
-                imageVector = Icons.Outlined.ArrowForward,
+                imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
                 contentDescription = null,
                 modifier = Modifier.padding(start = 8.dp)
             )

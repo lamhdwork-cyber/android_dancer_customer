@@ -19,20 +19,10 @@ fun Context.getDeviceID(): String {
 }
 
 fun Context.updateLocale(localeToSwitchTo: Locale): ContextWrapper {
-    var context = this
-    val resources: Resources = this.resources
-    val configuration: Configuration = resources.configuration
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        val localeList = LocaleList(localeToSwitchTo)
-        LocaleList.setDefault(localeList)
-        configuration.setLocales(localeList)
-    } else {
-        configuration.locale = localeToSwitchTo
-    }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-        context = this.createConfigurationContext(configuration)
-    } else {
-        resources.updateConfiguration(configuration, resources.displayMetrics)
-    }
+    val configuration: Configuration = this.resources.configuration
+    val localeList = LocaleList(localeToSwitchTo)
+    LocaleList.setDefault(localeList)
+    configuration.setLocales(localeList)
+    val context = this.createConfigurationContext(configuration)
     return ContextWrapper(context)
 }

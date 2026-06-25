@@ -23,7 +23,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.StarHalf
+import androidx.compose.material.icons.automirrored.filled.StarHalf
 import androidx.compose.material.icons.filled.StarOutline
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -202,7 +202,7 @@ fun RatingStars(rating: Float, modifier: Modifier = Modifier, starSize: Dp = 20.
         }
         if (hasHalfStar) {
             Icon(
-                imageVector = Icons.Default.StarHalf,
+                imageVector = Icons.AutoMirrored.Filled.StarHalf,
                 contentDescription = null,
                 tint = Color.Black,
                 modifier = Modifier.size(starSize)
