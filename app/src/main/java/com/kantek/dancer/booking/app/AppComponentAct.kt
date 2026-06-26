@@ -3,7 +3,6 @@ package com.kantek.dancer.booking.app
 import android.content.Intent
 import android.support.ui.app.BaseComponentAct
 import androidx.compose.runtime.Composable
-import com.kantek.dancer.booking.data.local.LanguageLocalSource
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.presentation.AuthAct
 import android.support.ui.extension.ApplyDarkEdgeToEdgeStatusBars
@@ -12,9 +11,6 @@ import org.koin.android.ext.android.inject
 
 abstract class AppComponentAct : BaseComponentAct() {
     private val userLocalSource: UserLocalSource by inject()
-    private val languageLocalSource: LanguageLocalSource by inject()
-
-    override fun currentLanguage(): String = languageLocalSource.get()
 
     override fun onExpiredToken() {
         userLocalSource.logout()

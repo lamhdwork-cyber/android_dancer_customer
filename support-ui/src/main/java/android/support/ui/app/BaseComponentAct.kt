@@ -1,23 +1,20 @@
 package android.support.ui.app
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.ContextWrapper
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.core.event.StateFlowStatusOwner
-import android.support.core.extensions.updateLocale
 import android.support.ui.R
 import android.support.ui.theme.BaseTheme
 import android.support.ui.theme.CoreColors
 import android.support.ui.widget.AppConfirmDialog
 import android.support.ui.widget.AppNotificationDialog
 import android.support.ui.widget.LoadingView
-import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -28,16 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
-import java.util.Locale
 
 /**
  * Reusable Compose activity scaffolding: edge-to-edge window setup, a shared
  * [windowStatus] owner, loading + error observation, and the common
  * notification / exit / expired-token dialogs. Designed to be copied into a new
  * project as-is; the only app-specific bits are exposed as overridable hooks
- * ([currentLanguage], [onExpiredToken], [errorHandler], [AppContentTheme]).
+ * ([onExpiredToken], [errorHandler], [AppContentTheme]).
+ *
+ * Extends [AppCompatActivity] so per-app locale (AndroidX per-app language /
+ * [androidx.appcompat.app.AppCompatDelegate.setApplicationLocales]) is applied
+ * automatically — no manual `attachBaseContext` locale wrapping needed.
  */
-abstract class BaseComponentAct : ComponentActivity(),
+abstract class BaseComponentAct : AppCompatActivity(),
     AppErrorHandler by AppErrorHandlerImpl() {
     protected val windowStatus: StateFlowStatusOwner = WindowStatusProvider.instance
 
@@ -46,18 +46,9 @@ abstract class BaseComponentAct : ComponentActivity(),
     private var expiredTokenDialog = mutableStateOf<Boolean?>(false)
     private var mHasKillApp = false
 
-    /** App with multi-language support overrides this. Defaults to English. */
-    protected open fun currentLanguage(): String = "en"
-
     /** Called when the session is expired and the user confirms re-login.
      *  App overrides to clear cache and open the login screen. */
     protected open fun onExpiredToken() {}
-
-    override fun attachBaseContext(newBase: Context) {
-        val localeUpdatedContext: ContextWrapper =
-            newBase.updateLocale(Locale.forLanguageTag(currentLanguage()))
-        super.attachBaseContext(localeUpdatedContext)
-    }
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {

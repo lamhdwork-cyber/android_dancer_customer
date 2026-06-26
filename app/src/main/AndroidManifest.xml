@@ -46,6 +46,16 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${PLACE_API_KEY}" />
 
+        <!-- AndroidX per-app language: let AppCompat persist the chosen locale-->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
         <service
             android:name=".presentation.firebase.FirebaseMessageService"
             android:exported="false">

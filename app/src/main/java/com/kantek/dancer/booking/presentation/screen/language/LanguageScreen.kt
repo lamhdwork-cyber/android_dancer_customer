@@ -1,7 +1,6 @@
 package com.kantek.dancer.booking.presentation.screen.language
 import android.support.ui.extension.onClick
 
-import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -56,9 +55,8 @@ fun LanguageScreen(
     LaunchedEffect(Unit) { viewModel.onFetch() }
 
     LaunchedEffect(onChangeSuccess) {
-        if (onChangeSuccess.second) {
-            (context as? Activity)?.recreate()
-        }
+        // No manual recreate(): AppCompatDelegate.setApplicationLocales already
+        // recreates the activity to apply the new locale.
         if (onChangeSuccess.first)
             appNavigator.back()
     }

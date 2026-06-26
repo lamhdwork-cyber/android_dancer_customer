@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MyApp" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Theme.MyApp" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/colorBackground</item>
@@ -9,7 +9,7 @@
     </style>
 
     <!-- API 30 and below: splash windowBackground; API 31+ uses installSplashScreen() -->
-    <style name="Theme.MyApp.SplashScreen" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Theme.MyApp.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
     </style>
 
