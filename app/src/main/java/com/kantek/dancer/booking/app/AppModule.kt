@@ -31,11 +31,9 @@ import com.kantek.dancer.booking.data.repo.ClubRepoImpl
 import com.kantek.dancer.booking.data.repo.DancerRepoImpl
 import com.kantek.dancer.booking.data.repo.FetchAllBannerRepo
 import com.kantek.dancer.booking.data.repo.RoomRepoImpl
-import com.kantek.dancer.booking.data.repo.DestinationRepoImpl
 import com.kantek.dancer.booking.domain.repo.ClubRepo
 import com.kantek.dancer.booking.domain.repo.DancerRepo
 import com.kantek.dancer.booking.domain.repo.RoomRepo
-import com.kantek.dancer.booking.domain.repo.DestinationRepo
 import com.kantek.dancer.booking.data.repo.GetAccountRepo
 import com.kantek.dancer.booking.data.repo.GetLinkAboutUsRepo
 import com.kantek.dancer.booking.data.repo.GetLinkTermsRepo
@@ -71,7 +69,6 @@ import com.kantek.dancer.booking.domain.usecase.FetchClubDancersAdminPageCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerByClubCase
 import com.kantek.dancer.booking.domain.usecase.FetchDancerDetailCase
 import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
-import com.kantek.dancer.booking.domain.usecase.GetStartDestinationCase
 import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import android.support.ui.helper.ActivityRetriever
 import android.support.ui.helper.AppKeyboard
@@ -128,7 +125,6 @@ import com.kantek.dancer.booking.presentation.viewmodel.FetchReviewByPageRepo
 import com.kantek.dancer.booking.presentation.viewmodel.FetchUserRepo
 import com.kantek.dancer.booking.presentation.viewmodel.FindClubVM
 import com.kantek.dancer.booking.presentation.viewmodel.LanguageVM
-import com.kantek.dancer.booking.presentation.viewmodel.MainVM
 import com.kantek.dancer.booking.presentation.viewmodel.ManageStaffSignInVM
 import com.kantek.dancer.booking.presentation.viewmodel.NotificationVM
 import com.kantek.dancer.booking.presentation.viewmodel.ReviewVM
@@ -212,7 +208,6 @@ val presentationModule = module {
     viewModelOf(::NotificationVM)
     viewModelOf(::FindClubVM)
     viewModelOf(::LanguageVM)
-    viewModelOf(::MainVM)
     viewModelOf(::AccountVM)
     viewModelOf(::SignInVM)
     viewModelOf(::ManageStaffSignInVM)
@@ -252,7 +247,6 @@ val dataModule = module {
     single<ClubRepo> { ClubRepoImpl(get(), get()) }
     single<DancerRepo> { DancerRepoImpl(get(), get()) }
     single<RoomRepo> { RoomRepoImpl(get(), get()) }
-    single<DestinationRepo> { DestinationRepoImpl(get(), get()) }
     factory { LanguageRepo(get(), get(), get(), get()) }
     single { LanguageLocalSource(get()) }
     factory { FetchUserRepo(get(), get(), get()) }
@@ -299,7 +293,6 @@ val domainModule = module {
     factory { FetchClubDancersAdminPageCase(get()) }
     factory { FetchDancerDetailCase(get()) }
     factory { FetchRoomsByClubCase(get()) }
-    factory { GetStartDestinationCase(get()) }
     single { TextFormatter() }
     single { NotificationFactory(get()) }
     single { LanguageFactory() }

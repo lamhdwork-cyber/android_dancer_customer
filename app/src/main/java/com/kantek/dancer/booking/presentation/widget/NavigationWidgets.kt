@@ -33,20 +33,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kantek.dancer.booking.app.BottomNavigationScreen
+import com.kantek.dancer.booking.app.AppBottomNavigationScreen
 import com.kantek.dancer.booking.presentation.theme.Colors
 
 @Composable
 fun AppNavigateBottomBar(
     selectedItemRouter: String,
     onItemRouterSelected: (String) -> Unit,
-    firstTab: BottomNavigationScreen? = BottomNavigationScreen.Search
+    firstTab: AppBottomNavigationScreen? = AppBottomNavigationScreen.Search
 ) {
     val items = listOfNotNull(
         firstTab,
-        BottomNavigationScreen.Cases,
-        BottomNavigationScreen.Notification,
-        BottomNavigationScreen.Account
+        AppBottomNavigationScreen.Cases,
+        AppBottomNavigationScreen.Notification,
+        AppBottomNavigationScreen.Account
     )
 
     Column(

@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.app.BottomNavigationScreen
+import com.kantek.dancer.booking.app.AppBottomNavigationScreen
 import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
@@ -33,9 +33,9 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(AppScopes.Home) {
     val firstTab = if (AppConfig.UserRole.isClubManager(roleProvider.getRole())) {
         null
     } else {
-        BottomNavigationScreen.Search
+        AppBottomNavigationScreen.Search
     }
-    val firstTabRoute = firstTab?.route ?: BottomNavigationScreen.Cases.route
+    val firstTabRoute = firstTab?.route ?: AppBottomNavigationScreen.Cases.route
     val nav = rememberNavController()
 
     LaunchedEffect(startTab, firstTabRoute) {
@@ -71,11 +71,11 @@ fun HomeScreen(startTab: String = "") = ScopeProvider(AppScopes.Home) {
                     .fillMaxWidth()
                     .background(Colors.Dark120812)
             ) {
-                composable(BottomNavigationScreen.Search.route) { FindClubScreen() }
-                composable(BottomNavigationScreen.Dancers.route) { DancerListOfAdminScreen() }
-                composable(BottomNavigationScreen.Cases.route) { MyBookingScreen() }
-                composable(BottomNavigationScreen.Notification.route) { NotificationScreen() }
-                composable(BottomNavigationScreen.Account.route) { AccountScreen() }
+                composable(AppBottomNavigationScreen.Search.route) { FindClubScreen() }
+                composable(AppBottomNavigationScreen.Dancers.route) { DancerListOfAdminScreen() }
+                composable(AppBottomNavigationScreen.Cases.route) { MyBookingScreen() }
+                composable(AppBottomNavigationScreen.Notification.route) { NotificationScreen() }
+                composable(AppBottomNavigationScreen.Account.route) { AccountScreen() }
             }
 
             AppNavigateBottomBar(

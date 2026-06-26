@@ -6,6 +6,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.service)
     alias(libs.plugins.firebase.crashlytics)
 }
@@ -133,6 +134,7 @@ dependencies {
     // DI & Navigation
     implementation(libs.koin.compose)
     implementation(libs.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 
     // Networking
     implementation(libs.retrofit)

@@ -17,16 +17,39 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppComponentAct
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.model.firebase.FireBaseCloudMessage
 import com.kantek.dancer.booking.app.AppScopes
-import com.kantek.dancer.booking.app.Screen
+import com.kantek.dancer.booking.app.DetailCase
+import com.kantek.dancer.booking.app.Otp
+import com.kantek.dancer.booking.app.ResetPassword
+import com.kantek.dancer.booking.app.PhotoViewer
+import com.kantek.dancer.booking.app.ChangePassword
+import com.kantek.dancer.booking.app.MyProfile
+import com.kantek.dancer.booking.app.ContactUs
+import com.kantek.dancer.booking.app.Language
+import com.kantek.dancer.booking.app.SignIn
+import com.kantek.dancer.booking.app.ManageStaffSignIn
+import com.kantek.dancer.booking.app.SignUp
+import com.kantek.dancer.booking.app.ForgotPassword
+import com.kantek.dancer.booking.app.Conversation
+import com.kantek.dancer.booking.app.FaqThreadsQuestion
+import com.kantek.dancer.booking.app.Booking
+import com.kantek.dancer.booking.app.DetailDancer
+import com.kantek.dancer.booking.app.DancerList
+import com.kantek.dancer.booking.app.PhotosViewer
+import com.kantek.dancer.booking.app.BookingConfirm
+import com.kantek.dancer.booking.app.Home
+import com.kantek.dancer.booking.app.AboutUs
+import com.kantek.dancer.booking.app.Terms
+import com.kantek.dancer.booking.app.FaqThreads
+import com.kantek.dancer.booking.app.Reviews
+import com.kantek.dancer.booking.app.CreateReviews
+import androidx.navigation.toRoute
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
@@ -92,462 +115,134 @@ class MainAct : AppComponentAct() {
                     NavigationProvider {
                         NavHost(
                             navController = it,
-                            startDestination = Screen.Home.name,
+                            startDestination = Home(),
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            val keyArg = AppNavigator.Companion.ArgKey.IS_IN_APP
-                            composable(
-                                "${Screen.Language.name}?$keyArg={$keyArg}",
-                                arguments = listOf(navArgument(keyArg) {
-                                    type = NavType.BoolType
-                                    defaultValue = false
-                                })
-                            ) { backStackEntry ->
-                                val isUserLoggedIn =
-                                    backStackEntry.arguments?.getBoolean(keyArg)
-                                        ?: false
-                                LanguageScreen(isUserLoggedIn)
+                            composable<Language> { entry ->
+                                LanguageScreen(entry.toRoute<Language>().isInApp)
                             }
-                            val keyHomeTabArg = AppNavigator.Companion.ArgKey.HOME_TAB
-                            composable(
-                                "${Screen.Home.name}?$keyHomeTabArg={$keyHomeTabArg}",
-                                arguments = listOf(navArgument(keyHomeTabArg) {
-                                    type = NavType.StringType
-                                    defaultValue = ""
-                                })
-                            ) { backStackEntry ->
-                                val homeTabArg =
-                                    backStackEntry.arguments?.getString(keyHomeTabArg).orEmpty()
+                            composable<Home> { entry ->
                                 BackHandler { showExitAppDialog() }
-                                HomeScreen(startTab = homeTabArg)
+                                HomeScreen(startTab = entry.toRoute<Home>().homeTab ?: "")
                             }
-                            composable(Screen.SignIn.name) {
+                            composable<SignIn> {
                                 GuestSignInScreen(true)
                             }
-                            composable(Screen.ManageStaffSignIn.name) {
+                            composable<ManageStaffSignIn> {
                                 ManageStaffSignInScreen(true)
                             }
-                            composable(Screen.SignUp.name) {
+                            composable<SignUp> {
                                 GuestSignUpScreen()
                             }
-                            composable(Screen.ForgotPassword.name) {
+                            composable<ForgotPassword> {
                                 ForgotPasswordScreen()
                             }
-                            composable(Screen.AboutUs.name) {
+                            composable<AboutUs> {
                                 AboutUsScreen()
                             }
-                            composable(Screen.Terms.name) {
+                            composable<Terms> {
                                 TermsScreen()
                             }
 
-                            val keyEmailArg =
-                                AppNavigator.Companion.ArgKey.EMAIL
-                            composable(
-                                "${Screen.OTP.name}?$keyEmailArg={$keyEmailArg}",
-                                arguments = listOf(navArgument(keyEmailArg) {
-                                    type = NavType.StringType
-                                })
-                            ) { backStackEntry ->
-                                val arg =
-                                    backStackEntry.arguments?.getString(keyEmailArg)
-                                        ?: ""
-                                OTPVerifyScreen(arg)
+                            composable<Otp> { entry ->
+                                OTPVerifyScreen(entry.toRoute<Otp>().email)
                             }
 
-                            composable(
-                                "${Screen.ResetPassword.name}?$keyEmailArg={$keyEmailArg}",
-                                arguments = listOf(navArgument(keyEmailArg) {
-                                    type = NavType.StringType
-                                })
-                            ) { backStackEntry ->
-                                val arg =
-                                    backStackEntry.arguments?.getString(keyEmailArg)
-                                        ?: ""
-                                CreateNewPwScreen(arg)
+                            composable<ResetPassword> { entry ->
+                                CreateNewPwScreen(entry.toRoute<ResetPassword>().email)
                             }
 
-                            val keyBookingIDArg =
-                                AppNavigator.Companion.ArgKey.BOOKING_ID
-                            composable(
-                                "${Screen.DetailCase.name}?$keyBookingIDArg={$keyBookingIDArg}",
-                                arguments = listOf(navArgument(keyBookingIDArg) {
-                                    type = NavType.StringType
-                                })
-                            ) { backStackEntry ->
-                                val arg =
-                                    backStackEntry.arguments?.getString(keyBookingIDArg)
-                                        ?: ""
-                                DetailBookingScreen(arg)
+                            composable<DetailCase> { entry ->
+                                DetailBookingScreen(entry.toRoute<DetailCase>().bookingId)
                             }
 
-                            val keyBookingArg =
-                                AppNavigator.Companion.ArgKey.BOOKING_DTO
-                            val keyLawyerIDArg =
-                                AppNavigator.Companion.ArgKey.LAWYER_ID
-                            val keyDancerIdArg =
-                                AppNavigator.Companion.ArgKey.ID
-                            val keyHasShowButtonsArg =
-                                AppNavigator.Companion.ArgKey.HAS_SHOW_BUTTONS
-                            composable(
-                                "${Screen.DetailDancer.name}?$keyBookingArg={$keyBookingArg}&$keyLawyerIDArg={$keyLawyerIDArg}&$keyDancerIdArg={$keyDancerIdArg}&$keyHasShowButtonsArg={$keyHasShowButtonsArg}",
-                                arguments = listOf(navArgument(keyBookingArg) {
-                                    type = NavType.StringType
-                                    defaultValue = ""
-                                }, navArgument(keyLawyerIDArg) {
-                                    type = NavType.IntType
-                                    defaultValue = -1
-                                }, navArgument(keyDancerIdArg) {
-                                    type = NavType.StringType
-                                    defaultValue = ""
-                                }, navArgument(keyHasShowButtonsArg) {
-                                    type = NavType.BoolType
-                                    defaultValue = true
-                                })
-                            ) { backStackEntry ->
-                                val dancerId =
-                                    backStackEntry.arguments?.getString(keyDancerIdArg) ?: ""
-                                val hasShowButtons =
-                                    backStackEntry.arguments?.getBoolean(keyHasShowButtonsArg)
-                                        ?: true
+                            composable<DetailDancer> { entry ->
+                                val route = entry.toRoute<DetailDancer>()
                                 DetailDancerScreen(
-                                    dancerId = dancerId,
-                                    hasShowButtons = hasShowButtons
+                                    dancerId = route.dancerId,
+                                    hasShowButtons = route.hasShowButtons
                                 )
                             }
-                            val keyPhotoArg = AppNavigator.Companion.ArgKey.PHOTO_URL
-                            composable(
-                                "${Screen.PhotoViewer.name}?$keyPhotoArg={$keyPhotoArg}",
-                                arguments = listOf(navArgument(keyPhotoArg) {
-                                    type = NavType.StringType
-                                })
-                            ) { backStackEntry ->
-                                val arg =
-                                    backStackEntry.arguments?.getString(keyPhotoArg)
-                                        ?: ""
-                                PhotoViewerScreen(arg)
+                            composable<PhotoViewer> { entry ->
+                                PhotoViewerScreen(entry.toRoute<PhotoViewer>().photoUrl)
                             }
 
-                            val keyPhotosArg = AppNavigator.Companion.ArgKey.PHOTOS_URL
-                            composable(
-                                "${Screen.PhotosViewer.name}?$keyPhotosArg={$keyPhotosArg}",
-                                arguments = listOf(navArgument(keyPhotosArg) {
-                                    type = NavType.StringType
-                                })
-                            ) { backStackEntry ->
-                                val arg =
-                                    backStackEntry.arguments?.getString(keyPhotosArg)
-                                        ?: ""
-                                PhotosViewerScreen(arg)
+                            composable<PhotosViewer> { entry ->
+                                PhotosViewerScreen(entry.toRoute<PhotosViewer>().photos)
                             }
-                            composable(Screen.ChangePassword.name) {
+                            composable<ChangePassword> {
                                 ChangePasswordScreen()
                             }
-                            composable(Screen.MyProfileScreen.name) {
+                            composable<MyProfile> {
                                 MyProfileScreen()
                             }
-                            composable(Screen.ContactUs.name) {
+                            composable<ContactUs> {
                                 ContactUsScreen()
                             }
 
-                            val keyClubIDArg =
-                                AppNavigator.Companion.ArgKey.CLUB_ID
-                            val keyHasNowArg =
-                                AppNavigator.Companion.ArgKey.HAS_NOW
-                            val keyRoomIDArg =
-                                AppNavigator.Companion.ArgKey.ROOM_ID
-                            val keyBookingClubIdArg = AppNavigator.Companion.ArgKey.CLUB_ID
-                            val keyOpenTimeArg = AppNavigator.Companion.ArgKey.OPEN_TIME
-                            val keyCloseTimeArg = AppNavigator.Companion.ArgKey.CLOSE_TIME
-                            composable(
-                                "${Screen.Booking.name}?${AppNavigator.Companion.ArgKey.ID}={${AppNavigator.Companion.ArgKey.ID}}&$keyHasNowArg={$keyHasNowArg}&$keyBookingClubIdArg={$keyBookingClubIdArg}&$keyOpenTimeArg={$keyOpenTimeArg}&$keyCloseTimeArg={$keyCloseTimeArg}",
-                                arguments = listOf(
-                                    navArgument(AppNavigator.Companion.ArgKey.ID) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyHasNowArg) {
-                                        type = NavType.BoolType
-                                        defaultValue = true
-                                    },
-                                    navArgument(keyBookingClubIdArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyOpenTimeArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyCloseTimeArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    }
-                                )
-                            ) { backStackEntry ->
-                                val dancerIdArg =
-                                    backStackEntry.arguments?.getString(AppNavigator.Companion.ArgKey.ID)
-                                        .orEmpty()
-                                val hasNowArg =
-                                    backStackEntry.arguments?.getBoolean(keyHasNowArg) ?: true
-                                val clubIdArg =
-                                    backStackEntry.arguments?.getString(keyBookingClubIdArg)
-                                        .orEmpty()
-                                val closeTime =
-                                    backStackEntry.arguments?.getString(keyCloseTimeArg)
-                                        .orEmpty()
-                                val openTime =
-                                    backStackEntry.arguments?.getString(keyOpenTimeArg)
-                                        .orEmpty()
+                            composable<Booking> { entry ->
+                                val route = entry.toRoute<Booking>()
                                 BookingScreen(
-                                    dancerId = dancerIdArg,
-                                    clubId = clubIdArg,
-                                    openTime = openTime,
-                                    closeTime = closeTime,
-                                    hasNow = hasNowArg,
-                                    navBackStackEntry = backStackEntry
+                                    dancerId = route.dancerId,
+                                    clubId = route.clubId,
+                                    openTime = route.openTime,
+                                    closeTime = route.closeTime,
+                                    hasNow = route.hasNow,
+                                    navBackStackEntry = entry
                                 )
                             }
-                            val keyDancerIdsArg = AppNavigator.Companion.ArgKey.DANCER_IDS
-                            val keyDancerNamesArg = AppNavigator.Companion.ArgKey.DANCER_NAMES
-                            val keyDancerAvatarsArg = AppNavigator.Companion.ArgKey.DANCER_AVATARS
-                            val keyClubNameArg = AppNavigator.Companion.ArgKey.CLUB_NAME
-                            val keyClubImageArg = AppNavigator.Companion.ArgKey.CLUB_IMAGE
-                            val keyBookingDateArg = AppNavigator.Companion.ArgKey.BOOKING_DATE
-                            val keyBookingTimeArg = AppNavigator.Companion.ArgKey.BOOKING_TIME
-                            val keyRoomNameArg = AppNavigator.Companion.ArgKey.ROOM_NAME
-                            val keySongsArg = AppNavigator.Companion.ArgKey.SONGS
-                            val keyGuestsArg = AppNavigator.Companion.ArgKey.GUESTS
-                            val keyTotalAmountArg = AppNavigator.Companion.ArgKey.TOTAL_AMOUNT
-                            val keyTableNumberArg = AppNavigator.Companion.ArgKey.TABLE_NUMBER
-                            val keyCustomerNameArg = AppNavigator.Companion.ArgKey.CUSTOMER_NAME
-                            val keyCustomerPhoneArg = AppNavigator.Companion.ArgKey.CUSTOMER_PHONE
-                            composable(
-                                "${Screen.BookingConfirm.name}?$keyDancerIdsArg={$keyDancerIdsArg}&$keyDancerNamesArg={$keyDancerNamesArg}&$keyDancerAvatarsArg={$keyDancerAvatarsArg}&$keyRoomIDArg={$keyRoomIDArg}&$keyClubNameArg={$keyClubNameArg}&$keyClubImageArg={$keyClubImageArg}&$keyBookingDateArg={$keyBookingDateArg}&$keyBookingTimeArg={$keyBookingTimeArg}&$keyRoomNameArg={$keyRoomNameArg}&$keySongsArg={$keySongsArg}&$keyGuestsArg={$keyGuestsArg}&$keyTotalAmountArg={$keyTotalAmountArg}&$keyHasNowArg={$keyHasNowArg}&$keyTableNumberArg={$keyTableNumberArg}&$keyCustomerNameArg={$keyCustomerNameArg}&$keyCustomerPhoneArg={$keyCustomerPhoneArg}",
-                                arguments = listOf(
-                                    navArgument(keyDancerIdsArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyDancerNamesArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyDancerAvatarsArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyRoomIDArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyClubNameArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyClubImageArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyBookingDateArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyBookingTimeArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyRoomNameArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keySongsArg) {
-                                        type = NavType.IntType
-                                        defaultValue = 1
-                                    },
-                                    navArgument(keyGuestsArg) {
-                                        type = NavType.IntType
-                                        defaultValue = 1
-                                    },
-                                    navArgument(keyTotalAmountArg) {
-                                        type = NavType.StringType
-                                        defaultValue = "0"
-                                    },
-                                    navArgument(keyHasNowArg) {
-                                        type = NavType.BoolType
-                                        defaultValue = true
-                                    },
-                                    navArgument(keyTableNumberArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyCustomerNameArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyCustomerPhoneArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    }
-                                )
-                            ) { backStackEntry ->
-                                val dancerIdsArg =
-                                    backStackEntry.arguments?.getString(keyDancerIdsArg).orEmpty()
-                                val dancerNamesArg =
-                                    backStackEntry.arguments?.getString(keyDancerNamesArg).orEmpty()
-                                val dancerAvatarsArg =
-                                    backStackEntry.arguments?.getString(keyDancerAvatarsArg)
-                                        .orEmpty()
-                                val roomIdArg =
-                                    backStackEntry.arguments?.getString(keyRoomIDArg).orEmpty()
-                                val clubNameArg =
-                                    backStackEntry.arguments?.getString(keyClubNameArg).orEmpty()
-                                val clubImageArg =
-                                    backStackEntry.arguments?.getString(keyClubImageArg).orEmpty()
-                                val bookingDateArg =
-                                    backStackEntry.arguments?.getString(keyBookingDateArg).orEmpty()
-                                val bookingTimeArg =
-                                    backStackEntry.arguments?.getString(keyBookingTimeArg).orEmpty()
-                                val roomNameArg =
-                                    backStackEntry.arguments?.getString(keyRoomNameArg).orEmpty()
-                                val songsArg =
-                                    backStackEntry.arguments?.getInt(keySongsArg) ?: 1
-                                val guestsArg =
-                                    backStackEntry.arguments?.getInt(keyGuestsArg) ?: 1
-                                val totalAmountArg =
-                                    backStackEntry.arguments?.getString(keyTotalAmountArg).orEmpty()
-                                val hasNowArg =
-                                    backStackEntry.arguments?.getBoolean(keyHasNowArg) ?: true
-                                val tableNumberArg =
-                                    backStackEntry.arguments?.getString(keyTableNumberArg).orEmpty()
-                                val customerNameArg =
-                                    backStackEntry.arguments?.getString(keyCustomerNameArg).orEmpty()
-                                val customerPhoneArg =
-                                    backStackEntry.arguments?.getString(keyCustomerPhoneArg).orEmpty()
+                            composable<BookingConfirm> { entry ->
+                                val route = entry.toRoute<BookingConfirm>()
                                 BookingConfirmScreen(
-                                    dancerIds = dancerIdsArg,
-                                    dancerNames = dancerNamesArg,
-                                    dancerAvatars = dancerAvatarsArg,
-                                    roomId = roomIdArg,
-                                    clubName = clubNameArg,
-                                    clubImage = clubImageArg,
-                                    bookingDate = bookingDateArg,
-                                    bookingTime = bookingTimeArg,
-                                    roomName = roomNameArg,
-                                    songs = songsArg,
-                                    guests = guestsArg,
-                                    totalAmount = totalAmountArg,
-                                    hasNow = hasNowArg,
-                                    tableNumber = tableNumberArg,
-                                    customerName = customerNameArg,
-                                    customerPhone = customerPhoneArg
+                                    dancerIds = route.dancerIds,
+                                    dancerNames = route.dancerNames,
+                                    dancerAvatars = route.dancerAvatars,
+                                    roomId = route.roomId,
+                                    clubName = route.clubName,
+                                    clubImage = route.clubImage,
+                                    bookingDate = route.bookingDate,
+                                    bookingTime = route.bookingTime,
+                                    roomName = route.roomName,
+                                    songs = route.songs,
+                                    guests = route.guests,
+                                    totalAmount = route.totalAmount,
+                                    hasNow = route.hasNow,
+                                    tableNumber = route.tableNumber,
+                                    customerName = route.customerName,
+                                    customerPhone = route.customerPhone
                                 )
                             }
 
-                            val keyPickForBookingArg =
-                                AppNavigator.Companion.ArgKey.PICK_FOR_BOOKING
-                            val keyExcludeDancerIdsArg =
-                                AppNavigator.Companion.ArgKey.EXCLUDE_DANCER_IDS
-                            composable(
-                                "${Screen.DancerList.name}?$keyClubIDArg={$keyClubIDArg}&$keyPickForBookingArg={$keyPickForBookingArg}&$keyExcludeDancerIdsArg={$keyExcludeDancerIdsArg}",
-                                arguments = listOf(
-                                    navArgument(keyClubIDArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    },
-                                    navArgument(keyPickForBookingArg) {
-                                        type = NavType.BoolType
-                                        defaultValue = false
-                                    },
-                                    navArgument(keyExcludeDancerIdsArg) {
-                                        type = NavType.StringType
-                                        defaultValue = ""
-                                    }
-                                )
-                            ) { backStackEntry ->
-                                val clubId =
-                                    backStackEntry.arguments?.getString(keyClubIDArg) ?: ""
-                                val pickForBooking =
-                                    backStackEntry.arguments?.getBoolean(keyPickForBookingArg)
-                                        ?: false
-                                val excludeCsv =
-                                    backStackEntry.arguments?.getString(keyExcludeDancerIdsArg)
-                                        .orEmpty()
-                                val excludeIds = excludeCsv.split(',').map { it.trim() }
-                                    .filter { it.isNotEmpty() }.toSet()
+
+                            composable<DancerList> { entry ->
+                                val route = entry.toRoute<DancerList>()
                                 DancerListScreen(
-                                    clubId = clubId,
-                                    pickForBooking = pickForBooking,
-                                    excludeDancerIds = excludeIds
+                                    clubId = route.clubId,
+                                    pickForBooking = route.pickForBooking,
+                                    excludeDancerIds = route.excludeDancerIds.toSet()
                                 )
                             }
 
-                            composable(
-                                "${Screen.Conversion.name}?$keyRoomIDArg={$keyRoomIDArg}",
-                                arguments = listOf(navArgument(keyRoomIDArg) {
-                                    type = NavType.IntType
-                                })
-                            ) { backStackEntry ->
-                                val arg =
-                                    backStackEntry.arguments?.getInt(keyRoomIDArg)
-                                        ?: -1
-                                ChatScreen(arg)
+                            composable<Conversation> { entry ->
+                                ChatScreen(entry.toRoute<Conversation>().roomId)
                             }
 
-                            val keyReviewTotalArg =
-                                AppNavigator.Companion.ArgKey.REVIEW_TOTAL
-                            composable(
-                                "${Screen.Reviews.name}?$keyReviewTotalArg={$keyReviewTotalArg}&$keyLawyerIDArg={$keyLawyerIDArg}",
-                                arguments = listOf(navArgument(keyReviewTotalArg) {
-                                    type = NavType.StringType
-                                }, navArgument(keyLawyerIDArg) {
-                                    type = NavType.IntType
-                                })
-                            ) { backStackEntry ->
-                                val arg =
-                                    backStackEntry.arguments?.getString(
-                                        keyReviewTotalArg
-                                    )
-                                        ?: ""
-                                val argID =
-                                    backStackEntry.arguments?.getInt(keyLawyerIDArg)
-                                        ?: -1
-                                ReviewScreen(arg, argID)
+                            composable<Reviews> { entry ->
+                                val route = entry.toRoute<Reviews>()
+                                ReviewScreen(route.reviewTotal, route.lawyerId)
                             }
 
-                            composable(
-                                "${Screen.CreateReviews.name}?$keyBookingArg={$keyBookingArg}",
-                                arguments = listOf(navArgument(keyBookingArg) {
-                                    type = NavType.StringType
-                                })
-                            ) { backStackEntry ->
-                                val arg =
-                                    backStackEntry.arguments?.getString(keyBookingArg)
-                                        ?: ""
-                                CreateReviewScreen(arg)
+                            composable<CreateReviews> { entry ->
+                                CreateReviewScreen(entry.toRoute<CreateReviews>().bookingDto)
                             }
 
-                            composable(Screen.FaqThreads.name) {
+                            composable<FaqThreads> {
                                 FAQsThreadsScreen()
                             }
 
-                            val keyIDArg =
-                                AppNavigator.Companion.ArgKey.ID
-                            val keyNameArg =
-                                AppNavigator.Companion.ArgKey.NAME
-                            composable(
-                                "${Screen.FaqThreadsQuestion.name}?$keyNameArg={$keyNameArg}&$keyIDArg={$keyIDArg}",
-                                arguments = listOf(navArgument(keyNameArg) {
-                                    type = NavType.StringType
-                                }, navArgument(keyIDArg) {
-                                    type = NavType.IntType
-                                })
-                            ) { backStackEntry ->
-                                val argName =
-                                    backStackEntry.arguments?.getString(keyNameArg)
-                                        ?: ""
-                                val argID =
-                                    backStackEntry.arguments?.getInt(keyIDArg)
-                                        ?: -1
-                                QuestionThreadsScreen(argID, argName)
+                            composable<FaqThreadsQuestion> { entry ->
+                                val route = entry.toRoute<FaqThreadsQuestion>()
+                                QuestionThreadsScreen(route.id, route.name)
                             }
 
                         }

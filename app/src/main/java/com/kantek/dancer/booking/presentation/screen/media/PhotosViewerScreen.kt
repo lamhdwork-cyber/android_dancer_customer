@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.kantek.dancer.booking.R
-import android.support.ui.extension.toObjects
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.helper.AppNavigator
@@ -17,9 +16,8 @@ import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import android.support.ui.widget.ZoomablePager
 
 @Composable
-fun PhotosViewerScreen(photosURL: String) = ScopeProvider {
+fun PhotosViewerScreen(imageUrls: List<String>) = ScopeProvider {
     val appNavigator = use<AppNavigator>()
-    val imageUrls by lazy { photosURL.toObjects(String::class.java) }
 
     Column(
         modifier = Modifier

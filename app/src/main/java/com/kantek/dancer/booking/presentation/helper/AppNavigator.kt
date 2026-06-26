@@ -1,46 +1,29 @@
 package com.kantek.dancer.booking.presentation.helper
 
-import android.net.Uri
-import androidx.navigation.NavHostController
-import android.support.ui.extension.toJson
-import com.kantek.dancer.booking.data.model.response.BookingDTO
-import com.kantek.dancer.booking.app.BottomNavigationScreen
-import com.kantek.dancer.booking.app.Screen
 import android.support.ui.helper.Updatable
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_DATE
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_DTO
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_ID
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.BOOKING_TIME
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLOSE_TIME
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLUB_ID
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLUB_IMAGE
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CLUB_NAME
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.DANCER_AVATARS
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.DANCER_IDS
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.DANCER_NAMES
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.EMAIL
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.EXCLUDE_DANCER_IDS
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.GUESTS
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.HAS_NOW
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.HAS_SHOW_BUTTONS
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.HOME_TAB
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.ID
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.IS_IN_APP
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.LAWYER_ID
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.NAME
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.OPEN_TIME
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PHOTOS_URL
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PHOTO_URL
+import androidx.navigation.NavHostController
+import com.kantek.dancer.booking.app.AppBottomNavigationScreen
+import com.kantek.dancer.booking.app.Booking
+import com.kantek.dancer.booking.app.BookingConfirm
+import com.kantek.dancer.booking.app.Home
+import com.kantek.dancer.booking.app.ChangePassword
+import com.kantek.dancer.booking.app.ContactUs
+import com.kantek.dancer.booking.app.Conversation
+import com.kantek.dancer.booking.app.DancerList
+import com.kantek.dancer.booking.app.DetailCase
+import com.kantek.dancer.booking.app.DetailDancer
+import com.kantek.dancer.booking.app.FaqThreadsQuestion
+import com.kantek.dancer.booking.app.ForgotPassword
+import com.kantek.dancer.booking.app.Language
+import com.kantek.dancer.booking.app.ManageStaffSignIn
+import com.kantek.dancer.booking.app.MyProfile
+import com.kantek.dancer.booking.app.Otp
+import com.kantek.dancer.booking.app.PhotoViewer
+import com.kantek.dancer.booking.app.PhotosViewer
+import com.kantek.dancer.booking.app.ResetPassword
+import com.kantek.dancer.booking.app.SignIn
+import com.kantek.dancer.booking.app.SignUp
 import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICK_FOR_BOOKING
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.REVIEW_TOTAL
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.ROOM_ID
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.ROOM_NAME
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.SONGS
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.TOTAL_AMOUNT
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.TABLE_NUMBER
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CUSTOMER_NAME
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.CUSTOMER_PHONE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,42 +34,10 @@ class AppNavigator : Updatable {
 
     companion object {
         object ArgKey {
-            const val IS_IN_APP = "is_in_app"
+            // Keys still used outside type-safe routes (push payload bundle + saved-state handle).
             const val BOOKING_ID = "booking_id"
             const val CONTACT_REQUEST_ID = "contact_request_id"
-            const val BOOKING_DTO = "booking_dto"
-            const val PHOTO_URL = "photo_url"
-            const val PHOTOS_URL = "photos_url"
-            const val EMAIL = "email"
-            const val ROOM_ID = "room_id"
-            const val LAWYER_DTO = "lawyer_dto"
-            const val LAWYER_ID = "lawyer_id"
-            const val REVIEW_TOTAL = "review_total"
-            const val NAME = "name"
-            const val ID = "id"
-            const val CLUB_ID = "club_id"
-            const val HAS_NOW = "has_now"
-            const val DANCER_IDS = "dancer_ids"
-            const val DANCER_NAMES = "dancer_names"
-            const val DANCER_AVATARS = "dancer_avatars"
-            const val CLUB_NAME = "club_name"
-            const val CLUB_IMAGE = "club_image"
-            const val BOOKING_DATE = "booking_date"
-            const val BOOKING_TIME = "booking_time"
-            const val ROOM_NAME = "room_name"
-            const val SONGS = "songs"
-            const val GUESTS = "guests"
-            const val TOTAL_AMOUNT = "total_amount"
-            const val HOME_TAB = "home_tab"
-            const val PICK_FOR_BOOKING = "pick_for_booking"
-            const val EXCLUDE_DANCER_IDS = "exclude_dancer_ids"
             const val PICKED_DANCER_ID = "picked_dancer_id"
-            const val HAS_SHOW_BUTTONS = "has_show_buttons"
-            const val OPEN_TIME = "open_time"
-            const val CLOSE_TIME = "close_time"
-            const val TABLE_NUMBER = "table_number"
-            const val CUSTOMER_NAME = "customer_name"
-            const val CUSTOMER_PHONE = "customer_phone"
         }
     }
 
@@ -105,14 +56,14 @@ class AppNavigator : Updatable {
     }
 
     fun navigateHome() {
-        navHost?.navigate(Screen.Home.name)
+        navHost?.navigate(Home())
     }
 
     fun navigateHomeAndClearStack() {
         navHost?.let { controller ->
             CoroutineScope(Dispatchers.Main).launch {
-                controller.navigate(Screen.Home.name) {
-                    popUpTo(Screen.Home.name) {
+                controller.navigate(Home()) {
+                    popUpTo(Home()) {
                         inclusive = false
                         saveState = false
                     }
@@ -123,11 +74,10 @@ class AppNavigator : Updatable {
     }
 
     fun navigateHomeMyBookings() {
-        val homeTabArg = BottomNavigationScreen.Cases.route
         navHost?.let { controller ->
             CoroutineScope(Dispatchers.Main).launch {
-                controller.navigate("${Screen.Home.name}?$HOME_TAB=$homeTabArg") {
-                    popUpTo(Screen.Home.name) {
+                controller.navigate(Home(homeTab = AppBottomNavigationScreen.Cases.route)) {
+                    popUpTo(Home()) {
                         inclusive = false
                         saveState = false
                     }
@@ -138,13 +88,13 @@ class AppNavigator : Updatable {
     }
 
     fun navigateLanguage(isInApp: Boolean = false) {
-        navHost?.navigate("${Screen.Language.name}?$IS_IN_APP=${isInApp}")
+        navHost?.navigate(Language(isInApp))
     }
 
     fun navigateSignIn(hasForgotPassword: Boolean = false) {
-        navHost?.navigate(Screen.SignIn.name) {
+        navHost?.navigate(SignIn) {
             if (hasForgotPassword)
-                popUpTo(Screen.ForgotPassword.name) {
+                popUpTo(ForgotPassword) {
                     inclusive = true
                 }
             launchSingleTop = true
@@ -152,26 +102,26 @@ class AppNavigator : Updatable {
     }
 
     fun navigateManageStaffSignIn() {
-        navHost?.navigate(Screen.ManageStaffSignIn.name) {
+        navHost?.navigate(ManageStaffSignIn) {
             launchSingleTop = true
         }
     }
 
     fun navigateSignUp() {
-        navHost?.navigate(Screen.SignUp.name)
+        navHost?.navigate(SignUp)
     }
 
     fun navigateForgotPassword() {
-        navHost?.navigate(Screen.ForgotPassword.name)
+        navHost?.navigate(ForgotPassword)
     }
 
     fun navigateDetailCase(bookingID: String) {
-        navHost?.navigate("${Screen.DetailCase.name}?$BOOKING_ID=${bookingID}")
+        navHost?.navigate(DetailCase(bookingID))
     }
 
     fun navigateDetailCaseAfterBooking(bookingID: String) {
-        navHost?.navigate("${Screen.DetailCase.name}?$BOOKING_ID=${bookingID}") {
-            popUpTo(Screen.Home.name) {
+        navHost?.navigate(DetailCase(bookingID)) {
+            popUpTo(Home()) {
                 inclusive = false
                 saveState = false
             }
@@ -179,18 +129,8 @@ class AppNavigator : Updatable {
         }
     }
 
-    fun navigateDetailLawyer(
-        lawyerID: Int = -1,
-        dataJson: String = "",
-        dancerId: String = ""
-    ) {
-        navHost?.navigate("${Screen.DetailDancer.name}?$BOOKING_DTO=$dataJson&$LAWYER_ID=$lawyerID&$ID=$dancerId&$HAS_SHOW_BUTTONS=true")
-    }
-
     fun navigateDetailDancer(dancerId: String, hasShowButtons: Boolean = true) {
-        navHost?.navigate(
-            "${Screen.DetailDancer.name}?$BOOKING_DTO=&$LAWYER_ID=-1&$ID=${Uri.encode(dancerId)}&$HAS_SHOW_BUTTONS=$hasShowButtons"
-        )
+        navHost?.navigate(DetailDancer(dancerId = dancerId, hasShowButtons = hasShowButtons))
     }
 
     fun navigateBooking(
@@ -200,9 +140,15 @@ class AppNavigator : Updatable {
         openTime: String = "",
         closeTime: String = ""
     ) {
-        val clubArg = if (clubId.isBlank()) "" else Uri.encode(clubId)
-        val dancerArg = Uri.encode(dancerId)
-        navHost?.navigate("${Screen.Booking.name}?$ID=$dancerArg&$HAS_NOW=$hasNow&$CLUB_ID=$clubArg&$OPEN_TIME=$openTime&$CLOSE_TIME=$closeTime")
+        navHost?.navigate(
+            Booking(
+                dancerId = dancerId,
+                hasNow = hasNow,
+                clubId = clubId,
+                openTime = openTime,
+                closeTime = closeTime
+            )
+        )
     }
 
     fun navigateBookingConfirm(
@@ -223,42 +169,46 @@ class AppNavigator : Updatable {
         customerName: String,
         customerPhone: String
     ) {
-        val dancerIdsArg = Uri.encode(dancerIds.joinToString(","))
-        val dancerNamesArg = Uri.encode(dancerNames.joinToString("|,|"))
-        val dancerAvatarsArg = Uri.encode(dancerAvatars.joinToString("|,|"))
-        val roomIdArg = Uri.encode(roomId)
-        val clubNameArg = Uri.encode(clubName)
-        val clubImageArg = Uri.encode(clubImage)
-        val bookingDateArg = Uri.encode(bookingDate)
-        val bookingTimeArg = Uri.encode(bookingTime)
-        val roomNameArg = Uri.encode(roomName)
-        val totalAmountArg = Uri.encode(totalAmount)
-        val tableNumberArg = Uri.encode(tableNumber)
-        val customerNameArg = Uri.encode(customerName)
-        val customerPhoneArg = Uri.encode(customerPhone)
         navHost?.navigate(
-            "${Screen.BookingConfirm.name}?$DANCER_IDS=$dancerIdsArg&$DANCER_NAMES=$dancerNamesArg&$DANCER_AVATARS=$dancerAvatarsArg&$ROOM_ID=$roomIdArg&$CLUB_NAME=$clubNameArg&$CLUB_IMAGE=$clubImageArg&$BOOKING_DATE=$bookingDateArg&$BOOKING_TIME=$bookingTimeArg&$ROOM_NAME=$roomNameArg&$SONGS=$songs&$GUESTS=$guests&$TOTAL_AMOUNT=$totalAmountArg&$HAS_NOW=$hasNow&$TABLE_NUMBER=$tableNumberArg&$CUSTOMER_NAME=$customerNameArg&$CUSTOMER_PHONE=$customerPhoneArg"
+            BookingConfirm(
+                dancerIds = dancerIds.joinToString(","),
+                dancerNames = dancerNames.joinToString("|,|"),
+                dancerAvatars = dancerAvatars.joinToString("|,|"),
+                roomId = roomId,
+                clubName = clubName,
+                clubImage = clubImage,
+                bookingDate = bookingDate,
+                bookingTime = bookingTime,
+                roomName = roomName,
+                songs = songs,
+                guests = guests,
+                totalAmount = totalAmount,
+                hasNow = hasNow,
+                tableNumber = tableNumber,
+                customerName = customerName,
+                customerPhone = customerPhone
+            )
         )
     }
 
     fun navigatePhotoViewer(photoURL: String) {
-        navHost?.navigate("${Screen.PhotoViewer.name}?$PHOTO_URL=${photoURL}")
+        navHost?.navigate(PhotoViewer(photoURL))
     }
 
     fun navigateChangePassword() {
-        navHost?.navigate(Screen.ChangePassword.name)
+        navHost?.navigate(ChangePassword)
     }
 
     fun navigateMyProfile() {
-        navHost?.navigate(Screen.MyProfileScreen.name)
+        navHost?.navigate(MyProfile)
     }
 
     fun navigateContactUs() {
-        navHost?.navigate(Screen.ContactUs.name)
+        navHost?.navigate(ContactUs)
     }
 
     fun navigateSearch() {
-        navHost?.navigate(BottomNavigationScreen.Search.route) {
+        navHost?.navigate(AppBottomNavigationScreen.Search.route) {
             if (navHost != null) {
                 popUpTo(navHost!!.graph.startDestinationId) {
                     saveState = true
@@ -270,36 +220,38 @@ class AppNavigator : Updatable {
     }
 
     fun navigateOTPVerify(email: String) {
-        navHost?.navigate("${Screen.OTP.name}?$EMAIL=${email}")
+        navHost?.navigate(Otp(email))
     }
 
     fun navigateResetPassword(email: String) {
-        navHost?.navigate("${Screen.ResetPassword.name}?$EMAIL=${email}")
+        navHost?.navigate(ResetPassword(email))
     }
 
     fun navigateConversation(roomID: Int) {
-        val screenName = "${Screen.Conversion.name}?$ROOM_ID=$roomID"
         navHost?.let { controller ->
             CoroutineScope(Dispatchers.Main).launch {
-                controller.popBackStack(screenName, inclusive = true)
+                controller.popBackStack(Conversation(roomID), inclusive = true)
                 yield()
-                controller.navigate(screenName)
+                controller.navigate(Conversation(roomID))
             }
         }
     }
 
     fun navigatePhotoViewer(photoURL: List<String>) {
-        navHost?.navigate("${Screen.PhotosViewer.name}?$PHOTOS_URL=${photoURL.toJson()}")
+        navHost?.navigate(PhotosViewer(photoURL))
     }
 
     fun navigateDancerList(clubId: String) {
-        navHost?.navigate("${Screen.DancerList.name}?$CLUB_ID=${Uri.encode(clubId)}&$PICK_FOR_BOOKING=false&$EXCLUDE_DANCER_IDS=")
+        navHost?.navigate(DancerList(clubId = clubId))
     }
 
     fun navigateDancerListForBookingPick(clubId: String, excludeDancerIds: List<String>) {
-        val exclude = Uri.encode(excludeDancerIds.joinToString(","))
         navHost?.navigate(
-            "${Screen.DancerList.name}?$CLUB_ID=${Uri.encode(clubId)}&$PICK_FOR_BOOKING=true&$EXCLUDE_DANCER_IDS=$exclude"
+            DancerList(
+                clubId = clubId,
+                pickForBooking = true,
+                excludeDancerIds = excludeDancerIds
+            )
         )
     }
 
@@ -309,6 +261,6 @@ class AppNavigator : Updatable {
     }
 
     fun navigateQuestion(id: Int, name: String) {
-        navHost?.navigate("${Screen.FaqThreadsQuestion.name}?$NAME=$name&$ID=$id")
+        navHost?.navigate(FaqThreadsQuestion(name = name, id = id))
     }
 }
