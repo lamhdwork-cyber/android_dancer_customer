@@ -1,4 +1,5 @@
 package com.kantek.dancer.booking.presentation.widget
+import android.support.ui.extension.rememberDebouncedClick
 
 import android.support.ui.widget.AppButton
 import android.support.ui.widget.AppInputText
@@ -99,7 +100,7 @@ fun BookingSuccessDialog(
             ) {
                 onDismiss?.let {
                     Button(
-                        onClick = { onDismiss() },
+                        onClick = rememberDebouncedClick { onDismiss() },
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(1f),
@@ -126,7 +127,7 @@ fun BookingSuccessDialog(
                 }
                 onConfirm?.let {
                     Button(
-                        onClick = onConfirm,
+                        onClick = rememberDebouncedClick(onClick = onConfirm),
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(1f),
@@ -186,7 +187,7 @@ fun CancellationReasonDialog(
         },
         confirmButton = {
             Button(
-                onClick = { onConfirm(reason) },
+                onClick = rememberDebouncedClick { onConfirm(reason) },
                 modifier = Modifier.widthIn(min = 80.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Colors.Primary, contentColor = Color.White
@@ -202,7 +203,7 @@ fun CancellationReasonDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = rememberDebouncedClick(onClick = onDismiss)) {
                 Text(stringResource(R.string.all_cancel), color = Colors.Gray146)
             }
         })
@@ -221,7 +222,7 @@ fun BookingItemView(
     onReadyClick: () -> Unit = {},
 ) {
     Card(
-        onClick = onItemClick,
+        onClick = rememberDebouncedClick(onClick = onItemClick),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth(),
@@ -454,7 +455,7 @@ fun BookingItemView(
                 BookingActionsBar.USER_STANDARD -> {
                     if (it.hasShowButtonCancel) {
                         OutlinedButton(
-                            onClick = onCancelClick,
+                            onClick = rememberDebouncedClick(onClick = onCancelClick),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp),
@@ -484,14 +485,14 @@ fun BookingItemView(
                                 .fillMaxWidth()
                                 .height(40.dp)
                                 .clip(RoundedCornerShape(28.dp)),
-                            onClick = onRequestClick
+                            onClick = rememberDebouncedClick(onClick = onRequestClick)
                         )
                     }
                 }
 
                 BookingActionsBar.CLUB_MANAGER_READY -> {
                     Button(
-                        onClick = onReadyClick,
+                        onClick = rememberDebouncedClick(onClick = onReadyClick),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(40.dp),
@@ -539,7 +540,7 @@ fun BookingItemView(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Button(
-                            onClick = onPrimary,
+                            onClick = rememberDebouncedClick(onClick = onPrimary),
                             modifier = Modifier
                                 .weight(2f)
                                 .height(40.dp),
@@ -561,7 +562,7 @@ fun BookingItemView(
                             )
                         }
                         OutlinedButton(
-                            onClick = onAwaitClick,
+                            onClick = rememberDebouncedClick(onClick = onAwaitClick),
                             modifier = Modifier
                                 .weight(1f)
                                 .height(40.dp),

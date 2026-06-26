@@ -1,9 +1,10 @@
 package com.kantek.dancer.booking.presentation.screen.booking
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -201,11 +202,11 @@ fun DetailBookingScreen(
                         ) {
                             DetailBookingWidePrimaryButton(
                                 labelRes = R.string.booking_action_ready,
-                                onClick = { detailManagerConfirm = DetailManagerConfirm.Ready }
+                                onClick = rememberDebouncedClick { detailManagerConfirm = DetailManagerConfirm.Ready }
                             )
                             DetailBookingWideOutlinedButton(
                                 labelRes = R.string.booking_action_await,
-                                onClick = { detailManagerConfirm = DetailManagerConfirm.Await },
+                                onClick = rememberDebouncedClick { detailManagerConfirm = DetailManagerConfirm.Await },
                                 useCancelVisualStyle = false
                             )
                         }
@@ -218,11 +219,11 @@ fun DetailBookingScreen(
                         ) {
                             DetailBookingWidePrimaryButton(
                                 labelRes = R.string.booking_action_ready,
-                                onClick = { detailManagerConfirm = DetailManagerConfirm.Ready }
+                                onClick = rememberDebouncedClick { detailManagerConfirm = DetailManagerConfirm.Ready }
                             )
 //                            DetailBookingWideOutlinedButton(
 //                                labelRes = R.string.all_cancel,
-//                                onClick = { hasShowCancel = true },
+//                                onClick = rememberDebouncedClick { hasShowCancel = true },
 //                                useCancelVisualStyle = true
 //                            )
                         }
@@ -326,11 +327,11 @@ private fun DetailBookingHero(
         ) {
             DetailHeroCircleIcon(
                 icon = Icons.Outlined.ArrowBackIosNew,
-                onClick = onBack
+                onClick = rememberDebouncedClick(onClick = onBack)
             )
             DetailHeroCircleIcon(
                 icon = Icons.Outlined.MoreHoriz,
-                onClick = onMore
+                onClick = rememberDebouncedClick(onClick = onMore)
             )
         }
         if (detail != null) {
@@ -365,7 +366,7 @@ private fun DetailHeroCircleIcon(
             .clip(CircleShape)
             .background(Color.Black.copy(alpha = 0.3f))
             .border(1.dp, Colors.White1AFFFFFF, CircleShape)
-            .clickable(onClick = onClick),
+            .onClick(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Icon(
@@ -749,7 +750,7 @@ private fun DetailBookingWidePrimaryButton(
     onClick: () -> Unit
 ) {
     Button(
-        onClick = onClick,
+        onClick = rememberDebouncedClick(onClick = onClick),
         modifier = Modifier
             .fillMaxWidth()
             .height(52.dp),
@@ -776,7 +777,7 @@ private fun DetailBookingWideOutlinedButton(
     useCancelVisualStyle: Boolean
 ) {
     OutlinedButton(
-        onClick = onClick,
+        onClick = rememberDebouncedClick(onClick = onClick),
         modifier = Modifier
             .fillMaxWidth()
             .height(52.dp),
@@ -815,7 +816,7 @@ private fun DetailBookingActions(
     ) {
         DetailBookingWideOutlinedButton(
             labelRes = R.string.all_cancel,
-            onClick = onCancel,
+            onClick = rememberDebouncedClick(onClick = onCancel),
             useCancelVisualStyle = true
         )
     }

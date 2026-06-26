@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.support.ui.R
 import android.support.ui.extension.loadUrlData
 import android.support.ui.theme.CoreColors
+import android.support.ui.extension.rememberDebouncedClick
 import android.view.Gravity
 import android.webkit.WebView
 import android.widget.TextView
@@ -142,7 +143,7 @@ fun HtmlStyledText(
 @Composable
 fun SocialLoginButton(iconRes: Int, onClick: () -> Unit) {
     IconButton(
-        onClick = onClick,
+        onClick = rememberDebouncedClick(onClick = onClick),
         modifier = Modifier
             .size(52.dp)
             .clip(RoundedCornerShape(12.dp))
@@ -195,7 +196,7 @@ fun AppButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Button(
-        onClick = { onClick() },
+        onClick = rememberDebouncedClick(onClick = onClick),
         enabled = isEnabled,
         contentPadding = contentPadding,
         modifier = modifier.indication(
@@ -559,7 +560,7 @@ fun OtpVerificationScreen(
         val isOtpComplete = otpValues.all { it.value.isNotEmpty() }
 
         Button(
-            onClick = {
+            onClick = rememberDebouncedClick {
                 val otp = otpValues.joinToString("") { it.value }
                 onOtpComplete(otp)
             },
@@ -594,7 +595,7 @@ fun OtpVerificationScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         if (isResendVisible) {
-            TextButton(onClick = {
+            TextButton(onClick = rememberDebouncedClick {
                 otpValues.forEach { it.value = "" }
                 timer = otpTimeoutSeconds
                 isResendVisible = false
@@ -700,7 +701,7 @@ fun AppNextButton(
     onClick: () -> Unit = {}
 ) {
     Button(
-        onClick = { onClick() },
+        onClick = rememberDebouncedClick(onClick = onClick),
         enabled = isEnabled,
         contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
         modifier = modifier,

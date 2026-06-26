@@ -1,9 +1,11 @@
 package com.kantek.dancer.booking.presentation.screen.introduce
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import android.support.ui.extension.onClick
+import android.support.ui.widget.AppButton
+import android.support.ui.widget.AppNextButton
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,10 +31,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -43,8 +45,6 @@ import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.introduce.IIntroduce
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.theme.Colors
-import android.support.ui.widget.AppButton
-import android.support.ui.widget.AppNextButton
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -86,7 +86,7 @@ fun IntroduceScreen(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 40.dp, end = 22.dp)
-                    .clickable { onGetStarted() }
+                    .onClick { onGetStarted() }
             )
 //        }
 

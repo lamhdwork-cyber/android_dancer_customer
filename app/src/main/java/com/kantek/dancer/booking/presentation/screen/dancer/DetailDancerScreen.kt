@@ -1,9 +1,10 @@
 package com.kantek.dancer.booking.presentation.screen.dancer
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -122,7 +123,7 @@ fun DetailDancerScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(heroHeight)
-                .clickable { appNavigator.navigatePhotoViewer(photos) },
+                .onClick { appNavigator.navigatePhotoViewer(photos) },
             contentScale = ContentScale.Crop
         )
         Box(
@@ -294,7 +295,7 @@ fun DetailDancerScreen(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Button(
-                    onClick = {
+                    onClick = rememberDebouncedClick {
                         appNavigator.navigateBooking(
                             dancerId = dancer.id,
                             hasNow = true,
@@ -332,7 +333,7 @@ fun DetailDancerScreen(
                     }
                 }
                 Button(
-                    onClick = {
+                    onClick = rememberDebouncedClick {
                         appNavigator.navigateBooking(
                             dancerId = dancer.id,
                             hasNow = false,
@@ -385,7 +386,7 @@ private fun CircleIconButton(
             .size(38.dp)
             .clip(CircleShape)
             .background(Colors.Dark660F172A)
-            .clickable { onClick() },
+            .onClick { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Icon(

@@ -1,9 +1,10 @@
 package android.support.ui.widget
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import android.support.ui.R
 import android.support.ui.theme.CoreColors
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -58,7 +59,7 @@ fun AppDialog(
         confirmButton = {
             onConfirm?.let {
                 Button(
-                    onClick = onConfirm,
+                    onClick = rememberDebouncedClick(onClick = onConfirm),
                     modifier = Modifier.widthIn(min = 80.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = CoreColors.Primary, contentColor = Color.White
@@ -76,7 +77,7 @@ fun AppDialog(
         },
         dismissButton = {
             onDismiss?.let {
-                TextButton(onClick = it) {
+                TextButton(onClick = rememberDebouncedClick(onClick = it)) {
                     Text(textDismiss, color = CoreColors.Gray146)
                 }
             }
@@ -208,7 +209,7 @@ fun AppPhotoPickerDialog(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
+                    .onClick {
                         scope.launch { sheetState.hide() }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
                                 onDismiss()
@@ -238,7 +239,7 @@ fun AppPhotoPickerDialog(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
+                    .onClick {
                         scope.launch { sheetState.hide() }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
                                 onDismiss()

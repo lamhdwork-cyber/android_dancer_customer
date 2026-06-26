@@ -1,4 +1,6 @@
 package com.kantek.dancer.booking.presentation.screen.account
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import android.app.Activity
 import android.content.Context
@@ -7,7 +9,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -128,7 +129,7 @@ fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Ap
                     Box(
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
-                            .clickable { showBottomSheet = true },
+                            .onClick { showBottomSheet = true },
                         contentAlignment = Alignment.BottomEnd
                     ) {
                         Box(
@@ -174,7 +175,7 @@ fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Ap
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .padding(top = 16.dp)
-                            .clickable { showBottomSheet = true }
+                            .onClick { showBottomSheet = true }
                     )
 
                     SpaceVertical(50.dp)
@@ -223,7 +224,7 @@ fun MyProfileScreen(viewModel: MyProfileVM = koinViewModel()) = ScopeProvider(Ap
                     )
                     SpaceVertical(50.dp)
                     Button(
-                        onClick = { viewModel.save(context) },
+                        onClick = rememberDebouncedClick { viewModel.save(context) },
                         shape = CircleShape,
                         colors = ButtonDefaults.buttonColors(containerColor = Colors.Primary),
                         modifier = Modifier

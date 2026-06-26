@@ -1,10 +1,11 @@
 package com.kantek.dancer.booking.presentation.screen.auth
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -221,7 +222,7 @@ fun GuestSignUpScreen(viewModel: SignUpVM = koinViewModel()) = ScopeProvider {
                     .padding(horizontal = 24.dp)
                     .padding(top = 8.dp, bottom = 24.dp)
             ) {
-                GuestSignUpCreateAccountButton(onClick = { viewModel.signUp() })
+                GuestSignUpCreateAccountButton(onClick = rememberDebouncedClick { viewModel.signUp() })
                 SpaceVertical(24.dp)
                 GuestSignUpSignInFooter(onSignInClick = { appNavigator.back() })
             }
@@ -284,7 +285,7 @@ private fun GuestSignUpTopBar(onBack: () -> Unit) {
                 .size(40.dp)
                 .clip(CircleShape)
                 .background(Colors.Pink33F425F4)
-                .clickable { onBack() },
+                .onClick { onBack() },
             contentAlignment = Alignment.Center
         ) {
             Image(
@@ -383,7 +384,7 @@ private fun GuestSignUpTermsRow(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 textDecoration = TextDecoration.Underline,
-                modifier = Modifier.clickable { onLegalLinkClick() }
+                modifier = Modifier.onClick { onLegalLinkClick() }
             )
             Text(
                 text = stringResource(R.string.auth_guest_sign_up_terms_and),
@@ -396,7 +397,7 @@ private fun GuestSignUpTermsRow(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
                 textDecoration = TextDecoration.Underline,
-                modifier = Modifier.clickable { onLegalLinkClick() }
+                modifier = Modifier.onClick { onLegalLinkClick() }
             )
         }
     }
@@ -405,7 +406,7 @@ private fun GuestSignUpTermsRow(
 @Composable
 private fun GuestSignUpCreateAccountButton(onClick: () -> Unit) {
     Button(
-        onClick = onClick,
+        onClick = rememberDebouncedClick(onClick = onClick),
         modifier = Modifier
             .fillMaxWidth()
             .height(64.dp)
@@ -463,7 +464,7 @@ private fun GuestSignUpSignInFooter(onSignInClick: () -> Unit) {
             color = Colors.Primary,
             modifier = Modifier
                 .padding(start = 4.dp)
-                .clickable { onSignInClick() }
+                .onClick { onSignInClick() }
         )
     }
 }

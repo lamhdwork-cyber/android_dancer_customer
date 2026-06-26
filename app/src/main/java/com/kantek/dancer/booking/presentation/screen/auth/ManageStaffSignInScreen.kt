@@ -1,11 +1,12 @@
 package com.kantek.dancer.booking.presentation.screen.auth
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -181,7 +182,7 @@ private fun ManageStaffSignInTopBar(onBack: () -> Unit) {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .clickable { onBack() },
+                .onClick { onBack() },
             contentAlignment = Alignment.Center
         ) {
             Image(
@@ -277,9 +278,9 @@ private fun ManageStaffSignInFormSection(
             onValueChange = onPasswordChange
         )
         SpaceVertical(4.dp)
-        AppButton(R.string.all_sign_in, onClick = onSignInClick)
+        AppButton(R.string.all_sign_in, onClick = rememberDebouncedClick(onClick = onSignInClick))
 //        Button(
-//            onClick = onSignInClick,
+//            onClick = rememberDebouncedClick(onClick = onSignInClick),
 //            modifier = Modifier
 //                .fillMaxWidth()
 //                .height(56.dp)

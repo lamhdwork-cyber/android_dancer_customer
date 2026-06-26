@@ -1,4 +1,5 @@
 package android.support.ui.widget
+import android.support.ui.extension.rememberDebouncedClick
 
 import android.support.ui.R
 import android.support.ui.formatter.USPhoneNumberTransformation
@@ -234,7 +235,7 @@ fun <T> AppDropdown(
             items.forEach { item ->
                 DropdownMenuItem(
                     text = { Text(item.toString()) },
-                    onClick = {
+                    onClick = rememberDebouncedClick {
                         onValueSelected(item)
                         expanded = false
                     }
@@ -315,7 +316,7 @@ fun <T> AppMultiSelectDropdown(
                             }
                         }
                     },
-                    onClick = {
+                    onClick = rememberDebouncedClick {
                         val newSelection = valueSelected?.toMutableList()
                         if (isSelected) {
                             newSelection?.remove(option)
@@ -460,7 +461,7 @@ fun AppInputText(
                     }
                     if (isPassword) {
                         IconButton(
-                            onClick = { passwordVisible = !passwordVisible },
+                            onClick = rememberDebouncedClick { passwordVisible = !passwordVisible },
                             modifier = Modifier.size(48.dp)
                         ) {
                             Icon(

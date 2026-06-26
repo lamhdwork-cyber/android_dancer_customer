@@ -1,4 +1,6 @@
 package com.kantek.dancer.booking.presentation.screen.conversation
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import android.annotation.SuppressLint
 import android.view.Gravity
@@ -6,7 +8,6 @@ import android.widget.TextView
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -97,7 +98,7 @@ fun ActionBarConversationView(
                 contentDescription = "",
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .clickable(
+                    .onClick(
                         indication = ripple(bounded = true, radius = 24.dp),
                         interactionSource = remember { MutableInteractionSource() },
                     ) {
@@ -171,7 +172,7 @@ fun ChatInputBox(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Camera icon
-            IconButton(onClick = onOpenCamera) {
+            IconButton(onClick = rememberDebouncedClick(onClick = onOpenCamera)) {
                 Icon(
                     imageVector = Icons.Default.PhotoCamera,
                     contentDescription = "Camera",
@@ -180,7 +181,7 @@ fun ChatInputBox(
             }
 
             // Gallery icon
-            IconButton(onClick = onOpenGallery) {
+            IconButton(onClick = rememberDebouncedClick(onClick = onOpenGallery)) {
                 Icon(
                     imageVector = Icons.Default.Image,
                     contentDescription = "Gallery",
@@ -214,7 +215,7 @@ fun ChatInputBox(
 
             // Button send
             IconButton(
-                onClick = onSend, enabled = messageText.isNotBlank()
+                onClick = rememberDebouncedClick(onClick = onSend), enabled = messageText.isNotBlank()
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.Send,
@@ -512,7 +513,7 @@ fun ChatBubble(
                             modifier = Modifier
                                 .padding(6.dp)
                                 .widthIn(max = 240.dp)
-                                .clickable { photoClick(message.photos) }
+                                .onClick { photoClick(message.photos) }
                         )
                     }
                 } else {

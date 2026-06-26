@@ -1,4 +1,5 @@
 package com.kantek.dancer.booking.presentation.screen.booking
+import android.support.ui.extension.rememberDebouncedClick
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -163,7 +164,7 @@ fun BookingConfirmScreen(
                 textColor = Colors.White,
                 iconStartVector = Icons.Outlined.Verified,
                 iconStartTint = Colors.White,
-                onClick = {
+                onClick = rememberDebouncedClick {
                     viewModel.submit { bookingId ->
                         createdBookingId.value = bookingId
                         showSuccessDialog.value = true

@@ -1,8 +1,9 @@
 package com.kantek.dancer.booking.presentation.screen.club
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -119,7 +120,7 @@ private fun CurrentLocationCard(onClick: () -> Unit) {
             .clip(RoundedCornerShape(18.dp))
             .background(Colors.Dark120812)
             .border(1.dp, Colors.White1AFFFFFF, RoundedCornerShape(18.dp))
-            .clickable(onClick = onClick)
+            .onClick(onClick = onClick)
             .padding(14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -181,7 +182,7 @@ private fun NearbyHeader(callBack: (() -> Unit)) {
             color = Colors.Primary,
             fontSize = 13.sp,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.clickable {
+            modifier = Modifier.onClick {
                 callBack()
             }
         )
@@ -280,7 +281,7 @@ private fun ClubItemCard(
                     .height(52.dp)
                     .clip(RoundedCornerShape(28.dp)),
                 textColor = Colors.White,
-                onClick = onSelectClub
+                onClick = rememberDebouncedClick(onClick = onSelectClub)
             )
         }
     }

@@ -1,7 +1,8 @@
 package com.kantek.dancer.booking.presentation.widget
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -77,10 +78,10 @@ fun AppNavigateBottomBar(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .clickable(
+                        .onClick(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = ripple(bounded = false),
-                            onClick = { onItemRouterSelected(it.route) })
+                            onClick = rememberDebouncedClick { onItemRouterSelected(it.route) })
                         .padding(vertical = 4.dp, horizontal = 6.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

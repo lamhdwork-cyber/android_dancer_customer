@@ -1,4 +1,5 @@
 package com.kantek.dancer.booking.presentation.screen.notification
+import android.support.ui.extension.rememberDebouncedClick
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -160,7 +161,7 @@ private fun NotificationItemView(
     val chevronTintColor = if (isUnread) Colors.Pink33F425F4 else Colors.Gray6B7280
 
     Card(
-        onClick = onClick,
+        onClick = rememberDebouncedClick(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),

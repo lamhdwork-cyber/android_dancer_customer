@@ -1,4 +1,5 @@
 package com.kantek.dancer.booking.presentation.widget
+import android.support.ui.extension.rememberDebouncedClick
 
 import android.media.MediaPlayer
 import android.support.core.extensions.safe
@@ -120,7 +121,7 @@ fun SettingItem(
         modifier = Modifier
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        onClick = {
+        onClick = rememberDebouncedClick {
             // Play sound
             val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
             mediaPlayer.setOnCompletionListener {

@@ -1,4 +1,5 @@
 package com.kantek.dancer.booking.presentation.widget
+import android.support.ui.extension.rememberDebouncedClick
 
 import android.media.MediaPlayer
 import android.support.ui.widget.AppButton
@@ -191,7 +192,7 @@ fun SubmitQuestionDialog(
         },
         confirmButton = {
             Button(
-                onClick = {
+                onClick = rememberDebouncedClick {
                     onConfirm(title to question)
                 },
                 modifier = Modifier.widthIn(min = 80.dp),
@@ -209,7 +210,7 @@ fun SubmitQuestionDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = rememberDebouncedClick(onClick = onDismiss)) {
                 Text(stringResource(R.string.all_cancel), color = Colors.Gray146)
             }
         })
@@ -244,7 +245,7 @@ fun SubmitAnswerDialog(
         },
         confirmButton = {
             Button(
-                onClick = {
+                onClick = rememberDebouncedClick {
                     onConfirm(question)
                 },
                 modifier = Modifier.widthIn(min = 80.dp),
@@ -262,7 +263,7 @@ fun SubmitAnswerDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(onClick = rememberDebouncedClick(onClick = onDismiss)) {
                 Text(stringResource(R.string.all_cancel), color = Colors.Gray146)
             }
         })
@@ -306,7 +307,7 @@ fun QuestionSentDialog(
             ) {
                 onDismiss?.let {
                     Button(
-                        onClick = { onDismiss() },
+                        onClick = rememberDebouncedClick { onDismiss() },
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(1f),
@@ -402,7 +403,7 @@ fun FAQThreadsCategoryItem(
         modifier = Modifier
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        onClick = {
+        onClick = rememberDebouncedClick {
             // Play sound
             val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
             mediaPlayer.setOnCompletionListener {
@@ -458,7 +459,7 @@ fun FAQThreadsQuestionItem(
         modifier = Modifier
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        onClick = {
+        onClick = rememberDebouncedClick {
             // Play sound
             val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
             mediaPlayer.setOnCompletionListener {

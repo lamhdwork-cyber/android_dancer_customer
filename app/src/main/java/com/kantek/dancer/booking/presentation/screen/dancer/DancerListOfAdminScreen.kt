@@ -1,11 +1,11 @@
 package com.kantek.dancer.booking.presentation.screen.dancer
+import android.support.ui.extension.onClick
 
 import android.content.Context
 import android.support.core.event.LoadingEvent
 import android.support.core.event.LoadingFlow
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -239,7 +239,7 @@ private fun AdminDancerRow(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .weight(1f)
-                .clickable(onClick = onOpenDetail)
+                .onClick(onClick = onOpenDetail)
         ) {
             Box {
                 Box(

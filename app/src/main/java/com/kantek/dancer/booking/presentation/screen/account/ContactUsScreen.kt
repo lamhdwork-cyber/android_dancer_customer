@@ -1,9 +1,9 @@
 package com.kantek.dancer.booking.presentation.screen.account
+import android.support.ui.extension.onClick
 
 import android.content.Context
 import android.support.core.extensions.safe
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -103,7 +103,7 @@ fun ContactUsScreen(viewModel: ContactUsVM = koinViewModel()) = ScopeProvider(Ap
                     SpaceVertical(14.dp)
                     Row(
                         modifier = Modifier
-                            .clickable {
+                            .onClick {
                             }
                             .fillMaxWidth()
                             .padding(vertical = 12.dp),
@@ -129,7 +129,7 @@ fun ContactUsScreen(viewModel: ContactUsVM = koinViewModel()) = ScopeProvider(Ap
                     )
                     Row(
                         modifier = Modifier
-                            .clickable {
+                            .onClick {
                                 accessCallPhone { hasShowCallDialog = true }
                             }
                             .fillMaxWidth()
@@ -157,7 +157,7 @@ fun ContactUsScreen(viewModel: ContactUsVM = koinViewModel()) = ScopeProvider(Ap
 
                     Row(
                         modifier = Modifier
-                            .clickable { appSetting.sendEmail(setting!!.email) }
+                            .onClick { appSetting.sendEmail(setting!!.email) }
                             .fillMaxWidth()
                             .padding(vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically

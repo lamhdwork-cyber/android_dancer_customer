@@ -1,10 +1,11 @@
 package com.kantek.dancer.booking.presentation.screen.booking
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import android.annotation.SuppressLint
 import android.support.core.extensions.safe
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -273,7 +274,7 @@ fun BookingScreen(
             textColor = Colors.White,
             iconStartVector = Icons.Outlined.Verified,
             iconStartTint = Colors.White,
-            onClick = {
+            onClick = rememberDebouncedClick {
                 val selectedRoom = state.rooms.firstOrNull { it.id == state.selectedRoomId }
                 val selectedRoomPrice = selectedRoom?.price?.toDoubleOrNull() ?: 0.0
                 val totalAmount = selectedRoomPrice * state.performers.size
@@ -368,7 +369,7 @@ private fun PerformerSection(
                             .size(72.dp)
                             .clip(RoundedCornerShape(14.dp))
                             .border(2.dp, Colors.White1AFFFFFF, RoundedCornerShape(14.dp))
-                            .clickable { onAddClick() }
+                            .onClick { onAddClick() }
                             .background(Colors.White1AFFFFFF),
                         contentAlignment = Alignment.Center
                     ) {
@@ -427,7 +428,7 @@ private fun ScheduleSection(
 //                            if (selected) Colors.Primary else Colors.White1AFFFFFF,
 //                            RoundedCornerShape(14.dp)
 //                        )
-//                        .clickable { onSelectDay(index) }
+//                        .onClick { onSelectDay(index) }
 //                        .padding(vertical = 10.dp),
 //                    horizontalAlignment = Alignment.CenterHorizontally
 //                ) {
@@ -464,7 +465,7 @@ private fun ScheduleSection(
                             RoundedCornerShape(10.dp)
                         )
                         .background(if (selected) Colors.Pink26F425F4 else Colors.White1AFFFFFF)
-                        .clickable { onSelectTime(time) }
+                        .onClick { onSelectTime(time) }
                         .padding(horizontal = 12.dp, vertical = 9.dp)
                 ) {
                     Text(
@@ -504,7 +505,7 @@ private fun RoomSection(
                         RoundedCornerShape(20.dp)
                     )
                     .background(if (selected) Colors.Pink26F425F4 else Colors.White1AFFFFFF)
-                    .clickable { onSelectRoom(room.id) }
+                    .onClick { onSelectRoom(room.id) }
                     .padding(14.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -643,7 +644,7 @@ private fun StepButton(icon: androidx.compose.ui.graphics.vector.ImageVector, on
             .clip(CircleShape)
             .border(2.dp, Colors.Pink4DF425F4, CircleShape)
             .background(Colors.Pink26F425F4)
-            .clickable { onClick() },
+            .onClick { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Icon(

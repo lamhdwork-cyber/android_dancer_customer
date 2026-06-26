@@ -1,9 +1,10 @@
 package com.kantek.dancer.booking.presentation.screen.auth
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -104,7 +105,7 @@ fun AuthScreen() = ScopeProvider(AppScopes.AppRole) {
                     descriptionRes = R.string.role_guest_description,
                     buttonRes = R.string.role_guest_action,
                     isGuest = true,
-                    onClick = { appNavigator.navigateSignIn() }
+                    onClick = rememberDebouncedClick { appNavigator.navigateSignIn() }
                 )
                 AppRoleCard(
                     iconRes = R.drawable.ic_profile,
@@ -114,7 +115,7 @@ fun AuthScreen() = ScopeProvider(AppScopes.AppRole) {
                     descriptionRes = R.string.role_manager_description,
                     buttonRes = R.string.role_manager_action,
                     isGuest = false,
-                    onClick = { appNavigator.navigateManageStaffSignIn() }
+                    onClick = rememberDebouncedClick { appNavigator.navigateManageStaffSignIn() }
                 )
             }
 
@@ -149,7 +150,7 @@ private fun AppRoleCard(
             .heightIn(min = AppRoleStyle.CardMinHeight)
             .background(AppRoleStyle.CardBackground, RoundedCornerShape(16.dp))
             .border(1.dp, AppRoleStyle.CardBorder, RoundedCornerShape(16.dp))
-            .clickable { onClick() }
+            .onClick { onClick() }
             .padding(20.dp)
     ) {
         Box(
@@ -197,7 +198,7 @@ private fun AppRoleCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(AppRoleStyle.ActionButtonHeight),
-                onClick = onClick
+                onClick = rememberDebouncedClick(onClick = onClick)
             )
         } else {
             AppButton(
@@ -206,7 +207,7 @@ private fun AppRoleCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(AppRoleStyle.ActionButtonHeight),
-                onClick = onClick
+                onClick = rememberDebouncedClick(onClick = onClick)
             )
         }
     }

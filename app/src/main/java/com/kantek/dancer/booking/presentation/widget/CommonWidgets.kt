@@ -1,4 +1,5 @@
 package com.kantek.dancer.booking.presentation.widget
+import android.support.ui.extension.rememberDebouncedClick
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -82,7 +83,7 @@ fun LegalDisclaimerDialog(
                     stringResource(R.string.reg_legal_disclaimer),
                     style = MaterialTheme.typography.titleLarge
                 )
-                IconButton(onClick = { onDismiss() }) {
+                IconButton(onClick = rememberDebouncedClick { onDismiss() }) {
                     Icon(Icons.Default.Close, contentDescription = "Close")
                 }
             }
@@ -107,7 +108,7 @@ fun LegalDisclaimerDialog(
         },
         confirmButton = {
             TextButton(
-                onClick = { onAgree() },
+                onClick = rememberDebouncedClick { onAgree() },
                 enabled = isChecked
             ) {
                 Text(stringResource(R.string.reg_legal_disclaimer_agree))

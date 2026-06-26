@@ -1,11 +1,11 @@
 package com.kantek.dancer.booking.presentation.screen.auth
+import android.support.ui.extension.onClick
 
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -297,7 +297,7 @@ private fun GuestSignInFormSection(
                     text = stringResource(R.string.auth_forgot_pw),
                     color = Colors.Gray6B7280,
                     fontSize = 14.sp,
-                    modifier = Modifier.clickable { onForgotPasswordClick() }
+                    modifier = Modifier.onClick { onForgotPasswordClick() }
                 )
             }
         }
@@ -325,7 +325,7 @@ private fun GuestSignInSignUpFooter(
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = Colors.Primary,
-            modifier = Modifier.clickable { onSignUpClick() }
+            modifier = Modifier.onClick { onSignUpClick() }
         )
     }
 }

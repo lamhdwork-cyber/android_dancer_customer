@@ -1,8 +1,9 @@
 package com.kantek.dancer.booking.presentation.widget
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -83,7 +84,7 @@ fun ActionBarBackAndTitleView(
                     .padding(start = 4.dp, top = 4.dp, bottom = 4.dp)
                     .size(48.dp)
                     .clip(CircleShape)
-                    .clickable(
+                    .onClick(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = ripple(
                             bounded = true,
@@ -152,7 +153,7 @@ fun ActionBarMainView(
 
             if (iconRight != null) {
                 IconButton(
-                    onClick = { onClickIconRight?.invoke() },
+                    onClick = rememberDebouncedClick { onClickIconRight?.invoke() },
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .padding(end = 4.dp)

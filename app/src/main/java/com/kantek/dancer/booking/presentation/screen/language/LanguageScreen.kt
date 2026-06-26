@@ -1,9 +1,9 @@
 package com.kantek.dancer.booking.presentation.screen.language
+import android.support.ui.extension.onClick
 
 import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -110,7 +110,7 @@ fun LanguageScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { viewModel.setLanguage(item.code) }
+                        .onClick { viewModel.setLanguage(item.code) }
                         .background(Color.White)
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically

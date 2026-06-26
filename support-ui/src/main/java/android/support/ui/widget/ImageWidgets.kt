@@ -1,9 +1,9 @@
 package android.support.ui.widget
+import android.support.ui.extension.onClick
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.calculatePan
 import androidx.compose.foundation.gestures.calculateZoom
@@ -66,7 +66,7 @@ fun AvatarImageDef(
         modifier = Modifier
             .size(size)
             .clip(CircleShape)
-            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier),
+            .then(if (onClick != null) Modifier.onClick { onClick() } else Modifier),
         contentAlignment = Alignment.Center
     ) {
         Image(

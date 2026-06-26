@@ -1,4 +1,5 @@
 package com.kantek.dancer.booking.presentation.widget
+import android.support.ui.extension.rememberDebouncedClick
 
 import android.support.ui.widget.AppButton
 import android.support.ui.widget.AppDropdown
@@ -84,7 +85,7 @@ fun DropdownItemWithCheck(
                             )
                         }
                     },
-                    onClick = {
+                    onClick = rememberDebouncedClick {
                         onSelected(option)
                         expanded = false
                     }

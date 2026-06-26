@@ -1,9 +1,10 @@
 package com.kantek.dancer.booking.presentation.screen.account
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -110,29 +111,29 @@ fun AccountScreen(viewModel: AccountVM = koinViewModel()) = ScopeProvider(AppSco
                         iconRes = R.drawable.ic_profile,
                         title = stringResource(R.string.account_edit_profile),
                         subtitle = stringResource(R.string.account_edit_profile_desc),
-                        onClick = { appNavigator.navigateMyProfile() }
+                        onClick = rememberDebouncedClick { appNavigator.navigateMyProfile() }
                     )
                     DividerLine()
                     AccountMenuItem(
                         iconRes = R.drawable.ic_nav_notification,
                         title = stringResource(R.string.account_notification_settings),
                         subtitle = stringResource(R.string.account_notification_settings_desc),
-                        onClick = { hasShowComingSoon.value = true }
+                        onClick = rememberDebouncedClick { hasShowComingSoon.value = true }
                     )
                     DividerLine()
                     AccountMenuItem(
                         iconRes = R.drawable.ic_language,
                         title = stringResource(R.string.all_language),
                         subtitle = stringResource(id = user!!.languageRes),
-                        onClick = { hasShowComingSoon.value = true }
-//                        onClick = { appNavigator.navigateLanguage(true) }
+                        onClick = rememberDebouncedClick { hasShowComingSoon.value = true }
+//                        onClick = rememberDebouncedClick { appNavigator.navigateLanguage(true) }
                     )
                     DividerLine()
                     AccountMenuItem(
                         iconRes = R.drawable.ic_logout,
                         title = stringResource(R.string.all_logout),
                         subtitle = stringResource(R.string.account_logout_desc),
-                        onClick = { isDialogVisible.value = true }
+                        onClick = rememberDebouncedClick { isDialogVisible.value = true }
                     )
                 }
 
@@ -148,7 +149,7 @@ fun AccountScreen(viewModel: AccountVM = koinViewModel()) = ScopeProvider(AppSco
                     iconRes = R.drawable.ic_delete,
                     title = stringResource(R.string.account_delete),
                     subtitle = stringResource(R.string.account_delete_desc),
-                    onClick = { isDeleteDialog.value = true }
+                    onClick = rememberDebouncedClick { isDeleteDialog.value = true }
                 )
             }
         }
@@ -259,7 +260,7 @@ private fun AccountMenuItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
+            .onClick { onClick() }
             .padding(horizontal = 16.dp, vertical = 14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -309,7 +310,7 @@ private fun AccountDangerItem(
             .clip(RoundedCornerShape(28.dp))
             .background(Colors.Red1AEF4444)
             .border(1.dp, Colors.Red33EF4444, RoundedCornerShape(28.dp))
-            .clickable { onClick() }
+            .onClick { onClick() }
             .padding(horizontal = 14.dp, vertical = 14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically

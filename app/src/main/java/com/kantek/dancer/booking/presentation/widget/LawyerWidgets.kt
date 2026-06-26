@@ -1,4 +1,6 @@
 package com.kantek.dancer.booking.presentation.widget
+import android.support.ui.extension.rememberDebouncedClick
+import android.support.ui.extension.onClick
 
 import android.support.core.extensions.safe
 import android.support.ui.widget.AppButton
@@ -6,7 +8,6 @@ import android.support.ui.widget.RatingBar
 import android.support.ui.widget.SpaceHorizontal
 import android.support.ui.widget.SpaceVertical
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -135,7 +136,7 @@ fun LawyerInfo(
                         .height(45.dp)
                         .fillMaxWidth(),
                     fontSize = 14,
-                    onClick = { onDetail?.invoke(it.id) }
+                    onClick = rememberDebouncedClick { onDetail?.invoke(it.id) }
                 )
 
                 if (hasShowReview) {
@@ -146,7 +147,7 @@ fun LawyerInfo(
                             .height(45.dp)
                             .fillMaxWidth(),
                         fontSize = 14,
-                        onClick = { onReview?.invoke(it.id) }
+                        onClick = rememberDebouncedClick { onReview?.invoke(it.id) }
                     )
                 }
             }
@@ -229,7 +230,7 @@ fun LawyerItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onItemClick(it.id) }) {
+            .onClick { onItemClick(it.id) }) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -276,7 +277,7 @@ fun LawyerItem(
                             .wrapContentWidth(),
                         contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
                         nameRes = R.string.all_request,
-                        onClick = onRequestClick
+                        onClick = rememberDebouncedClick(onClick = onRequestClick)
                     )
                 }
             }
