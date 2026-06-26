@@ -1,4 +1,4 @@
-package com.kantek.dancer.booking.app
+package com.kantek.dancer.booking.presentation.navigation
 
 import kotlinx.serialization.Serializable
 

@@ -189,7 +189,7 @@ import com.kantek.dancer.booking.domain.model.search.ISpeciality
 import com.kantek.dancer.booking.domain.model.user.ILanguage
 import com.kantek.dancer.booking.domain.model.user.ILawyer
 import com.kantek.dancer.booking.domain.model.user.IUser
-import com.kantek.dancer.booking.app.AppBottomNavigationScreen
+import com.kantek.dancer.booking.presentation.navigation.AppBottomNavigationScreen
 import com.kantek.dancer.booking.presentation.theme.Colors
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

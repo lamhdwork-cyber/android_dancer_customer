@@ -49,7 +49,7 @@ import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import android.support.ui.widget.AppButton

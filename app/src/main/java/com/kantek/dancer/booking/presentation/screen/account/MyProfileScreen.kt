@@ -67,7 +67,7 @@ import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import android.support.ui.helper.AppKeyboard
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import android.support.ui.helper.AppPopup
 import android.support.ui.provider.PermissionProvider
 import com.kantek.dancer.booking.presentation.theme.Colors

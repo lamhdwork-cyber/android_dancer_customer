@@ -72,7 +72,7 @@ import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
 import com.kantek.dancer.booking.domain.usecase.NotificationUseCase
 import android.support.ui.helper.ActivityRetriever
 import android.support.ui.helper.AppKeyboard
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import android.support.ui.helper.AppPopup
 import com.kantek.dancer.booking.presentation.screen.account.ContactUsRepo
 import com.kantek.dancer.booking.presentation.screen.account.ContactUsVM

@@ -70,8 +70,8 @@ import com.kantek.dancer.booking.domain.usecase.FetchRoomsByClubCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
-import com.kantek.dancer.booking.presentation.helper.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator.Companion.ArgKey.PICKED_DANCER_ID
 import android.support.ui.helper.AppPopup
 import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.theme.Colors

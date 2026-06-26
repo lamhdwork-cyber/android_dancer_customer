@@ -47,7 +47,7 @@ import com.kantek.dancer.booking.domain.model.user.IUser
 import com.kantek.dancer.booking.presentation.AuthAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.AccountVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarMainView

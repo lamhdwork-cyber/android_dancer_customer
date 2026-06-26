@@ -26,7 +26,7 @@ import com.kantek.dancer.booking.domain.model.faqs.ILegalCategory
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import android.support.ui.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.FAQThreadsCategoryItem

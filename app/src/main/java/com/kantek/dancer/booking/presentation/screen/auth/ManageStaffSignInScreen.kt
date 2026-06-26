@@ -58,7 +58,7 @@ import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.presentation.MainAct
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.ManageStaffSignInVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView

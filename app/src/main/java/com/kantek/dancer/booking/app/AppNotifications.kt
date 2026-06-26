@@ -20,7 +20,7 @@ import com.kantek.dancer.booking.app.AppNotifications.Companion.Id.CHANNEL_ID_BO
 import com.kantek.dancer.booking.app.AppNotifications.Companion.Id.CHANNEL_ID_CHAT
 import com.kantek.dancer.booking.data.model.firebase.FireBaseCloudMessage
 import com.kantek.dancer.booking.presentation.MainAct
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import java.util.concurrent.atomic.AtomicInteger
 
 class AppNotifications(private val mContext: Context) {

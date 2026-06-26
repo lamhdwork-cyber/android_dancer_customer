@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kantek.dancer.booking.app.AppConfig
-import com.kantek.dancer.booking.app.AppBottomNavigationScreen
+import com.kantek.dancer.booking.presentation.navigation.AppBottomNavigationScreen
 import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider

@@ -23,7 +23,7 @@ import com.kantek.dancer.booking.domain.model.user.ChangePasswordForm
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import android.support.ui.helper.AppPopup
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import android.support.ui.widget.AppButton

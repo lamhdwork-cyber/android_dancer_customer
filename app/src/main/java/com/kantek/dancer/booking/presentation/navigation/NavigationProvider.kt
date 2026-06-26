@@ -1,4 +1,4 @@
-package com.kantek.dancer.booking.presentation.provider
+package com.kantek.dancer.booking.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -6,7 +6,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import android.support.ui.helper.edit
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
 import org.koin.core.scope.Scope
 
 @Composable

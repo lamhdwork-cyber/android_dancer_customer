@@ -33,7 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kantek.dancer.booking.app.AppBottomNavigationScreen
+import com.kantek.dancer.booking.presentation.navigation.AppBottomNavigationScreen
 import com.kantek.dancer.booking.presentation.theme.Colors
 
 @Composable

@@ -42,7 +42,7 @@ import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import com.kantek.dancer.booking.domain.model.notification.INotification
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.viewmodel.NotificationVM

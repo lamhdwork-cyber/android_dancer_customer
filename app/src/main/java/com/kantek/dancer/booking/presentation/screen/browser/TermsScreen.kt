@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
 import com.kantek.dancer.booking.presentation.extensions.use
-import com.kantek.dancer.booking.presentation.helper.AppNavigator
+import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import com.kantek.dancer.booking.presentation.viewmodel.BrowserVM
 import com.kantek.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import android.support.ui.widget.AppWebView
