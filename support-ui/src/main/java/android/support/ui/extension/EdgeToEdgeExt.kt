@@ -1,45 +1,45 @@
 package android.support.ui.extension
 
+import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
+/**
+ * Controls only the status / navigation bar icon appearance (light vs dark icons).
+ * In edge-to-edge the bar background comes from the screen content drawn behind the
+ * transparent system bars, so no bar color is set here.
+ */
 @Composable
-private fun SetSystemBarsColor(
-    statusBarColor: Color = Color.Transparent,
-    navigationBarColor: Color = Color.Transparent,
-    statusBarDarkIcons: Boolean = false,
-    navigationBarDarkIcons: Boolean = false
+private fun SetSystemBarsAppearance(
+    lightStatusBars: Boolean,
+    lightNavigationBars: Boolean,
 ) {
-    val systemUiController = rememberSystemUiController()
+    val view = LocalView.current
     SideEffect {
-        systemUiController.setStatusBarColor(statusBarColor, darkIcons = statusBarDarkIcons)
-        systemUiController.setNavigationBarColor(
-            navigationBarColor,
-            darkIcons = navigationBarDarkIcons
-        )
+        val window = (view.context as? Activity)?.window ?: return@SideEffect
+        WindowCompat.getInsetsController(window, view).apply {
+            isAppearanceLightStatusBars = lightStatusBars
+            isAppearanceLightNavigationBars = lightNavigationBars
+        }
     }
 }
 
-/** Auth flows with light backgrounds (sign up, forgot password): restore light status bar after dark screens. */
+/** Auth flows with light backgrounds (sign up, forgot password): dark status icons. */
 @Composable
 fun ApplyLightStatusBarsForAuthScreens() {
-    SetSystemBarsColor(
-        statusBarColor = Color.White,
-        navigationBarColor = Color.Black,
-        statusBarDarkIcons = true,
-        navigationBarDarkIcons = false
+    SetSystemBarsAppearance(
+        lightStatusBars = true,
+        lightNavigationBars = false
     )
 }
 
-/** Dark auth UI (e.g. guest sign-in): transparent status bar + light status icons for edge-to-edge. */
+/** Dark auth UI (e.g. guest sign-in): light status icons for edge-to-edge. */
 @Composable
 fun ApplyDarkEdgeToEdgeStatusBars() {
-    SetSystemBarsColor(
-        statusBarColor = Color.Transparent,
-        navigationBarColor = Color.Transparent,
-        statusBarDarkIcons = false,
-        navigationBarDarkIcons = false
+    SetSystemBarsAppearance(
+        lightStatusBars = false,
+        lightNavigationBars = false
     )
 }

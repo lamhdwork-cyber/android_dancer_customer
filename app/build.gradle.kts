@@ -136,7 +136,6 @@ dependencies {
 
     // Others
     implementation(libs.coroutinesCore)
-    implementation(libs.google.accompanist.systemuicontroller)
 
     // Load image
     implementation(libs.io.coil)
