@@ -43,8 +43,10 @@ android {
 
     buildTypes {
         val placeApiKey: String = project.findProperty("PLACE_API_KEY") as String
+        val googleWebClientId: String = project.findProperty("GOOGLE_WEB_CLIENT_ID") as String
         release {
             buildConfigField("String", "PLACE_API_KEY", placeApiKey)
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", googleWebClientId)
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -53,6 +55,7 @@ android {
         }
         debug {
             buildConfigField("String", "PLACE_API_KEY", placeApiKey)
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", googleWebClientId)
             isMinifyEnabled = false
         }
     }
@@ -106,8 +109,11 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.messaging)
 
-    // Login with Google
+    // Login with Google (Credential Manager + Google Identity)
     implementation(libs.google.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.google.googleid)
 
     // Socket IO
     implementation(libs.socket.io.client)

@@ -1,7 +1,7 @@
 package com.kantek.dancer.booking.presentation.viewmodel
 
 import android.content.Context
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.kantek.dancer.booking.app.AppConfig
 import com.kantek.dancer.booking.app.AppViewModel
 import android.support.core.network.buildMultipart
@@ -57,7 +57,7 @@ class SignInVM(
         loginSuccess.emit(true)
     }
 
-    fun loginGoogle(it: GoogleSignInAccount) = launch(loading, error) {
+    fun loginGoogle(it: GoogleIdTokenCredential) = launch(loading, error) {
         appKeyboard.hide()
         signInGoogleRepo(it)
         loginSuccess.emit(true)
@@ -69,12 +69,12 @@ class SignInGoogleRepo(
     private val userLocalSource: UserLocalSource,
     private val userApi: UserApi
 ) {
-    suspend operator fun invoke(it: GoogleSignInAccount) {
+    suspend operator fun invoke(it: GoogleIdTokenCredential) {
         val rs = userApi.signInGoogle(
             RequestBodyBuilder()
                 .put("first_name", it.givenName)
                 .put("last_name", it.familyName)
-                .put("email", it.email)
+                .put("email", it.id)
                 .put("type", "google")
                 .put("mac_address", context.getDeviceID())
                 .put("device_token", userLocalSource.getTokenPush())
