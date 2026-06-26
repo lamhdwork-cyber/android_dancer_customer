@@ -1,8 +1,7 @@
 package com.kantek.dancer.booking.data.local
 
 import android.content.Context
-import android.support.persistent.cache.GsonCaching
-import java.util.Locale
+import android.support.persistent.cache.sharepreferences.GsonCaching
 
 class LanguageLocalSource(context: Context) {
 

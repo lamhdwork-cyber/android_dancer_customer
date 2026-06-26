@@ -2,7 +2,7 @@ package android.support.persistent.disk
 
 import android.content.Context
 import android.support.persistent.Parser
-import android.support.persistent.cache.GsonParser
+import android.support.persistent.cache.sharepreferences.GsonParser
 
 class DiskStorageFactory(
     private val context: Context,

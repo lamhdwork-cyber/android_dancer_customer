@@ -37,4 +37,5 @@ kotlin {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.gson)
+    implementation(libs.androidx.datastore.preferences)
 }

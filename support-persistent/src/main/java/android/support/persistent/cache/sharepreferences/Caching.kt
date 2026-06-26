@@ -1,4 +1,4 @@
-package android.support.persistent.cache
+package android.support.persistent.cache.sharepreferences
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -67,5 +67,4 @@ abstract class Caching(
             mShared.edit().apply { set(value) }.apply()
         }
     }
-
 }
