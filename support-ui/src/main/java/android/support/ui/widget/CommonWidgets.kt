@@ -326,7 +326,7 @@ fun <T> AppLazyColumn(
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
-                            NoDataView(htmlRes = emptyHtmlRes!!)
+                            NoDataView(htmlRes = emptyHtmlRes)
                         }
                     }
                 } else {
