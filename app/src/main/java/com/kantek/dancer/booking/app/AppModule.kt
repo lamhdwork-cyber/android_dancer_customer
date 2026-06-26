@@ -10,7 +10,6 @@ import android.support.core.network.ApiAsyncAdapterFactory
 import android.support.core.network.DefaultApiErrorHandler
 import android.support.core.network.interceptor.LanguageInterceptor
 import android.support.core.network.interceptor.TokenInterceptor
-import com.kantek.dancer.booking.data.local.FilterLocalSource
 import com.kantek.dancer.booking.data.local.LanguageLocalSource
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.local.UserRoleProvider
@@ -277,7 +276,6 @@ val dataModule = module {
     factory { VerifyOTPRepo(get(), get()) }
     factory { ResetPasswordRepo(get()) }
     factory { FetchReviewByPageRepo(get(), get()) }
-    single { FilterLocalSource(get()) }
     factory { CreateReviewRepo(get()) }
     factory { FetchFAQsThreadsPagingRepo(get(), get()) }
     factory { FetchQuestionThreadsByPage(get(), get()) }
