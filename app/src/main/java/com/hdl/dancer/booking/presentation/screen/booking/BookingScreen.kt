@@ -76,6 +76,7 @@ import com.hdl.dancer.booking.presentation.model.support.Scopes
 import com.hdl.dancer.booking.presentation.theme.Colors
 import com.hdl.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.hdl.dancer.booking.presentation.widget.AppButton
+import com.hdl.dancer.booking.presentation.widget.AppImage
 import com.hdl.dancer.booking.presentation.widget.AppInputPhoneNumber
 import com.hdl.dancer.booking.presentation.widget.AppInputText
 import com.hdl.dancer.booking.presentation.widget.SpaceVertical
@@ -343,9 +344,8 @@ private fun PerformerSection(
                             )
                             .padding(3.dp)
                     ) {
-                        AsyncImage(
-                            model = performer.avatar,
-                            contentDescription = performer.name,
+                        AppImage(
+                            url = performer.avatar,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clip(RoundedCornerShape(11.dp)),

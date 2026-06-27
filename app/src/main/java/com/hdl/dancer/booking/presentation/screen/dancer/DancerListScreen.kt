@@ -51,6 +51,7 @@ import com.hdl.dancer.booking.presentation.extensions.use
 import com.hdl.dancer.booking.presentation.helper.AppNavigator
 import com.hdl.dancer.booking.presentation.theme.Colors
 import com.hdl.dancer.booking.presentation.widget.ActionBarBackAndTitleView
+import com.hdl.dancer.booking.presentation.widget.AppImage
 import com.hdl.dancer.booking.presentation.widget.AppLazyVerticalGrid
 import com.hdl.dancer.booking.presentation.widget.NoDataView
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -137,12 +138,8 @@ private fun DancerCard(
         colors = CardDefaults.cardColors(containerColor = Colors.Dark120812)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(dancer.avatar)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = dancer.name,
+            AppImage(
+                url = dancer.avatar,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )

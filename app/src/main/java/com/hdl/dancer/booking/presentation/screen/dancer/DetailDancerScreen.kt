@@ -62,6 +62,7 @@ import com.hdl.dancer.booking.presentation.extensions.use
 import com.hdl.dancer.booking.presentation.helper.AppNavigator
 import com.hdl.dancer.booking.presentation.model.support.Scopes
 import com.hdl.dancer.booking.presentation.theme.Colors
+import com.hdl.dancer.booking.presentation.widget.AppImage
 import com.hdl.dancer.booking.presentation.widget.NoDataView
 import com.hdl.dancer.booking.presentation.widget.SpaceVertical
 import com.hdl.dancer.booking.presentation.widget.sheetTopSideBorder
@@ -113,12 +114,8 @@ fun DetailDancerScreen(
             .background(Colors.Dark120812)
     ) {
         val heroHeight = maxHeight * 0.6f
-        AsyncImage(
-            model = ImageRequest.Builder(context)
-                .data(photos.firstOrNull())
-                .crossfade(true)
-                .build(),
-            contentDescription = dancer.name,
+        AppImage(
+            url = photos.firstOrNull(),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(heroHeight)

@@ -52,6 +52,7 @@ import com.hdl.dancer.booking.presentation.helper.AppNavigator
 import com.hdl.dancer.booking.presentation.theme.Colors
 import com.hdl.dancer.booking.presentation.widget.ActionBarBackAndTitleView
 import com.hdl.dancer.booking.presentation.widget.AppButton
+import com.hdl.dancer.booking.presentation.widget.AppImage
 import com.hdl.dancer.booking.presentation.widget.BookingSuccessDialog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -368,9 +369,8 @@ private fun DancersCard(summary: BookingConfirmUi) {
                             .border(2.dp, Colors.Primary, CircleShape)
                             .padding(2.dp)
                     ) {
-                        AsyncImage(
-                            model = dancer.avatar,
-                            contentDescription = dancer.name,
+                        AppImage(
+                            url = dancer.avatar,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clip(CircleShape),
