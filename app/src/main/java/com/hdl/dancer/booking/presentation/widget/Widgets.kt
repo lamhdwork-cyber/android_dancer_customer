@@ -1,0 +1,3893 @@
+package com.hdl.dancer.booking.presentation.widget
+
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.media.MediaPlayer
+import android.support.core.extensions.safe
+import android.util.Log
+import android.view.Gravity
+import android.webkit.WebView
+import android.widget.TextView
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.calculatePan
+import androidx.compose.foundation.gestures.calculateZoom
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Arrangement.HorizontalOrVertical
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material.icons.filled.PhotoLibrary
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material.icons.filled.StarHalf
+import androidx.compose.material.icons.filled.StarOutline
+import androidx.compose.material.icons.outlined.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.material3.ripple
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.core.text.HtmlCompat
+import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.hdl.dancer.booking.R
+import com.hdl.dancer.booking.app.AppConfig
+import com.hdl.dancer.booking.data.formatter.USPhoneNumberTransformation
+import com.hdl.dancer.booking.domain.model.Command
+import com.hdl.dancer.booking.domain.model.IImage
+import com.hdl.dancer.booking.domain.model.ILabel
+import com.hdl.dancer.booking.domain.model.booking.BookingActionsBar
+import com.hdl.dancer.booking.domain.model.booking.IBooking
+import com.hdl.dancer.booking.domain.model.faqs.ILegalAnswer
+import com.hdl.dancer.booking.domain.model.faqs.ILegalCategory
+import com.hdl.dancer.booking.domain.model.faqs.ILegalQuestion
+import com.hdl.dancer.booking.domain.model.review.IReview
+import com.hdl.dancer.booking.domain.model.search.ICity
+import com.hdl.dancer.booking.domain.model.search.ISpeciality
+import com.hdl.dancer.booking.domain.model.user.ILanguage
+import com.hdl.dancer.booking.domain.model.user.ILawyer
+import com.hdl.dancer.booking.domain.model.user.ILoginAgent
+import com.hdl.dancer.booking.domain.model.user.IUser
+import com.hdl.dancer.booking.presentation.extensions.loadUrlData
+import com.hdl.dancer.booking.presentation.extensions.observe
+import com.hdl.dancer.booking.presentation.model.support.BottomNavigationScreen
+import com.hdl.dancer.booking.presentation.theme.Colors
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import java.util.Locale
+
+
+@Composable
+fun ComponentView(item: Any, onCommand: (Command) -> Unit = {}) {
+    return when (item) {
+        is ILabel -> LabelView(item)
+        is ILoginAgent -> AgentView(item, onCommand)
+        is IImage -> AppImageView(item)
+        else -> UnknownView(item)
+    }
+}
+
+@Composable
+fun UnknownView(item: Any) {
+    val text = item.observe()
+    return Text(text = text.toString())
+}
+
+@Composable
+fun LabelView(item: ILabel) {
+    val text = item.observe()
+    return Text(text = text.toString())
+}
+
+@Composable
+fun AppImageView(item: IImage) {
+    val text = item.observe()
+    return Text(text = text.toString())
+}
+
+@Composable
+fun AgentView(it: ILoginAgent, onCommand: (Command) -> Unit = {}) {
+    val agent = it.observe()
+    Text(
+        text = agent.name.toString(), Modifier.clickable(onClick = { onCommand(Command.Click(it)) })
+    )
+}
+
+@Composable
+fun ActionBarBackAndTitleView(
+    textRes: Int = R.string.app_name,
+    backgroundColor: Color = Colors.Dark120812,
+    onCommand: (Command) -> Unit = {}
+) {
+    ActionBarBackAndTitleView(stringResource(textRes), backgroundColor, onCommand)
+}
+
+@Composable
+fun ActionBarBackAndTitleView(
+    text: String = stringResource(R.string.app_name),
+    backgroundColor: Color = Colors.Dark120812,
+    onCommand: (Command) -> Unit = {}
+) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(
+                WindowInsets.statusBars.union(WindowInsets.displayCutout)
+            )
+            .background(backgroundColor)
+    ) {
+        Box(
+            modifier = Modifier
+                .height(56.dp)
+                .fillMaxWidth()
+        ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = 4.dp, top = 4.dp, bottom = 4.dp)
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = ripple(
+                            bounded = true,
+                            color = Colors.Pink66F425F4
+                        )
+                    ) { onCommand(Command.ActionBarBack) },
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.baseline_arrow_back_24),
+                    colorFilter = ColorFilter.tint(Color.White),
+                    contentDescription = "",
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
+            Text(
+                text = text,
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(start = 56.dp, end = 56.dp)
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            )
+        }
+    }
+}
+
+@Composable
+fun ActionBarMainView(
+    textRes: Int = R.string.nav_home,
+    iconRight: ImageVector? = null,
+    onClickIconRight: (() -> Unit)? = null
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(
+                WindowInsets.statusBars.union(WindowInsets.displayCutout)
+            ),
+        color = Colors.Dark120812, shadowElevation = 8.dp
+    ) {
+        Box(
+            modifier = Modifier
+                .height(56.dp)
+                .background(Colors.Dark120812)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(textRes),
+                color = Color.White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxWidth()
+                    .padding(horizontal = 56.dp)
+                    .wrapContentHeight(Alignment.CenterVertically)
+            )
+
+            if (iconRight != null) {
+                IconButton(
+                    onClick = { onClickIconRight?.invoke() },
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 4.dp)
+                        .size(48.dp)
+                ) {
+                    Icon(
+                        imageVector = iconRight,
+                        contentDescription = null,
+                        tint = Colors.Primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SpaceVertical(height: Dp) {
+    Spacer(modifier = Modifier.height(height))
+}
+
+@Composable
+fun SpaceHorizontal(width: Dp) {
+    Spacer(modifier = Modifier.width(width))
+}
+
+@Composable
+fun LoadingView(
+    isShowing: Boolean,
+    textLoadingRes: Int = R.string.all_loading,
+    onDismissRequest: () -> Unit = {}
+) {
+    if (isShowing) {
+        Dialog(
+            onDismissRequest = onDismissRequest
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(140.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(16.dp), contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    CircularProgressIndicator(
+                        color = Colors.Primary,
+                        strokeWidth = 4.dp,
+                        modifier = Modifier.size(48.dp)
+                    )
+                    Text(
+                        text = stringResource(id = textLoadingRes),
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AppInputText(
+    value: String = "",
+    @StringRes placeHolderRes: Int = R.string.app_name,
+    @StringRes hintRes: Int? = null,
+    @DrawableRes leadingIconRes: Int? = null,
+    /** When set, shown instead of [leadingIconRes] (Material / Compose icons, e.g. [Icons.Outlined.Email]). */
+    leadingIcon: ImageVector? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+    maxLength: Int = Int.MAX_VALUE,
+    isPassword: Boolean = false,
+    modifier: Modifier = Modifier,
+    singleLine: Boolean = true,
+    readOnly: Boolean = false,
+    maxLines: Int = 1,
+    /** When true, field uses light fill/border/text for white surfaces. When false, matches guest sign-in (dark translucent field). */
+    lightBackground: Boolean = false,
+    onValueChange: (String) -> Unit = {}
+) {
+    val placeHolder = stringResource(id = placeHolderRes)
+    val hintText = hintRes?.let { stringResource(id = it) }
+    var passwordVisible by remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+    var textFieldValue by remember { mutableStateOf(TextFieldValue(text = value)) }
+
+    LaunchedEffect(isFocused) {
+        if (isFocused) {
+            textFieldValue = textFieldValue.copy(selection = TextRange(value.length))
+        }
+    }
+
+    LaunchedEffect(value) {
+        if (value != textFieldValue.text) {
+            textFieldValue = textFieldValue.copy(text = value, selection = TextRange(value.length))
+        }
+    }
+
+    val iconTint = if (isFocused) Colors.Primary else Colors.Dark64748B
+    val borderColor = when {
+        isFocused -> Colors.Primary
+        lightBackground -> Colors.Gray238
+        else -> Colors.Dark1E293B
+    }
+    val borderWidth = if (isFocused) 2.dp else 1.dp
+    val fieldBackground = if (lightBackground) Colors.Gray249 else Colors.Dark660F172A
+    val labelColor = if (lightBackground) Colors.Gray146 else Colors.GrayCBD5E1
+    val textColor = if (lightBackground) Color.Black else Colors.GrayF1F5F9
+    val hintColor = if (lightBackground) Colors.Gray146 else Colors.Dark475569
+    val effectiveMaxLines = if (singleLine) 1 else maxLines.coerceAtLeast(1)
+    val resolvedLeadingIcon: ImageVector? =
+        leadingIcon ?: leadingIconRes?.let { ImageVector.vectorResource(id = it) }
+
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = placeHolder,
+            modifier = Modifier.padding(start = 4.dp, bottom = 8.dp),
+            color = labelColor,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium
+        )
+        BasicTextField(
+            value = textFieldValue,
+            onValueChange = { newValue ->
+                val filteredText = newValue.text.take(maxLength)
+                textFieldValue = newValue.copy(
+                    text = filteredText,
+                    selection = if (newValue.text != filteredText) {
+                        TextRange(filteredText.length)
+                    } else {
+                        newValue.selection
+                    }
+                )
+                onValueChange(filteredText)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = if (singleLine) 56.dp else 48.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .border(borderWidth, borderColor, RoundedCornerShape(16.dp))
+                .background(fieldBackground, RoundedCornerShape(16.dp))
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+            readOnly = readOnly,
+            textStyle = TextStyle(color = textColor, fontSize = 16.sp),
+            keyboardOptions = if (isPassword) {
+                KeyboardOptions(keyboardType = KeyboardType.Text)
+            } else {
+                keyboardOptions
+            },
+            singleLine = singleLine,
+            maxLines = effectiveMaxLines,
+            minLines = 1,
+            visualTransformation = if (isPassword && !passwordVisible) {
+                PasswordVisualTransformation()
+            } else {
+                VisualTransformation.None
+            },
+            interactionSource = interactionSource,
+            cursorBrush = SolidColor(Colors.Primary),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (resolvedLeadingIcon != null) {
+                        Icon(
+                            imageVector = resolvedLeadingIcon,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 4.dp)
+                                .size(24.dp),
+                            tint = iconTint
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 4.dp)
+                    ) {
+                        if (hintText != null && textFieldValue.text.isEmpty()) {
+                            Text(
+                                text = hintText,
+                                color = hintColor,
+                                fontSize = 16.sp
+                            )
+                        }
+                        innerTextField()
+                    }
+                    if (isPassword) {
+                        IconButton(
+                            onClick = { passwordVisible = !passwordVisible },
+                            modifier = Modifier.size(48.dp)
+                        ) {
+                            Icon(
+                                imageVector = if (passwordVisible) {
+                                    Icons.Outlined.Visibility
+                                } else {
+                                    Icons.Outlined.VisibilityOff
+                                },
+                                contentDescription = null,
+                                tint = Colors.Gray6B7280
+                            )
+                        }
+                    }
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun AppInputPhoneNumber(
+    value: String = "",
+    readOnly: Boolean = false,
+    @StringRes placeHolderRes: Int = R.string.app_name,
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    /** When true, field uses light fill/border/text for white surfaces (same as [AppInputText]). */
+    lightBackground: Boolean = true,
+    leadingIcon: ImageVector? = null,
+    onValueChange: (String) -> Unit = {}
+) {
+    val placeHolder = stringResource(id = placeHolderRes)
+    val hintPhone = stringResource(R.string.all_phone_hint_format)
+    var textFieldValue by remember { mutableStateOf(TextFieldValue(text = value)) }
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+    val numericRegex = Regex("[^0-9]")
+
+    LaunchedEffect(isFocused) {
+        if (isFocused) {
+            textFieldValue = textFieldValue.copy(selection = TextRange(value.length))
+        }
+    }
+
+    LaunchedEffect(value) {
+        if (value != textFieldValue.text) {
+            textFieldValue = textFieldValue.copy(text = value, selection = TextRange(value.length))
+        }
+    }
+
+    val borderColor = when {
+        isFocused -> Colors.Primary
+        lightBackground -> Colors.Gray238
+        else -> Colors.Dark1E293B
+    }
+    val borderWidth = if (isFocused) 2.dp else 1.dp
+    val fieldBackground = if (lightBackground) Colors.Gray249 else Colors.Dark660F172A
+    val labelColor = if (lightBackground) Colors.Gray146 else Colors.GrayCBD5E1
+    val textColor = if (lightBackground) Color.Black else Colors.GrayF1F5F9
+    val hintColor = if (lightBackground) Colors.Gray146 else Colors.Dark475569
+    val iconTint = if (isFocused) Colors.Primary else Colors.Gray6B7280
+
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = placeHolder,
+            modifier = Modifier.padding(start = 4.dp, bottom = 8.dp),
+            color = labelColor,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium
+        )
+        BasicTextField(
+            value = textFieldValue,
+            onValueChange = { newValue ->
+                val stripped = numericRegex.replace(newValue.text, "")
+                val phoneNumber = if (stripped.length >= 10) {
+                    stripped.substring(0..9)
+                } else {
+                    stripped
+                }
+                textFieldValue = newValue.copy(
+                    text = phoneNumber,
+                    selection = if (newValue.text != phoneNumber) {
+                        TextRange(phoneNumber.length)
+                    } else {
+                        newValue.selection
+                    }
+                )
+                onValueChange(phoneNumber)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 56.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .border(borderWidth, borderColor, RoundedCornerShape(16.dp))
+                .background(fieldBackground, RoundedCornerShape(16.dp))
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+            readOnly = readOnly,
+            textStyle = TextStyle(color = textColor, fontSize = 16.sp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true,
+            maxLines = 1,
+            minLines = 1,
+            visualTransformation = USPhoneNumberTransformation(),
+            interactionSource = interactionSource,
+            cursorBrush = SolidColor(Colors.Primary),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (leadingIcon != null) {
+                        Icon(
+                            imageVector = leadingIcon,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 4.dp)
+                                .size(24.dp),
+                            tint = iconTint
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 4.dp)
+                    ) {
+                        if (textFieldValue.text.isEmpty()) {
+                            Text(
+                                text = hintPhone,
+                                color = hintColor,
+                                fontSize = 16.sp
+                            )
+                        }
+                        innerTextField()
+                    }
+                }
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun <T> AppDropdown(
+    valueSelected: T?,
+    @StringRes placeHolderRes: Int = R.string.app_name,
+    @DrawableRes trailingIconRes: Int = R.drawable.ic_dropdown,
+    items: List<T>,
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    onValueSelected: (T) -> Unit
+) {
+    val placeHolder = stringResource(id = placeHolderRes)
+    var expanded by remember { mutableStateOf(false) }
+    val rotation by animateFloatAsState(
+        targetValue = if (expanded) 180f else 0f,
+        label = "DropdownIconRotation"
+    )
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        OutlinedTextField(
+            value = valueSelected?.toString() ?: "",
+            onValueChange = {},
+            readOnly = true,
+            textStyle = TextStyle(fontSize = 14.sp),
+            label = { Text(placeHolder, fontSize = 14.sp) },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Colors.Primary,
+                unfocusedIndicatorColor = Colors.Gray238,
+                cursorColor = Colors.Primary
+            ),
+            shape = RoundedCornerShape(12.dp),
+//            trailingIcon = {
+//                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+//            },
+            trailingIcon = {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = trailingIconRes),
+                    contentDescription = null,
+                    tint = Color.Black,
+                    modifier = Modifier
+                        .rotate(rotation)
+                        .size(20.dp),
+                )
+            },
+            modifier = modifier.menuAnchor()
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            items.forEach { item ->
+                DropdownMenuItem(
+                    text = { Text(item.toString()) },
+                    onClick = {
+                        onValueSelected(item)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun <T> AppMultiSelectDropdown(
+    valueSelected: List<T>?,
+    @StringRes placeHolderRes: Int = R.string.app_name,
+    @DrawableRes trailingIconRes: Int = R.drawable.ic_dropdown,
+    items: List<T>,
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    onValueSelected: (List<T>?) -> Unit
+) {
+    val placeHolder = stringResource(id = placeHolderRes)
+    var expanded by remember { mutableStateOf(false) }
+    val rotation by animateFloatAsState(
+        targetValue = if (expanded) 180f else 0f,
+        label = "DropdownIconRotation"
+    )
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        OutlinedTextField(
+            value = if (valueSelected.isNullOrEmpty()) "" else valueSelected.joinToString(),
+            onValueChange = {},
+            readOnly = true,
+            textStyle = TextStyle(fontSize = 14.sp),
+            label = { Text(placeHolder, fontSize = 14.sp) },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Colors.Primary,
+                unfocusedIndicatorColor = Colors.Gray238,
+                cursorColor = Colors.Primary
+            ),
+            shape = RoundedCornerShape(12.dp),
+            trailingIcon = {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = trailingIconRes),
+                    contentDescription = null,
+                    tint = Color.Black,
+                    modifier = Modifier
+                        .rotate(rotation)
+                        .size(20.dp),
+                )
+            },
+            modifier = modifier.menuAnchor()
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            items.forEach { option ->
+                val isSelected = valueSelected?.contains(option) == true
+                DropdownMenuItem(
+                    text = {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(option.toString())
+                            if (isSelected) {
+                                Icon(
+                                    Icons.Default.Check,
+                                    contentDescription = null,
+                                    tint = Colors.Primary
+                                )
+                            }
+                        }
+                    },
+                    onClick = {
+                        val newSelection = valueSelected?.toMutableList()
+                        if (isSelected) {
+                            newSelection?.remove(option)
+                        } else {
+                            newSelection?.add(option)
+                        }
+                        onValueSelected(newSelection)
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun AppNextButton(
+    @StringRes nameRes: Int,
+    @ColorInt backgroundColor: Color = Colors.Primary,
+    @ColorInt textColor: Color = Color.White,
+    isEnabled: Boolean = true,
+    modifier: Modifier = Modifier.height(55.dp),
+    onClick: () -> Unit = {}
+) {
+//    val context = LocalContext.current
+    Button(
+        onClick = {   // Play sound
+//            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
+//            mediaPlayer.setOnCompletionListener {
+//                it.release()
+//            }
+            onClick()
+//            mediaPlayer.start()
+        },
+        enabled = isEnabled,
+        contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
+        modifier = modifier,
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 14.dp,
+            focusedElevation = 14.dp,
+            hoveredElevation = 14.dp
+        ),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = backgroundColor, contentColor = textColor
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = stringResource(id = nameRes),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.align(Alignment.Center)
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_button_right),
+                contentDescription = "Icon",
+                tint = Color.White,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 2.dp)
+            )
+        }
+    }
+
+}
+
+@Composable
+fun AppButton(
+    @StringRes nameRes: Int,
+    @ColorInt backgroundColor: Color = Colors.Primary,
+    @ColorInt textColor: Color = Color.White,
+    isEnabled: Boolean = true,
+    modifier: Modifier = Modifier
+        .height(55.dp)
+        .fillMaxWidth(),
+    contentPadding: PaddingValues = PaddingValues(start = 50.dp, end = 50.dp),
+    fontSize: Int = 16,
+    iconStartRes: Int = 0,
+    iconStartVector: ImageVector? = null,
+    iconStartTint: Color = Colors.Primary,
+    onClick: () -> Unit = {}
+) {
+    val context = LocalContext.current
+    val interactionSource = remember { MutableInteractionSource() }
+    Button(
+        onClick = {
+            // Play sound
+//            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
+//            mediaPlayer.setOnCompletionListener {
+//                it.release()
+//            }
+            onClick()
+//            mediaPlayer.start()
+        },
+        enabled = isEnabled,
+        contentPadding = contentPadding,
+        modifier = modifier.indication(
+            interactionSource = interactionSource,
+            indication = ripple(
+                bounded = true,
+                color = textColor.copy(alpha = 0.45f)
+            )
+        ),
+        interactionSource = interactionSource,
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 14.dp,
+            focusedElevation = 14.dp,
+            hoveredElevation = 14.dp
+        ),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = backgroundColor,
+            contentColor = textColor
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        if (iconStartVector != null) {
+            Icon(
+                imageVector = iconStartVector,
+                contentDescription = "Icon",
+                tint = iconStartTint
+            )
+            SpaceHorizontal(20.dp)
+        } else if (iconStartRes != 0) {
+            Icon(
+                painter = painterResource(id = iconStartRes),
+                contentDescription = "Icon",
+                tint = iconStartTint
+            )
+            SpaceHorizontal(20.dp)
+        }
+
+        Text(text = stringResource(id = nameRes), fontSize = fontSize.sp)
+    }
+}
+
+@Composable
+fun AppDialog(
+    title: String,
+    message: String,
+    textConfirm: String = stringResource(R.string.all_confirm),
+    textDismiss: String = stringResource(R.string.all_cancel),
+    onConfirm: (() -> Unit)? = null,
+    onDismiss: (() -> Unit)? = null
+) {
+    AlertDialog(
+        onDismissRequest = { onDismiss?.invoke() },
+        title = { Text(title) },
+        text = { Text(message) },
+        confirmButton = {
+            onConfirm?.let {
+                Button(
+                    onClick = onConfirm,
+                    modifier = Modifier.widthIn(min = 80.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Colors.Primary, contentColor = Color.White
+                    ),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 10.dp,
+                        pressedElevation = 10.dp,
+                        focusedElevation = 10.dp,
+                        hoveredElevation = 10.dp
+                    )
+                ) {
+                    Text(textConfirm)
+                }
+            }
+        },
+        dismissButton = {
+            onDismiss?.let {
+                TextButton(onClick = it) {
+                    Text(textDismiss, color = Colors.Gray146)
+                }
+            }
+        })
+}
+
+
+@Composable
+fun AppNotificationDialog(
+    message: String, hasKillApp: Boolean = false, onDismiss: (Boolean) -> Unit
+) {
+    AppDialog(
+        title = stringResource(R.string.all_notification),
+        message = message,
+        textConfirm = stringResource(R.string.all_ok),
+        onConfirm = { onDismiss(hasKillApp) })
+}
+
+@Composable
+fun AppConfirmDialog(
+    title: String = stringResource(R.string.all_notification),
+    message: String,
+    textConfirm: String,
+    onConfirm: (Boolean) -> Unit,
+    hasKillApp: Boolean = false,
+    onDismiss: (() -> Unit)? = null
+) {
+    AppDialog(
+        title = title,
+        message = message,
+        textConfirm = textConfirm,
+        onDismiss = onDismiss,
+        onConfirm = { onConfirm(hasKillApp) })
+}
+
+@Composable
+fun LogoutDialog(
+    onLogout: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AppDialog(
+        title = stringResource(R.string.all_logout),
+        message = stringResource(R.string.message_logout_app),
+        textConfirm = stringResource(R.string.all_logout),
+        onDismiss = onDismiss,
+        onConfirm = onLogout
+    )
+}
+
+@Composable
+fun AppNavigateBottomBar(
+    selectedItemRouter: String,
+    onItemRouterSelected: (String) -> Unit,
+    firstTab: BottomNavigationScreen? = BottomNavigationScreen.Search
+) {
+    val items = listOfNotNull(
+        firstTab,
+        BottomNavigationScreen.Cases,
+        BottomNavigationScreen.Notification,
+        BottomNavigationScreen.Account
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Colors.Dark120812)
+            .navigationBarsPadding()
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxWidth(), color = Color.Transparent, shadowElevation = 4.dp
+        ) {
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp,
+                color = Colors.White1AFFFFFF
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Colors.Dark120812)
+                .padding(horizontal = 8.dp, vertical = 6.dp),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items.forEach {
+                val isSelected = (it.route == selectedItemRouter)
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = ripple(bounded = false),
+                            onClick = { onItemRouterSelected(it.route) })
+                        .padding(vertical = 4.dp, horizontal = 6.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .height(34.dp)
+                            .width(52.dp)
+                            .background(
+                                color = if (isSelected) Colors.Pink33F425F4 else Color.Transparent,
+                                shape = RoundedCornerShape(18.dp)
+                            ), contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = it.icon,
+                            contentDescription = stringResource(it.titleRes),
+                            tint = if (isSelected) Color.White else Colors.Dark64748B,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                    Text(
+                        text = stringResource(it.titleRes).uppercase(Locale.getDefault()),
+                        color = if (isSelected) Colors.Primary else Colors.Dark64748B,
+                        fontSize = bottomBarFontSize(),
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun bottomBarFontSize(): TextUnit {
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp
+
+    return when {
+        screenWidth < 360 -> 7.sp
+        screenWidth < 400 -> 8.sp
+        screenWidth < 600 -> 9.sp
+        else -> 10.sp
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun <T> AppLazyColumn(
+    items: List<T>,
+    contentPadding: PaddingValues = PaddingValues(),
+    verticalArrangement: HorizontalOrVertical = Arrangement.spacedBy(0.dp),
+    keyItem: ((T) -> Any)? = null,
+    isLoading: Boolean = false,
+    onLoadMore: (() -> Unit)? = null,
+    isRefreshing: Boolean = false,
+    onRefresh: (() -> Unit)? = null,
+    backgroundColor: Color = Colors.Dark120812,
+    @StringRes emptyHtmlRes: Int? = null,
+    isEmpty: Boolean = false,
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .wrapContentHeight(),
+    itemContent: @Composable (T, Int, Boolean) -> Unit
+) {
+    val listState = rememberLazyListState()
+    val showEmptyPlaceholder =
+        emptyHtmlRes != null && isEmpty && items.isEmpty()
+
+    LaunchedEffect(listState, items.size, isLoading, showEmptyPlaceholder) {
+        snapshotFlow { listState.layoutInfo.visibleItemsInfo }.map { it.lastOrNull()?.index }
+            .distinctUntilChanged().collect { lastVisibleItemIndex ->
+                if (!showEmptyPlaceholder
+                    && items.isNotEmpty()
+                    && lastVisibleItemIndex != null
+                    && lastVisibleItemIndex >= items.lastIndex
+                    && !isLoading
+                ) {
+                    onLoadMore?.invoke()
+                }
+            }
+    }
+
+    val pullToRefreshState = rememberPullToRefreshState()
+
+    Surface(
+        modifier = modifier,
+        color = backgroundColor
+    ) {
+        val lazyColumnModifier =
+            if (onRefresh != null || showEmptyPlaceholder) Modifier.fillMaxSize()
+            else Modifier
+
+        val lazyColumnContent: @Composable () -> Unit = {
+            LazyColumn(
+                modifier = lazyColumnModifier,
+                state = listState,
+                contentPadding = contentPadding,
+                verticalArrangement = verticalArrangement
+            ) {
+                if (showEmptyPlaceholder) {
+                    item(key = "app_lazy_column_empty") {
+                        Box(
+                            modifier = Modifier
+                                .fillParentMaxSize()
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            NoDataView(htmlRes = emptyHtmlRes!!)
+                        }
+                    }
+                } else {
+                    itemsIndexed(
+                        items,
+                        key = { _, item ->
+                            keyItem?.invoke(item) ?: item.hashCode()
+                        }) { index, item ->
+                        itemContent(item, index, index == items.lastIndex)
+                    }
+                }
+
+                if (isLoading) {
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator(color = Colors.Primary)
+                        }
+                    }
+                }
+            }
+        }
+
+        if (onRefresh != null) {
+            PullToRefreshBox(
+                modifier = Modifier.fillMaxSize(),
+                isRefreshing = isRefreshing,
+                onRefresh = onRefresh,
+                state = pullToRefreshState,
+                indicator = {
+                    PullToRefreshDefaults.Indicator(
+                        modifier = Modifier.align(Alignment.TopCenter),
+                        state = pullToRefreshState,
+                        isRefreshing = isRefreshing,
+                        color = Colors.Primary,
+                        containerColor = Color.White,
+                    )
+                },
+            ) {
+                lazyColumnContent()
+            }
+        } else {
+            lazyColumnContent()
+        }
+    }
+}
+
+@Composable
+fun RotatingLoadingIndicator() {
+    val rotation by animateFloatAsState(
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ), label = ""
+    )
+
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .graphicsLayer { rotationZ = rotation },
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(strokeWidth = 4.dp, color = Colors.Primary)
+    }
+}
+
+@Composable
+fun SocialLoginButton(iconRes: Int, onClick: () -> Unit) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier
+            .size(52.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .border(1.dp, Color.LightGray, shape = RoundedCornerShape(12.dp))
+            .background(Color.White)
+    ) {
+        Image(
+            painter = painterResource(id = iconRes),
+            contentDescription = "Social Icon",
+            modifier = Modifier.size(24.dp)
+        )
+    }
+}
+
+
+@Composable
+fun SettingItem(
+    @DrawableRes iconRes: Int,
+    @StringRes titleRes: Int,
+    @StringRes subtitleRes: Int? = null,
+    isDanger: Boolean = false,
+    onClick: (() -> Unit)? = null
+) {
+    val context = LocalContext.current
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        onClick = {
+            // Play sound
+            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
+            mediaPlayer.setOnCompletionListener {
+                it.release()
+            }
+            onClick?.invoke()
+            mediaPlayer.start()
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .background(Color.White)
+                .padding(vertical = 18.dp, horizontal = 14.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(iconRes),
+                    contentDescription = stringResource(titleRes),
+                    tint = if (isDanger) Colors.Red247 else Color.Black,
+                    modifier = Modifier.size(15.dp)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(titleRes),
+                        fontSize = 16.sp,
+                        color = if (isDanger) Colors.Red247 else Color.Black
+                    )
+                    subtitleRes?.let {
+                        Text(
+                            text = stringResource(it),
+                            fontSize = 14.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
+                Icon(
+                    imageVector = Icons.Outlined.KeyboardArrowRight,
+                    contentDescription = "Go",
+                    tint = Color.Gray
+                )
+            }
+        }
+    }
+    Spacer(modifier = Modifier.height(14.dp))
+}
+
+@Composable
+fun AvatarImage(
+    url: String?, size: Dp = 70.dp,
+    onClick: (() -> Unit)? = null
+) {
+    val shimmerBrush = rememberShimmerBrush(1000)
+
+    val painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(LocalContext.current)
+            .data(url ?: "")
+            .placeholder(R.mipmap.ic_launcher)
+            .error(R.mipmap.ic_launcher)
+            .crossfade(true)
+            .allowHardware(false)
+            .build()
+    )
+
+    val state = painter.state
+
+    Box(
+        modifier = Modifier
+            .size(size)
+            .clip(CircleShape)
+            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painter,
+            contentDescription = "Avatar Image",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+
+        if (state is AsyncImagePainter.State.Loading) {
+            Box(
+                modifier = Modifier
+                    .size(size)
+                    .clip(CircleShape)
+                    .background(shimmerBrush)
+            )
+        }
+    }
+}
+
+@Composable
+fun AppImage(
+    url: String?,
+    placeholderRes: Int = R.mipmap.ic_launcher,
+    errorRes: Int = R.mipmap.ic_launcher,
+    modifier: Modifier = Modifier,
+    isShowLoading: Boolean = true,
+    contentScale: ContentScale = ContentScale.Crop
+) {
+    val painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(LocalContext.current)
+            .data(url ?: "")
+            .placeholder(placeholderRes)
+            .error(errorRes)
+            .crossfade(true)
+            .allowHardware(false)
+            .build()
+    )
+
+    val state = painter.state
+
+    Box(modifier = modifier) {
+        Image(
+            painter = painter,
+            contentDescription = "Image",
+            contentScale = contentScale,
+            modifier = Modifier.fillMaxSize()
+        )
+        if (state is AsyncImagePainter.State.Loading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f)),
+                contentAlignment = Alignment.Center
+            ) {
+                if (isShowLoading)
+                    CircularProgressIndicator(color = Color.White)
+            }
+        }
+    }
+}
+
+@Composable
+fun ProfileHeader(it: IUser?) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Transparent)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AvatarImage(it?.avatarURL)
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        Column {
+            Text(
+                text = it?.fullName.safe(),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Text(
+                text = it?.email.safe(),
+                fontSize = 14.sp,
+                color = Color.Gray
+            )
+        }
+    }
+}
+
+@SuppressLint("LocalContextGetResourceValueCall")
+@Composable
+fun NoDataView(@StringRes htmlRes: Int) {
+    val context = LocalContext.current
+    val htmlString = remember { context.getString(htmlRes) }
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        AndroidView(
+            factory = {
+                TextView(it).apply {
+                    text = HtmlCompat.fromHtml(htmlString, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    textSize = 14f
+                    gravity = Gravity.CENTER
+                    setTextColor(Colors.Gray9CA3AF.toArgb())
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppPhotoPickerDialog(
+    sheetState: SheetState,
+    onGalleryClick: () -> Unit,
+    onCameraClick: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    val scope = rememberCoroutineScope()
+
+    ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = { onDismiss() }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 30.dp),
+                textAlign = TextAlign.Center,
+                text = stringResource(R.string.choose_avatar),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        scope.launch { sheetState.hide() }.invokeOnCompletion {
+                            if (!sheetState.isVisible) {
+                                onDismiss()
+                                onCameraClick()
+                            }
+                        }
+                    },
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = Modifier.padding(start = 16.dp),
+                    imageVector = Icons.Filled.PhotoCamera,
+                    contentDescription = "Camera",
+                    tint = Color.Black
+                )
+
+                Text(
+                    modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, end = 16.dp),
+                    text = stringResource(R.string.photo_from_camera),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Black
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        scope.launch { sheetState.hide() }.invokeOnCompletion {
+                            if (!sheetState.isVisible) {
+                                onDismiss()
+                                onGalleryClick()
+                            }
+                        }
+                    },
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = Modifier.padding(start = 16.dp),
+                    imageVector = Icons.Filled.PhotoLibrary,
+                    contentDescription = "Gallery",
+                    tint = Color.Black
+                )
+
+                Text(
+                    modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, end = 16.dp),
+                    text = stringResource(R.string.photo_from_gallery),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun HomeBannerLoading() {
+    val shimmerBrush = rememberShimmerBrush()
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Black.copy(alpha = 0.2f), Color.Transparent)
+                )
+            )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(20.dp)
+                    .width(200.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(shimmerBrush)
+            )
+
+            SpaceVertical(12.dp)
+
+            Box(
+                modifier = Modifier
+                    .height(30.dp)
+                    .width(300.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(shimmerBrush)
+            )
+
+            SpaceVertical(20.dp)
+
+            Box(
+                modifier = Modifier
+                    .height(55.dp)
+                    .width(250.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(shimmerBrush)
+            )
+        }
+    }
+}
+
+@Composable
+fun FQAsLoading() {
+    val shimmerBrush = rememberShimmerBrush()
+
+    Column(modifier = Modifier.padding(16.dp)) {
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.6f)
+                .height(32.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(shimmerBrush)
+        )
+
+        SpaceVertical(20.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(shimmerBrush)
+        )
+
+        SpaceVertical(12.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(shimmerBrush)
+        )
+
+        SpaceVertical(12.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(shimmerBrush)
+        )
+
+        SpaceVertical(12.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(shimmerBrush)
+        )
+
+        SpaceVertical(12.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(shimmerBrush)
+        )
+
+        SpaceVertical(12.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(shimmerBrush)
+        )
+
+        SpaceVertical(12.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(shimmerBrush)
+        )
+    }
+}
+
+@Composable
+fun NoLoginView(
+    @StringRes titleRes: Int,
+    @StringRes messageRes: Int = R.string.booking_no_yet_des,
+    onClick: () -> Unit
+) {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(titleRes),
+            color = Color.Black,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Center
+        )
+        SpaceVertical(5.dp)
+        Text(
+            text = stringResource(messageRes),
+            color = Color.Black,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Normal,
+            textAlign = TextAlign.Center
+        )
+        SpaceVertical(16.dp)
+        AppButton(
+            R.string.all_sign_up_or_sign_in,
+            modifier = Modifier.height(55.dp)
+        ) { onClick() }
+    }
+}
+
+@Composable
+fun HtmlText(html: String, modifier: Modifier = Modifier) {
+    AndroidView(
+        modifier = modifier,
+        factory = { context ->
+            TextView(context).apply {
+                text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                setTextColor(Color.Black.toArgb())
+                textSize = 14f
+            }
+        }
+    )
+}
+
+@Composable
+fun HtmlStyledText(
+    html: String,
+    modifier: Modifier
+) {
+    val spanned = remember(html) {
+        HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+    Text(
+        text = buildAnnotatedString {
+            append(spanned.toString())
+        },
+        modifier = modifier
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppPlaceAutocomplete(
+    value: String,
+    @StringRes placeHolderRes: Int = R.string.app_name,
+    @DrawableRes trailingIconRes: Int? = null,
+    modifier: Modifier? = null,
+    onPlaceSelected: (Place) -> Unit
+) {
+    val context = LocalContext.current
+    val activity = context as? Activity
+
+    val placeHolder = stringResource(id = placeHolderRes)
+    var expanded by remember { mutableStateOf(false) }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { intent ->
+                    val place = Autocomplete.getPlaceFromIntent(intent)
+                    onPlaceSelected(place)
+                }
+            }
+
+            AutocompleteActivity.RESULT_ERROR -> {
+                val status = Autocomplete.getStatusFromIntent(result.data!!)
+                Log.e("AppPlaceAutocomplete", "Autocomplete error: ${status.statusMessage}")
+            }
+
+            Activity.RESULT_CANCELED -> {
+                Log.d("AppPlaceAutocomplete", "User canceled or intent failed")
+            }
+        }
+    }
+
+    var launchError by remember { mutableStateOf<Int?>(null) }
+
+    LaunchedEffect(launchError) {
+        launchError?.let { code ->
+            activity?.let {
+                GoogleApiAvailability.getInstance()
+                    .showErrorDialogFragment(it, code, 30422)
+            }
+        }
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = {
+            expanded = false
+            try {
+                val fields = listOf(
+                    Place.Field.NAME,
+                    Place.Field.ADDRESS
+//                    Place.Field.LAT_LNG,
+//                    Place.Field.ADDRESS_COMPONENTS
+                )
+                val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                    .setInitialQuery(value)
+                    .build(context)
+                launcher.launch(intent)
+            } catch (e: GooglePlayServicesRepairableException) {
+                launchError = e.connectionStatusCode
+            } catch (e: GooglePlayServicesNotAvailableException) {
+                launchError = e.errorCode
+            }
+        },
+        modifier = modifier ?: Modifier.fillMaxWidth()
+    ) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = {},
+            readOnly = true,
+            textStyle = TextStyle(fontSize = 14.sp),
+            label = { Text(placeHolder, fontSize = 14.sp) },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Colors.Primary,
+                unfocusedIndicatorColor = Colors.Gray238,
+                cursorColor = Colors.Primary
+            ),
+            shape = RoundedCornerShape(12.dp),
+            trailingIcon = {
+                trailingIconRes?.let {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = trailingIconRes),
+                        contentDescription = null,
+                        tint = Color.Black,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor()
+        )
+    }
+}
+
+@Composable
+fun BookingSuccessDialog(
+    title: String,
+    message: String,
+    textConfirm: String = stringResource(R.string.all_view_detail),
+    textDismiss: String = stringResource(R.string.all_close),
+    onConfirm: (() -> Unit)? = null,
+    onDismiss: (() -> Unit)? = null
+) {
+    AlertDialog(
+        onDismissRequest = { onDismiss?.invoke() },
+        containerColor = Color.White,
+        icon = {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_success),
+                contentDescription = null,
+                tint = Colors.Green103
+            )
+        },
+        title = {
+            Text(
+                title,
+                textAlign = TextAlign.Center
+            )
+        },
+        text = { Text(message, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()) },
+        confirmButton = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                onDismiss?.let {
+                    Button(
+                        onClick = { onDismiss() },
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Colors.Blue241,
+                            contentColor = Colors.Primary
+                        ),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 1.dp,
+                            pressedElevation = 10.dp,
+                            focusedElevation = 10.dp,
+                            hoveredElevation = 10.dp
+                        )
+                    ) {
+                        Text(
+                            textDismiss,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
+                }
+                onConfirm?.let {
+                    Button(
+                        onClick = onConfirm,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Colors.Primary,
+                            contentColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 5.dp,
+                            pressedElevation = 10.dp,
+                            focusedElevation = 10.dp,
+                            hoveredElevation = 10.dp
+                        )
+                    ) {
+                        Text(
+                            textConfirm,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
+                }
+            }
+        })
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun BookingItemView(
+    it: IBooking,
+    onItemClick: () -> Unit,
+    onRequestClick: () -> Unit,
+    onCancelClick: () -> Unit,
+    onAwaitClick: () -> Unit = {},
+    onReadyClick: () -> Unit = {},
+) {
+    Card(
+        onClick = onItemClick,
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        colors = CardDefaults.cardColors(containerColor = Colors.Dark190C19),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Colors.White1AFFFFFF)
+    ) {
+        Column(
+            modifier = Modifier
+                .background(Colors.Dark190C19)
+                .padding(16.dp)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = it.bookingCodeDisplay,
+                        color = Colors.Pink66F425F4,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        if (it.isNow) {
+                            Box(
+                                modifier = Modifier
+                                    .size(6.dp)
+                                    .clip(CircleShape)
+                                    .background(it.colorStatus)
+                            )
+                        }
+                        Text(
+                            text = it.timeDisplay,
+                            color = if (it.isNow) Colors.Primary else Colors.Gray6B7280,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                val namePhoneAnnotated = remember(it.customerNameDisplay, it.customerPhoneDisplay) {
+                    val phone = it.customerPhoneDisplay
+                    buildAnnotatedString {
+                        pushStyle(SpanStyle(color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold))
+                        append(it.customerNameDisplay)
+                        pop()
+                        if (phone.isNotBlank()) {
+                            pushStyle(SpanStyle(color = Colors.Gray6B7280, fontSize = 10.sp, fontWeight = FontWeight.Bold))
+                            append(" · $phone")
+                            pop()
+                        }
+                    }
+                }
+                Text(
+                    text = namePhoneAnnotated,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    FlowRow(
+                        modifier = Modifier.weight(1f),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .clip(RoundedCornerShape(6.dp))
+                                    .background(Colors.Pink26F425F4),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                AsyncImage(
+                                    model = it.roomImageURL,
+                                    contentDescription = null,
+                                    placeholder = rememberVectorPainter(it.roomImagePlaceholder),
+                                    error = rememberVectorPainter(it.roomImagePlaceholder),
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(3.dp),
+                                    contentScale = ContentScale.Fit,
+                                    colorFilter = ColorFilter.tint(Colors.Blue148)
+                                )
+                            }
+                            Text(
+                                text = it.roomNameDisplay,
+                                color = Colors.Gray9CA3AF,
+                                fontSize = 11.sp,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+//                        Row(
+//                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+//                            verticalAlignment = Alignment.CenterVertically
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Filled.Groups,
+//                                contentDescription = null,
+//                                tint = Colors.Pink66F425F4,
+//                                modifier = Modifier.size(14.dp)
+//                            )
+//                            Text(
+//                                text = it.numberOfGuestsDisplay,
+//                                color = Colors.Gray9CA3AF,
+//                                fontSize = 11.sp
+//                            )
+//                        }
+//                        Row(
+//                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+//                            verticalAlignment = Alignment.CenterVertically
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Filled.MusicNote,
+//                                contentDescription = null,
+//                                tint = Colors.Pink66F425F4,
+//                                modifier = Modifier.size(14.dp)
+//                            )
+//                            Text(
+//                                text = it.numberOfSongsDisplay,
+//                                color = Colors.Gray9CA3AF,
+//                                fontSize = 11.sp
+//                            )
+//                        }
+                    }
+
+//                    Text(
+//                        text = it.totalAmountDisplay,
+//                        color = Colors.Green103,
+//                        fontWeight = FontWeight.Bold,
+//                        fontSize = 14.sp
+//                    )
+                }
+            }
+
+            SpaceVertical(14.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Colors.White1AFFFFFF, RoundedCornerShape(50.dp))
+                    .padding(5.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy((-8).dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val totalAvatar =
+                        maxOf(it.dancerAvatarsDisplay.size, it.dancersDisplayList.size)
+                    repeat(totalAvatar) { index ->
+                        val avatarUrl = it.dancerAvatarsDisplay.getOrNull(index)
+                        val dancerName = it.dancersDisplayList.getOrNull(index).orEmpty()
+
+                        if (!avatarUrl.isNullOrBlank()) {
+                            AppImage(
+                                url = avatarUrl,
+                                isShowLoading = false,
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .clip(CircleShape)
+                                    .border(2.dp, Colors.Dark0D070D, CircleShape)
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .size(28.dp)
+                                    .clip(CircleShape)
+                                    .background(Colors.Dark2A1323)
+                                    .border(2.dp, Colors.Dark0D070D, CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = dancerName.take(1).uppercase(),
+                                    color = Color.White,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
+                }
+                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                    Text(
+                        text = stringResource(R.string.booking_selected_talent),
+                        color = Colors.Gray6B7280,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = it.dancersDisplayOrFallback,
+                        color = Color.White,
+                        fontSize = 11.sp,
+                        lineHeight = 13.sp
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            when (it.bookingActionsBar) {
+                BookingActionsBar.USER_STANDARD -> {
+                    if (it.hasShowButtonCancel) {
+                        OutlinedButton(
+                            onClick = onCancelClick,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp),
+                            shape = RoundedCornerShape(28.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Colors.RedEF4444.copy(alpha = 0.85f)
+                            ),
+                            border = androidx.compose.foundation.BorderStroke(
+                                1.dp,
+                                Colors.Red33EF4444
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(R.string.all_cancel),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 13.sp
+                            )
+                        }
+                    }
+                    if (it.hasCancel) {
+                        if (it.hasShowButtonCancel) {
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+                        AppButton(
+                            nameRes = R.string.all_request_again,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp)
+                                .clip(RoundedCornerShape(28.dp)),
+                            onClick = onRequestClick
+                        )
+                    }
+                }
+
+                BookingActionsBar.CLUB_MANAGER_READY -> {
+                    Button(
+                        onClick =  onReadyClick,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(40.dp),
+                        shape = RoundedCornerShape(28.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Colors.Primary,
+                            contentColor = Color.White
+                        ),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 4.dp,
+                            pressedElevation = 8.dp
+                        )
+                    ) {
+                        Text(
+                            text = stringResource( R.string.booking_action_ready),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 11.sp,
+                            letterSpacing = 1.2.sp
+                        )
+                    }
+                }
+
+                BookingActionsBar.CLUB_MANAGER_READY_WAIT -> {
+                    val primaryLabel = when (it.bookingActionsBar) {
+                        BookingActionsBar.CLUB_MANAGER_READY_WAIT ->
+                            R.string.booking_action_ready
+
+                        else ->
+                            R.string.booking_action_await
+                    }
+                    val onPrimary = when (it.bookingActionsBar) {
+                        BookingActionsBar.CLUB_MANAGER_READY_WAIT -> onReadyClick
+                        else -> onAwaitClick
+                    }
+                    val secondaryLabel = when (it.bookingActionsBar) {
+                        BookingActionsBar.CLUB_MANAGER_READY_WAIT ->
+                            R.string.booking_action_await
+
+                        else ->
+                            R.string.all_cancel
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Button(
+                            onClick = onPrimary,
+                            modifier = Modifier
+                                .weight(2f)
+                                .height(40.dp),
+                            shape = RoundedCornerShape(28.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Colors.Primary,
+                                contentColor = Color.White
+                            ),
+                            elevation = ButtonDefaults.buttonElevation(
+                                defaultElevation = 4.dp,
+                                pressedElevation = 8.dp
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(primaryLabel),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp,
+                                letterSpacing = 1.2.sp
+                            )
+                        }
+                        OutlinedButton(
+                            onClick = onAwaitClick,
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(40.dp),
+                            shape = RoundedCornerShape(28.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Colors.Gray9CA3AF
+                            ),
+                            border = androidx.compose.foundation.BorderStroke(
+                                1.dp,
+                                Colors.White1AFFFFFF
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(secondaryLabel),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp,
+                                letterSpacing = 1.2.sp
+                            )
+                        }
+                    }
+                }
+
+                BookingActionsBar.NONE -> Unit
+            }
+        }
+    }
+}
+
+@Composable
+fun CancellationReasonDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (String) -> Unit
+) {
+    var reason by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = Color.White,
+        title = { Text(stringResource(R.string.msg_cancel_reason), color = Color.Black) },
+        text = {
+            Column {
+                AppInputText(
+                    value = reason,
+                    lightBackground = true,
+                    singleLine = false,
+                    maxLines = 6,
+                    modifier = Modifier.height(150.dp),
+                    placeHolderRes = R.string.all_cancellation_reason,
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Sentences,
+                        keyboardType = KeyboardType.Text
+                    ),
+                    onValueChange = { reason = it }
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { onConfirm(reason) },
+                modifier = Modifier.widthIn(min = 80.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Colors.Primary, contentColor = Color.White
+                ),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 10.dp,
+                    focusedElevation = 10.dp,
+                    hoveredElevation = 10.dp
+                )
+            ) {
+                Text(stringResource(R.string.all_confirm))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.all_cancel), color = Colors.Gray146)
+            }
+        })
+}
+
+
+@Composable
+fun BoxText(
+    text: String,
+    textColor: Color = Colors.Primary,
+    boxColor: Color = Colors.Blue241
+) {
+    Box(
+        modifier = Modifier
+            .background(
+                color = boxColor,
+                shape = RoundedCornerShape(4.dp)
+            )
+            .padding(horizontal = 10.dp, vertical = 6.dp)
+    ) {
+        Text(
+            text = text,
+            color = textColor,
+            fontSize = 12.sp
+        )
+    }
+}
+
+@Composable
+fun LawyerInfo(
+    it: ILawyer,
+    hasShowButton: Boolean = false,
+    hasShowReview: Boolean = false,
+    rating: Float = 5f,
+    onDetail: ((Int) -> Unit)? = null,
+    onReview: ((Int) -> Unit)? = null,
+    onRatingChanged: ((Float) -> Unit)? = null
+) {
+
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 14.dp)
+            .shadow(
+                elevation = 12.dp,
+                shape = RoundedCornerShape(16.dp),
+                ambientColor = Color.Black.copy(alpha = 0.9f),
+                spotColor = Color.Black.copy(alpha = 0.3f)
+            ),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(
+            modifier = Modifier
+                .background(Color.White)
+                .padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            SpaceVertical(10.dp)
+            AvatarImage(it.avatarURL, 80.dp)
+            SpaceVertical(10.dp)
+
+            Text(
+                text = it.fullName,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
+            )
+
+            SpaceVertical(10.dp)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                BoxText(stringResource(R.string.exp_s, it.exp))
+                BoxText(stringResource(R.string.cases_s, it.cases))
+            }
+
+            SpaceVertical(12.dp)
+
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp,
+                color = Colors.Gray238
+            )
+
+            SpaceVertical(12.dp)
+
+            if (!it.specialties.isNullOrEmpty()) {
+                Text(
+                    text = stringResource(R.string.all_specialty),
+                    fontSize = 12.sp,
+                    color = Colors.Primary,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                TagList(it.specialties!!)
+            }
+
+            if (onRatingChanged != null)
+                RatingBar(
+                    rating = rating,
+                    onRatingChanged = { onRatingChanged(it) }
+                )
+
+            if (hasShowButton) {
+                SpaceVertical(14.dp)
+                AppButton(
+                    nameRes = R.string.all_lawyer_detail,
+                    backgroundColor = Colors.Blue241,
+                    textColor = Colors.Primary,
+                    modifier = Modifier
+                        .height(45.dp)
+                        .fillMaxWidth(),
+                    fontSize = 14,
+                    onClick = { onDetail?.invoke(it.id) }
+                )
+
+                if (hasShowReview) {
+                    SpaceVertical(10.dp)
+                    AppButton(
+                        nameRes = R.string.all_leave_review,
+                        modifier = Modifier
+                            .height(45.dp)
+                            .fillMaxWidth(),
+                        fontSize = 14,
+                        onClick = { onReview?.invoke(it.id) }
+                    )
+                }
+            }
+            SpaceVertical(10.dp)
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun TagList(tags: List<String>) {
+    FlowRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        tags.forEach { tag ->
+            Surface(
+                shape = RoundedCornerShape(4.dp),
+                color = Colors.Blue247,
+                shadowElevation = 0.dp
+            ) {
+                Text(
+                    text = tag,
+                    color = Color.Black,
+                    fontSize = 13.sp,
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CallPhoneDialog(
+    phoneNumber: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AppConfirmDialog(
+        message = stringResource(R.string.msg_confirm_call_phone_s, phoneNumber),
+        textConfirm = stringResource(R.string.all_call),
+        onConfirm = {
+            onConfirm()
+        }, onDismiss = {
+            onDismiss()
+        }
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ZoomablePager(
+    imageUrls: List<String>,
+    modifier: Modifier = Modifier,
+) {
+    val pagerState = rememberPagerState { imageUrls.size }
+    var currentScale by remember { mutableStateOf(1f) }
+
+    LaunchedEffect(pagerState.currentPage) {
+        currentScale = 1f
+    }
+
+    HorizontalPager(
+        state = pagerState,
+        flingBehavior = PagerDefaults.flingBehavior(pagerState),
+        modifier = modifier.fillMaxSize(),
+        userScrollEnabled = currentScale <= 1f
+    ) { page ->
+        ZoomableAsyncImage(
+            imageUrl = imageUrls[page],
+            onScaleChanged = { newScale ->
+                currentScale = newScale
+            }
+        )
+    }
+}
+
+@Composable
+fun ZoomableAsyncImage(
+    imageUrl: String,
+    modifier: Modifier = Modifier,
+    onScaleChanged: ((Float) -> Unit)? = null
+) {
+    var scale by remember(imageUrl) { mutableStateOf(1f) }
+    var offset by remember(imageUrl) { mutableStateOf(Offset.Zero) }
+
+    val minScale = 1f
+    val maxScale = 5f
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .clipToBounds()
+            .background(Color.Black)
+            .pointerInput(Unit) {
+                awaitEachGesture {
+                    do {
+                        val event = awaitPointerEvent()
+                        val zoomChange = event.calculateZoom()
+                        val panChange = event.calculatePan()
+
+                        val newScale = (scale * zoomChange).coerceIn(minScale, maxScale)
+                        onScaleChanged?.invoke(newScale)
+
+                        if (newScale > 1f) {
+                            val maxOffset = 1000f
+                            offset = Offset(
+                                x = (offset.x + panChange.x).coerceIn(-maxOffset, maxOffset),
+                                y = (offset.y + panChange.y).coerceIn(-maxOffset, maxOffset)
+                            )
+                        } else {
+                            offset = Offset.Zero
+                        }
+
+                        scale = newScale
+                    } while (event.changes.any { it.pressed })
+
+                    if (scale <= 1f) {
+                        onScaleChanged?.invoke(1f)
+                    }
+                }
+            }
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onDoubleTap = {
+                        scale = if (scale > minScale) {
+                            offset = Offset.Zero
+                            1f
+                        } else {
+                            2.5f
+                        }
+                        onScaleChanged?.invoke(scale)
+                    }
+                )
+            }
+            .graphicsLayer(
+                scaleX = scale,
+                scaleY = scale,
+                translationX = offset.x,
+                translationY = offset.y,
+                clip = true,
+            )
+    ) {
+        AppImage(
+            url = imageUrl,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+
+@Composable
+fun AppWebView(
+    url: String,
+    modifier: Modifier = Modifier,
+    onLoading: (Boolean) -> Unit = {},
+    onError: (() -> Unit)? = null
+) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val webView = remember { WebView(context) }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            webView.stopLoading()
+            webView.destroy()
+        }
+    }
+
+    AndroidView(
+        factory = {
+            webView.loadUrlData(
+                owner = lifecycleOwner,
+                url = url,
+                onLoading = onLoading,
+                onError = onError
+            )
+            webView
+        },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun OtpVerificationScreen(
+    otpLength: Int = 6,
+    onOtpComplete: (String) -> Unit,
+    onResend: () -> Unit,
+    isLoading: Boolean = false,
+    isOtpInvalid: Boolean = false,
+    errorMessage: String? = null
+) {
+    val otpValues = remember { List(otpLength) { mutableStateOf("") } }
+    val focusRequesters = remember { List(otpLength) { FocusRequester() } }
+
+    var timer by remember { mutableStateOf(AppConfig.OTP_TIME_OUT) }
+    var isResendVisible by remember { mutableStateOf(false) }
+    var shouldFocus by remember { mutableStateOf(false) }
+
+    // Countdown timer
+    LaunchedEffect(timer) {
+        if (timer > 0) {
+            delay(1000)
+            timer--
+        } else {
+            isResendVisible = true
+        }
+    }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(vertical = 16.dp)
+        ) {
+            otpValues.forEachIndexed { index, value ->
+                OutlinedTextField(
+                    value = value.value,
+                    onValueChange = {
+                        if (it.length <= 1) {
+                            value.value = it
+                            if (it.isNotEmpty() && index < otpLength - 1) {
+                                focusRequesters[index + 1].requestFocus()
+                            } else if (it.isEmpty() && index > 0) {
+                                focusRequesters[index - 1].requestFocus()
+                            }
+                        }
+                    },
+                    isError = isOtpInvalid,
+                    modifier = Modifier
+                        .width(45.dp)
+                        .focusRequester(focusRequesters[index])
+                        .focusProperties {
+                            if (index < otpLength - 1) {
+                                next = focusRequesters[index + 1]
+                            }
+                            if (index > 0) {
+                                previous = focusRequesters[index - 1]
+                            }
+                        },
+                    shape = RoundedCornerShape(12.dp),
+                    singleLine = true,
+                    textStyle = LocalTextStyle.current.copy(
+                        textAlign = TextAlign.Center,
+                        fontSize = 20.sp
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    )
+                )
+            }
+        }
+
+        // Display error
+        if (isOtpInvalid && !errorMessage.isNullOrEmpty()) {
+            Text(
+                text = errorMessage,
+                color = Color.Red,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        val isOtpComplete = otpValues.all { it.value.isNotEmpty() }
+
+        Button(
+            onClick = {
+                val otp = otpValues.joinToString("") { it.value }
+                onOtpComplete(otp)
+            },
+            enabled = isOtpComplete && !isLoading,
+            modifier = Modifier
+                .height(55.dp)
+                .fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(horizontal = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        color = Colors.Primary,
+                        strokeWidth = 3.dp,
+                        modifier = Modifier
+                            .size(35.dp)
+                            .align(Alignment.CenterVertically)
+                            .padding(end = 10.dp, top = 5.dp),
+                    )
+                }
+                Text(
+                    stringResource(R.string.all_contiue),
+                    fontSize = 16.sp
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (isResendVisible) {
+            TextButton(onClick = {
+                otpValues.forEach { it.value = "" }
+                timer = 60
+                isResendVisible = false
+                shouldFocus = true
+                onResend()
+            }) {
+                Text(stringResource(R.string.auth_otp_resend))
+            }
+        } else {
+            Text(stringResource(R.string.auth_otp_resend_in_remaining_s, timer))
+        }
+    }
+    //Focus first box
+    LaunchedEffect(Unit) {
+        delay(300)
+        focusRequesters.first().requestFocus()
+    }
+
+    LaunchedEffect(shouldFocus) {
+        if (shouldFocus) {
+            delay(50)
+            focusRequesters.first().requestFocus()
+            shouldFocus = false
+        }
+    }
+}
+
+@Composable
+fun LegalDisclaimerDialog(
+    hasAgree: Boolean = false,
+    onAgree: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    var isChecked by remember { mutableStateOf(hasAgree) }
+
+    AlertDialog(
+        onDismissRequest = { onDismiss() },
+        title = {
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    stringResource(R.string.reg_legal_disclaimer),
+                    style = MaterialTheme.typography.titleLarge
+                )
+                IconButton(onClick = { onDismiss() }) {
+                    Icon(Icons.Default.Close, contentDescription = "Close")
+                }
+            }
+        },
+        text = {
+            Column(
+                Modifier.verticalScroll(rememberScrollState())
+            ) {
+                Text(
+                    text = stringResource(R.string.reg_legal_disclaimer_content),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = isChecked,
+                        onCheckedChange = { isChecked = it }
+                    )
+                    Text(stringResource(R.string.reg_legal_disclaimer_confirm))
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { onAgree() },
+                enabled = isChecked
+            ) {
+                Text(stringResource(R.string.reg_legal_disclaimer_agree))
+            }
+        }
+    )
+}
+
+@Composable
+fun LawyerItem(
+    it: ILawyer,
+    onItemClick: (Int) -> Unit,
+    onRequestClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onItemClick(it.id) }) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            // Avatar
+            AvatarImage(it.avatarURL)
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            // Info (ID, Name, Rating)
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(text = "ID: #${it.id}", fontSize = 12.sp, color = Colors.Blue117)
+
+                Text(
+                    text = it.fullName,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = null,
+                        tint = Color.Black,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "${it.rating} (${it.reviewCount})",
+                        fontSize = 14.sp
+                    )
+
+                    SpaceHorizontal(20.dp)
+
+                    AppButton(
+                        modifier = Modifier
+                            .height(35.dp)
+                            .wrapContentWidth(),
+                        contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
+                        nameRes = R.string.all_request,
+                        onClick = onRequestClick
+                    )
+                }
+            }
+        }
+    }
+    HorizontalDivider(
+        modifier = Modifier.fillMaxWidth(), thickness = 2.dp, color = Colors.Gray238
+    )
+}
+
+@Composable
+fun ReviewItem(it: IReview) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            // Avatar
+            AvatarImage(it.avatarURL.safe(), 48.dp)
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            // Info (Name, time ago)
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = it.name,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp
+                )
+                Text(text = it.createAt, fontSize = 12.sp, color = Colors.Blue117)
+            }
+        }
+
+        RatingStars(it.rating)
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = it.contents,
+            fontSize = 14.sp,
+            color = Colors.Blue117
+        )
+    }
+    HorizontalDivider(
+        modifier = Modifier.fillMaxWidth(), thickness = 2.dp, color = Colors.Gray238
+    )
+}
+
+@Composable
+fun RatingStars(rating: Float, modifier: Modifier = Modifier, starSize: Dp = 20.dp) {
+    val fullStars = rating.toInt()
+    val hasHalfStar = (rating - fullStars) >= 0.5f
+    val emptyStars = 5 - fullStars - if (hasHalfStar) 1 else 0
+
+    Row(modifier = modifier) {
+        repeat(fullStars) {
+            Icon(
+                imageVector = Icons.Default.Star,
+                contentDescription = null,
+                tint = Color.Black,
+                modifier = Modifier.size(starSize)
+            )
+        }
+        if (hasHalfStar) {
+            Icon(
+                imageVector = Icons.Default.StarHalf,
+                contentDescription = null,
+                tint = Color.Black,
+                modifier = Modifier.size(starSize)
+            )
+        }
+        repeat(emptyStars) {
+            Icon(
+                imageVector = Icons.Default.StarOutline,
+                contentDescription = null,
+                tint = Color.Black,
+                modifier = Modifier.size(starSize)
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownItemWithCheck(
+    label: String,
+    options: List<String>,
+    selected: String?,
+    onSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        // TextField hiển thị giá trị
+        TextField(
+            value = selected ?: "",
+            onValueChange = {},
+            readOnly = true,
+            label = { Text(label) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth()
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option) },
+
+                    // Dấu ✓ nằm bên phải
+                    trailingIcon = {
+                        if (option == selected) {
+                            Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    onClick = {
+                        onSelected(option)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FilterBottomSheet(
+    sheetState: SheetState,
+    onDismiss: () -> Unit,
+    onApply: () -> Unit,
+    onReset: () -> Unit,
+    hasShowCity: Boolean = false,
+    selectedCity: ICity?,
+    cities: List<ICity>,
+    onSelectCity: (ICity) -> Unit,
+    selectedLanguage: ILanguage?,
+    languages: List<ILanguage>,
+    onSelectLanguage: (ILanguage) -> Unit,
+    selectedSpeciality: List<ISpeciality>?,
+    specialities: List<ISpeciality>,
+    onSelectSpeciality: (List<ISpeciality>?) -> Unit
+) {
+    ModalBottomSheet(
+        sheetState = sheetState,
+        onDismissRequest = onDismiss
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 30.dp),
+                textAlign = TextAlign.Center,
+                text = stringResource(R.string.all_filter),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            )
+            if (hasShowCity)
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 14.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AppDropdown(
+                        valueSelected = selectedCity,
+                        placeHolderRes = R.string.filter_select_city,
+                        trailingIconRes = R.drawable.ic_arrow_drop_down,
+                        items = cities,
+                    ) { onSelectCity(it) }
+
+                }
+
+            Row(
+                modifier = Modifier
+                    .padding(14.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AppDropdown(
+                    valueSelected = selectedLanguage,
+                    placeHolderRes = R.string.filter_select_language,
+                    trailingIconRes = R.drawable.ic_arrow_drop_down,
+                    items = languages,
+                ) { onSelectLanguage(it) }
+
+            }
+
+            Row(
+                modifier = Modifier
+                    .padding(start = 14.dp, end = 14.dp, bottom = 30.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AppMultiSelectDropdown(
+                    valueSelected = selectedSpeciality,
+                    placeHolderRes = R.string.filter_select_specialities,
+                    trailingIconRes = R.drawable.ic_arrow_drop_down,
+                    items = specialities,
+                ) { onSelectSpeciality(it) }
+
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 14.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                AppButton(
+                    modifier = Modifier.weight(1f),
+                    nameRes = R.string.all_reset,
+                    backgroundColor = Colors.Blue241,
+                    textColor = Colors.Primary
+                ) {
+                    onReset()
+                }
+                SpaceHorizontal(12.dp)
+
+                AppButton(nameRes = R.string.all_apply, modifier = Modifier.weight(1f)) {
+                    onApply()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RatingBar(
+    rating: Float,
+    onRatingChanged: (Float) -> Unit,
+    modifier: Modifier = Modifier,
+    stars: Int = 5,
+    starSize: Dp = 40.dp,
+    spacing: Dp = 4.dp
+) {
+    Row(modifier = modifier) {
+        for (i in 1..stars) {
+            val icon = when {
+                i <= rating -> Icons.Filled.Star
+                i - rating in 0.5f..0.99f -> Icons.Filled.StarHalf
+                else -> Icons.Filled.StarBorder
+            }
+
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Color(0xFFFFC107),
+                modifier = Modifier
+                    .size(starSize)
+                    .padding(end = spacing)
+                    .pointerInput(Unit) {
+                        detectTapGestures { offset ->
+                            val half = starSize.toPx() / 2
+                            val newRating = if (offset.x < half) i - 0.5f else i.toFloat()
+                            onRatingChanged(newRating)
+                        }
+                    }
+            )
+        }
+    }
+}
+
+@Composable
+fun FAQThreadsCategoryItem(
+    item: ILegalCategory,
+    onClick: (ILegalCategory) -> Unit
+) {
+    val context = LocalContext.current
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        onClick = {
+            // Play sound
+            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
+            mediaPlayer.setOnCompletionListener {
+                it.release()
+            }
+            onClick(item)
+            mediaPlayer.start()
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .background(Colors.Gray238)
+                .padding(vertical = 18.dp, horizontal = 14.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Colors.Gray238),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = item.name,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
+                }
+                Icon(
+                    imageVector = Icons.Outlined.KeyboardArrowRight,
+                    contentDescription = "Go",
+                    tint = Color.Gray
+                )
+            }
+        }
+    }
+    Spacer(modifier = Modifier.height(14.dp))
+}
+
+@Composable
+fun FAQThreadsQuestionItem(
+    item: ILegalQuestion,
+    onClick: (ILegalQuestion) -> Unit
+) {
+    val context = LocalContext.current
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        onClick = {
+            // Play sound
+            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_button)
+            mediaPlayer.setOnCompletionListener {
+                it.release()
+            }
+            onClick(item)
+            mediaPlayer.start()
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .background(Colors.Gray238)
+                .padding(vertical = 18.dp, horizontal = 14.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Colors.Gray238),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = item.name,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
+                }
+                Icon(
+                    imageVector = Icons.Outlined.KeyboardArrowRight,
+                    contentDescription = "Go",
+                    tint = Color.Gray
+                )
+            }
+        }
+    }
+    Spacer(modifier = Modifier.height(14.dp))
+}
+
+@Composable
+fun SubmitQuestionDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (Pair<String, String>) -> Unit
+) {
+    var title by remember { mutableStateOf("") }
+    var question by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = Color.White,
+        title = { Text(stringResource(R.string.faqs_submit_your_question)) },
+        text = {
+            Column {
+
+//                AppInputText(
+//                    value = title,
+//                    placeHolderRes = R.string.all_title,
+//                    keyboardOptions = KeyboardOptions(
+//                        capitalization = KeyboardCapitalization.Sentences,
+//                        keyboardType = KeyboardType.Text
+//                    ),
+//                    onValueChange = { title = it }
+//                )
+
+                AppInputText(
+                    value = question,
+                    lightBackground = true,
+                    singleLine = false,
+                    maxLines = 6,
+                    modifier = Modifier.height(150.dp),
+                    placeHolderRes = R.string.faqs_your_question,
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Sentences,
+                        keyboardType = KeyboardType.Text
+                    ),
+                    onValueChange = { question = it }
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    onConfirm(title to question)
+                },
+                modifier = Modifier.widthIn(min = 80.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Colors.Primary, contentColor = Color.White
+                ),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 10.dp,
+                    focusedElevation = 10.dp,
+                    hoveredElevation = 10.dp
+                )
+            ) {
+                Text(stringResource(R.string.all_submit))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.all_cancel), color = Colors.Gray146)
+            }
+        })
+}
+
+@Composable
+fun SubmitAnswerDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (String) -> Unit
+) {
+    var question by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = Color.White,
+        title = { Text(stringResource(R.string.all_submit_your_answer)) },
+        text = {
+            AppInputText(
+                value = question,
+                lightBackground = true,
+                singleLine = false,
+                maxLines = 6,
+                modifier = Modifier.height(150.dp),
+                placeHolderRes = R.string.faqs_your_answer,
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Sentences,
+                    keyboardType = KeyboardType.Text
+                ),
+                onValueChange = { question = it }
+            )
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    onConfirm(question)
+                },
+                modifier = Modifier.widthIn(min = 80.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Colors.Primary, contentColor = Color.White
+                ),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 10.dp,
+                    pressedElevation = 10.dp,
+                    focusedElevation = 10.dp,
+                    hoveredElevation = 10.dp
+                )
+            ) {
+                Text(stringResource(R.string.all_submit))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.all_cancel), color = Colors.Gray146)
+            }
+        })
+}
+
+@Composable
+fun QuestionSentDialog(
+    textDismiss: String = stringResource(R.string.all_close),
+    onDismiss: (() -> Unit)? = null
+) {
+    AlertDialog(
+        onDismissRequest = { onDismiss?.invoke() },
+        containerColor = Color.White,
+        icon = {
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_success),
+                contentDescription = null,
+                tint = Colors.Green103
+            )
+        },
+        title = {
+            Text(
+                stringResource(R.string.all_sent),
+                textAlign = TextAlign.Center
+            )
+        },
+        text = {
+            Text(
+                stringResource(R.string.msg_create_question_sent),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        },
+        confirmButton = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                onDismiss?.let {
+                    Button(
+                        onClick = { onDismiss() },
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Colors.Blue241,
+                            contentColor = Colors.Primary
+                        ),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 1.dp,
+                            pressedElevation = 10.dp,
+                            focusedElevation = 10.dp,
+                            hoveredElevation = 10.dp
+                        )
+                    ) {
+                        Text(
+                            textDismiss,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
+                }
+            }
+        })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FAQsAnswerBottomSheet(
+    sheetState: SheetState,
+    items: List<ILegalAnswer>,
+    title: String = "Question content",
+    isMoreLoading: Boolean,
+    onDismiss: () -> Unit,
+    onReply: () -> Unit,
+    onLoadMore: (() -> Unit)? = null,
+) {
+    ModalBottomSheet(
+        sheetState = sheetState,
+        modifier = Modifier.fillMaxHeight(),
+        onDismissRequest = onDismiss
+    ) {
+        Box(modifier = Modifier.fillMaxHeight()) {
+            Column(modifier = Modifier.padding(horizontal = 14.dp)) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 30.dp),
+                    textAlign = TextAlign.Center,
+                    text = title,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black
+                )
+
+                SpaceVertical(20.dp)
+
+                AppButton(
+                    nameRes = R.string.all_submit_your_answer
+                ) {
+                    onReply()
+                }
+
+                SpaceVertical(30.dp)
+                Box(modifier = Modifier.fillMaxHeight()) {
+                    AppLazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        items = items,
+                        backgroundColor = Color.Transparent,
+                        keyItem = { it.id },
+                        isLoading = isMoreLoading,
+                        onLoadMore = { onLoadMore?.invoke() }
+                    ) { item, _, _ ->
+                        FAQsAnswerItem(item)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun FAQsAnswerItem(it: ILegalAnswer) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            AvatarImage(it.avatarURL, 40.dp)
+            Spacer(modifier = Modifier.width(12.dp))
+            Column {
+                Text(
+                    text = it.name,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
+                )
+                Text(
+                    text = it.timeAgo,
+                    color = Colors.Blue117
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = it.content,
+            style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
+    }
+}
+
+fun Modifier.sheetTopSideBorder(
+    color: androidx.compose.ui.graphics.Color,
+    strokeWidth: Float = 1f,
+    cornerRadiusDp: Float = 32f,
+): Modifier = this.then(
+    Modifier.drawBehind {
+        val sw = strokeWidth * density
+        val r = cornerRadiusDp * density
+        val w = size.width
+        val h = size.height
+
+        val path = Path().apply {
+            moveTo(0f, h)
+            lineTo(0f, r)
+            arcTo(
+                rect = Rect(0f, 0f, 2 * r, 2 * r),
+                startAngleDegrees = 180f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+            lineTo(w - r, 0f)
+            arcTo(
+                rect = Rect(w - 2 * r, 0f, w, 2 * r),
+                startAngleDegrees = 270f,
+                sweepAngleDegrees = 90f,
+                forceMoveTo = false
+            )
+            lineTo(w, h)
+        }
+        drawPath(path = path, color = color, style = Stroke(width = sw))
+    }
+)
+
+@Composable
+fun DetailBookingClubBlock(clubName: String, address: String) {
+    Column {
+        Text(
+            text = clubName,
+            color = Colors.White,
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = (-0.5).sp
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.LocationOn,
+                contentDescription = null,
+                tint = Colors.Primary,
+                modifier = Modifier.size(16.dp)
+            )
+            Text(
+                text = address,
+                color = Colors.Gray9CA3AF,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+/**
+ * Top bar for [com.hdl.dancer.booking.presentation.screen.dancer.DancerListOfAdminScreen].
+ * Intrinsic height only — no fixed [Modifier.height].
+ */
+@Composable
+fun ActionBarDancerAdmin(
+    clubId: String,
+    clubName: String,
+    clubAddress: String,
+    fallbackTitleRes: Int = R.string.top_bar_status_board,
+) {
+    val configuration = LocalConfiguration.current
+    val addressTextMaxWidth = remember(configuration.screenWidthDp) {
+        val raw = configuration.screenWidthDp.dp - 32.dp - 18.dp - 4.dp
+        if (raw < 48.dp) 48.dp else raw
+    }
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(
+                WindowInsets.statusBars.union(WindowInsets.displayCutout)
+            ),
+        color = Colors.Dark120812,
+        shadowElevation = 8.dp,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            if (clubId.isNotBlank() && clubName.isNotBlank()) {
+                Text(
+                    text = clubName,
+                    color = Colors.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.Top,
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.Top,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.LocationOn,
+                            contentDescription = null,
+                            tint = Colors.Primary,
+                            modifier = Modifier
+                                .padding(top = 2.dp)
+                                .size(18.dp),
+                        )
+                        Text(
+                            text = clubAddress,
+                            color = Colors.Gray9CA3AF,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.widthIn(max = addressTextMaxWidth),
+                        )
+                    }
+                }
+            } else {
+                Text(
+                    text = stringResource(fallbackTitleRes),
+                    color = Colors.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun <T> AppLazyVerticalGrid(
+    items: List<T>,
+    keyItem: ((T) -> Any)? = null,
+    columns: GridCells = GridCells.Fixed(2),
+    contentPadding: PaddingValues = PaddingValues(),
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(0.dp),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(0.dp),
+    isLoading: Boolean = false,
+    isRefreshing: Boolean = false,
+    isIndicatorRefreshing: Boolean = isRefreshing,
+    onLoadMore: (() -> Unit)? = null,
+    onRefresh: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = Colors.DarkFF0A050A,
+    pullRefreshContentColor: Color = Colors.Primary,
+    pullRefreshContainerColor: Color = Colors.White,
+    itemContent: @Composable (T, Int, Boolean) -> Unit
+) {
+    val gridState = rememberLazyGridState()
+    val pullToRefreshState = rememberPullToRefreshState()
+
+    LaunchedEffect(gridState, items, isLoading, isRefreshing) {
+        snapshotFlow { gridState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
+            .map { it ?: -1 }
+            .distinctUntilChanged()
+            .collect { lastVisibleIndex ->
+                if (
+                    items.isNotEmpty() &&
+                    lastVisibleIndex >= 0 &&
+                    lastVisibleIndex >= items.lastIndex &&
+                    !isLoading &&
+                    !isRefreshing
+                ) {
+                    onLoadMore?.invoke()
+                }
+            }
+    }
+
+    Surface(
+        modifier = modifier,
+        color = backgroundColor
+    ) {
+        val gridContent: @Composable () -> Unit = {
+            LazyVerticalGrid(
+                modifier = Modifier.fillMaxSize(),
+                columns = columns,
+                state = gridState,
+                contentPadding = contentPadding,
+                verticalArrangement = verticalArrangement,
+                horizontalArrangement = horizontalArrangement
+            ) {
+                itemsIndexed(
+                    items,
+                    key = { _, item -> keyItem?.invoke(item) ?: item.hashCode() }
+                ) { index, item ->
+                    itemContent(item, index, index == items.lastIndex)
+                }
+            }
+        }
+
+        if (onRefresh != null) {
+            PullToRefreshBox(
+                modifier = Modifier.fillMaxSize(),
+                isRefreshing = isIndicatorRefreshing,
+                onRefresh = onRefresh,
+                state = pullToRefreshState,
+                indicator = {
+                    PullToRefreshDefaults.Indicator(
+                        modifier = Modifier.align(Alignment.TopCenter),
+                        state = pullToRefreshState,
+                        isRefreshing = isIndicatorRefreshing,
+                        color = pullRefreshContentColor,
+                        containerColor = pullRefreshContainerColor,
+                    )
+                },
+            ) {
+                gridContent()
+            }
+        } else {
+            gridContent()
+        }
+    }
+}
+
+

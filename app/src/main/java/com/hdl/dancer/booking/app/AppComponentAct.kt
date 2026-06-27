@@ -1,0 +1,182 @@
+package com.hdl.dancer.booking.app
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
+import android.os.Bundle
+import android.support.core.event.StateFlowStatusOwner
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.core.view.WindowCompat
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
+import com.hdl.dancer.booking.R
+import com.hdl.dancer.booking.data.extensions.updateLocale
+import com.hdl.dancer.booking.data.local.LanguageLocalSource
+import com.hdl.dancer.booking.data.local.UserLocalSource
+import com.hdl.dancer.booking.presentation.AuthAct
+import com.hdl.dancer.booking.presentation.extensions.ApplyDarkEdgeToEdgeStatusBars
+import com.hdl.dancer.booking.presentation.theme.AppTheme
+import com.hdl.dancer.booking.presentation.theme.Colors
+import com.hdl.dancer.booking.presentation.widget.AppConfirmDialog
+import com.hdl.dancer.booking.presentation.widget.AppNotificationDialog
+import com.hdl.dancer.booking.presentation.widget.LoadingView
+import org.koin.android.ext.android.inject
+import java.util.Locale
+
+abstract class AppComponentAct : ComponentActivity(), AppErrorHandler by AppErrorHandlerImpl() {
+    private val windowStatus = WindowStatusProvider.instance
+    private val userLocalSource: UserLocalSource by inject()
+    private val languageLocalSource: LanguageLocalSource by inject()
+    private var notificationDialog = mutableStateOf<String?>(null)
+    private var exitAppDialog = mutableStateOf<Boolean?>(false)
+    private var expiredTokenDialog = mutableStateOf<Boolean?>(false)
+    private var mHasKillApp = false
+
+    override fun attachBaseContext(newBase: Context) {
+        val localeUpdatedContext: ContextWrapper =
+            newBase.updateLocale(Locale(languageLocalSource.get()))
+        super.attachBaseContext(localeUpdatedContext)
+    }
+
+    @SuppressLint("SourceLockedOrientationActivity")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+        )
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
+//        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        setContent { Content() }
+    }
+
+    fun showNotification(message: String) {
+        mHasKillApp = false
+        notificationDialog.value = message
+    }
+
+    fun showNotification(messageRes: Int, hasKillApp: Boolean = false) {
+        mHasKillApp = hasKillApp
+        notificationDialog.value = getString(messageRes)
+    }
+
+    private fun dismissNotification(hasKillApp: Boolean) {
+        if (hasKillApp)
+            finishAndRemoveTask()
+        notificationDialog.value = null
+    }
+
+    private fun exitApp(hasKillApp: Boolean) {
+        if (hasKillApp)
+            finishAndRemoveTask()
+        exitAppDialog.value = null
+    }
+
+    fun showExitAppDialog() {
+        mHasKillApp = true
+        exitAppDialog.value = true
+    }
+
+    fun showExpiredTokenDialog(hasShow: Boolean?) {
+        expiredTokenDialog.value = hasShow
+    }
+
+    private fun openLogin() {
+        userLocalSource.logout()
+        val intent = Intent(this, AuthAct::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
+    }
+
+    @Composable
+    fun Content() {
+        notificationDialog.value?.let { message ->
+            AppNotificationDialog(message, mHasKillApp) { dismissNotification(it) }
+        }
+        exitAppDialog.value?.let { isShow ->
+            if (isShow)
+                AppConfirmDialog(
+                    message = stringResource(R.string.msg_exit_app),
+                    textConfirm = stringResource(R.string.all_exit),
+                    onConfirm = {
+                        exitApp(true)
+                    }, onDismiss = {
+                        exitApp(false)
+                    }
+                )
+        }
+        expiredTokenDialog.value?.let { isShow ->
+            if (isShow)
+                AppConfirmDialog(
+                    title = stringResource(R.string.auth_title_token_expired),
+                    message = stringResource(R.string.auth_msg_token_expired),
+                    textConfirm = stringResource(R.string.btn_relogin),
+                    onConfirm = {
+                        showExpiredTokenDialog(null)
+                        openLogin()
+                    }, onDismiss = {
+                        showExpiredTokenDialog(null)
+                    }
+                )
+        }
+
+        ConfigureSystemBars()
+        ObserveWindowStatus()
+
+        AppTheme {
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Colors.Dark120812),
+                color = Colors.Dark120812,
+            ) {
+                ProvideContent()
+            }
+        }
+    }
+
+    @Composable
+    private fun ObserveWindowStatus() {
+        val lifecycleOwner = LocalLifecycleOwner.current
+        val isLoading = remember { mutableStateOf(false) }
+        windowStatus.loading.observe(lifecycleOwner) {
+            isLoading.value = it
+        }
+        windowStatus.error.observe(lifecycleOwner) {
+            handle(this@AppComponentAct, it)
+        }
+        LoadingView(isLoading.value)
+    }
+
+    @Composable
+    abstract fun ProvideContent()
+
+    @Composable
+    protected open fun ConfigureSystemBars() {
+        ApplyDarkEdgeToEdgeStatusBars()
+    }
+
+    object WindowStatusProvider {
+        val instance: StateFlowStatusOwner by lazy { StateFlowStatusOwner() }
+    }
+}

@@ -1,0 +1,65 @@
+package com.hdl.dancer.booking.data.factory
+
+import android.content.Context
+import com.hdl.dancer.booking.R
+import com.hdl.dancer.booking.data.model.response.filter.CityDTO
+import com.hdl.dancer.booking.data.model.response.filter.SpecialityDTO
+import com.hdl.dancer.booking.data.model.response.filter.StateDTO
+import com.hdl.dancer.booking.domain.model.search.ICity
+import com.hdl.dancer.booking.domain.model.search.ISpeciality
+import com.hdl.dancer.booking.domain.model.search.IState
+
+class FilterFactory {
+
+    fun createStates(context: Context, its: List<StateDTO>): List<IState> {
+        val states = listOf(StateDTO(-1, context.getString(R.string.filter_all_state))) + its
+        return states.map(::createState)
+    }
+
+    private fun createState(it: StateDTO): IState {
+        return object : IState {
+            override val id: Int
+                get() = it.id
+            override val name: String
+                get() = it.name
+
+            override fun toString(): String {
+                return name
+            }
+        }
+    }
+
+    private fun createCity(it: CityDTO): ICity {
+        return object : ICity {
+            override val id: Int
+                get() = it.id
+            override val name: String
+                get() = it.name
+
+            override fun toString(): String {
+                return name
+            }
+        }
+    }
+
+    private fun createSpeciality(it: SpecialityDTO): ISpeciality {
+        return object : ISpeciality {
+            override val id: Int
+                get() = it.id
+            override val name: String
+                get() = it.name
+
+            override fun toString(): String {
+                return name
+            }
+        }
+    }
+
+    fun createCities(its: List<CityDTO>): List<ICity> {
+        return its.map(::createCity)
+    }
+
+    fun createSpecialities(its: List<SpecialityDTO>): List<ISpeciality> {
+        return its.map(::createSpeciality)
+    }
+}

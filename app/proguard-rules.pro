@@ -48,10 +48,10 @@
 }
 -keepattributes Signature
 -keepattributes *Annotation*
--keep class com.kantek.dancer.booking.data.helper.network.model.** { *; }
--keep class com.kantek.dancer.booking.domain.model.** { *; }
+-keep class com.hdl.dancer.booking.data.helper.network.model.** { *; }
+-keep class com.hdl.dancer.booking.domain.model.** { *; }
 # Retrofit API interfaces
--keep interface com.kantek.dancer.booking.data.remote.api.** { *; }
+-keep interface com.hdl.dancer.booking.data.remote.api.** { *; }
 -dontwarn okio.**
 
 # OkHttp3

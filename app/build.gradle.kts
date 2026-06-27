@@ -15,14 +15,14 @@ val keystoreProperties = Properties().apply {
 }
 
 android {
-    namespace = "com.kantek.dancer.booking"
+    namespace = "com.hdl.dancer.booking"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.kantek.dancer.booking"
+        applicationId = "com.hdl.dancer.booking"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 5
+        versionCode = 1
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -1,0 +1,10 @@
+package com.hdl.dancer.booking.domain.model.review
+
+interface IReview {
+    val id: Int get() = 0
+    val avatarURL: String get() = ""
+    val name: String get() = ""
+    val createAt get() = ""
+    val rating get() = 0f
+    val contents get() = ""
+}

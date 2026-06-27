@@ -1,0 +1,28 @@
+package com.hdl.dancer.booking.data.repo.conversation
+
+import com.hdl.dancer.booking.data.remote.api.ConversationApi
+import com.hdl.dancer.booking.data.factory.ConversationFactory
+import com.hdl.dancer.booking.data.model.response.conversation.MessageDTO
+import com.hdl.dancer.booking.domain.model.conversation.Message
+
+class FetchMessageByPageRepo(
+    private val conversationApi: ConversationApi,
+    private val conversationFactory: ConversationFactory
+) {
+    suspend operator fun invoke(id: Int, page: Int): List<Message> {
+        return conversationFactory.createMessageList(
+            conversationApi.messages(id, page).await().data
+        )
+    }
+
+    fun newMessage(it: MessageDTO, items: List<Message>?): Message {
+        return if (items.isNullOrEmpty()) {
+            conversationFactory.createMessage(it, null)
+        } else {
+            conversationFactory.createMessage(
+                it,
+                (items[0]).owner
+            )
+        }
+    }
+}

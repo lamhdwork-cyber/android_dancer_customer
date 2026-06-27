@@ -1,0 +1,73 @@
+package com.hdl.dancer.booking.presentation.viewmodel
+
+import com.hdl.dancer.booking.app.AppNotifications
+import com.hdl.dancer.booking.app.AppViewModel
+import com.hdl.dancer.booking.data.local.UserLocalSource
+import com.hdl.dancer.booking.data.remote.api.UserApi
+import com.hdl.dancer.booking.data.repo.LanguageRepo
+import com.hdl.dancer.booking.data.factory.UserFactory
+import com.hdl.dancer.booking.domain.model.user.IUser
+import com.hdl.dancer.booking.presentation.extensions.launch
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
+
+class AccountVM(
+    private val signOutRepo: SignOutRepo,
+    private val deleteAccountRepo: DeleteAccountRepo,
+    private val appNotifications: AppNotifications
+) : AppViewModel() {
+    val signOutSuccess = MutableStateFlow(false)
+
+
+    fun logout() = launch(loading, error) {
+        signOutRepo()
+        appNotifications.cancelAll()
+        signOutSuccess.value = true
+    }
+
+    fun delete() = launch(loading, error) {
+        deleteAccountRepo()
+        signOutSuccess.value = true
+    }
+
+}
+
+class SignOutRepo(
+    private val userLocalSource: UserLocalSource,
+    private val userApi: UserApi
+) {
+
+    suspend operator fun invoke() {
+        userApi.logout().awaitNullable()
+        userLocalSource.logout()
+    }
+}
+
+class FetchUserRepo(
+    private val userLocalSource: UserLocalSource,
+    private val userFactory: UserFactory,
+    private val languageRepo: LanguageRepo
+) {
+    operator fun invoke(): IUser? {
+        return userFactory.create(userLocalSource.getUserDto(), languageRepo.getLanguageDisplay())
+    }
+
+    fun currentDTO() = userLocalSource.getUserDto()
+
+    fun live(): Flow<IUser?> {
+        return userLocalSource.getUserLive().map {
+            userFactory.create(userLocalSource.getUserDto(), languageRepo.getLanguageDisplay())
+        }
+    }
+}
+
+class DeleteAccountRepo(
+    private val userApi: UserApi,
+    private val userLocalSource: UserLocalSource
+) {
+    suspend operator fun invoke() {
+        userApi.delete().awaitNullable()
+        userLocalSource.logout()
+    }
+}

@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:262786469294:android:7b2d7fb338417bcac90c3f",
+        "mobilesdk_app_id": "1:262786469294:android:8d132319194d2118c90c3f",
         "android_client_info": {
-          "package_name": "com.kantek.dancer.booking"
+          "package_name": "com.hdl.dancer.booking"
         }
       },
       "oauth_client": [],
