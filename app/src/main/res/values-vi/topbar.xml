@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="top_bar_sign_up">Đăng ký</string>
+    <string name="top_bar_forgot_pw">Quên mật khẩu</string>
+    <string name="top_bar_my_booking">Đặt chỗ của tôi</string>
+    <string name="top_bar_booking_queue">Hàng đợi đặt chỗ</string>
+    <string name="top_bar_request_consultation">Yêu cầu tư vấn</string>
+    <string name="top_bar_detail_case">Chi tiết trường hợp</string>
+    <string name="top_bar_change_password">Đổi mật khẩu</string>
+    <string name="top_bar_my_profile">Hồ sơ của tôi</string>
+    <string name="top_bar_otp_verify">Xác minh mã OTP</string>
+    <string name="top_bar_reset_pw">Đặt lại mật khẩu</string>
+    <string name="top_bar_conversation">Tư vấn viên</string>
+    <string name="top_bar_select_club">Chọn câu lạc bộ</string>
+    <string name="top_bar_dancer_list">Vũ công sẵn sàng</string>
+    <string name="top_bar_dancers">Vũ công</string>
+    <string name="top_bar_status_board">Bảng trạng thái</string>
+</resources>

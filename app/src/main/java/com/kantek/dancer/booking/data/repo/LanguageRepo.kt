@@ -24,14 +24,14 @@ class LanguageRepo(
     suspend fun save(language: String): Boolean {
         if (getCurrent() == language) return false
         if (userLocalSource.isLogin()) {
-            userApi.changeLanguage(language).await()
+//            userApi.changeLanguage(language).await()
             userLocalSource.postLive()
         }
         return languageLocalSource.save(language)
     }
 
-    fun markForWelcome() {
-        languageLocalSource.isShowWelcome = false
+    suspend fun markForWelcome() {
+        languageLocalSource.isShowWelcome.set(false)
     }
 
     fun getLanguageDisplay(): Int {

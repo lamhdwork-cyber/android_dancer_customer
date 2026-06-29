@@ -125,8 +125,8 @@ fun AccountScreen(viewModel: AccountVM = koinViewModel()) = ScopeProvider(AppSco
                         iconRes = R.drawable.ic_language,
                         title = stringResource(R.string.all_language),
                         subtitle = stringResource(id = user!!.languageRes),
-                        onClick = rememberDebouncedClick { hasShowComingSoon.value = true }
-//                        onClick = rememberDebouncedClick { appNavigator.navigateLanguage(true) }
+//                        onClick = rememberDebouncedClick { hasShowComingSoon.value = true }
+                        onClick = rememberDebouncedClick { appNavigator.navigateLanguage(true) }
                     )
                     DividerLine()
                     AccountMenuItem(

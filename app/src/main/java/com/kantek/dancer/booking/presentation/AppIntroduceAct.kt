@@ -18,7 +18,7 @@ class AppIntroduceAct : AppComponentAct() {
         val hasCompleteIntroduce = remember { mutableStateOf(false) }
         LaunchedEffect(hasCompleteIntroduce.value) {
             if (hasCompleteIntroduce.value) {
-                languageLocalSource.isShowWelcome = false
+                languageLocalSource.isShowWelcome.set(false)
                 openAuth()
             }
         }

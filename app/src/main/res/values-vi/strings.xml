@@ -1,0 +1,403 @@
+<resources>
+    <string name="app_name" translatable="false">Risque Club</string>
+    <string name="all_password">Mật khẩu</string>
+    <string name="all_sign_in">Đăng nhập</string>
+    <string name="all_loading">Đang tải…</string>
+    <string name="all_ok">OK</string>
+    <string name="all_notification">Thông báo</string>
+    <string name="error_no_internet">Vui lòng kiểm tra kết nối mạng và thử lại!</string>
+    <string name="error_server">Đã xảy ra lỗi máy chủ. Vui lòng thử lại sau!</string>
+    <string name="error_internal_server">Ối! Chúng tôi đang gặp sự cố kỹ thuật. Đội ngũ của chúng tôi đang xử lý. Vui lòng thử lại sau. Xin lỗi vì sự bất tiện này.</string>
+    <string name="error_login_role_not_allowed">Tài khoản này không được phép đăng nhập vào ứng dụng.</string>
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_explore">Khám phá</string>
+    <string name="nav_dancers">Vũ công</string>
+    <string name="nav_my_booking">Đặt chỗ</string>
+    <string name="nav_account">Tài khoản</string>
+    <string name="nav_notification">Thông báo</string>
+    <string name="dancer_admin_ready">Sẵn sàng</string>
+    <string name="dancer_admin_floor">Sàn</string>
+    <string name="dancer_admin_active_roster">Danh sách hoạt động</string>
+    <string name="dancer_admin_total_format">%1$d vũ công</string>
+    <string name="dancer_admin_no_club">Không có câu lạc bộ nào được liên kết với tài khoản này. Liên hệ hỗ trợ để được phân bổ câu lạc bộ.</string>
+    <string name="all_phone_or_email">Điện thoại hoặc Email</string>
+    <string name="auth_guest_screen_title">Đăng nhập khách</string>
+    <string name="auth_guest_brand_title" translatable="false">VELVET</string>
+    <string name="auth_guest_brand_subtitle">Trải nghiệm đêm cao cấp</string>
+    <string name="all_email_address">Địa chỉ Email</string>
+    <string name="auth_guest_hint_email" translatable="false">your@email.com</string>
+    <string name="auth_guest_hint_password" translatable="false">••••••••</string>
+    <string name="auth_guest_footer_no_account">Chưa có tài khoản?</string>
+    <string name="auth_guest_sign_up_brand_line" translatable="false">Vantage Club</string>
+    <string name="auth_guest_sign_up_title">Đăng ký khách</string>
+    <string name="auth_guest_sign_up_hero_prefix">Tham gia </string>
+    <string name="auth_guest_sign_up_hero_elite" translatable="false">Elite</string>
+    <string name="auth_guest_sign_up_subtitle">Trải nghiệm cuộc sống đêm độc quyền nhất thành phố. Đăng ký hồ sơ khách của bạn bên dưới.</string>
+    <string name="auth_guest_sign_up_full_name_label">Họ và tên</string>
+    <string name="auth_guest_sign_up_create_account">Tạo tài khoản</string>
+    <string name="auth_guest_sign_up_hint_first" translatable="false">John</string>
+    <string name="auth_guest_sign_up_hint_last" translatable="false">Doe</string>
+    <string name="auth_guest_sign_up_terms_prefix">Tôi đồng ý với</string>
+    <string name="auth_guest_sign_up_terms_link">Điều khoản &amp; Điều kiện</string>
+    <string name="auth_guest_sign_up_terms_and">và</string>
+    <string name="auth_guest_sign_up_privacy_link">Chính sách Bảo mật</string>
+    <string name="auth_manage_staff_portal_line" translatable="false">Nightlife Portal</string>
+    <string name="auth_manage_staff_title">Truy cập vũ công</string>
+    <string name="auth_manage_staff_subtitle">Cổng bảo mật chỉ dành cho nhân viên được ủy quyền</string>
+    <string name="auth_manage_staff_label_work_email">Email công việc</string>
+    <string name="auth_manage_staff_hint_work_email" translatable="false">dancer@club.com</string>
+    <string name="auth_manage_staff_label_security_key">Khóa bảo mật</string>
+    <string name="auth_manage_staff_login_cta">Đăng nhập nhân viên</string>
+    <string name="auth_manage_staff_encrypted_line">Kết nối được mã hóa đang hoạt động</string>
+    <string name="auth_manage_staff_footer_image_url" translatable="false"><![CDATA[https://lh3.googleusercontent.com/aida-public/AB6AXuCkBExaPe7ZKDCRQ5KEA3KL5OoVUXFOpilzUHTzAaDHUBtO0JIzvlRR_zTWdit-2TuGDf9fj2ILvyQW0XOhaqJp1smnUy0sJZbWV9iNBgdo64G7VKsBFZdlrQh8XGKLlRmjXfXZTyeyVGC5LTaLztnnCq7XnMhfwvZ-L8-NtJOutnlP1H1E2vEAvD0CeKmsDeNfVvQc3eHaLo5e1wO6IU4Mk0WFUzgkHJHeHR4MJ2Dcy3LCtT9vtkkRPHNKuku2MY2HKntQaP_I6QA]]></string>
+    <string name="auth_forgot_pw">Quên mật khẩu?</string>
+    <string name="auth_with">Hoặc đăng nhập bằng</string>
+    <string name="auth_first_time_here">Lần đầu đến đây?</string>
+    <string name="all_sign_up">Đăng ký</string>
+    <string name="all_confirm">Xác nhận</string>
+    <string name="all_cancel">Hủy</string>
+    <string name="msg_exit_app">Bạn có chắc muốn thoát ứng dụng không?</string>
+    <string name="all_exit">Thoát</string>
+    <string name="language_en">English</string>
+    <string name="language_vi">Tiếng Việt(Vietnamese)</string>
+    <string name="language_es">Español(Spanish)</string>
+    <string name="all_contiue">Tiếp tục</string>
+    <string name="lang_select">Chọn ngôn ngữ</string>
+    <string name="lang_select_des">Chọn ngôn ngữ để có trải nghiệm tốt hơn</string>
+    <string name="auth_title_token_expired">Phiên đăng nhập hết hạn</string>
+    <string name="account_profile">Hồ sơ</string>
+    <string name="account_change_pw">Đổi mật khẩu</string>
+    <string name="all_language">Ngôn ngữ</string>
+    <string name="account_terms"><![CDATA[Điều khoản & Điều kiện]]></string>
+    <string name="account_about_us">Về chúng tôi</string>
+    <string name="all_contact_us">Liên hệ</string>
+    <string name="account_delete">Xóa tài khoản</string>
+    <string name="all_logout">Đăng xuất</string>
+    <string name="account_edit_profile">Chỉnh sửa hồ sơ</string>
+    <string name="account_edit_profile_desc">Cập nhật thông tin cá nhân của bạn</string>
+    <string name="account_notification_settings">Cài đặt thông báo</string>
+    <string name="account_notification_settings_desc">Quản lý cảnh báo và cập nhật đặt chỗ</string>
+    <string name="account_logout_desc">Đăng xuất khỏi tài khoản này</string>
+    <string name="account_danger_zone">Vùng nguy hiểm</string>
+    <string name="account_delete_desc">Xóa vĩnh viễn dữ liệu của bạn</string>
+    <string name="message_logout_app">Bạn có muốn đăng xuất khỏi ứng dụng không?</string>
+    <string name="auth_msg_token_expired">Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.</string>
+    <string name="btn_relogin">Đăng nhập lại</string>
+    <string name="error_blank_email_or_phone">Điện thoại hoặc Email không được để trống!</string>
+    <string name="error_blank_password">Mật khẩu không được để trống!</string>
+    <string name="error_valid_password">Vui lòng nhập mật khẩu ít nhất 6 ký tự!</string>
+    <string name="all_get_started">Bắt đầu!</string>
+    <string name="reg_enter_your_info">Vui lòng nhập thông tin của bạn</string>
+    <string name="all_first_name">Tên</string>
+    <string name="all_last_name">Họ</string>
+    <string name="all_email">Email</string>
+    <string name="all_phone_number">Số điện thoại</string>
+    <string name="all_phone_hint_format" translatable="false">(555) 000-0000</string>
+    <string name="all_register">Đăng ký</string>
+    <string name="auth_already_have_an_account">Đã có tài khoản?</string>
+    <string name="error_blank_first_name">Tên không được để trống!</string>
+    <string name="error_blank_last_name">Họ không được để trống!</string>
+    <string name="error_blank_full_name">Họ và tên không được để trống!</string>
+    <string name="error_blank_email">Email không được để trống!</string>
+    <string name="error_blank_phone">Số điện thoại không được để trống!</string>
+    <string name="error_valid_email">Địa chỉ email không hợp lệ!</string>
+    <string name="permission_title">Yêu cầu quyền</string>
+    <string name="permission_des">Ứng dụng cần quyền này để hoạt động đúng. Vui lòng cấp quyền trong Cài đặt.</string>
+    <string name="permission_settings">Mở Cài đặt</string>
+    <string name="permission_cancel">Hủy</string>
+    <string name="no_data_notifications">
+    <![CDATA[
+     <big><b>Chưa có thông báo mới!</b></big><br/><br/>
+        Khi bạn nhận được thông báo, nó sẽ xuất hiện ở đây
+    ]]>
+    </string>
+    <string name="all_change_language">Đổi ngôn ngữ</string>
+    <string name="photo_from_camera">Chụp ảnh bằng camera</string>
+    <string name="photo_from_gallery">Chọn ảnh từ thư viện</string>
+    <string name="choose_avatar">Chọn ảnh đại diện</string>
+    <string name="all_send">Gửi</string>
+    <string name="all_request_dancer">Tìm vũ công</string>
+    <string name="home_need_legal_help">Bạn đang tìm vũ công?</string>
+    <string name="hello_s">Xin chào, %s</string>
+    <string name="all_coming_soon">Sắp ra mắt!</string>
+    <string name="no_data_faqs"><![CDATA[
+    <big><b>Chưa có bài viết &amp; FAQ!</b></big><br/><br/>
+      Chúng tôi sẽ cập nhật phần này với các thông tin hữu ích sớm nhất có thể.
+     ]]></string>
+    <string name="faqs_title"><![CDATA[Trợ giúp đặt chỗ &amp; FAQ]]></string>
+    <string name="all_sign_up_or_sign_in">Đăng nhập / Đăng ký</string>
+    <string name="booking_no_yet_des">Đăng nhập hoặc tạo tài khoản để bắt đầu.</string>
+    <string name="account_not_login">Đăng nhập để quản lý hồ sơ và nhiều hơn nữa</string>
+    <string name="notification_not_login">Thông báo về các trường hợp quan trọng của bạn</string>
+    <string name="notification_item_badge_new">MỚI</string>
+    <string name="notification_read_all_confirm_title">Đánh dấu tất cả là đã đọc?</string>
+    <string name="notification_read_all_confirm_message">Tất cả thông báo sẽ được đánh dấu là đã đọc. Bạn có muốn tiếp tục không?</string>
+    <string name="my_cases_not_login">Danh sách trường hợp của bạn</string>
+    <string name="no_data_my_booking">
+    <![CDATA[
+    <big><b>Chưa có đặt chỗ nào!</b></big><br/><br/>
+    Sau khi bạn tạo yêu cầu đặt chỗ, nó sẽ xuất hiện ở đây.
+    ]]>
+    </string>
+    <string name="no_data_my_booking_waiting">
+    <![CDATA[
+    <big><b>Chưa có đặt chỗ đang chờ!</b></big><br/><br/>
+    Khi có đặt chỗ đang chờ, nó sẽ xuất hiện ở đây.
+    ]]>
+    </string>
+    <string name="no_data_my_booking_ready">
+    <![CDATA[
+    <big><b>Chưa có đặt chỗ sẵn sàng!</b></big><br/><br/>
+    Các đặt chỗ sẵn sàng sẽ xuất hiện ở đây.
+    ]]>
+    </string>
+    <string name="find_consultation_info">Thông tin tư vấn</string>
+    <string name="all_zip">Mã bưu chính</string>
+    <string name="all_state">Tỉnh/Thành</string>
+    <string name="all_city">Thành phố</string>
+    <string name="find_issue_des">Mô tả vấn đề</string>
+    <string name="find_des_your_issue">Mô tả vấn đề của bạn</string>
+    <string name="find_consultation_language">Ngôn ngữ tư vấn</string>
+    <string name="all_personal_info">Thông tin cá nhân</string>
+    <string name="all_send_request">Gửi yêu cầu</string>
+    <string name="all_address">Địa chỉ</string>
+    <string name="error_blank_address">Địa chỉ không được để trống!</string>
+    <string name="error_blank_description">Mô tả không được để trống!</string>
+    <string name="all_view_detail">Xem chi tiết</string>
+    <string name="all_view_my_booking">Xem đặt chỗ của tôi</string>
+    <string name="booking_request_submitted">Yêu cầu đặt chỗ đã được xác nhận thành công!</string>
+    <string name="all_close">Đóng</string>
+    <string name="booking_without_login_success">
+Cảm ơn bạn! Chúng tôi xác nhận rằng yêu cầu đặt dịch vụ của bạn đã được gửi thành công. Nhân viên của chúng tôi sẽ liên hệ với bạn sớm nhất có thể để xác minh thông tin.\n\nBạn có thể sử dụng số điện thoại/email để đăng nhập với mật khẩu mặc định "123456" để theo dõi trạng thái đặt chỗ.
+</string>
+    <string name="booking_success">Cảm ơn bạn! Chúng tôi xác nhận rằng yêu cầu đặt dịch vụ của bạn đã được gửi thành công. Nhân viên của chúng tôi sẽ liên hệ với bạn sớm nhất có thể để xác minh thông tin.</string>
+    <string name="case_id_s">Mã case: #%s</string>
+    <string name="all_cancel_request">Hủy yêu cầu</string>
+    <string name="all_request_again">Yêu cầu lại</string>
+    <string name="all_cancel_reason">Lý do hủy</string>
+    <string name="msg_request_again">Bạn có chắc muốn gửi lại yêu cầu này không?</string>
+    <string name="msg_cancel_reason">Vui lòng nhập lý do hủy</string>
+    <string name="all_cancellation_reason">Lý do hủy</string>
+    <string name="error_blank_reason">Vui lòng nhập lý do!</string>
+    <string name="no_data">
+    <![CDATA[
+    <big><b>Không thể tải dữ liệu!</b></big><br/><br/>
+    Vui lòng thử lại sau.
+    ]]>
+    </string>
+    <string name="all_created_on">Ngày tạo</string>
+    <string name="all_full_name">Họ và tên</string>
+    <string name="all_lawyer_infomation">Thông tin luật sư</string>
+    <string name="all_finding_lawyer">Đang tìm luật sư…</string>
+    <string name="exp_s">Kinh nghiệm: %s năm</string>
+    <string name="cases_s">Số vụ: %s</string>
+    <string name="all_specialty">CHUYÊN MÔN</string>
+    <string name="all_lawyer_detail">Chi tiết luật sư</string>
+    <string name="all_lawyer_specialties">Chuyên môn của luật sư</string>
+    <string name="all_education">Học vấn</string>
+    <string name="all_achievements">Thành tích</string>
+    <string name="top_bar_lawyer_detail">Chi tiết luật sư</string>
+    <string name="all_lawyer_license">Giấy phép hành nghề</string>
+    <string name="all_view_license">Xem giấy phép</string>
+    <string name="all_contact_info">Thông tin liên hệ</string>
+    <string name="all_copy">Sao chép</string>
+    <string name="msg_confirm_call_phone_s">Bạn có chắc muốn gọi cho %s không?</string>
+    <string name="all_call">Gọi</string>
+    <string name="top_bar_photo_viewer">Xem ảnh</string>
+    <string name="all_current_password">Mật khẩu hiện tại</string>
+    <string name="all_new_password">Mật khẩu mới</string>
+    <string name="all_confirm_new_password">Xác nhận mật khẩu mới</string>
+    <string name="all_change">Đổi</string>
+    <string name="error_blank_current_password">Mật khẩu hiện tại không được để trống!</string>
+    <string name="error_valid_new_password">Vui lòng nhập mật khẩu mới ít nhất 6 ký tự!</string>
+    <string name="error_valid_password_confirm">Xác nhận mật khẩu không đúng!</string>
+    <string name="msg_change_password_success">Đổi mật khẩu thành công!</string>
+    <string name="all_delete_account">Xóa tài khoản</string>
+    <string name="all_msg_delete_app">Xóa tài khoản đồng nghĩa tất cả dữ liệu của bạn sẽ bị mất. Hành động này không thể hoàn tác.\n\nBạn có chắc muốn xóa tài khoản không?</string>
+    <string name="all_delete">Xóa</string>
+    <string name="all_save">Lưu</string>
+    <string name="account_change_photo">Đổi ảnh</string>
+    <string name="contact_us_des">Cần hỗ trợ? Chúng tôi luôn sẵn sàng giúp đỡ!</string>
+    <string name="all_message">Tin nhắn</string>
+    <string name="error_blank_message">Tin nhắn không được để trống!</string>
+    <string name="msg_contact_us_success">Thông tin của bạn đã được nhận. Chúng tôi sẽ liên hệ sớm để hỗ trợ. Cảm ơn!</string>
+    <string name="error_valid_phone">Vui lòng nhập số điện thoại đúng!</string>
+    <string name="contact_us_content">Tin nhắn</string>
+    <string name="all_next">Tiếp theo</string>
+    <string name="all_skip">Bỏ qua</string>
+    <string name="introduce_title_1">Đặt trải nghiệm của bạn</string>
+    <string name="introduce_description_1">Đặt bàn, dịch vụ rượu và quyền truy cập độc quyền chỉ với vài thao tác.</string>
+    <string name="introduce_title_2">Tự động tìm các câu lạc bộ gần đây</string>
+    <string name="introduce_description_2">Khám phá những địa điểm độc quyền nhất thành phố dựa trên vị trí của bạn.</string>
+    <string name="introduce_title_3">Xem danh sách vũ công sẵn có</string>
+    <string name="introduce_description_3">Xem trạng thái trực tiếp và chuyên môn của những tài năng hàng đầu.</string>
+    <string name="role_top_tagline">Nâng tầm đêm của bạn</string>
+    <string name="role_title_welcome">Chào mừng</string>
+    <string name="role_subtitle_description">Chọn góc nhìn của bạn để bước vào thế giới cuộc sống đêm cao cấp.</string>
+    <string name="role_guest_badge">Dành cho người đi chơi</string>
+    <string name="role_guest_title">TÔI LÀ KHÁCH</string>
+    <string name="role_guest_description">Đặt bàn VIP, tham gia danh sách khách độc quyền và khám phá các địa điểm tốt nhất thành phố.</string>
+    <string name="role_guest_action">Tiếp tục</string>
+    <string name="role_manager_badge">Dành cho chuyên nghiệp</string>
+    <string name="role_manager_title">TÔI LÀ VŨ CÔNG</string>
+    <string name="role_manager_description">Tạo hồ sơ, nhận yêu cầu đặt chỗ, quản lý lịch trình và phát triển khán giả của bạn.</string>
+    <string name="role_manager_action">Truy cập cổng</string>
+    <string name="role_footer_terms">Điều khoản dịch vụ &amp; Chính sách bảo mật</string>
+    <string name="forgot_pw_des">Vui lòng nhập email của bạn và chúng tôi sẽ gửi mã OTP ở bước tiếp theo để đặt lại mật khẩu</string>
+    <string name="otp_des_1">Chúng tôi đã gửi mã OTP đến email của bạn</string>
+    <string name="otp_des_2">Nhập mã OTP bên dưới để xác minh</string>
+    <string name="auth_otp_resend_in_remaining_s">Gửi lại mã OTP sau %s giây</string>
+    <string name="auth_otp_resend">Gửi lại mã xác minh</string>
+    <string name="reset_pw_des">Tạo mật khẩu mới của bạn. Vui lòng chọn mật khẩu dễ nhớ</string>
+    <string name="reset_password_success">Đặt lại mật khẩu thành công!\nVui lòng chờ… Bạn sẽ được chuyển về trang đăng nhập.</string>
+    <string name="all_chat">Trò chuyện</string>
+    <string name="no_data_conversation">
+            <![CDATA[
+    <big><b>Chưa có tin nhắn mới</b></big><br/><br/>
+    Nhắn tin cho chúng tôi khi bạn cần hỗ trợ!
+    ]]>
+    </string>
+    <string name="hint_message">Viết tin nhắn</string>
+    <string name="msg_update_profile_success">Hồ sơ của bạn đã được cập nhật thành công!</string>
+    <string name="conversation_loading">Đang kết nối…</string>
+    <string name="reg_legal_disclaimer">Tuyên bố miễn trừ trách nhiệm pháp lý</string>
+    <string name="reg_legal_disclaimer_content">Ứng dụng này là nền tảng công nghệ giúp bạn khám phá vũ công và câu lạc bộ, đồng thời gửi yêu cầu đặt chỗ. Ứng dụng không phải là nhà tuyển dụng, đại lý đặt chỗ hay đại diện tài năng cho người biểu diễn, và không đảm bảo về tính sẵn sàng, giá cả, lịch trình hay chất lượng của bất kỳ buổi biểu diễn hoặc dịch vụ nào.\n\nViệc đặt chỗ và các buổi biểu diễn hoặc dịch vụ được sắp xếp giữa bạn và vũ công, câu lạc bộ hoặc nhà cung cấp liên quan. Những sắp xếp đó là tự nguyện và được thực hiện theo quyết định và rủi ro của từng bên. Ứng dụng chỉ tạo điều kiện kết nối và liên lạc; không giám sát, chứng thực hoặc chịu trách nhiệm về hành vi, hủy bỏ, thanh toán hoặc tranh chấp giữa người dùng và nhà cung cấp.\n\nThông tin hồ sơ, danh sách và tin nhắn do người dùng hoặc nhà cung cấp cung cấp và có thể thay đổi. Chúng tôi không đảm bảo tính đầy đủ, chính xác hoặc cập nhật của thông tin đó.\n\nBằng cách sử dụng ứng dụng này, bạn xác nhận và đồng ý rằng mọi tranh chấp hoặc khiếu nại phát sinh liên quan đến việc sử dụng ứng dụng sẽ được điều chỉnh bởi pháp luật của Bang Delaware, không phân biệt các quy định về xung đột pháp luật.</string>
+    <string name="reg_legal_disclaimer_confirm">Tôi đã đọc và đồng ý với các điều khoản</string>
+    <string name="reg_legal_disclaimer_agree">Tôi đồng ý</string>
+    <string name="error_valid_legal_disclaimer">Vui lòng đọc và đồng ý với "Tuyên bố miễn trừ trách nhiệm pháp lý"</string>
+    <string name="lbl_find_option">Vui lòng chọn một tùy chọn</string>
+    <string name="all_select_dancer">Chọn vũ công</string>
+    <string name="club_select_this_club">Chọn câu lạc bộ này</string>
+    <string name="club_current_location">Vị trí hiện tại</string>
+    <string name="club_current_location_placeholder">123 Neon District, City</string>
+    <string name="club_nearby_clubs">Câu lạc bộ gần đây</string>
+    <string name="club_view_map">Xem bản đồ</string>
+    <string name="club_open_now">Đang mở cửa</string>
+    <string name="club_closed">Đóng cửa</string>
+    <string name="dancer_available_now">Sẵn sàng</string>
+    <string name="dancer_style_unknown">Phong cách nhảy</string>
+    <string name="dancer_detail_premium_performer">VŨ CÔNG CAO CẤP</string>
+    <string name="dancer_detail_id_format">ID: %s</string>
+    <string name="dancer_detail_age">Tuổi</string>
+    <string name="dancer_detail_age_format">%s tuổi</string>
+    <string name="dancer_detail_style">Phong cách</string>
+    <string name="dancer_detail_about">Giới thiệu</string>
+    <string name="dancer_detail_book_now">ĐẶT NGAY</string>
+    <string name="dancer_detail_book_late">ĐẶT SAU</string>
+    <string name="dancer_detail_reviews">Đánh giá %1$s (%2$s)</string>
+    <string name="dancer_detail_experience">%1$s năm kinh nghiệm · $%2$s/h</string>
+    <string name="club_open_hours_format">MỞ CỬA: %1$s - %2$s</string>
+    <string name="all_quick_request">Yêu cầu nhanh</string>
+    <string name="find_select_state">Chọn tỉnh/thành</string>
+    <string name="all_request">Yêu cầu</string>
+    <string name="no_data_lawyer"><![CDATA[
+   <big><b>Không tìm thấy luật sư!</b></big><br/><br/>
+   Vui lòng thử thay đổi vị trí hoặc bộ lọc
+]]></string>
+    <string name="no_data_dancer"><![CDATA[
+   <big><b>Không tìm thấy vũ công!</b></big><br/><br/>
+   Vui lòng chọn câu lạc bộ khác hoặc làm mới để thử lại
+]]></string>
+    <string name="all_lawyer">Luật sư bạn đã chọn</string>
+    <string name="all_change_lawyer">Đổi luật sư</string>
+    <string name="filter_all_state">Tất cả tỉnh/thành</string>
+    <string name="all_review_list">Danh sách đánh giá</string>
+    <string name="all_reviews">Đánh giá</string>
+
+    <string name="no_data_reviews">
+    <![CDATA[
+     <big><b>Chưa có đánh giá mới!</b></big><br/><br/>
+       Khi luật sư nhận được đánh giá, nó sẽ xuất hiện ở đây
+    ]]>
+    </string>
+    <string name="all_leave_review">Để lại đánh giá</string>
+    <string name="all_filter">Bộ lọc</string>
+    <string name="filter_select_city">Chọn thành phố</string>
+    <string name="filter_select_language">Chọn ngôn ngữ</string>
+    <string name="filter_select_specialities">Chọn chuyên môn</string>
+    <string name="all_reset">Đặt lại</string>
+    <string name="all_apply">Áp dụng</string>
+    <string name="review_write">Viết đánh giá</string>
+    <string name="all_submit">Gửi</string>
+    <string name="review_success">Cảm ơn bạn đã đánh giá!</string>
+    <string name="error_blank_content">Vui lòng nhập nội dung!</string>
+    <string name="account_faq_threads">Chủ đề FAQ</string>
+    <string name="faqs_threads_title">Chọn chuyên môn</string>
+    <string name="all_submit_your_question">Gửi câu hỏi của bạn</string>
+    <string name="faqs_submit_your_question">Gửi câu hỏi của bạn</string>
+    <string name="faqs_your_question">Câu hỏi của bạn</string>
+    <string name="all_sent">Đã gửi</string>
+    <string name="msg_create_question_sent">Cảm ơn bạn đã dành thời gian.\nBài gửi của bạn sẽ được hiển thị sau khi chúng tôi xem xét.</string>
+    <string name="all_title">Tiêu đề</string>
+    <string name="error_blank_title">Vui lòng nhập tiêu đề!</string>
+    <string name="all_submit_your_answer">Gửi câu trả lời của bạn</string>
+    <string name="faqs_your_answer">Câu trả lời của bạn</string>
+    <string name="booking_title">Tạo đặt chỗ</string>
+    <string name="booking_table_number">Số bàn</string>
+    <string name="booking_selected_performers">Vũ công đã chọn</string>
+    <string name="booking_total_format">%1$d/%2$d TỔNG</string>
+    <string name="booking_add">Thêm</string>
+    <string name="booking_pick_performer_title">Thêm vũ công</string>
+    <string name="booking_max_performers_message">Bạn có thể chọn tối đa 5 vũ công.</string>
+    <string name="booking_add_performer_no_club">Thiếu thông tin câu lạc bộ. Không thể thêm vũ công.</string>
+    <string name="booking_mode_now">Đặt ngay</string>
+    <string name="booking_mode_later">Đặt sau</string>
+    <string name="booking_schedule">Lịch trình</string>
+    <string name="booking_select_room">Chọn phòng</string>
+    <string name="booking_room_vip">Phòng VIP</string>
+    <string name="booking_room_vip_desc">Khu vực riêng tư, dịch vụ cao cấp</string>
+    <string name="booking_room_suite">Phòng Suite riêng</string>
+    <string name="booking_room_suite_desc">Hoàn toàn biệt lập, có quầy bar</string>
+    <string name="booking_price_format">$%1$s</string>
+    <string name="booking_songs_title">Số lượng bài hát</string>
+    <string name="booking_songs_subtitle">Mỗi buổi biểu diễn</string>
+    <string name="booking_guests_title">Số lượng khách</string>
+    <string name="booking_guests_subtitle">Tổng số khách</string>
+    <string name="booking_total_due">Tổng dự kiến phải trả</string>
+    <string name="booking_collect_format">Thu: $%1$s</string>
+    <string name="booking_base_fee">Phí cơ bản: $500</string>
+    <string name="booking_addons_fee">Dịch vụ thêm: $450</string>
+    <string name="booking_confirm">Xác nhận đặt chỗ</string>
+    <string name="booking_confirm_title">Tóm tắt đặt chỗ cuối cùng</string>
+    <string name="booking_premium_venue">ĐỊA ĐIỂM CAO CẤP</string>
+    <string name="booking_date">Ngày</string>
+    <string name="booking_time">Giờ</string>
+    <string name="booking_selected_room_type">Loại phòng đã chọn</string>
+    <string name="booking_room_suite_label">VIP Suite</string>
+    <string name="booking_private">RIÊNG TƯ</string>
+    <string name="booking_total_amount_due">Tổng số tiền phải trả</string>
+    <string name="booking_selected_talent">VŨ CÔNG ĐÃ CHỌN</string>
+    <string name="booking_collected_at_venue">(Thu tại địa điểm)</string>
+    <string name="booking_cash_only">CHỈ THANH TOÁN TIỀN MẶT</string>
+    <string name="booking_base_fee_295">Phí cơ bản: $295</string>
+    <string name="booking_addons_fee_zero">Dịch vụ thêm: $0</string>
+    <string name="booking_confirm_uppercase">XÁC NHẬN ĐẶT CHỖ</string>
+    <string name="booking_confirm_mock_club_name">Club Neon</string>
+    <string name="booking_confirm_mock_district">Downtown District</string>
+    <string name="booking_confirm_mock_date">Thứ Sáu, 24/11</string>
+    <string name="booking_confirm_mock_time">11:30 CH</string>
+    <string name="booking_confirm_mock_total">$295.00</string>
+    <string name="booking_tab_pending">CHỜ XỬ LÝ</string>
+    <string name="booking_tab_waiting">ĐANG CHỜ</string>
+    <string name="booking_tab_ready">SẴN SÀNG</string>
+    <string name="booking_action_await">CHỜ</string>
+    <string name="booking_action_reject">TỪ CHỐI</string>
+    <string name="booking_action_ready">SẴN SÀNG</string>
+    <string name="booking_confirm_await_title">Chờ đặt chỗ này?</string>
+    <string name="booking_confirm_await_message">Khách sẽ thấy đặt chỗ này ở trạng thái chờ. Khi bạn sẵn sàng phục vụ, bạn có thể nhấn \'Sẵn sàng\'.</string>
+    <string name="booking_confirm_ready_title">Đánh dấu là sẵn sàng?</string>
+    <string name="booking_confirm_ready_message">Dùng khi bạn sẵn sàng biểu diễn. Đặt chỗ sẽ được đánh dấu là sẵn sàng.</string>
+    <string name="booking_detail_checkin_pass">XEM THẺ CHECK-IN</string>
+    <string name="booking_detail_cancel_booking">HỦY ĐẶT CHỖ</string>
+    <string name="booking_detail_guests_format">%1$d người</string>
+    <string name="booking_detail_songs_format">%1$d bài hát</string>
+    <string name="booking_detail_incl_tax">Đã bao gồm thuế &amp; phí</string>
+    <string name="booking_detail_reserved_format">%1$d ĐÃ ĐẶT</string>
+    <string name="booking_detail_vip_guest">Khách VIP</string>
+    <string name="booking_detail_room_short">Phòng</string>
+    <string name="booking_detail_dancer_style_fallback">Hàng đầu</string>
+    <string name="booking_detail_no_dancers">Chưa chọn vũ công</string>
+    <string name="booking_hint_table_number">Nhập số bàn (tùy chọn)</string>
+    <string name="booking_hint_customer_name">Nhập tên khách hàng</string>
+
+</resources>
