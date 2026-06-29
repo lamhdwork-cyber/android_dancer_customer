@@ -16,17 +16,15 @@ class LanguageVM(private val languageRepo: LanguageRepo) : AppViewModel() {
     val items: StateFlow<List<ILanguage>> = _items
 
     val onContinueSuccess = MutableStateFlow(false)
-    val onChangeSuccess = MutableStateFlow(false to false)
 
     fun setLanguage(language: String) = launch(loading, error) {
         _selectedLanguage.value = language
     }
 
     fun saveLanguage(hasContinue: Boolean = true) = launch(loading, error) {
-        val hasChange = languageRepo.save(_selectedLanguage.value)
+        languageRepo.save(_selectedLanguage.value)
         if (hasContinue)
             onContinueSuccess.value = true
-        else onChangeSuccess.value = true to hasChange
     }
 
     fun onFetch() = launch(loading, error) {

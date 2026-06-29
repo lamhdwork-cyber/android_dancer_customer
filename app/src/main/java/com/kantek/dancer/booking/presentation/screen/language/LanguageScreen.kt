@@ -50,16 +50,8 @@ fun LanguageScreen(
     val selectedLanguage = viewModel.selectedLanguage.collectAsState().value
     val languages by viewModel.items.collectAsState()
     val onContinueSuccess by viewModel.onContinueSuccess.collectAsState()
-    val onChangeSuccess by viewModel.onChangeSuccess.collectAsState()
 
     LaunchedEffect(Unit) { viewModel.onFetch() }
-
-    LaunchedEffect(onChangeSuccess) {
-        // No manual recreate(): AppCompatDelegate.setApplicationLocales already
-        // recreates the activity to apply the new locale.
-        if (onChangeSuccess.first)
-            appNavigator.back()
-    }
 
     LaunchedEffect(onContinueSuccess) {
         if (onContinueSuccess) {
@@ -134,6 +126,7 @@ fun LanguageScreen(
             }
         if (isInApp)
             AppButton(R.string.all_change_language) {
+                appNavigator.back()
                 viewModel.saveLanguage(false)
             }
     }
