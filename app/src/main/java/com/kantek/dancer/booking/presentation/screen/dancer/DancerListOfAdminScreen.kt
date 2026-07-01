@@ -1,9 +1,12 @@
 package com.kantek.dancer.booking.presentation.screen.dancer
-import android.support.ui.extension.onClick
 
 import android.content.Context
 import android.support.core.event.LoadingEvent
 import android.support.core.event.LoadingFlow
+import android.support.ui.extension.launch
+import android.support.ui.extension.onClick
+import android.support.ui.widget.AppLazyColumn
+import android.support.ui.widget.NoDataView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -37,23 +40,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kantek.dancer.booking.R
 import com.kantek.dancer.booking.app.AppConfig
+import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.app.AppViewModel
+import com.kantek.dancer.booking.data.factory.DancerFactory
 import com.kantek.dancer.booking.data.local.UserLocalSource
+import com.kantek.dancer.booking.domain.model.search.IDancer
 import com.kantek.dancer.booking.domain.repo.ClubRepo
 import com.kantek.dancer.booking.domain.repo.DancerRepo
-import com.kantek.dancer.booking.data.factory.DancerFactory
-import com.kantek.dancer.booking.app.AppScopes
-import com.kantek.dancer.booking.domain.model.search.IDancer
 import com.kantek.dancer.booking.domain.usecase.FetchClubDancersAdminPageCase
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
-import android.support.ui.extension.launch
 import com.kantek.dancer.booking.presentation.extensions.use
 import com.kantek.dancer.booking.presentation.navigation.AppNavigator
 import com.kantek.dancer.booking.presentation.theme.Colors
 import com.kantek.dancer.booking.presentation.widget.ActionBarDancerAdmin
-import android.support.ui.widget.AppLazyColumn
 import com.kantek.dancer.booking.presentation.widget.AvatarImage
-import android.support.ui.widget.NoDataView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.androidx.compose.koinViewModel
@@ -370,24 +370,24 @@ class DancerListOfAdminVM(
         }
     }
 
-    fun ensureClubIdAndLoad() {
+    fun ensureClubIdAndLoad() = launch {
         val id = userLocalSource.getUserDto()?.clubId?.trim().orEmpty()
         if (id.isBlank()) {
             _clubId.value = ""
             _items.value = emptyList()
             _totalItems.value = null
             clearClubDisplay()
-            return
+            return@launch
         }
         if (_clubId.value == id && _items.value.isNotEmpty()) {
             if (_clubDisplayName.value.isBlank()) loadClubDetail(id)
-            return
+            return@launch
         }
         if (_clubId.value != id) {
             _clubId.value = id
             clearClubDisplay()
             onRefresh()
-            return
+            return@launch
         }
         if (_items.value.isEmpty() && !isRefreshLoading.isLoading().value && !customLoading.isLoading().value) {
             onRefresh()

@@ -35,9 +35,11 @@ class NotificationVM(
     }
 
     fun onChangeUser() {
-        if (currentUserBackup != getCurrentUser()) {
-            currentUserBackup = getCurrentUser()
-            onRefresh()
+        getCurrentUser { current ->
+            if (currentUserBackup != current) {
+                currentUserBackup = current
+                onRefresh()
+            }
         }
     }
 

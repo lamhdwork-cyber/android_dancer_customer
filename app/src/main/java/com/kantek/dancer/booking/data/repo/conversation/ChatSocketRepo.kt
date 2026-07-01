@@ -43,7 +43,7 @@ class ChatSocketRepo(
         }
     }
 
-    fun emitJoinRoom(bookingID: Int) {
+    suspend fun emitJoinRoom(bookingID: Int) {
         chatSocketClient.emitJoinRoom(
             bookingID.toString(),
             userLocalSource.getUserDto()?.id ?: "",
@@ -51,14 +51,14 @@ class ChatSocketRepo(
         )
     }
 
-    fun emitLeaveRoom(bookingID: Int) {
+    suspend fun emitLeaveRoom(bookingID: Int) {
         chatSocketClient.emitLeaveRoom(
             bookingID.toString(),
             userLocalSource.getUserDto()?.id ?: ""
         )
     }
 
-    fun emitTyping(bookingID: Int, msg: String) {
+    suspend fun emitTyping(bookingID: Int, msg: String) {
         val user = userLocalSource.getUserDto()
         chatSocketClient.emitTyping(
             bookingID.toString(),
@@ -72,7 +72,7 @@ class ChatSocketRepo(
         chatSocketClient.unObserve()
     }
 
-    fun sendMessage(
+    suspend fun sendMessage(
         bookingID: Int,
         textMsg: String,
         localID: String
@@ -86,7 +86,7 @@ class ChatSocketRepo(
         )
     }
 
-    fun sendPhotoMessage(
+    suspend fun sendPhotoMessage(
         bookingID: Long,
         photo: List<String>
     ) {

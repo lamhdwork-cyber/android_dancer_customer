@@ -1,76 +1,52 @@
 package com.kantek.dancer.booking.data.local
 
 import android.content.Context
-import android.support.persistent.cache.sharepreferences.GsonCaching
+import android.support.persistent.cache.datastore.GsonDataStoreCaching
 import android.support.core.helper.ShareIOScope
 import com.kantek.dancer.booking.data.model.response.UserDTO
 import com.kantek.dancer.booking.data.model.response.UserResponse
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
 
 class UserLocalSource(
     context: Context,
     private val shareIOScope: ShareIOScope,
     private val languageLocalSource: LanguageLocalSource
 ) {
-    private val caching = GsonCaching(context)
-    private val userLive = MutableStateFlow(false)
+    private val caching = GsonDataStoreCaching(context)
 
-    var account: String by caching.string("auth:account", "")
-    var password: String by caching.string("auth:password", "")
-    var apiToken: String by caching.string("token:api", "")
-    var refreshToken: String by caching.string("token:refresh", "")
-    private var chatIDCurrent: Int by caching.int("chat:room:id", 0)
-    private var pushToken: String by caching.string("token:push", "")
-    private var user: UserDTO? by caching.reference(UserDTO::class.java.name)
+    val account = caching.string("auth:account", "")
+    val password = caching.string("auth:password", "")
+    val refreshToken = caching.string("token:refresh", "")
+    val apiToken = caching.string("token:api", "")
+    private val pushToken = caching.string("token:push", "")
+    private val chatRoomId = caching.int("chat:room:id", 0)
+    private val user = caching.reference<UserDTO>(UserDTO::class.java.name)
 
-    fun saveUserResponse(it: UserResponse?) {
+    suspend fun getUserDto(): UserDTO? = user.get()
+    suspend fun isLogin() = user.get() != null
+    suspend fun getToken(): String = apiToken.get()
+    fun getUserLive() = user.asFlow()
+
+    suspend fun saveUser(userDTO: UserDTO?) = user.set(userDTO)
+
+    suspend fun saveUserResponse(it: UserResponse?) {
         saveUser(it?.user)
         val access = it?.tokens?.accessToken
-        if (!access.isNullOrEmpty()) saveToken(access)
+        if (!access.isNullOrEmpty()) apiToken.set(access)
         val refresh = it?.tokens?.refreshToken
-        if (!refresh.isNullOrEmpty()) this.refreshToken = refresh
-        languageLocalSource.save(it?.user?.language)
+        if (!refresh.isNullOrEmpty()) refreshToken.set(refresh)
+        languageLocalSource.save(it?.user?.language ?: "")
     }
 
-    fun saveUser(userDTO: UserDTO?) {
-        user = userDTO
-        postLive()
-    }
-
-    private fun saveToken(apiToken: String) {
-        this.apiToken = apiToken
-    }
-
-    fun getUserDto(): UserDTO? = user
-
-    fun isLogin() = user != null
-
-    fun logout() {
+    suspend fun logout() {
         saveUser(null)
-        saveToken("")
-        refreshToken = ""
+        apiToken.set("")
+        refreshToken.set("")
     }
 
-    fun saveTokenPush(pushToken: String) {
-        this.pushToken = pushToken
-    }
+    suspend fun saveTokenPush(token: String) = pushToken.set(token)
+    suspend fun getTokenPush(): String = pushToken.get()
 
-    fun getTokenPush(): String {
-        return pushToken
-    }
-
-    fun getUserLive() = userLive
-
-    fun postLive() {
-        shareIOScope.launch { userLive.emit(!userLive.value) }
-    }
-
-    fun getToken(): String = apiToken
-
-    fun setChatRoomIDCurrent(bookingID: Int) {
-        chatIDCurrent = bookingID
-    }
-
-    fun getChatRoomIDCurrent() = chatIDCurrent
+    suspend fun setChatRoomIDCurrent(bookingID: Int) = chatRoomId.set(bookingID)
+    suspend fun getChatRoomIDCurrent(): Int = chatRoomId.get()
 }

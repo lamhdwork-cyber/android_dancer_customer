@@ -130,6 +130,7 @@ import com.kantek.dancer.booking.presentation.viewmodel.ReviewVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignInGoogleRepo
 import com.kantek.dancer.booking.presentation.viewmodel.SignInVM
 import com.kantek.dancer.booking.presentation.viewmodel.SignOutRepo
+import kotlinx.coroutines.runBlocking
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -239,7 +240,7 @@ val dataModule = module {
     single { AppNotifications(get()) }
     single { UserLocalSource(get(), get(), get()) }
     single<CurrentUserRoleProvider> { UserRoleProvider(get()) }
-    single { TokenInterceptor { get<UserLocalSource>().apiToken } }
+    single { TokenInterceptor { runBlocking { get<UserLocalSource>().apiToken.get() } } }
     single { LanguageInterceptor { get<LanguageLocalSource>().get() } }
     single { ShareIOScope() }
     single<NotificationRepo> { NotificationRepoImpl(get(), get()) }
@@ -248,7 +249,7 @@ val dataModule = module {
     single<RoomRepo> { RoomRepoImpl(get(), get()) }
     factory { LanguageRepo(get(), get(), get(), get()) }
     single { LanguageLocalSource(get()) }
-    factory { FetchUserRepo(get(), get(), get()) }
+    factory { FetchUserRepo(get(), get(), get(), get()) }
     factory { SignOutRepo(get(), get()) }
     factory { GetAccountRepo(get()) }
     factory { SignInRepo(get<Application>().applicationContext, get(), get()) }
@@ -258,12 +259,12 @@ val dataModule = module {
     factory { FetchAllBannerRepo(get(), get()) }
     factory { FetchFAQsPagingRepo(get(), get()) }
     factory { BookingConfirmRepo(get()) }
-    factory { FetchMyBookingByPageRepo(get(), get()) }
+    factory { FetchMyBookingByPageRepo(get(), get(), get()) }
     factory { BookingRequestAgainRepo(get()) }
     factory { BookingCancelRepo(get()) }
     factory { BookingWaitRepo(get()) }
     factory { BookingReadyRepo(get()) }
-    factory { FetchBookingDetailRepo(get(), get()) }
+    factory { FetchBookingDetailRepo(get(), get(), get()) }
     factory { ChangePasswordRepo(get()) }
     factory { DeleteAccountRepo(get(), get()) }
     factory { UpdateProfileRepo(get(), get(), get(),get()) }
@@ -298,7 +299,7 @@ val domainModule = module {
     single { UserFactory(get()) }
     single { PhotoFactory(get()) }
     single { ConfigFactory(get()) }
-    single { BookingFactory(get(), get(), get(), get()) }
+    single { BookingFactory(get(), get(), get()) }
     single { RoomFactory(get()) }
     single { ClubFactory() }
     single { DancerFactory() }

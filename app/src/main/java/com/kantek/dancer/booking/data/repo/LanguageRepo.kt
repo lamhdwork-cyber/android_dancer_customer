@@ -25,7 +25,6 @@ class LanguageRepo(
         if (getCurrent() == language) return false
         if (userLocalSource.isLogin()) {
 //            userApi.changeLanguage(language).await()
-            userLocalSource.postLive()
         }
         return languageLocalSource.save(language)
     }
@@ -36,5 +35,9 @@ class LanguageRepo(
 
     fun getLanguageDisplay(): Int {
         return languageFactory.getLanguageDisplay(languageLocalSource.get())
+    }
+
+    fun getLanguageDisplayFor(language: String): Int {
+        return languageFactory.getLanguageDisplay(language)
     }
 }

@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,12 +33,13 @@ import org.koin.compose.koinInject
 @Composable
 fun HomeScreen(startTab: String = "") = ScopeProvider(AppScopes.Home) {
     val roleProvider = koinInject<CurrentUserRoleProvider>()
-    val firstTab = if (AppConfig.UserRole.isClubManager(roleProvider.getRole())) {
-        null
-    } else {
-        AppBottomNavigationScreen.Search
-    }
+    var firstTab by remember { mutableStateOf<AppBottomNavigationScreen?>(AppBottomNavigationScreen.Search) }
     val firstTabRoute = firstTab?.route ?: AppBottomNavigationScreen.Cases.route
+
+    LaunchedEffect(Unit) {
+        firstTab = if (AppConfig.UserRole.isClubManager(roleProvider.getRole())) null
+                   else AppBottomNavigationScreen.Search
+    }
     val nav = rememberNavController()
 
     LaunchedEffect(startTab, firstTabRoute) {

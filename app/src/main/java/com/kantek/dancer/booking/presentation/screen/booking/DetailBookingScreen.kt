@@ -68,6 +68,7 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.BookingApi
 import com.kantek.dancer.booking.data.factory.BookingFactory
+import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.booking.BookingActionsBar
 import com.kantek.dancer.booking.domain.model.booking.IBookingDetail
@@ -887,10 +888,11 @@ class DetailBookingVM(
 
 class FetchBookingDetailRepo(
     private val bookingApi: BookingApi,
-    private val bookingFactory: BookingFactory
+    private val bookingFactory: BookingFactory,
+    private val roleProvider: CurrentUserRoleProvider
 ) {
     val result = MutableStateFlow<IBookingDetail?>(null)
     suspend operator fun invoke(id: String) {
-        result.emit(bookingFactory.createDetails(bookingApi.details(id).awaitNullable()))
+        result.emit(bookingFactory.createDetails(bookingApi.details(id).awaitNullable(), roleProvider.getRole()))
     }
 }

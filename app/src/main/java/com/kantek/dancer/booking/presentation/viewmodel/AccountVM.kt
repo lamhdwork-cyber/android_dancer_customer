@@ -2,6 +2,7 @@ package com.kantek.dancer.booking.presentation.viewmodel
 
 import com.kantek.dancer.booking.app.AppNotifications
 import com.kantek.dancer.booking.app.AppViewModel
+import com.kantek.dancer.booking.data.local.LanguageLocalSource
 import com.kantek.dancer.booking.data.local.UserLocalSource
 import com.kantek.dancer.booking.data.remote.api.UserApi
 import com.kantek.dancer.booking.data.repo.LanguageRepo
@@ -10,7 +11,7 @@ import com.kantek.dancer.booking.domain.model.user.IUser
 import android.support.ui.extension.launch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 
 class AccountVM(
     private val signOutRepo: SignOutRepo,
@@ -47,17 +48,21 @@ class SignOutRepo(
 class FetchUserRepo(
     private val userLocalSource: UserLocalSource,
     private val userFactory: UserFactory,
-    private val languageRepo: LanguageRepo
+    private val languageRepo: LanguageRepo,
+    private val languageLocalSource: LanguageLocalSource
 ) {
-    operator fun invoke(): IUser? {
+    suspend operator fun invoke(): IUser? {
         return userFactory.create(userLocalSource.getUserDto(), languageRepo.getLanguageDisplay())
     }
 
-    fun currentDTO() = userLocalSource.getUserDto()
+    suspend fun currentDTO() = userLocalSource.getUserDto()
 
     fun live(): Flow<IUser?> {
-        return userLocalSource.getUserLive().map {
-            userFactory.create(userLocalSource.getUserDto(), languageRepo.getLanguageDisplay())
+        return combine(
+            userLocalSource.getUserLive(),
+            languageLocalSource.languageFlow()
+        ) { userDTO, language ->
+            userFactory.create(userDTO, languageRepo.getLanguageDisplayFor(language))
         }
     }
 }

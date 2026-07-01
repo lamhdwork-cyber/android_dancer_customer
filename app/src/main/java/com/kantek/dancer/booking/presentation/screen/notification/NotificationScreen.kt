@@ -67,7 +67,6 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
         val hasShowComingSoon = remember { mutableStateOf(false) }
         var showReadAllConfirm by remember { mutableStateOf(false) }
         val languageChanged by remember { mutableStateOf(viewModel.getCurrentLanguage()) }
-        val userChanged by remember { mutableStateOf(viewModel.getCurrentUser()) }
 
         fun openAuth() {
             appNavigator.navigateSignIn()
@@ -82,7 +81,7 @@ fun NotificationScreen(viewModel: NotificationVM = koinViewModel()) =
             }
         }
 
-        LaunchedEffect(userChanged) { viewModel.onChangeUser() }
+        LaunchedEffect(Unit) { viewModel.onChangeUser() }
 
         Column(
             modifier = Modifier

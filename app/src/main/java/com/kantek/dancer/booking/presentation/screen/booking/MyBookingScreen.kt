@@ -39,6 +39,7 @@ import com.kantek.dancer.booking.app.AppViewModel
 import com.kantek.dancer.booking.data.event.AppEvent
 import com.kantek.dancer.booking.data.remote.api.BookingApi
 import com.kantek.dancer.booking.data.factory.BookingFactory
+import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import com.kantek.dancer.booking.app.AppScopes
 import com.kantek.dancer.booking.domain.model.booking.IBooking
 import com.kantek.dancer.booking.presentation.extensions.ScopeProvider
@@ -94,7 +95,6 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Ap
     var hasShowCancel by remember { mutableStateOf(false) }
     var managerBookingConfirm by remember { mutableStateOf<ManagerBookingConfirm?>(null) }
     val languageChanged by remember { mutableStateOf(viewModel.getCurrentLanguage()) }
-    val userChanged by remember { mutableStateOf(viewModel.getCurrentUser()) }
     val pagerState = rememberPagerState(pageCount = { MyBookingTab.entries.size })
     val coroutineScope = rememberCoroutineScope()
 
@@ -117,7 +117,7 @@ fun MyBookingScreen(viewModel: MyBookingVM = koinViewModel()) = ScopeProvider(Ap
         viewModel.ensureLoaded(MyBookingTab.entries[pagerState.currentPage])
     }
 
-    LaunchedEffect(userChanged) {
+    LaunchedEffect(Unit) {
         viewModel.onChangeUser()
         viewModel.ensureLoaded(MyBookingTab.entries[pagerState.currentPage])
     }
@@ -352,9 +352,11 @@ class MyBookingVM(
     }
 
     fun onChangeUser() {
-        if (currentUserBackup != getCurrentUser()) {
-            currentUserBackup = getCurrentUser()
-            refreshAll()
+        getCurrentUser() { current ->
+            if (currentUserBackup != current) {
+                currentUserBackup = current
+                refreshAll()
+            }
         }
     }
 
@@ -472,11 +474,13 @@ class BookingRequestAgainRepo(private val bookingApi: BookingApi) {
 
 class FetchMyBookingByPageRepo(
     private val bookingApi: BookingApi,
-    private val bookingFactory: BookingFactory
+    private val bookingFactory: BookingFactory,
+    private val roleProvider: CurrentUserRoleProvider
 ) {
     suspend operator fun invoke(page: Int, status: String): List<IBooking> {
         return bookingFactory.createList(
-            bookingApi.fetchByPage(page = page, status = status).awaitNullable()?.items
+            bookingApi.fetchByPage(page = page, status = status).awaitNullable()?.items,
+            roleProvider.getRole()
         )
     }
 

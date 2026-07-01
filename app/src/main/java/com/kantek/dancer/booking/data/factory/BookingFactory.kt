@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.kantek.dancer.booking.domain.model.booking.IBookingScheduleDay
 import com.kantek.dancer.booking.domain.model.user.ILawyer
 import com.kantek.dancer.booking.domain.model.user.IUser
-import com.kantek.dancer.booking.domain.provider.CurrentUserRoleProvider
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -28,13 +27,12 @@ class BookingFactory(
     private val textFormatter: TextFormatter,
     private val userFactory: UserFactory,
     private val roomFactory: RoomFactory,
-    private val currentUserRoleProvider: CurrentUserRoleProvider
 ) {
-    fun createList(its: List<BookingDTO>?): List<IBooking> {
-        return its?.map(::create) ?: listOf()
+    fun createList(its: List<BookingDTO>?, role: String? = null): List<IBooking> {
+        return its?.map { create(it, role) } ?: listOf()
     }
 
-    private fun create(it: BookingDTO): IBooking {
+    private fun create(it: BookingDTO, role: String? = null): IBooking {
         val bookingDancers = if (!it.dancers.isNullOrEmpty()) {
             it.dancers
         } else {
@@ -109,14 +107,14 @@ class BookingFactory(
                 get() = if (isNow) "NOW" else datetime
             override val hasShowButtonCancel: Boolean
                 get() {
-                    if (AppConfig.UserRole.isClubManager(currentUserRoleProvider.getRole())) return false
+                    if (AppConfig.UserRole.isClubManager(role)) return false
                     return status.equals(AppConfig.Booking.Status.PENDING, true) ||
                         status.equals(AppConfig.Booking.Status.SCHEDULED, true) ||
                         status.equals(AppConfig.Booking.Status.WAITING, true) ||
                         status.equals(AppConfig.Booking.Status.ACCEPTED, true)
                 }
             override val bookingActionsBar: BookingActionsBar
-                get() = resolveBookingActionsBar(it.status.safe())
+                get() = resolveBookingActionsBar(it.status.safe(), role)
             override val hasCancel: Boolean
                 get() = status.equals(AppConfig.Booking.Status.CANCELLED, true)
             override val hasComplete: Boolean
@@ -130,14 +128,14 @@ class BookingFactory(
         }
     }
 
-    fun createDetails(it: BookingDTO?): IBookingDetail? {
+    fun createDetails(it: BookingDTO?, role: String? = null): IBookingDetail? {
         if (it == null) return null
         val bookingDancers = if (!it.dancers.isNullOrEmpty()) {
             it.dancers
         } else {
             listOfNotNull(it.dancer)
         }
-        return object : IBookingDetail, IBooking by create(it) {
+        return object : IBookingDetail, IBooking by create(it, role) {
             override val statusDisplay: String
                 get() = it.status.safe().replaceFirstChar { c -> c.uppercase() }
             override val language: String
@@ -277,8 +275,7 @@ class BookingFactory(
         return raw
     }
 
-    private fun resolveBookingActionsBar(statusRaw: String): BookingActionsBar {
-        val role = currentUserRoleProvider.getRole()
+    private fun resolveBookingActionsBar(statusRaw: String, role: String?): BookingActionsBar {
         if (!AppConfig.UserRole.isClubManager(role)) return BookingActionsBar.USER_STANDARD
         val s = statusRaw.lowercase(Locale.getDefault()).trim()
         return when {
