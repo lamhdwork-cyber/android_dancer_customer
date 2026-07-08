@@ -22,7 +22,7 @@ android {
         applicationId = "com.hdl.dancer.booking"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -45,7 +45,7 @@ android {
         val placeApiKey: String = project.findProperty("PLACE_API_KEY") as String
         release {
             buildConfigField("String", "PLACE_API_KEY", placeApiKey)
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
